@@ -7,10 +7,9 @@ const opts = {
   theme: {
     themes: {
       dark: {
-        anchor: '#8C9EFF',
-        primary: '1B1852',
+        anchor: '#1B1852',
+        primary: '#1B1852',
         secondary: '#FF9131',
-
         // Config here
         // primary: '#1976D2',
         // secondary: '#424242',
