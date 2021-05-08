@@ -1,15 +1,15 @@
 <template>
   <v-app>
-    <NavigationBarWeb />
+    <v-main>
+      <v-container class="pa-0" fluid>
+        <router-view></router-view>
+      </v-container>
+    </v-main>
   </v-app>
 </template>
 
 <script>
-import NavigationBarWeb from '@/components/navigation/NavigationBarWeb.vue';
-
 export default {
-  components: {
-    NavigationBarWeb,
-  },
+  components: {},
 };
 </script>

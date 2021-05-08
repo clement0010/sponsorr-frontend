@@ -9,7 +9,11 @@ const opts = {
       dark: {
         anchor: '#1B1852',
         primary: '#1B1852',
-        secondary: '#FF9131',
+        secondary: '#E4E4E4',
+        accent: '#FF9131',
+        accent2: '#0059A3',
+        accent3: '#FFC981',
+        content: '#000000',
         // Config here
         // primary: '#1976D2',
         // secondary: '#424242',

@@ -1,8 +1,5 @@
 <template>
-  <v-app-bar
-    class="primary"
-    flat
-  >
+  <v-app-bar class="primary" flat>
     <v-app-bar-title>
       <LogoSponsorr />
     </v-app-bar-title>
@@ -10,14 +7,17 @@
     <v-spacer></v-spacer>
 
     <v-btn
-      class="primary"
+      class="primary text-lowercase font-weight-regular"
       text
+      to="/login"
       :ripple="false"
     >
       login
     </v-btn>
     <v-btn
+      class="text-lowercase font-weight-regular"
       outlined
+      to="/signup"
       :ripple="false"
     >
       sign up

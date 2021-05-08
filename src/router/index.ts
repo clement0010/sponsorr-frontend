@@ -10,6 +10,20 @@ const routes: Array<RouteConfig> = [
     name: 'Home',
     component: Home,
   },
+  {
+    path: '/signup',
+    name: 'Sign Up',
+    component: () => import(
+      /* webpackChunkName: "signup" */ '@/views/SignUp.vue'
+    ),
+  },
+  {
+    path: '/login',
+    name: 'Login',
+    component: () => import(
+      /* webpackChunkName: "signup" */ '@/views/Login.vue'
+    ),
+  },
 ];
 
 const router = new VueRouter({

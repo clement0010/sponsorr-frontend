@@ -1,7 +1,7 @@
 <template>
   <div class="logo">
     <span>Sponsorr</span>
-    <span class="orange-accent">!</span>
+    <span class="accent--text">!</span>
   </div>
 </template>
 
@@ -12,10 +12,5 @@
   color: #FFFFFF;
   font-family: 'Barlow', sans-serif;
   font-size: 200%;
-  padding-left: 10%;
-}
-
-.orange-accent {
-  color: #FF9131;
 }
 </style>
