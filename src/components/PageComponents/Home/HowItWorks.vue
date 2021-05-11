@@ -50,6 +50,8 @@ import TextHeading from '@/components/BuildingElements/TextHeading.vue';
 import TextContent from '@/components/BuildingElements/TextContent.vue';
 import TextList from '@/components/BuildingElements/TextList.vue';
 
+import { defineComponent } from '@vue/composition-api';
+
 const descriptions = [
   'Manage multiple events',
   'Quickly pitch events',
@@ -58,7 +60,7 @@ const descriptions = [
   'Update sponsorship requests on the fly',
 ];
 
-export default {
+export default defineComponent({
   components: {
     HomeFrameLayout,
     TextHeading,
@@ -70,5 +72,5 @@ export default {
       descriptions,
     };
   },
-};
+});
 </script>

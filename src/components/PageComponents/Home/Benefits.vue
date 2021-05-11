@@ -57,8 +57,9 @@ import HomeFrameLayout from '@/layouts/HomeFrameLayout.vue';
 import TextHeading from '@/components/BuildingElements/TextHeading.vue';
 import TextContent from '@/components/BuildingElements/TextContent.vue';
 import TextList from '@/components/BuildingElements/TextList.vue';
+import { defineComponent } from '@vue/composition-api';
 
-export default {
+export default defineComponent({
   components: {
     HomeFrameLayout,
     TextHeading,
@@ -77,5 +78,5 @@ export default {
       descriptions,
     };
   },
-};
+});
 </script>
