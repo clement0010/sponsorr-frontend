@@ -54,16 +54,9 @@
 
 <script>
 import HomeFrameLayout from '@/layouts/HomeFrameLayout.vue';
-import TextHeading from '@/components/elements/TextHeading.vue';
-import TextContent from '@/components/elements/TextContent.vue';
-import TextList from '@/components/elements/TextList.vue';
-
-const descriptions = [
-  'Manage multiple sponsorship requests',
-  'Retrieve analytic reports',
-  'Communicate with event organisers',
-  'Search up events in our catalog',
-];
+import TextHeading from '@/components/BuildingElements/TextHeading.vue';
+import TextContent from '@/components/BuildingElements/TextContent.vue';
+import TextList from '@/components/BuildingElements/TextList.vue';
 
 export default {
   components: {
@@ -72,7 +65,14 @@ export default {
     TextContent,
     TextList,
   },
-  data() {
+  setup() {
+    const descriptions = [
+      'Manage multiple sponsorship requests',
+      'Retrieve analytic reports',
+      'Communicate with event organisers',
+      'Search up events in our catalog',
+    ];
+
     return {
       descriptions,
     };

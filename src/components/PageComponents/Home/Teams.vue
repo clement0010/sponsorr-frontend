@@ -21,7 +21,7 @@
 
 <script>
 import HomeFrameLayout from '@/layouts/HomeFrameLayout.vue';
-import TextHeading from '@/components/elements/TextHeading.vue';
+import TextHeading from '@/components/BuildingElements/TextHeading.vue';
 
 export default {
   components: {

@@ -1,5 +1,5 @@
 <template>
-  <v-app-bar class="primary" flat>
+  <v-app-bar class="primary" flat app>
     <v-app-bar-title>
       <LogoSponsorr />
     </v-app-bar-title>
@@ -26,7 +26,7 @@
 </template>
 
 <script>
-import LogoSponsorr from '@/components/elements/LogoSponsorr.vue';
+import LogoSponsorr from '@/components/BuildingElements/LogoSponsorr.vue';
 
 export default {
   components: {

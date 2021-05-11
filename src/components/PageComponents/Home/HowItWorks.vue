@@ -46,9 +46,9 @@
 
 <script>
 import HomeFrameLayout from '@/layouts/HomeFrameLayout.vue';
-import TextHeading from '@/components/elements/TextHeading.vue';
-import TextContent from '@/components/elements/TextContent.vue';
-import TextList from '@/components/elements/TextList.vue';
+import TextHeading from '@/components/BuildingElements/TextHeading.vue';
+import TextContent from '@/components/BuildingElements/TextContent.vue';
+import TextList from '@/components/BuildingElements/TextList.vue';
 
 const descriptions = [
   'Manage multiple events',

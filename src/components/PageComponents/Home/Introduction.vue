@@ -47,8 +47,8 @@
 
 <script>
 import HomeFrameLayout from '@/layouts/HomeFrameLayout.vue';
-import TextHeading from '@/components/elements/TextHeading.vue';
-import TextContent from '@/components/elements/TextContent.vue';
+import TextHeading from '@/components/BuildingElements/TextHeading.vue';
+import TextContent from '@/components/BuildingElements/TextContent.vue';
 
 export default {
   components: {
