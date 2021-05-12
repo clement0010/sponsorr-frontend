@@ -2,8 +2,7 @@
   <v-container fluid class="pa-0">
     <NavigationBarWeb />
     <slot></slot>
-    <Footer/>
-
+    <Footer />
   </v-container>
 </template>
 

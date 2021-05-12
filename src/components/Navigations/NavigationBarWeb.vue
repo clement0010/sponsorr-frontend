@@ -1,7 +1,9 @@
 <template>
   <v-app-bar class="primary" flat app>
     <v-app-bar-title>
-      <LogoSponsorr />
+      <router-link to="/">
+        <LogoSponsorr />
+      </router-link>
     </v-app-bar-title>
 
     <v-spacer></v-spacer>
