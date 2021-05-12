@@ -15,8 +15,8 @@
 
 <script>
 import LogoSponsorr from '@/components/BuildingElements/LogoSponsorr.vue';
-import Login from '@/components/dialogs/RoleSelectionLogin.vue';
-import SignUp from '@/components/dialogs/RoleSelectionSignUp.vue';
+import Login from '@/components/Dialogs/RoleSelectionLogin.vue';
+import SignUp from '@/components/Dialogs/RoleSelectionSignUp.vue';
 
 export default {
   components: {

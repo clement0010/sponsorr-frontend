@@ -18,10 +18,10 @@
         sign up as
       </v-card-title>
       <v-card-actions>
-        <v-btn class="accent1">
+        <v-btn class="accent1" to="/signup">
           <span class="white--text">Event Organiser</span>
         </v-btn>
-        <v-btn class="accent2">
+        <v-btn class="accent2" to="/signup">
           <span class="white--text">Sponsor</span>
         </v-btn>
       </v-card-actions>
