@@ -14,7 +14,7 @@
     </template>
 
     <template v-slot:right-content>
-      <v-img contain src="@/assets/frame-4-image.svg"></v-img>
+      <v-img contain src="@/assets/image-teams.svg"></v-img>
     </template>
   </HomeFrameLayout>
 </template>

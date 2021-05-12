@@ -1,19 +1,17 @@
 <template>
-  <v-footer padless>
-    <v-card
-      flat
-      tile
-      width="100%"
-      class="white lighten-1 text-center"
-    >
-      <v-card-text class="black--text">
-        <v-btn icon>
-          <v-icon color="black" size="50px">
-            mdi-github
-          </v-icon>
-        </v-btn>
-        &copy; {{ new Date().getFullYear() }} <strong>Sponsorr!</strong>
-      </v-card-text>
-    </v-card>
+  <v-footer light padless height="75" class="pa-4">
+    <span>NUS Orbital 2021</span>
+
+    <v-spacer></v-spacer>
+
+    <span> &copy; {{ new Date().getFullYear() }} Sponsorr! </span>
+
+    <v-spacer></v-spacer>
+
+    <v-btn class="mx-4" light icon>
+      <v-icon size="24px" color="black">
+        mdi-github
+      </v-icon>
+    </v-btn>
   </v-footer>
 </template>

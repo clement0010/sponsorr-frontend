@@ -5,7 +5,7 @@
         <v-container>
           <TextHeading>
             We make event
-            <br>
+            <br />
             partnerships happen
           </TextHeading>
         </v-container>
@@ -14,8 +14,8 @@
       <v-row>
         <v-container>
           <TextContent>
-            Sponsorr! uses machine learning to help event organisers source for partners,
-            so you can focus on planning the next big thing on your event itenerary.
+            Sponsorr! uses machine learning to help event organisers source for partners, so you can
+            focus on planning the next big thing on your event itenerary.
           </TextContent>
         </v-container>
       </v-row>
@@ -24,7 +24,7 @@
         <v-container>
           <v-row>
             <v-col>
-              <v-btn class="accent" text :ripple="false">
+              <v-btn class="accent1" text :ripple="false">
                 for event organisers
               </v-btn>
             </v-col>
@@ -40,7 +40,7 @@
     </template>
 
     <template v-slot:right-content>
-      <v-img contain src="@/assets/frame-1-image.svg"></v-img>
+      <v-img contain src="@/assets/image-introduction.svg"></v-img>
     </template>
   </HomeFrameLayout>
 </template>

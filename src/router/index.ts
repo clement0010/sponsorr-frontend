@@ -20,6 +20,11 @@ const routes: Array<RouteConfig> = [
     name: 'Login',
     component: () => import(/* webpackChunkName: "signup" */ '@/views/Login.vue'),
   },
+  {
+    path: '/pg',
+    name: 'Playground',
+    component: () => import(/* webpackChunkName: "playground" */ '@/views/Playground.vue'),
+  },
 ];
 
 const router = new VueRouter({

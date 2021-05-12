@@ -6,31 +6,21 @@
 
     <v-spacer></v-spacer>
 
-    <v-btn
-      class="primary text-lowercase font-weight-regular"
-      text
-      to="/login"
-      :ripple="false"
-    >
-      login
-    </v-btn>
-    <v-btn
-      class="text-lowercase font-weight-regular"
-      outlined
-      to="/signup"
-      :ripple="false"
-    >
-      sign up
-    </v-btn>
+    <Login />
+    <SignUp />
   </v-app-bar>
 </template>
 
 <script>
 import LogoSponsorr from '@/components/BuildingElements/LogoSponsorr.vue';
+import Login from '@/components/dialogs/RoleSelectionLogin.vue';
+import SignUp from '@/components/dialogs/RoleSelectionSignUp.vue';
 
 export default {
   components: {
     LogoSponsorr,
+    Login,
+    SignUp,
   },
 };
 </script>

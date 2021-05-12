@@ -3,7 +3,7 @@
     <template v-slot:left-content>
       <v-row>
         <v-container>
-          <TextHeading class="accent--text">
+          <TextHeading class="accent1--text">
             Event partnerships made easy
           </TextHeading>
         </v-container>
@@ -39,7 +39,7 @@
     </template>
 
     <template v-slot:right-content>
-      <v-img contain src="@/assets/frame-2-image.svg"></v-img>
+      <v-img contain src="@/assets/image-howitworks.svg"></v-img>
     </template>
   </HomeFrameLayout>
 </template>

@@ -2,32 +2,19 @@
   <BasePage>
     <HomeLayout>
       <template v-slot:introduction>
-          <Introduction/>
+        <Introduction />
       </template>
       <template v-slot:howitworks>
-          <HowItWorks/>
+        <HowItWorks />
       </template>
       <template v-slot:benefits>
-          <Benefits/>
+        <Benefits />
       </template>
       <template v-slot:teams>
-          <Teams/>
+        <Teams />
       </template>
-
     </HomeLayout>
   </BasePage>
-
-    <!-- <NavigationBarWeb />
-
-    <Introduction />
-
-    <HowItWorks />
-
-    <Benefits />
-
-    <Teams />
-
-    <Footer /> -->
 </template>
 
 <script>

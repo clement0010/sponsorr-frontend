@@ -10,10 +10,11 @@ const opts = {
         anchor: '#1B1852',
         primary: '#1B1852',
         secondary: '#E4E4E4',
-        accent: '#FF9131',
+        accent1: '#FF9131',
         accent2: '#0059A3',
         accent3: '#FFC981',
-        content: '#000000',
+        white: '#FFFFFF',
+        balck: '#000000',
         // Config here
         // primary: '#1976D2',
         // secondary: '#424242',

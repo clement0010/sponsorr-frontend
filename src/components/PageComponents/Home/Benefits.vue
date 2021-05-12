@@ -1,13 +1,13 @@
 <template>
   <HomeFrameLayout class="secondary">
     <template v-slot:left-content>
-      <v-img contain src="@/assets/frame-3-image.svg"></v-img>
+      <v-img contain src="@/assets/image-benefits.svg"></v-img>
     </template>
 
     <template v-slot:right-content>
       <v-row>
         <v-container>
-          <TextHeading class="secondary accent--text">
+          <TextHeading class="secondary accent1--text">
             Marketing + CSR achieved in record time
           </TextHeading>
         </v-container>
@@ -15,7 +15,7 @@
 
       <v-row>
         <v-container>
-          <TextContent class="secondary font-weight-bold content--text">
+          <TextContent class="secondary font-weight-bold black--text">
             Use event sponsorships to grow your brand’s recognition.
           </TextContent>
         </v-container>
@@ -23,17 +23,17 @@
 
       <v-row>
         <v-container>
-          <TextContent class="secondary content--text">
+          <TextContent class="secondary black--text">
             Sponsorr! is a platform that matches your business with events that align with your
-            brand’s image and values, so you will be able to increase your marketing reach to
-            target consumer groups.
+            brand’s image and values, so you will be able to increase your marketing reach to target
+            consumer groups.
           </TextContent>
         </v-container>
       </v-row>
 
       <v-row>
         <v-container>
-          <TextContent class="secondary content--text">
+          <TextContent class="secondary black--text">
             What else can you do?
           </TextContent>
         </v-container>
@@ -41,7 +41,7 @@
         <v-container>
           <TextList class="secondary">
             <v-list-item v-for="description in descriptions" :key="description">
-              <TextContent class="secondary content--text">
+              <TextContent class="secondary black--text">
                 {{ description }}
               </TextContent>
             </v-list-item>
