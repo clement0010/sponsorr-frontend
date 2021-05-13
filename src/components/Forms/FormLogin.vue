@@ -24,7 +24,7 @@
         :rules="[rules.required, rules.counter]"
       >
       </v-text-field>
-      <v-btn class="accent1 white--text" rounded @click="submit">
+      <v-btn class="accent1 white--text" rounded type="submit" @click="submit">
         login
       </v-btn>
       <v-card-subtitle>

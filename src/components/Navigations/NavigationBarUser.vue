@@ -7,7 +7,7 @@
     </v-btn>
     <v-btn icon>
       <v-icon>
-        mdi-emoticon
+        mdi-account-circle
       </v-icon>
     </v-btn>
   </v-app-bar>

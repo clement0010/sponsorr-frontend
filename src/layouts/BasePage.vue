@@ -1,6 +1,6 @@
 <template>
   <v-container fluid class="pa-0">
-    <NavigationBarWeb />
+    <slot name="navigation"></slot>
     <slot></slot>
     <Footer />
   </v-container>
