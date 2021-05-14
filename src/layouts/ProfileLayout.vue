@@ -43,6 +43,7 @@ import Keywords from '@/components/PageComponents/Profile/Keywords.vue';
 import Contact from '@/components/PageComponents/Profile/Contact.vue';
 
 export default {
+  name: 'ProfileLayout',
   components: {
     Title,
     About,
