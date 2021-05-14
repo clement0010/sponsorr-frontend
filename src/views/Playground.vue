@@ -1,76 +1,119 @@
 <template>
-  <BasePage>
-    <template v-slot:navigation>
-      <NavigationBarUser />
-    </template>
-    <ProfileLayout>
-      <template v-slot:profile>
-        <v-img src="@/assets/icon-profile.svg"></v-img>
-      </template>
-      <template v-slot:name>
-        The FooBar Society
-      </template>
-      <template v-slot:ID>
-        000001
-      </template>
-      <template v-slot:about>
-        Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut
-        labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco
-        laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in
-        voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat
-        cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
-      </template>
-      <template v-slot:keywords>
-        <v-chip class="ma-1" v-for="keyword in keywords" :key="keyword">
-          {{ keyword }}
-        </v-chip>
-      </template>
-      <template v-slot:link>
-        <router-link to="#">
-          www.foobarsociety.org.sg
-        </router-link>
-      </template>
-      <template v-slot:location>
-        <router-link to="#">
-          link to Google Maps
-        </router-link>
-      </template>
-      <template v-slot:email>
-        <router-link to="#">
-          marketing@foobar.org.sg
-        </router-link>
-      </template>
-      <template v-slot:phone>
-        +65 12345678
-      </template>
-    </ProfileLayout>
-  </BasePage>
+  <v-container class="pa-0" fluid>
+    <NavigationBarWeb />
+
+    <!-- section 1 -->
+    <v-container class="primary" fluid>
+      <v-row class="px-14 my-10">
+        <v-col class="pa-0">
+          <v-card color="transparent" flat max-width="575">
+            <span class="text-h2 font-weight-black">
+              We make event partnerships happen
+            </span>
+            <v-card-subtitle class="text-h5 px-0 my-10">
+              Sponsorr! uses machine learning to help event organisers source for partners, so you
+              can focus on planning the next big thing on your event itenerary.
+            </v-card-subtitle>
+            <v-card-actions class="px-0">
+              <v-btn class="accent1" rounded @click="$vuetify.goTo('#how-it-works')">
+                For Event Organisers
+              </v-btn>
+              <v-btn color="accent2" rounded @click="$vuetify.goTo('#how-it-works')">
+                For Sponsors
+              </v-btn>
+            </v-card-actions>
+          </v-card>
+        </v-col>
+        <v-col class="pa-0" cols="auto">
+          <v-img contain max-width="500" src="@/assets/image-introduction.svg" />
+        </v-col>
+      </v-row>
+    </v-container>
+
+    <!-- section 2 -->
+    <v-container class="white" fluid id="how-it-works">
+      <v-row class="px-14 my-10">
+        <v-col class="pa-0">
+          <v-card color="transparent" flat max-width="575">
+            <span class="text-h2 font-weight-black black--text">
+              Event partnerships made easy
+            </span>
+            <v-card-subtitle class="text-h5 px-0 my-10 black--text">
+              Sponsorr! handles the stress of finding suitable partners and sponsors for your event.
+              Just publish your event once, then let our propietary matching algorithm look for
+              suitable sponsors.
+            </v-card-subtitle>
+            <v-card-subtitle class="text-h5 px-0 my-10 black--text">
+              What else can you do?
+            </v-card-subtitle>
+            <v-list color="transparent">
+              <v-list-item class="text-h5">
+                <span class="black--text">
+                  Manage multiple events
+                </span>
+              </v-list-item>
+              <v-list-item class="text-h5">
+                <span class="black--text">
+                  Quickly pitch events
+                </span>
+              </v-list-item>
+              <v-list-item class="text-h5">
+                <span class="black--text">
+                  Communicate with sponsors
+                </span>
+              </v-list-item>
+              <v-list-item class="text-h5">
+                <span class="black--text">
+                  View event analytics
+                </span>
+              </v-list-item>
+              <v-list-item class="text-h5">
+                <span class="black--text">
+                  Update sponsorship requests on the fly
+                </span>
+              </v-list-item>
+            </v-list>
+          </v-card>
+        </v-col>
+        <v-col class="pa-0" cols="auto" align-self="center">
+          <v-img contain max-width="500" src="@/assets/image-howitworks.svg" />
+        </v-col>
+      </v-row>
+    </v-container>
+
+    <!-- section 4 -->
+    <v-container class="primary" fluid>
+      <v-row class="px-14 my-10">
+        <v-col class="pa-0" align-self="center">
+          <v-card color="transparent" flat max-width="575">
+            <span class="text-h2 font-weight-black">
+              Ready?
+              <br />
+              <router-link to="/signup">
+                <span class="white--text">
+                  Let's make it happen.
+                </span>
+              </router-link>
+            </span>
+          </v-card>
+        </v-col>
+        <v-col class="pa-0" cols="auto">
+          <v-img contain max-width="500" src="@/assets/image-teams.svg" />
+        </v-col>
+      </v-row>
+    </v-container>
+    <Footer />
+  </v-container>
 </template>
 
 <script lang="ts">
-import BasePage from '@/layouts/BasePage.vue';
-import NavigationBarUser from '@/components/Navigations/NavigationBarUser.vue';
-import ProfileLayout from '@/layouts/ProfileLayout.vue';
-
-const keywords: string[] = [
-  'National University of Singapore',
-  'College/University',
-  'Women',
-  'Sports',
-  'Charity',
-  'Health',
-];
+import NavigationBarWeb from '@/components/Navigations/NavigationBarWeb.vue';
+import Footer from '@/components/PageComponents/Footer.vue';
 
 export default {
   components: {
-    BasePage,
-    NavigationBarUser,
-    ProfileLayout,
-  },
-  data() {
-    return {
-      keywords,
-    };
+    NavigationBarWeb,
+    Footer,
   },
 };
 </script>

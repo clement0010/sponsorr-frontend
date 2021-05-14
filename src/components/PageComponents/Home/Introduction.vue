@@ -1,6 +1,6 @@
 <template>
   <HomeFrameLayout class="primary">
-    <template v-slot:left-content>
+    <template v-slot:left-content cols="10">
       <v-row>
         <v-container>
           <TextHeading>

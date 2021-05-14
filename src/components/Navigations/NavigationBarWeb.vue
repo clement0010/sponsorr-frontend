@@ -1,5 +1,5 @@
 <template>
-  <v-app-bar class="primary" flat app>
+  <v-app-bar class="primary px-10" flat app>
     <v-app-bar-title>
       <router-link to="/">
         <LogoSponsorr />

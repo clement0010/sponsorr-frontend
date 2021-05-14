@@ -1,84 +1,104 @@
 <template>
   <v-card light class="pa-5">
-    <v-card-title>sign up as sponsor</v-card-title>
-    <v-form ref="form" v-model="valid" lazy-validation>
+    <v-card-title>
+      sign up as sponsor
+    </v-card-title>
+    <v-form ref="form" v-model="valid">
       <v-text-field
-        placeholder="name of entity"
-        solo
         outlined
-        flat
-        :rules="[rules.required]"
+        required
+        hint="Required"
         label="name of entity"
-      >
-      </v-text-field>
+        :rules="[requireInputRule]"
+      />
+
+      <v-text-field outlined hint="Optional, for verification purposes (what is it?)" label="UEN" />
+
       <v-text-field
-        placeholder="UEN"
-        solo
         outlined
-        flat
-        label="UEN"
-        hint="optional, for verification purposes (what is it?)"
-      >
-      </v-text-field>
+        required
+        hint="Required"
+        label="email address"
+        :rules="[requireInputRule, validEmailRule]"
+      />
+
       <v-text-field
-        placeholder="phone number"
-        solo
         outlined
-        flat
-        v-model="numberValue"
-        type="number"
-        :rules="[rules.required]"
+        required
+        hint="required"
         label="phone number"
-      >
-      </v-text-field>
+        type="number"
+        :rules="[requireInputRule]"
+      />
+
       <v-text-field
-        placeholder="password"
-        solo
+        v-bind="password"
         outlined
         flat
-        v-model="password"
-        name="password-input"
+        required
+        hint="Required"
         label="password"
-        :type="'password'"
-        :rules="[rules.required]"
-      >
-      </v-text-field>
+        :type="showPassword ? 'text' : 'password'"
+        :append-icon="showPassword ? 'mdi-eye' : 'mdi-eye-off'"
+        @click:append="showPassword = !showPassword"
+        :rules="[requireInputRule, passwordLengthRule]"
+      />
+
       <v-text-field
-        placeholder="re-type password"
-        solo
+        v-model="confirmPassword"
         outlined
-        flat
-        v-model="password"
-        name="retype-password-input"
-        label="retype-password"
-        :type="'password'"
-        :rules="[rules.required]"
+        required
+        hint="Required"
+        label="re-type password"
+        :type="showConfirmPassword ? 'text' : 'password'"
+        :append-icon="showConfirmPassword ? 'mdi-eye' : 'mdi-eye-off'"
+        @click:append="showConfirmPassword = !showConfirmPassword"
+        :rules="[requireInputRule, passwordMatchRule]"
+      />
+
+      <v-btn
+        class="accent1 white--text"
+        rounded
+        type="submit"
+        @click="submitForm"
+        text
+        :disabled="!valid"
       >
-      </v-text-field>
-      <v-btn class="accent1 white--text" rounded type="submit" @click="submit">
-        create account
+        Create Account
       </v-btn>
-      <v-card-subtitle>
-        <span>have an account with us? </span>
-        <span><router-link to="/login">login</router-link></span>
-      </v-card-subtitle>
     </v-form>
+
+    <v-card-subtitle>
+      <span>have an account with us? </span>
+      <span><router-link to="/login">login</router-link></span>
+    </v-card-subtitle>
   </v-card>
 </template>
 
 <script lang="ts">
-const pattern = /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
-const email = (value: string) => pattern.test(value) || 'Invalid email';
-const required = (value: unknown) => !!value || 'Required';
+/* To have in production:
+  password strength
+*/
+const requireInputRule = (value: string) => !!value || 'Required';
+const validEmailRule = (email: string) => /^\w+([.-]?\w+)*@\w+([.-]?\w+)*(\.\w{2,3})+$/.test(email) || 'Email must be valid';
+const passwordLengthRule = (password: string) => (password && password.length >= 8) || 'Password must have at least 8 characters';
+
+/*
+const passwordStrengthRule = (password: string) =>
+/(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{6,}/.test(password)
+|| 'Password must contain at least lowercase letter, one number,
+a special character and one uppercase letter';
+*/
 
 export default {
-  data() {
-    return {
-      rules: {
-        email,
-        required,
-      },
-    };
-  },
+  data: () => ({
+    valid: true,
+    showPassword: false,
+    showConfirmPassword: false,
+    requireInputRule,
+    validEmailRule,
+    passwordLengthRule,
+    // passwordMatchRule,
+  }),
 };
 </script>
