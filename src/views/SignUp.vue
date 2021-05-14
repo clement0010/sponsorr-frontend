@@ -1,25 +1,23 @@
 <template>
-  <BasePage>
-    <template v-slot:navigation>
-      <NavigationBarWeb />
-    </template>
-    <FormSignUpOrganiser />
+  <AuthenticationLayout>
+    <!-- <FormSignUpOrganiser /> -->
     <FormSignUpSponsor />
-  </BasePage>
+  </AuthenticationLayout>
 </template>
 
 <script lang="ts">
-import BasePage from '@/layouts/BasePage.vue';
-import NavigationBarWeb from '@/components/Navigations/NavigationBarWeb.vue';
-import FormSignUpOrganiser from '@/components/Forms/FormSignUpOrganiser.vue';
+import AuthenticationLayout from '@/layouts/AuthenticationLayout.vue';
+// import FormSignUpOrganiser from '@/components/Forms/FormSignUpOrganiser.vue';
 import FormSignUpSponsor from '@/components/Forms/FormSignUpSponsor.vue';
 
-export default {
+import { defineComponent } from '@vue/composition-api';
+
+export default defineComponent({
+  name: 'SignUp',
   components: {
-    BasePage,
-    NavigationBarWeb,
-    FormSignUpOrganiser,
+    AuthenticationLayout,
+    // FormSignUpOrganiser,
     FormSignUpSponsor,
   },
-};
+});
 </script>

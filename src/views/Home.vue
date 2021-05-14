@@ -1,8 +1,5 @@
 <template>
   <BasePage>
-    <template v-slot:navigation>
-      <NavigationBarWeb />
-    </template>
     <HomeLayout>
       <template v-slot:introduction>
         <Introduction />
@@ -24,7 +21,6 @@
 import BasePage from '@/layouts/BasePage.vue';
 import HomeLayout from '@/layouts/HomeLayout.vue';
 
-import NavigationBarWeb from '@/components/Navigations/NavigationBarWeb.vue';
 import Introduction from '@/components/PageComponents/Home/Introduction.vue';
 import HowItWorks from '@/components/PageComponents/Home/HowItWorks.vue';
 import Benefits from '@/components/PageComponents/Home/Benefits.vue';
@@ -34,7 +30,6 @@ export default {
   components: {
     BasePage,
     HomeLayout,
-    NavigationBarWeb,
     Introduction,
     HowItWorks,
     Benefits,

@@ -11,34 +11,29 @@ const routes: Array<RouteConfig> = [
     component: Home,
   },
   {
-    path: '/signup',
-    name: 'Sign Up',
+    path: '/:role/signup',
+    name: 'SignUp',
     component: () => import(/* webpackChunkName: "signup" */ '@/views/SignUp.vue'),
   },
   {
-    path: '/login',
+    path: '/:role/login',
     name: 'Login',
     component: () => import(/* webpackChunkName: "login" */ '@/views/Login.vue'),
   },
   {
-    path: '/recoverAccount',
-    name: 'Recover Account',
+    path: '/recover-account',
+    name: 'RecoverAccount',
     component: () => import(/* webpackChunkName: "recoverAccount" */ '@/views/RecoverAccount.vue'),
   },
   {
-    path: '/profile',
+    path: '/profile/:id',
     name: 'Profile',
     component: () => import(/* webpackChunkName: "profile" */ '@/views/Profile.vue'),
   },
   {
-    path: '/pg',
+    path: '/playground',
     name: 'Playground',
     component: () => import(/* webpackChunkName: "playground" */ '@/views/Playground.vue'),
-  },
-  {
-    path: '/testing',
-    name: 'Testing',
-    component: () => import(/* webpackChunkName: "testing" */ '@/views/Testing.vue'),
   },
 ];
 

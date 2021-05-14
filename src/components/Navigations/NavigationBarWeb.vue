@@ -1,4 +1,5 @@
 <template>
+  <!-- https://vuetifyjs.com/en/components/app-bars/#fade-image-on-scroll -->
   <v-app-bar class="primary px-10" flat app>
     <v-app-bar-title>
       <router-link to="/">
@@ -8,21 +9,19 @@
 
     <v-spacer></v-spacer>
 
-    <Login />
-    <SignUp />
+    <AuthenticationButton :action="'Login'"/>
+    <AuthenticationButton :action="'SignUp'"/>
   </v-app-bar>
 </template>
 
-<script>
+<script lang="ts">
+import AuthenticationButton from '@/components/Authentication/AuthenticationButton.vue';
 import LogoSponsorr from '@/components/BuildingElements/LogoSponsorr.vue';
-import Login from '@/components/Dialogs/RoleSelectionLogin.vue';
-import SignUp from '@/components/Dialogs/RoleSelectionSignUp.vue';
 
 export default {
   components: {
+    AuthenticationButton,
     LogoSponsorr,
-    Login,
-    SignUp,
   },
 };
 </script>

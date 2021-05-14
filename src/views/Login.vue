@@ -1,21 +1,16 @@
 <template>
-  <BasePage>
-    <template v-slot:navigation>
-      <NavigationBarWeb />
-    </template>
-    <FormLogin />
-  </BasePage>
+  <AuthenticationLayout>
+    <FormLogin justify="center" align="center"/>
+  </AuthenticationLayout>
 </template>
 
 <script lang="ts">
-import BasePage from '@/layouts/BasePage.vue';
-import NavigationBarWeb from '@/components/Navigations/NavigationBarWeb.vue';
+import AuthenticationLayout from '@/layouts/AuthenticationLayout.vue';
 import FormLogin from '@/components/Forms/FormLogin.vue';
 
 export default {
   components: {
-    BasePage,
-    NavigationBarWeb,
+    AuthenticationLayout,
     FormLogin,
   },
 };
