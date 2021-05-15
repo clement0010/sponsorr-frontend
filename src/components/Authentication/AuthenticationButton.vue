@@ -21,6 +21,7 @@
         v-bind="attrs"
         v-on="on"
         v-else
+        :ripple="false"
       >
         sign up
       </v-btn>
