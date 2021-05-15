@@ -7,7 +7,13 @@
       </v-btn>
     </v-card-title>
     <v-card-text class="black--text">
-      <slot></slot>
+      {{ about }}
     </v-card-text>
   </v-card>
 </template>
+
+<script lang="ts">
+export default {
+  props: ['about'],
+};
+</script>

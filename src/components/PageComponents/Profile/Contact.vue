@@ -8,19 +8,19 @@
         </v-icon>
       </v-btn>
     </v-card-title>
-    <v-container>
+    <v-container class="black--text">
       <v-row>
         <v-col>
           <v-icon color="black">
             mdi-link
           </v-icon>
-          <slot name="link"></slot>
+          {{ link }}
         </v-col>
         <v-col>
           <v-icon color="black">
             mdi-map-marker
           </v-icon>
-          <slot name="location"></slot>
+          {{ location }}
         </v-col>
       </v-row>
       <v-row>
@@ -28,15 +28,21 @@
           <v-icon color="black">
             mdi-email
           </v-icon>
-          <slot name="email"></slot>
+          {{ email }}
         </v-col>
         <v-col>
           <v-icon color="black">
             mdi-cellphone
           </v-icon>
-          <slot name="phone"></slot>
+          {{ phone }}
         </v-col>
       </v-row>
     </v-container>
   </v-card>
 </template>
+
+<script lang="ts">
+export default {
+  props: ['link', 'location', 'email', 'phone'],
+};
+</script>
