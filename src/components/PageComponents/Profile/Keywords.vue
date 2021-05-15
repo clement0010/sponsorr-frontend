@@ -8,6 +8,14 @@
         </v-icon>
       </v-btn>
     </v-card-title>
-    <slot></slot>
+    <v-chip v-for="keyword in keywords" :key="keyword">
+      {{ keyword }}
+    </v-chip>
   </v-card>
 </template>
+
+<script lang="ts">
+export default {
+  props: ['keywords'],
+};
+</script>
