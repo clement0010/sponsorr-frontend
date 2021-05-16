@@ -1,6 +1,6 @@
 <template>
-  <v-card class="black--text" color="transparent" flat width="75%">
-    <v-card-title class="text-h4">
+  <v-card color="transparent" flat width="75%">
+    <v-card-title class="text-h4 black--text">
       Keywords
       <v-btn icon>
         <v-icon color="black">
@@ -8,9 +8,12 @@
         </v-icon>
       </v-btn>
     </v-card-title>
-    <v-chip v-for="keyword in keywords" :key="keyword">
-      {{ keyword }}
-    </v-chip>
+
+    <v-card-text>
+      <v-chip class="mx-1" v-for="keyword in keywords" :key="keyword">
+        {{ keyword }}
+      </v-chip>
+    </v-card-text>
   </v-card>
 </template>
 

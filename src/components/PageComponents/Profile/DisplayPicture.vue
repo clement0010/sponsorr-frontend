@@ -1,9 +1,11 @@
 <template>
-  <v-img :src="url" />
+  <v-avatar size="200">
+    <v-img :src="urlPic" />
+  </v-avatar>
 </template>
 
 <script>
 export default {
-  props: ['url'],
+  props: ['urlPic'],
 };
 </script>

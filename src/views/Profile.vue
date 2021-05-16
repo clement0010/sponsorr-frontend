@@ -1,58 +1,37 @@
 <template>
   <BasePage>
-    <template v-slot:navigation>
-      <NavigationBarUser />
-    </template>
-    <ProfileLayout>
-      <template v-slot:profile>
-        <v-img :src="profile.picture"></v-img>
-      </template>
-      <template v-slot:name> {{ profile.name }} </template>
-      <template v-slot:ID> {{ profile.id }} </template>
-      <template v-slot:about>
-        {{ profile.about }}
-      </template>
-      <template v-slot:keywords>
-        <v-chip class="ma-1" v-for="keyword in keywords" :key="keyword">
-          {{ keyword }}
-        </v-chip>
-      </template>
-      <template v-slot:link>
-        <a :href="profile.link" target=_blank> {{ profile.link }} </a>
-      </template>
-      <template v-slot:location>
-        <a :href="profile.location" target=_blank> {{ profile.location }} </a>
-      </template>
-      <template v-slot:email>
-        <a :href="'mailto'+ profile.email"> {{ profile.email }} </a>
-      </template>
-      <template v-slot:phone> {{ profile.phone }}  </template>
-    </ProfileLayout>
+    <ProfileLayout
+      :urlPic="profile.picture"
+      :name="profile.name"
+      :id="profile.id"
+      :about="profile.about"
+      :keywords="keywords"
+      :link="profile.link"
+      :location="profile.location"
+      :email="profile.email"
+      :phone="profile.phone"
+    />
   </BasePage>
 </template>
 
 <script lang="ts">
 import BasePage from '@/layouts/BasePage.vue';
-import NavigationBarUser from '@/components/Navigations/NavigationBarUser.vue';
 import ProfileLayout from '@/layouts/ProfileLayout.vue';
 
 import { Profile } from '@/types';
 
-import {
-  defineComponent, reactive,
-} from '@vue/composition-api';
+import { defineComponent, reactive } from '@vue/composition-api';
 
 export default defineComponent({
   name: 'Profile',
   components: {
     BasePage,
-    NavigationBarUser,
     ProfileLayout,
   },
   setup() {
     const profile: Profile = reactive({
       id: '01',
-      name: 'The FoorBar Society',
+      name: 'The FooBar Society',
       email: 'marketing@foobar.org.sg',
       about: `Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut
         labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco
@@ -79,6 +58,5 @@ export default defineComponent({
       keywords,
     };
   },
-
 });
 </script>

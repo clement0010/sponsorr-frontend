@@ -1,6 +1,6 @@
 <template>
-  <v-card class="black--text" color="transparent" flat width="75%">
-    <v-card-title class="text-h4">
+  <v-card color="transparent" flat width="75%">
+    <v-card-title class="text-h4 black--text">
       Contact
       <v-btn icon>
         <v-icon color="black">
@@ -8,36 +8,50 @@
         </v-icon>
       </v-btn>
     </v-card-title>
-    <v-container class="black--text">
-      <v-row>
-        <v-col>
-          <v-icon color="black">
-            mdi-link
-          </v-icon>
-          {{ link }}
-        </v-col>
-        <v-col>
-          <v-icon color="black">
-            mdi-map-marker
-          </v-icon>
-          {{ location }}
-        </v-col>
-      </v-row>
-      <v-row>
-        <v-col>
-          <v-icon color="black">
-            mdi-email
-          </v-icon>
-          {{ email }}
-        </v-col>
-        <v-col>
-          <v-icon color="black">
-            mdi-cellphone
-          </v-icon>
+
+    <v-list color="transparent">
+      <v-list-item>
+        <v-icon color="black">
+          mdi-link
+        </v-icon>
+        <v-card-text>
+          <a class="pa-2" :href="link">
+            {{ link }}
+          </a>
+        </v-card-text>
+      </v-list-item>
+
+      <v-list-item>
+        <v-icon color="black">
+          mdi-map-marker
+        </v-icon>
+        <v-card-text>
+          <a class="pa-2" :href="location">
+            {{ location }}
+          </a>
+        </v-card-text>
+      </v-list-item>
+
+      <v-list-item>
+        <v-icon color="black">
+          mdi-email
+        </v-icon>
+        <v-card-text>
+          <a class="pa-2" :href="'mailto:' + email">
+            {{ email }}
+          </a>
+        </v-card-text>
+      </v-list-item>
+
+      <v-list-item>
+        <v-icon color="black">
+          mdi-cellphone
+        </v-icon>
+        <v-card-text class="black--text">
           {{ phone }}
-        </v-col>
-      </v-row>
-    </v-container>
+        </v-card-text>
+      </v-list-item>
+    </v-list>
   </v-card>
 </template>
 
@@ -46,3 +60,9 @@ export default {
   props: ['link', 'location', 'email', 'phone'],
 };
 </script>
+
+<style scoped>
+.v-card__text {
+  word-break: normal;
+}
+</style>
