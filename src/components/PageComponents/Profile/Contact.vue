@@ -2,7 +2,7 @@
   <v-card color="transparent" flat width="75%">
     <v-card-title class="text-h4 black--text">
       Contact
-      <v-btn icon>
+      <v-btn icon class="mx-5">
         <v-icon color="black">
           mdi-pencil
         </v-icon>
