@@ -17,7 +17,7 @@
         </v-card>
       </v-row>
       <v-row justify="center">
-        <About :about="about" />
+        <About @passToLayout="updateAbout" :about="about" />
         <Keywords :keywords="keywords" />
         <Contact :link="link" :location="location" :email="email" :phone="phone" />
       </v-row>
@@ -33,7 +33,9 @@ import IdentificationNumber from '@/components/PageComponents/Profile/Identifica
 import Keywords from '@/components/PageComponents/Profile/Keywords.vue';
 import Title from '@/components/PageComponents/Profile/Title.vue';
 
-export default {
+import { defineComponent } from '@vue/composition-api';
+
+export default defineComponent({
   name: 'ProfileLayout',
   components: {
     About,
@@ -44,5 +46,14 @@ export default {
     Title,
   },
   props: ['urlPic', 'name', 'id', 'about', 'keywords', 'link', 'location', 'email', 'phone'],
-};
+  setup(props, { emit }) {
+    const updateAbout = (about: string) => {
+      emit('updateAbout', about);
+    };
+
+    return {
+      updateAbout,
+    };
+  },
+});
 </script>
