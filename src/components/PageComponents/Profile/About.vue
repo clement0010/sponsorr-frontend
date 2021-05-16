@@ -2,11 +2,7 @@
   <v-card color="transparent" flat width="75%">
     <v-card-title class="black--text text-h4">
       About
-      <v-btn icon class="mx-5">
-        <v-icon color="black">
-          mdi-pencil
-        </v-icon>
-      </v-btn>
+      <EditAbout @save="passToLayout" />
     </v-card-title>
 
     <v-card-text class="black--text text-body-1">
@@ -16,9 +12,23 @@
 </template>
 
 <script lang="ts">
-export default {
-  props: {
-    about: String,
+import EditAbout from '@/components/EditAbout.vue';
+
+import { defineComponent } from '@vue/composition-api';
+
+export default defineComponent({
+  components: {
+    EditAbout,
   },
-};
+  props: ['about'],
+  setup(props, { emit }) {
+    const passToLayout = (about: string) => {
+      emit('passToLayout', about);
+    };
+
+    return {
+      passToLayout,
+    };
+  },
+});
 </script>
