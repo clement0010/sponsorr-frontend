@@ -1,53 +1,37 @@
 <template>
   <BasePage>
-    <v-container fluid class="white">
-      <DisplayPicture :url="profile.picture" />
-      <Title :name="profile.name" />
-      <IdentificationNumber :id="profile.id" />
-      <About :about="profile.about" />
-      <Keywords :keywords="keywords" />
-      <Contact
-        :email="profile.email"
-        :link="profile.link"
-        :location="profile.location"
-        :phone="profile.phone"
-      />
-    </v-container>
+    <ProfileLayout
+      :urlPic="profile.picture"
+      :name="profile.name"
+      :id="profile.id"
+      :about="profile.about"
+      :keywords="keywords"
+      :link="profile.link"
+      :location="profile.location"
+      :email="profile.email"
+      :phone="profile.phone"
+    />
   </BasePage>
 </template>
 
 <script lang="ts">
 import BasePage from '@/layouts/BasePage.vue';
-import NavigationBarUser from '@/components/Navigations/NavigationBarUser.vue';
 import ProfileLayout from '@/layouts/ProfileLayout.vue';
 
 import { Profile } from '@/types';
 
 import { defineComponent, reactive } from '@vue/composition-api';
-import Title from '@/components/PageComponents/Profile/Title.vue';
-import IdentificationNumber from '@/components/PageComponents/Profile/IdentificationNumber.vue';
-import About from '@/components/PageComponents/Profile/About.vue';
-import DisplayPicture from '@/components/PageComponents/Profile/DisplayPicture.vue';
-import Keywords from '@/components/PageComponents/Profile/Keywords.vue';
-import Contact from '@/components/PageComponents/Profile/Contact.vue';
 
 export default defineComponent({
   name: 'Profile',
   components: {
     BasePage,
-    NavigationBarUser,
     ProfileLayout,
-    Title,
-    IdentificationNumber,
-    About,
-    DisplayPicture,
-    Keywords,
-    Contact,
   },
   setup() {
     const profile: Profile = reactive({
       id: '01',
-      name: 'The FoorBar Society',
+      name: 'The FooBar Society',
       email: 'marketing@foobar.org.sg',
       about: `Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut
         labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco

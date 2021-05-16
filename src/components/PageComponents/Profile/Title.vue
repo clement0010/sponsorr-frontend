@@ -1,6 +1,6 @@
 <template>
-  <v-card class="black--text" color="transparent" flat width="75%">
-    <v-card-title>
+  <v-card color="transparent" flat>
+    <v-card-title class="black--text text-h3">
       {{ name }}
     </v-card-title>
   </v-card>
@@ -11,3 +11,9 @@ export default {
   props: ['name'],
 };
 </script>
+
+<style scoped>
+.v-card__title {
+  word-break: normal;
+}
+</style>
