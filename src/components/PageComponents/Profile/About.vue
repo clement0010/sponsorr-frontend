@@ -2,7 +2,7 @@
   <v-card color="transparent" flat width="75%">
     <v-card-title class="black--text text-h4">
       About
-      <v-btn icon>
+      <v-btn icon class="mx-5">
         <v-icon color="black">
           mdi-pencil
         </v-icon>
@@ -17,6 +17,8 @@
 
 <script lang="ts">
 export default {
-  props: ['about'],
+  props: {
+    about: String,
+  },
 };
 </script>
