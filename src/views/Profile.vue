@@ -1,6 +1,7 @@
 <template>
   <BasePage>
     <ProfileLayout
+      @updateAbout="insertAbout"
       :urlPic="profile.picture"
       :name="profile.name"
       :id="profile.id"
@@ -53,9 +54,14 @@ export default defineComponent({
       'Health',
     ];
 
+    const insertAbout = (about: string) => {
+      profile.about = about;
+    };
+
     return {
       profile,
       keywords,
+      insertAbout,
     };
   },
 });
