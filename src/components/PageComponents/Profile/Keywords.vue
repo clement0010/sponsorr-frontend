@@ -10,11 +10,13 @@
     </v-card-title>
 
     <v-card-text>
-      <v-chip-group column>
-        <v-chip v-for="keyword in keywords" :key="keyword">
-          {{ keyword }}
-        </v-chip>
-      </v-chip-group>
+      <v-combobox
+        v-model="keywords"
+        label="Keywords help other users to quickly identify
+        important information about your organisation"
+        multiple
+        chips
+      ></v-combobox>
     </v-card-text>
   </v-card>
 </template>
