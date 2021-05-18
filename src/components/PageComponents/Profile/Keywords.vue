@@ -10,9 +10,11 @@
     </v-card-title>
 
     <v-card-text>
-      <v-chip class="mx-1" v-for="keyword in keywords" :key="keyword">
-        {{ keyword }}
-      </v-chip>
+      <v-chip-group column>
+        <v-chip v-for="keyword in keywords" :key="keyword">
+          {{ keyword }}
+        </v-chip>
+      </v-chip-group>
     </v-card-text>
   </v-card>
 </template>

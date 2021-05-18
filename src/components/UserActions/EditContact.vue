@@ -12,12 +12,30 @@
       <v-card light>
         <v-card-title>
           <span class="headline">
-            Edit About
+            Edit Contact Details
           </span>
         </v-card-title>
 
         <v-card-text>
-          <v-textarea outlined v-model="input" label="Tell us about your organisation" />
+          <v-text-field
+            outlined
+            v-model="payload.link"
+            label="Link to Website"
+            :rules="[validURLRule]"
+          />
+          <v-text-field
+            outlined
+            v-model="payload.location"
+            label="Location (Link to Google Maps)"
+            :rules="[validURLRule]"
+          />
+          <v-text-field
+            outlined
+            v-model="payload.email"
+            label="Email Address"
+            :rules="[validEmailRule]"
+          />
+          <v-text-field outlined v-model="payload.phone" label="Phone Number" />
         </v-card-text>
         <v-card-actions>
           <v-spacer></v-spacer>
@@ -35,28 +53,31 @@
 
 <script>
 import { defineComponent, ref } from '@vue/composition-api';
+import { abort, payload, send } from '@/utils/profile';
+import { validEmailRule, validURLRule } from '@/utils/validation';
 
 export default defineComponent({
-  setup(props, { emit }) {
-    const input = ref('');
+  setup() {
     const dialog = ref(false); // Dialog is closed by default
 
     const cancel = () => {
       dialog.value = false; // Closes dialog
-      input.value = '';
+      abort();
     };
 
     const save = () => {
       dialog.value = false; // Closes dialog
-      emit('save', input.value);
-      input.value = '';
+      send();
     };
 
     return {
       dialog,
       cancel,
       save,
-      input,
+      payload,
+      send,
+      validEmailRule,
+      validURLRule,
     };
   },
 });

@@ -12,7 +12,7 @@
 </template>
 
 <script lang="ts">
-import EditAbout from '@/components/EditAbout.vue';
+import EditAbout from '@/components/UserActions/EditAbout.vue';
 
 import { defineComponent } from '@vue/composition-api';
 

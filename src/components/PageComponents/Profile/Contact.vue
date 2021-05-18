@@ -2,11 +2,7 @@
   <v-card color="transparent" flat width="75%">
     <v-card-title class="text-h4 black--text">
       Contact
-      <v-btn icon class="mx-5">
-        <v-icon color="black">
-          mdi-pencil
-        </v-icon>
-      </v-btn>
+      <EditContact />
     </v-card-title>
 
     <v-list color="transparent">
@@ -56,8 +52,13 @@
 </template>
 
 <script lang="ts">
+import EditContact from '@/components/UserActions/EditContact.vue';
+
 export default {
   props: ['link', 'location', 'email', 'phone'],
+  components: {
+    EditContact,
+  },
 };
 </script>
 
