@@ -1,5 +1,6 @@
 import { ref, computed } from '@vue/composition-api';
 import { auth, firestore } from '@/services/firebase';
+import {} from 'firebase';
 
 export default function useAuth() {
   const loading = ref(true);
@@ -59,19 +60,16 @@ export default function useAuth() {
       const result = await auth.createUserWithEmailAndPassword(email, password);
 
       // Guard clause
-      if (!result) {
+      if (!result.user) {
         throw new Error('Sign up failed.');
       }
 
       firestore
         .collection('users')
-        // eslint-disable-next-line
-        .doc(result.user!.uid)
+        .doc(result.user.uid)
         .set({
-          // eslint-disable-next-line
-          uid: result.user!.uid,
+          uid: result.user.uid,
           name,
-          rooms: [],
         });
 
       authenticated.value = true;
