@@ -1,7 +1,7 @@
 import { ref, computed } from '@vue/composition-api';
 import { auth, firestore } from '@/services/firebase';
-import {} from 'firebase';
 
+// eslint-disable-next-line
 export default function useAuth() {
   const loading = ref(true);
   const authenticated = ref(false);
