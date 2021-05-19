@@ -30,16 +30,16 @@
     <v-card width="auto">
       <v-card-title> {{ action === 'Login' ? 'login' : 'sign up' }} as </v-card-title>
       <v-card-actions>
-        <v-btn class="accent1">
-          <router-link :to="{ name: action, params: { role: 'event-organiser' } }">
+        <router-link :to="{ name: action, params: { role: 'event-organiser' } }">
+          <v-btn class="accent1">
             <span class="white--text">Event Organiser</span>
-          </router-link>
-        </v-btn>
-        <v-btn class="accent2">
-          <router-link :to="{ name: action, params: { role: 'sponsor' } }">
+          </v-btn>
+        </router-link>
+        <router-link :to="{ name: action, params: { role: 'sponsor' } }">
+          <v-btn class="accent2">
             <span class="white--text">Sponsor</span>
-          </router-link>
-        </v-btn>
+          </v-btn>
+        </router-link>
       </v-card-actions>
     </v-card>
   </v-dialog>
