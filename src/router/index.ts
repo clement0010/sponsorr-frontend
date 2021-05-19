@@ -35,6 +35,14 @@ const routes: Array<RouteConfig> = [
     name: 'Playground',
     component: () => import(/* webpackChunkName: "playground" */ '@/views/Playground.vue'),
   },
+  {
+    path: '/makeshiftlogin',
+    name: 'Makeshiftlogin',
+    // route level code-splitting
+    // this generates a separate chunk (about.[hash].js) for this route
+    // which is lazy-loaded when the route is visited.
+    component: () => import(/* webpackChunkName: "about" */ '../views/Makeshiftlogin.vue'),
+  },
 ];
 
 const router = new VueRouter({
