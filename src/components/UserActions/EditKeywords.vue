@@ -17,25 +17,6 @@
         </v-card-title>
 
         <v-card-text>
-          <v-text-field
-            outlined
-            v-model="payload.link"
-            label="Link to Website"
-            :rules="[validURLRule]"
-          />
-          <v-text-field
-            outlined
-            v-model="payload.location"
-            label="Location (Link to Google Maps)"
-            :rules="[validURLRule]"
-          />
-          <v-text-field
-            outlined
-            v-model="payload.email"
-            label="Email Address"
-            :rules="[validEmailRule]"
-          />
-          <v-text-field outlined v-model="payload.phone" label="Phone Number" />
         </v-card-text>
         <v-card-actions>
           <v-spacer></v-spacer>

@@ -8,7 +8,7 @@
       </v-btn>
     </template>
 
-    <v-form>
+    <v-form ref="form" v-model="valid">
       <v-card light>
         <v-card-title>
           <span class="headline">
@@ -23,18 +23,21 @@
             label="Link to Website"
             :rules="[validURLRule]"
           />
+
           <v-text-field
             outlined
             v-model="payload.location"
             label="Location (Link to Google Maps)"
             :rules="[validURLRule]"
           />
+
           <v-text-field
             outlined
             v-model="payload.email"
             label="Email Address"
             :rules="[validEmailRule]"
           />
+
           <v-text-field outlined v-model="payload.phone" label="Phone Number" />
         </v-card-text>
         <v-card-actions>
@@ -42,7 +45,7 @@
           <v-btn class="error" rounded text @click="cancel">
             Cancel
           </v-btn>
-          <v-btn class="success" rounded text @click="save">
+          <v-btn class="success" rounded text @click="save" :disabled="!valid">
             Save
           </v-btn>
         </v-card-actions>
@@ -52,7 +55,7 @@
 </template>
 
 <script>
-import { defineComponent, ref } from '@vue/composition-api';
+import { defineComponent, ref, reactive } from '@vue/composition-api';
 import { abort, payload, send } from '@/utils/profile';
 import { validEmailRule, validURLRule } from '@/utils/validation';
 
@@ -60,17 +63,23 @@ export default defineComponent({
   setup() {
     const dialog = ref(false); // Dialog is closed by default
 
+    const configuration = reactive({
+      valid: true,
+    });
+
     const cancel = () => {
       dialog.value = false; // Closes dialog
       abort();
     };
 
-    const save = () => {
+    const save = (e) => {
+      e.preventDefault();
       dialog.value = false; // Closes dialog
       send();
     };
 
     return {
+      ...configuration,
       dialog,
       cancel,
       save,

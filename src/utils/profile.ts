@@ -25,30 +25,13 @@ export const keywords: string[] = [
   'Health',
 ];
 
-const changes: Profile = {
-  id: '',
-  name: '',
-  email: '',
-  about: '',
-  phone: '',
-  link: '',
-  location: '',
-  picture: '',
-};
-
-export const payload: Profile = reactive({ ...changes });
-
-const emptyPayload = () => {
-  Object.assign(payload, changes);
-};
+export const payload: Profile = reactive({ ...dummyProfile });
 
 export const send = (): void => {
   console.log('data sent');
   Object.assign(dummyProfile, payload);
-  emptyPayload();
 };
 
 export const abort = (): void => {
   console.log('change aborted');
-  emptyPayload();
 };
