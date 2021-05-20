@@ -6,20 +6,25 @@
           <v-card-title>
             <v-row align="center" justify="center">
               <v-col class="d-flex justify-center" order="first" cols="auto">
-                <DisplayPicture :urlPic="urlPic" />
+                <DisplayPicture :urlPic="profile.picture" />
               </v-col>
               <v-col order="last">
-                <Title :name="name" />
-                <IdentificationNumber :id="id" />
+                <Title :name="profile.name" />
+                <IdentificationNumber :id="profile.id" />
               </v-col>
             </v-row>
           </v-card-title>
         </v-card>
       </v-row>
       <v-row justify="center">
-        <About :about="about" />
+        <About :about="profile.about" />
         <Keywords :keywords="keywords" />
-        <Contact :link="link" :location="location" :email="email" :phone="phone" />
+        <Contact
+          :link="profile.link"
+          :location="profile.location"
+          :email="profile.email"
+          :phone="profile.phone"
+        />
       </v-row>
     </v-container>
   </v-card>
@@ -35,6 +40,8 @@ import Title from '@/components/PageComponents/Profile/Title.vue';
 
 import { defineComponent } from '@vue/composition-api';
 
+import { profile, keywords } from '@/utils/profile';
+
 export default defineComponent({
   name: 'ProfileLayout',
   components: {
@@ -45,6 +52,8 @@ export default defineComponent({
     Keywords,
     Title,
   },
-  props: ['urlPic', 'name', 'id', 'about', 'keywords', 'link', 'location', 'email', 'phone'],
+  setup() {
+    return { profile, keywords };
+  },
 });
 </script>

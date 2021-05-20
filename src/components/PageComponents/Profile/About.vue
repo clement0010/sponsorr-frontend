@@ -20,6 +20,8 @@ export default defineComponent({
   components: {
     EditAbout,
   },
-  props: ['about'],
+  props: {
+    about: String,
+  },
 });
 </script>
