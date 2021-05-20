@@ -2,7 +2,7 @@
   <v-card color="transparent" flat width="75%">
     <v-card-title class="black--text text-h4">
       About
-      <EditAbout @save="passToLayout" />
+      <EditAbout />
     </v-card-title>
 
     <v-card-text class="black--text text-body-1">
@@ -21,14 +21,5 @@ export default defineComponent({
     EditAbout,
   },
   props: ['about'],
-  setup(props, { emit }) {
-    const passToLayout = (about: string) => {
-      emit('passToLayout', about);
-    };
-
-    return {
-      passToLayout,
-    };
-  },
 });
 </script>

@@ -17,7 +17,7 @@
         </v-card>
       </v-row>
       <v-row justify="center">
-        <About @passToLayout="updateAbout" :about="about" />
+        <About :about="about" />
         <Keywords :keywords="keywords" />
         <Contact :link="link" :location="location" :email="email" :phone="phone" />
       </v-row>
@@ -46,14 +46,5 @@ export default defineComponent({
     Title,
   },
   props: ['urlPic', 'name', 'id', 'about', 'keywords', 'link', 'location', 'email', 'phone'],
-  setup(props, { emit }) {
-    const updateAbout = (about: string) => {
-      emit('updateAbout', about);
-    };
-
-    return {
-      updateAbout,
-    };
-  },
 });
 </script>

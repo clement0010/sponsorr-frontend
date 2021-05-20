@@ -1,15 +1,15 @@
 <template>
   <BasePage>
     <ProfileLayout
-      :urlPic="dummyProfile.picture"
-      :name="dummyProfile.name"
-      :id="dummyProfile.id"
-      :about="dummyProfile.about"
+      :urlPic="profile.picture"
+      :name="profile.name"
+      :id="profile.id"
+      :about="profile.about"
       :keywords="keywords"
-      :link="dummyProfile.link"
-      :location="dummyProfile.location"
-      :email="dummyProfile.email"
-      :phone="dummyProfile.phone"
+      :link="profile.link"
+      :location="profile.location"
+      :email="profile.email"
+      :phone="profile.phone"
     />
   </BasePage>
 </template>
@@ -18,7 +18,7 @@
 import BasePage from '@/layouts/BasePage.vue';
 import ProfileLayout from '@/layouts/ProfileLayout.vue';
 
-import { dummyProfile, keywords } from '@/utils/profile';
+import { profile, keywords } from '@/utils/profile';
 
 import { defineComponent } from '@vue/composition-api';
 
@@ -30,7 +30,7 @@ export default defineComponent({
   },
   setup() {
     return {
-      dummyProfile,
+      profile,
       keywords,
     };
   },

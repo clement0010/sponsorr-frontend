@@ -1,7 +1,7 @@
 import { reactive } from '@vue/composition-api';
 import { Profile } from '@/types';
 
-export const dummyProfile: Profile = reactive({
+export const profile: Profile = reactive({
   id: '01',
   name: 'The FooBar Society',
   email: 'marketing@foobar.org.sg',
@@ -14,6 +14,7 @@ export const dummyProfile: Profile = reactive({
   link: 'https://vuejs.org/v2/guide/components-props.html',
   location: 'https://maps.google.com.sg/',
   picture: 'https://randomuser.me/api/portraits/med/men/31.jpg',
+  role: 'EventOrganiser',
 });
 
 export const keywords: string[] = [
@@ -24,14 +25,3 @@ export const keywords: string[] = [
   'Charity',
   'Health',
 ];
-
-export const payload: Profile = reactive({ ...dummyProfile });
-
-export const send = (): void => {
-  console.log('data sent');
-  Object.assign(dummyProfile, payload);
-};
-
-export const abort = (): void => {
-  console.log('change aborted');
-};

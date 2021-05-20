@@ -34,30 +34,30 @@
 </template>
 
 <script>
-import { defineComponent, ref } from '@vue/composition-api';
-import { abort, payload, send } from '@/utils/profile';
+import { defineComponent, ref, toRefs } from '@vue/composition-api';
+import { profile } from '@/utils/profile';
 
 export default defineComponent({
   setup() {
     const dialog = ref(false); // Dialog is closed by default
+    const { about } = toRefs(profile);
+    const input = ref(about.value);
 
     const cancel = () => {
       dialog.value = false; // Closes dialog
-      payload.about = '';
-      abort();
+      input.value = about.value; // Assigns input value to original value
     };
 
     const save = () => {
       dialog.value = false; // Closes dialog
-      send();
+      about.value = input.value; // Assigns new about
     };
 
     return {
       dialog,
       cancel,
       save,
-      payload,
-      send,
+      input,
     };
   },
 });
