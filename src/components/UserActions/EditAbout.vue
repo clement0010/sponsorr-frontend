@@ -17,7 +17,7 @@
         </v-card-title>
 
         <v-card-text>
-          <v-textarea outlined v-model="payload.about" label="Tell us about your organisation" />
+          <v-textarea outlined v-model="input" label="Tell us about your organisation" />
         </v-card-text>
         <v-card-actions>
           <v-spacer></v-spacer>
