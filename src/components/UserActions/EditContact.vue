@@ -38,7 +38,7 @@
             :rules="[validEmailRule]"
           />
 
-          <v-text-field outlined v-model="payload.phone" label="Phone Number" />
+          <v-text-field outlined label="Phone Number" />
         </v-card-text>
         <v-card-actions>
           <v-spacer></v-spacer>
@@ -56,7 +56,6 @@
 
 <script>
 import { defineComponent, ref, reactive } from '@vue/composition-api';
-import { abort, payload, send } from '@/utils/profile';
 import { validEmailRule, validURLRule } from '@/utils/validation';
 
 export default defineComponent({
@@ -69,13 +68,10 @@ export default defineComponent({
 
     const cancel = () => {
       dialog.value = false; // Closes dialog
-      abort();
     };
 
-    const save = (e) => {
-      e.preventDefault();
+    const save = () => {
       dialog.value = false; // Closes dialog
-      send();
     };
 
     return {
@@ -83,8 +79,6 @@ export default defineComponent({
       dialog,
       cancel,
       save,
-      payload,
-      send,
       validEmailRule,
       validURLRule,
     };

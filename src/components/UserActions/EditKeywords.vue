@@ -16,8 +16,7 @@
           </span>
         </v-card-title>
 
-        <v-card-text>
-        </v-card-text>
+        <v-card-text> </v-card-text>
         <v-card-actions>
           <v-spacer></v-spacer>
           <v-btn class="error" rounded text @click="cancel">
@@ -34,7 +33,6 @@
 
 <script>
 import { defineComponent, ref } from '@vue/composition-api';
-import { abort, payload, send } from '@/utils/profile';
 import { validEmailRule, validURLRule } from '@/utils/validation';
 
 export default defineComponent({
@@ -43,20 +41,17 @@ export default defineComponent({
 
     const cancel = () => {
       dialog.value = false; // Closes dialog
-      abort();
     };
 
     const save = () => {
       dialog.value = false; // Closes dialog
-      send();
     };
 
     return {
       dialog,
       cancel,
       save,
-      payload,
-      send,
+
       validEmailRule,
       validURLRule,
     };
