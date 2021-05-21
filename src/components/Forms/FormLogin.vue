@@ -47,7 +47,7 @@
         </span>
         <span>| don't have an account with us? </span>
         <span>
-          <router-link to="/signup">
+          <router-link to="signup">
             sign up
           </router-link>
         </span>

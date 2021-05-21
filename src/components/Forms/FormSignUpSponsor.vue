@@ -4,6 +4,7 @@
       <v-card-title> sign up as sponsor </v-card-title>
       <v-form ref="form" v-model="valid">
         <v-text-field
+          v-model="user.name"
           outlined
           required
           hint="Required"
@@ -12,14 +13,14 @@
         />
 
         <v-text-field
-          v-model="signUpDetails.uen"
+          v-model="user.uen"
           outlined
           hint="Optional, for verification purposes (what is it?)"
           label="UEN"
         />
 
         <v-text-field
-        v-model="signUpDetails.email"
+          v-model="user.email"
           outlined
           required
           hint="Required"
@@ -28,7 +29,7 @@
         />
 
         <v-text-field
-          v-model="signUpDetails.phoneNumber"
+          v-model="user.phoneNumber"
           outlined
           required
           hint="required"
@@ -38,7 +39,7 @@
         />
 
         <v-text-field
-          v-model="signUpDetails.password"
+          v-model="user.password"
           outlined
           flat
           required
@@ -51,7 +52,7 @@
         />
 
         <v-text-field
-          v-model="signUpDetails.confirmedPassword"
+          v-model="user.confirmedPassword"
           outlined
           required
           hint="Required"
@@ -66,7 +67,7 @@
           class="accent1 white--text"
           rounded
           type="submit"
-          @click="submitForm"
+          @click="authenticateUser"
           text
           :disabled="!valid"
         >
@@ -76,41 +77,53 @@
 
       <v-card-subtitle>
         <span>have an account with us? </span>
-        <span><router-link to="/login">login</router-link></span>
+        <span><router-link to="login">login</router-link></span>
       </v-card-subtitle>
     </v-card>
+
+    <!-- Error -->
+    <v-btn v-if="error" class="error" @click="error = !error"> Error! </v-btn>
+
+    <!-- Spinner -->
+    <div class="text-center" v-if="loading">
+      <v-overlay>
+        <v-progress-circular indeterminate size="64" />
+      </v-overlay>
+    </div>
   </v-container>
 </template>
 
 <script lang="ts">
-import {
-  requireInputRule, validEmailRule, passwordLengthRule,
-} from '@/utils/validation';
+import { requireInputRule, validEmailRule, passwordLengthRule } from '@/utils/validation';
 import { defineComponent, reactive } from '@vue/composition-api';
+import useAuth from '@/composable/authComposition';
 
 export default defineComponent({
   setup(_, { root }) {
+    const { error, signup } = useAuth();
+
     const configuration = reactive({
       valid: true,
       showPassword: false,
       showConfirmPassword: false,
     });
 
-    const signUpDetails = reactive({
+    const user = reactive({
+      name: '',
       email: '',
       password: '',
       confirmedPassword: '',
       phoneNumber: '',
       uen: '',
     });
-    const validatePassword = (password:string) => signUpDetails.password === password || 'Password do not match';
 
-    const submitForm = (e: Event) => {
+    const validatePassword = (password:string) => user.password === password || 'Password do not match';
+
+    const authenticateUser = (e: Event) => {
       e.preventDefault();
-
-      // Login
-      console.log('Signed Up!', root.$route.params);
-
+      const { name, email, password } = user;
+      console.log(name, email, password);
+      signup(email, password, name);
       root.$router.push({ name: 'Profile', params: { id: '123' } });
     };
 
@@ -123,8 +136,9 @@ export default defineComponent({
       passwordLengthRule,
 
       // Sign Up
-      signUpDetails,
-      submitForm,
+      user,
+      authenticateUser,
+      error,
     };
   },
 });
