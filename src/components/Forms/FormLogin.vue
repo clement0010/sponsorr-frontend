@@ -27,12 +27,16 @@
           :rules="[requireInputRule]"
         />
 
+        <v-card-text v-if="error">
+          There's an issue logging in.
+        </v-card-text>
+
         <v-btn
           class="accent1 white--text"
           rounded
           type="submit"
-          @click="authenticateUser"
           text
+          @click="authenticateUser"
           :disabled="!valid"
         >
           Login
@@ -54,6 +58,10 @@
       </v-card-subtitle>
     </v-card>
 
+    <v-row justify="center">
+      <h1>Loading: {{ loading }} Auth: {{ authenticated }} {{user.email}}</h1>
+    </v-row>
+
     <div class="text-center" v-if="loading">
       <v-overlay>
         <v-progress-circular indeterminate size="64" />
@@ -70,12 +78,14 @@ import useAuth from '@/composable/authComposition';
 
 export default defineComponent({
   setup(_, { root }) {
-    const { loading, login } = useAuth();
-
     const configuration = reactive({
       valid: true,
       showPassword: false,
     });
+
+    const {
+      authenticated, loading, login, error,
+    } = useAuth();
 
     const user = reactive({
       email: '',
@@ -99,6 +109,8 @@ export default defineComponent({
       // Login
       user,
       authenticateUser,
+      authenticated,
+      error,
 
       // Spinner
       loading,
