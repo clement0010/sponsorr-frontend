@@ -6,7 +6,7 @@
       </v-card-title>
       <v-form ref="form" v-model="valid">
         <v-text-field
-          v-model="loginDetails.email"
+          v-model="user.email"
           outlined
           required
           hint="Required"
@@ -15,7 +15,7 @@
         />
 
         <v-text-field
-          v-model="loginDetails.password"
+          v-model="user.password"
           outlined
           flat
           required
@@ -31,7 +31,7 @@
           class="accent1 white--text"
           rounded
           type="submit"
-          @click="submitForm"
+          @click="authenticateUser"
           text
           :disabled="!valid"
         >
@@ -53,6 +53,12 @@
         </span>
       </v-card-subtitle>
     </v-card>
+
+    <div class="text-center" v-if="loading">
+      <v-overlay>
+        <v-progress-circular indeterminate size="64" />
+      </v-overlay>
+    </div>
   </v-container>
 </template>
 
@@ -60,24 +66,27 @@
 import { requireInputRule, validEmailRule } from '@/utils/validation';
 import { defineComponent, reactive } from '@vue/composition-api';
 
+import useAuth from '@/composable/authComposition';
+
 export default defineComponent({
   setup(_, { root }) {
+    const { loading, login } = useAuth();
+
     const configuration = reactive({
       valid: true,
       showPassword: false,
     });
 
-    const loginDetails = reactive({
+    const user = reactive({
       email: '',
       password: '',
     });
 
-    const submitForm = (e: Event) => {
+    const authenticateUser = (e: Event) => {
       e.preventDefault();
-
-      // Login login
-      console.log('Login!', root.$route.params);
-
+      const { email, password } = user;
+      console.log(email, password);
+      login(email, password);
       root.$router.push({ name: 'Profile', params: { id: '123' } });
     };
 
@@ -88,10 +97,12 @@ export default defineComponent({
       validEmailRule,
 
       // Login
-      loginDetails,
-      submitForm,
+      user,
+      authenticateUser,
+
+      // Spinner
+      loading,
     };
   },
-
 });
 </script>
