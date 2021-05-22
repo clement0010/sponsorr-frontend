@@ -19,26 +19,26 @@
         <v-card-text>
           <v-text-field
             outlined
-            v-model="payload.link"
+            v-model="inputLink"
             label="Link to Website"
             :rules="[validURLRule]"
           />
 
           <v-text-field
             outlined
-            v-model="payload.location"
+            v-model="inputLocation"
             label="Location (Link to Google Maps)"
             :rules="[validURLRule]"
           />
 
           <v-text-field
             outlined
-            v-model="payload.email"
+            v-model="inputEmail"
             label="Email Address"
             :rules="[validEmailRule]"
           />
 
-          <v-text-field outlined label="Phone Number" />
+          <v-text-field v-model="inputPhone" outlined label="Phone Number" />
         </v-card-text>
         <v-card-actions>
           <v-spacer></v-spacer>
@@ -55,12 +55,24 @@
 </template>
 
 <script>
-import { defineComponent, ref, reactive } from '@vue/composition-api';
+import {
+  defineComponent, ref, reactive, toRefs,
+} from '@vue/composition-api';
 import { validEmailRule, validURLRule } from '@/utils/validation';
+import { profile } from '@/utils/profile';
 
 export default defineComponent({
   setup() {
     const dialog = ref(false); // Dialog is closed by default
+
+    const {
+      link, location, email, phone,
+    } = toRefs(profile);
+
+    const inputLink = ref(link.value);
+    const inputLocation = ref(location.value);
+    const inputEmail = ref(email.value);
+    const inputPhone = ref(phone.value);
 
     const configuration = reactive({
       valid: true,
@@ -68,10 +80,18 @@ export default defineComponent({
 
     const cancel = () => {
       dialog.value = false; // Closes dialog
+      inputLink.value = link.value;
+      inputLocation.value = location.value;
+      inputEmail.value = email.value;
+      inputPhone.value = phone.value;
     };
 
     const save = () => {
       dialog.value = false; // Closes dialog
+      link.value = inputLink.value;
+      location.value = inputLocation.value;
+      email.value = inputEmail.value;
+      phone.value = inputPhone.value;
     };
 
     return {
@@ -81,6 +101,10 @@ export default defineComponent({
       save,
       validEmailRule,
       validURLRule,
+      inputLink,
+      inputLocation,
+      inputEmail,
+      inputPhone,
     };
   },
 });
