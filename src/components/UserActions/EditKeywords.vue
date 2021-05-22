@@ -8,52 +8,54 @@
       </v-btn>
     </template>
 
-    <v-form>
-      <v-card light>
-        <v-card-title>
-          <span class="headline">
-            Edit Keywords
-          </span>
-        </v-card-title>
-
-        <v-card-text> </v-card-text>
-        <v-card-actions>
-          <v-spacer></v-spacer>
-          <v-btn class="error" rounded text @click="cancel">
-            Cancel
-          </v-btn>
-          <v-btn class="success" rounded text @click="save">
-            Save
-          </v-btn>
-        </v-card-actions>
-      </v-card>
-    </v-form>
+    <v-card light>
+      <v-card-title>
+        <span class="headline">
+          Edit Keywords
+        </span>
+      </v-card-title>
+      <v-chip-group column class="px-4">
+        <v-chip
+          close
+          v-for="keyword in keywords"
+          :key="keyword"
+          @click:close="remove(keyword, keywords)"
+        >
+          {{ keyword }}
+        </v-chip>
+      </v-chip-group>
+      <v-text-field
+        class="px-4"
+        dense
+        outlined
+        v-model="input"
+        @keydown.enter="
+          add(input, keywords);
+          input = '';
+        "
+        label="Type here and hit 'enter' to save"
+      ></v-text-field>
+    </v-card>
   </v-dialog>
 </template>
 
 <script>
-import { defineComponent, ref } from '@vue/composition-api';
-import { validEmailRule, validURLRule } from '@/utils/validation';
+import { defineComponent, ref, toRefs } from '@vue/composition-api';
+import { profile, remove, add } from '@/utils/profile';
 
 export default defineComponent({
   setup() {
+    const { keywords } = toRefs(profile);
+    const input = ref('');
+
     const dialog = ref(false); // Dialog is closed by default
-
-    const cancel = () => {
-      dialog.value = false; // Closes dialog
-    };
-
-    const save = () => {
-      dialog.value = false; // Closes dialog
-    };
 
     return {
       dialog,
-      cancel,
-      save,
-
-      validEmailRule,
-      validURLRule,
+      keywords,
+      remove,
+      input,
+      add,
     };
   },
 });

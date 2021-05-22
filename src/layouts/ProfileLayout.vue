@@ -18,7 +18,7 @@
       </v-row>
       <v-row justify="center">
         <About :about="profile.about" />
-        <Keywords :keywords="keywords" />
+        <Keywords :keywords="profile.keywords" />
         <Contact
           :link="profile.link"
           :location="profile.location"
@@ -40,7 +40,7 @@ import Title from '@/components/PageComponents/Profile/Title.vue';
 
 import { defineComponent } from '@vue/composition-api';
 
-import { profile, keywords } from '@/utils/profile';
+import { profile } from '@/utils/profile';
 
 export default defineComponent({
   name: 'ProfileLayout',
@@ -53,7 +53,7 @@ export default defineComponent({
     Title,
   },
   setup() {
-    return { profile, keywords };
+    return { profile };
   },
 });
 </script>

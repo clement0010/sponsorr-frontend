@@ -10,6 +10,7 @@ export interface Profile {
   link: string;
   location: string;
   picture: string;
+  keywords: string[];
 }
 
 export interface Sponsor {

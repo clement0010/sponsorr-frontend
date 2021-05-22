@@ -6,7 +6,7 @@
     </v-card-title>
 
     <v-card-text>
-      <v-chip-group>
+      <v-chip-group column>
         <v-chip v-for="keyword in keywords" :key="keyword" disabled>
           {{ keyword }}
         </v-chip>

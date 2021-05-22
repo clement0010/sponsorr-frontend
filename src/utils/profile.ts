@@ -15,13 +15,26 @@ export const profile: Profile = reactive({
   location: 'https://maps.google.com.sg/',
   picture: 'https://randomuser.me/api/portraits/med/men/31.jpg',
   role: 'EventOrganiser',
+  keywords: [
+    'National University of Singapore',
+    'College/University',
+    'Women',
+    'Sports',
+    'Charity',
+    'Health',
+  ],
 });
 
-export const keywords: string[] = [
-  'National University of Singapore',
-  'College/University',
-  'Women',
-  'Sports',
-  'Charity',
-  'Health',
-];
+export const remove = (keyword: string, keywordArray: string[]): void => {
+  for (let i = 0; i < keywordArray.length; i += 1) {
+    if (keywordArray[i] === keyword) {
+      keywordArray.splice(i, 1);
+      break;
+    }
+  }
+  console.log(keywordArray);
+};
+
+export const add = (keyword: string, keywordArray: string[]): void => {
+  keywordArray.push(keyword);
+};
