@@ -160,6 +160,7 @@ export default defineComponent({
         }
       }
     };
+
     const addKeyword = (): void => {
       profileTemplate.keywords.push(keywordInput.value);
       keywordInput.value = '';

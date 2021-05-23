@@ -6,6 +6,11 @@
 
 <script lang="ts">
 export default {
-  props: ['id'],
+  props: {
+    id: {
+      type: String,
+      required: true,
+    },
+  },
 };
 </script>
