@@ -1,10 +1,5 @@
 <template>
   <v-card color="transparent" flat width="75%">
-    <v-card-title class="text-h4 black--text">
-      Contact
-      <EditContact />
-    </v-card-title>
-
     <v-list color="transparent">
       <v-list-item>
         <v-icon color="black">
@@ -52,12 +47,24 @@
 </template>
 
 <script lang="ts">
-import EditContact from '@/components/UserActions/EditContact.vue';
-
 export default {
-  props: ['link', 'location', 'email', 'phone'],
-  components: {
-    EditContact,
+  props: {
+    link: {
+      type: String,
+      required: true,
+    },
+    location: {
+      type: String,
+      required: true,
+    },
+    email: {
+      type: String,
+      required: true,
+    },
+    phone: {
+      type: String,
+      required: true,
+    },
   },
 };
 </script>
