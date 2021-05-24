@@ -1,6 +1,6 @@
+import Home from '@/views/Home.vue';
 import Vue from 'vue';
 import VueRouter, { RouteConfig } from 'vue-router';
-import Home from '../views/Home.vue';
 import authGuard from './authGuard';
 
 Vue.use(VueRouter);
@@ -30,7 +30,7 @@ const routes: Array<RouteConfig> = [
     path: '/profile/:id',
     name: 'Profile',
     component: () => import(/* webpackChunkName: "profile" */ '@/views/Profile.vue'),
-    beforeEnter: (to, from, next) => authGuard(to, from, next),
+    beforeEnter: (_to, _from, next) => authGuard(next),
   },
   {
     path: '/playground',

@@ -1,9 +1,7 @@
 <template>
   <v-container>
     <v-card light class="pa-5">
-      <v-card-title>
-        login
-      </v-card-title>
+      <v-card-title> login </v-card-title>
       <v-form ref="form" v-model="valid">
         <v-text-field
           v-model="user.email"
@@ -27,9 +25,7 @@
           :rules="[requireInputRule]"
         />
 
-        <v-card-text v-if="error">
-          There's an issue logging in.
-        </v-card-text>
+        <v-card-text v-if="error"> There's an issue logging in. </v-card-text>
 
         <v-btn
           class="accent1 white--text"
@@ -45,22 +41,14 @@
 
       <v-card-subtitle>
         <span>
-          <router-link to="/recoverAccount">
-            forgot password
-          </router-link>
+          <router-link to="/recoverAccount"> forgot password </router-link>
         </span>
         <span>| don't have an account with us? </span>
         <span>
-          <router-link to="signup">
-            sign up
-          </router-link>
+          <router-link to="signup"> sign up </router-link>
         </span>
       </v-card-subtitle>
     </v-card>
-
-    <v-row justify="center">
-      <h1>Loading: {{ loading }} Auth: {{ authenticated }} {{user.email}}</h1>
-    </v-row>
 
     <div class="text-center" v-if="loading">
       <v-overlay>
@@ -83,34 +71,44 @@ export default defineComponent({
       showPassword: false,
     });
 
-    const {
-      authenticated, loading, login, error,
-    } = useAuth();
+    const { loading, login, error } = useAuth();
 
     const user = reactive({
       email: '',
       password: '',
     });
 
-    const authenticateUser = (e: Event) => {
-      e.preventDefault();
+    const authenticateUser = async () => {
       const { email, password } = user;
-      console.log(email, password);
-      login(email, password);
-      root.$router.push({ name: 'Profile', params: { id: '123' } });
+      await login(email, password);
+    };
+
+    const routeUser = (e: Event) => {
+      e.preventDefault();
+      authenticateUser()
+        .then((_value) => {
+          root.$router.push({
+            name: 'Profile',
+            params: { id: '123' },
+          });
+        })
+        .catch((err) => console.log(err));
     };
 
     return {
-      // Validation
+      // Input
+      user,
+
+      // Input validation
       ...configuration,
       requireInputRule,
       validEmailRule,
 
       // Login
-      user,
-      authenticateUser,
-      authenticated,
       error,
+
+      // Routing
+      routeUser,
 
       // Spinner
       loading,
