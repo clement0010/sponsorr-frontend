@@ -63,11 +63,13 @@
           :rules="[requireInputRule, validatePassword]"
         />
 
+        <v-card-text v-if="error"> There's an issue signing up. </v-card-text>
+
         <v-btn
           class="accent1 white--text"
           rounded
           type="submit"
-          @click="authenticateUser"
+          @click="routeUser"
           text
           :disabled="!valid"
         >
@@ -80,9 +82,6 @@
         <span><router-link to="login">login</router-link></span>
       </v-card-subtitle>
     </v-card>
-
-    <!-- Error -->
-    <v-btn v-if="error" class="error" @click="error = !error"> Error! </v-btn>
 
     <!-- Spinner -->
     <div class="text-center" v-if="loading">
@@ -117,28 +116,41 @@ export default defineComponent({
       uen: '',
     });
 
-    const validatePassword = (password:string) => user.password === password || 'Password do not match';
+    const validatePassword = (password: string) => user.password === password || 'Password do not match';
 
-    const authenticateUser = (e: Event) => {
+    const authenticateUser = async () => {
+      const { email, password, name } = user;
+      await signup(email, password, name);
+    };
+
+    const routeUser = (e: Event) => {
       e.preventDefault();
-      const { name, email, password } = user;
-      console.log(name, email, password);
-      signup(email, password, name);
-      root.$router.push({ name: 'Profile', params: { id: '123' } });
+      authenticateUser()
+        .then((_value) => {
+          root.$router.push({
+            name: 'Profile',
+            params: { id: '123' },
+          });
+        })
+        .catch((err) => console.log(err));
     };
 
     return {
-      // Validation
+      // Input
+      user,
+
+      // Input validation
       ...configuration,
       requireInputRule,
       validEmailRule,
       validatePassword,
       passwordLengthRule,
 
-      // Sign Up
-      user,
-      authenticateUser,
+      // Sign up
       error,
+
+      // Routing
+      routeUser,
     };
   },
 });
