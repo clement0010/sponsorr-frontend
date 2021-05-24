@@ -10,6 +10,20 @@
 
     <v-card light>
       <v-form v-model="valid">
+        <v-container v-show="attribute === 'displayPicture'">
+          <v-card-title>
+            Edit Display Picture
+          </v-card-title>
+          <v-card-text>
+            <v-text-field
+              label="Enter Image URL"
+              outlined
+              v-model="profileTemplate.picture"
+              :rules="[validURLRule]"
+            />
+          </v-card-text>
+        </v-container>
+
         <v-container v-show="attribute === 'about'">
           <v-card-title>
             Edit About
@@ -109,7 +123,7 @@ export default defineComponent({
     attribute: {
       type: String,
       required: true,
-      enum: ['about', 'contact', 'keywords'],
+      enum: ['about', 'contact', 'keywords', 'displayPicture'],
     },
   },
   setup(props) {
@@ -128,6 +142,7 @@ export default defineComponent({
       email: profile.value.email,
       phone: profile.value.phone,
       keywords: JSON.parse(JSON.stringify(profile.value.keywords)),
+      picture: profile.value.picture,
     });
 
     const cancel = (): void => {
@@ -138,6 +153,7 @@ export default defineComponent({
       profileTemplate.email = profile.value.email;
       profileTemplate.phone = profile.value.phone;
       profileTemplate.keywords = JSON.parse(JSON.stringify(profile.value.keywords));
+      profileTemplate.picture = profile.value.picture;
     };
 
     const save = (): void => {
@@ -148,6 +164,7 @@ export default defineComponent({
       profile.value.email = profileTemplate.email;
       profile.value.phone = profileTemplate.phone;
       profile.value.keywords = JSON.parse(JSON.stringify(profileTemplate.keywords));
+      profile.value.picture = profileTemplate.picture;
     };
 
     const keywordInput = ref('');

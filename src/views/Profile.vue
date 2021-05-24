@@ -7,6 +7,7 @@
             <v-row align="center">
               <v-col class="d-flex justify-center" order="first" cols="auto">
                 <DisplayPicture :urlPic="picture" />
+                <EditProfile :profile="profile" :attribute="'displayPicture'"/>
               </v-col>
 
               <v-col order="last">
