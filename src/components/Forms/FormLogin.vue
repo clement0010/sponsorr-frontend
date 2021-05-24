@@ -32,7 +32,7 @@
           rounded
           type="submit"
           text
-          @click="authenticateUser"
+          @click="routeUser"
           :disabled="!valid"
         >
           Login
