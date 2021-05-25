@@ -1,19 +1,26 @@
 <template>
-  <!-- https://vuetifyjs.com/en/components/app-bars/#fade-image-on-scroll -->
-  <v-app-bar class="primary px-10" flat app>
-    <v-app-bar-title>
-      <router-link to="/">
-        <LogoSponsorr v-if="$route.name === 'Home'" />
-      </router-link>
-    </v-app-bar-title>
+  <v-app-bar class="primary" flat app hide-on-scroll>
+    <v-container fill-height class="py-0">
+      <v-row align="center" justify="center" class="py-0" v-if="isHome()">
+        <v-col cols="auto" class="py-0">
+          <v-app-bar-title>
+            <router-link to="/">
+              <LogoSponsorr />
+            </router-link>
+          </v-app-bar-title>
+        </v-col>
 
-    <v-spacer></v-spacer>
+        <v-spacer></v-spacer>
 
-    <AuthenticationButton :action="'Login'" v-if="$route.name === 'Home'" />
-    <AuthenticationButton :action="'SignUp'" v-if="$route.name === 'Home'" />
-    <v-btn v-else light @click="userSignout">
-      Sign Out
-    </v-btn>
+        <v-col cols="auto">
+          <AuthenticationButton :action="'Login'" />
+          <AuthenticationButton :action="'SignUp'" />
+        </v-col>
+      </v-row>
+      <v-btn v-else light @click="userSignout">
+        Sign Out
+      </v-btn>
+    </v-container>
   </v-app-bar>
 </template>
 
@@ -39,7 +46,9 @@ export default defineComponent({
       });
     };
 
-    return { userSignout };
+    const isHome = () => root.$route.name === 'Home' || root.$route.name === 'Playground';
+
+    return { userSignout, isHome };
   },
 });
 </script>
@@ -47,5 +56,9 @@ export default defineComponent({
 <style scoped>
 .btn {
   text-transform: none;
+}
+
+.container {
+  max-width: 1320px;
 }
 </style>

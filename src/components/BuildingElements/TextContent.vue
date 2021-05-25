@@ -1,6 +1,9 @@
 <template>
   <v-card
-    class="primary text-h5"
+    class="
+      primary
+      text-subtitle1
+      text-lg-h5"
     elevation="0"
   >
     <slot></slot>
