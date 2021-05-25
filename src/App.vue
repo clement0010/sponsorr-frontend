@@ -11,3 +11,9 @@ export default {
   components: {},
 };
 </script>
+
+<style>
+a {
+  text-decoration: none;
+}
+</style>

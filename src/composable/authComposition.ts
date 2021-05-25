@@ -29,8 +29,7 @@ export default function useAuth() {
         loading.value = false;
         authenticated.value = false;
       })
-      // eslint-disable-next-line
-      .catch(err => {
+      .catch((err) => {
         console.error(err);
         error.value = true;
       });
@@ -39,7 +38,6 @@ export default function useAuth() {
   const login = async (email: string, password: string) => {
     try {
       loading.value = true;
-      // eslint-disable-next-line
       const result = await auth.signInWithEmailAndPassword(email, password);
 
       console.log('Logged in', result.user);
