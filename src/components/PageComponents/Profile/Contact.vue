@@ -1,14 +1,5 @@
 <template>
   <v-card color="transparent" flat width="75%">
-    <v-card-title class="text-h4 black--text">
-      Contact
-      <v-btn icon class="mx-5">
-        <v-icon color="black">
-          mdi-pencil
-        </v-icon>
-      </v-btn>
-    </v-card-title>
-
     <v-list color="transparent">
       <v-list-item>
         <v-icon color="black">
@@ -57,7 +48,24 @@
 
 <script lang="ts">
 export default {
-  props: ['link', 'location', 'email', 'phone'],
+  props: {
+    link: {
+      type: String,
+      required: true,
+    },
+    location: {
+      type: String,
+      required: true,
+    },
+    email: {
+      type: String,
+      required: true,
+    },
+    phone: {
+      type: String,
+      required: true,
+    },
+  },
 };
 </script>
 

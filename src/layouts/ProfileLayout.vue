@@ -1,12 +1,13 @@
 <template>
   <v-card color="white">
     <v-container fill-height>
+      <!--
       <v-row align="center" justify="center">
         <v-card class="white" flat>
           <v-card-title>
             <v-row align="center" justify="center">
               <v-col class="d-flex justify-center" order="first" cols="auto">
-                <DisplayPicture :urlPic="urlPic" />
+                <DisplayPicture :urlPic="picture" />
               </v-col>
               <v-col order="last">
                 <Title :name="name" />
@@ -16,10 +17,19 @@
           </v-card-title>
         </v-card>
       </v-row>
+      -->
       <v-row justify="center">
-        <About @passToLayout="updateAbout" :about="about" />
+        <About :about="about"/>
+        <!--
         <Keywords :keywords="keywords" />
-        <Contact :link="link" :location="location" :email="email" :phone="phone" />
+        <Contact
+          :link="link"
+          :location="location"
+          :email="email"
+          :phone="phone"
+        />
+        -->
+        <v-btn @click="edit">Edit</v-btn>
       </v-row>
     </v-container>
   </v-card>
@@ -33,10 +43,16 @@ import IdentificationNumber from '@/components/PageComponents/Profile/Identifica
 import Keywords from '@/components/PageComponents/Profile/Keywords.vue';
 import Title from '@/components/PageComponents/Profile/Title.vue';
 
-import { defineComponent } from '@vue/composition-api';
+import { defineComponent, toRefs, isRef } from '@vue/composition-api';
 
 export default defineComponent({
   name: 'ProfileLayout',
+  props: {
+    about: {
+      type: String,
+      required: true,
+    },
+  },
   components: {
     About,
     Contact,
@@ -45,14 +61,14 @@ export default defineComponent({
     Keywords,
     Title,
   },
-  props: ['urlPic', 'name', 'id', 'about', 'keywords', 'link', 'location', 'email', 'phone'],
-  setup(props, { emit }) {
-    const updateAbout = (about: string) => {
-      emit('updateAbout', about);
+  setup(props) {
+    const { about } = toRefs(props);
+    const edit = () => {
+      about.value = '12345';
     };
 
     return {
-      updateAbout,
+      edit,
     };
   },
 });
