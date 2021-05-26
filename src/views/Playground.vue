@@ -1,240 +1,102 @@
 <template>
   <BasePage>
-    <!-- Introduction -->
-    <v-container fluid>
-      <v-container class="content">
-        <v-row align="center">
-          <v-col class="px-0" :lg="6">
-            <v-card color="transparent" elevation="0">
-              <v-card-title class="text-h4 text-lg-h2 font-weight-bold fix">
-                We make event partnerships happen
-              </v-card-title>
-              <v-spacer />
-              <v-card-subtitle class="text-body-1 text-lg-h5">
-                Sponsorr! uses machine learning to help event organisers source for partners, so you
-                can focus on planning the next big thing on your event itenerary.
-              </v-card-subtitle>
-              <v-spacer />
-              <v-card-actions>
-                <v-btn text class="accent1" @click="$vuetify.goTo('#organiser')">
-                  For Event Organisers
-                </v-btn>
-                <v-btn text class="accent2" @click="$vuetify.goTo('#sponsor')">
-                  For Sponsors
-                </v-btn>
-              </v-card-actions>
-            </v-card>
-          </v-col>
-          <v-col class="px-0" :lg="6">
-            <v-img contain src="@/assets/image-introduction.svg" />
-          </v-col>
-        </v-row>
-      </v-container>
-    </v-container>
+    <v-container class="secondary" fluid >
+      <v-row justify="center">
+        <v-card max-width="1320px" color="transparent" class="my-16" flat>
+          <v-row align="center" justify="center">
+            <v-col align="center" justify="center" cols="auto">
+              <DisplayPicture :urlPic="picture" />
+              <EditProfile :profile="profile" :attribute="'displayPicture'" />
+            </v-col>
+            <v-col >
+              <Title :name="name" />
+              <IdentificationNumber :id="id" />
+            </v-col>
+          </v-row>
 
-    <!-- Event organisers -->
-    <v-container fluid class="white">
-      <v-container class="content" id="organiser">
-        <v-row align="center">
-          <v-col class="px-0" :lg="6">
-            <v-card color="transparent" elevation="0">
-              <v-card-title class="text-lg-h2 font-weight-bold fix accent1--text">
-                Event partnerships made easy
+          <v-row>
+            <v-card color="transparent" flat>
+              <v-card-title class="text-h4 black--text">
+                About <EditProfile :profile="profile" :attribute="'about'" />
               </v-card-title>
-              <v-spacer />
-              <v-card-subtitle class="text-lg-h5 black--text">
-                Sponsorr! handles the stress of finding suitable partners and sponsors for your
-                event. Just publish your event once, then let our propietary matching algorithm look
-                for suitable sponsors.
-              </v-card-subtitle>
-              <v-spacer />
-              <v-card-text class="text-lg-h5 black--text">
-                What else can you do?
-              </v-card-text>
-              <v-spacer />
-              <v-list color="transparent" flat>
-                <v-list-item>
-                  <v-list-item-icon>
-                    <v-icon color="black">
-                      mdi-clipboard
-                    </v-icon>
-                  </v-list-item-icon>
-                  <v-list-item-content>
-                    <v-list-item-title class="text-lg-h5 black--text">
-                      Manage multiple events
-                    </v-list-item-title>
-                  </v-list-item-content>
-                </v-list-item>
-                <v-list-item>
-                  <v-list-item-icon>
-                    <v-icon color="black">
-                      mdi-clock
-                    </v-icon>
-                  </v-list-item-icon>
-                  <v-list-item-content>
-                    <v-list-item-title class="text-lg-h5 black--text">
-                      Quickly pitch events
-                    </v-list-item-title>
-                  </v-list-item-content>
-                </v-list-item>
-                <v-list-item>
-                  <v-list-item-icon>
-                    <v-icon color="black">
-                      mdi-forum
-                    </v-icon>
-                  </v-list-item-icon>
-                  <v-list-item-content>
-                    <v-list-item-title class="text-lg-h5 black--text">
-                      Communicate with sponsors
-                    </v-list-item-title>
-                  </v-list-item-content>
-                </v-list-item>
-                <v-list-item>
-                  <v-list-item-icon>
-                    <v-icon color="black">
-                      mdi-chart-line-variant
-                    </v-icon>
-                  </v-list-item-icon>
-                  <v-list-item-content>
-                    <v-list-item-title class="text-lg-h5 black--text">
-                      View event analytics
-                    </v-list-item-title>
-                  </v-list-item-content>
-                </v-list-item>
-                <v-list-item>
-                  <v-list-item-icon>
-                    <v-icon color="black">
-                      mdi-update
-                    </v-icon>
-                  </v-list-item-icon>
-                  <v-list-item-content>
-                    <v-list-item-title class="text-lg-h5 black--text">
-                      Update sponsorship requests on the fly
-                    </v-list-item-title>
-                  </v-list-item-content>
-                </v-list-item>
-              </v-list>
+              <About :about="about" />
             </v-card>
-          </v-col>
-          <v-col class="px-0" :lg="6">
-            <v-img contain src="@/assets/image-howitworks.svg" />
-          </v-col>
-        </v-row>
-      </v-container>
-    </v-container>
+          </v-row>
 
-    <!-- Sponsors -->
-    <v-container fluid class="secondary">
-      <v-container class="content" id="sponsor">
-        <v-row align="center">
-          <v-col class="px-0" :lg="6">
-            <v-img contain src="@/assets/image-benefits.svg" />
-          </v-col>
-          <v-col class="px-0" :lg="6">
-            <v-card color="transparent" elevation="0">
-              <v-card-title class="text-lg-h2 font-weight-bold fix accent1--text">
-                Marketing + CSR achieved in record time
+          <v-row>
+            <v-card color="transparent" flat>
+              <v-card-title class="text-h4 black--text">
+                Keywords <EditProfile :profile="profile" :attribute="'keywords'" />
               </v-card-title>
-              <v-spacer />
-              <v-card-subtitle class="text-lg-h5 black--text font-weight-bold">
-                Use event sponsorships to grow your brand’s recognition.
-              </v-card-subtitle>
-              <v-card-subtitle class="text-lg-h5 black--text">
-                Sponsorr! is a platform that matches your business with events that align with your
-                brand’s image and values, so you will be able to increase your marketing reach to
-                target consumer groups.
-              </v-card-subtitle>
-              <v-spacer />
-              <v-card-text class="text-lg-h5 black--text">
-                What else can you do?
-              </v-card-text>
-              <v-spacer />
-              <v-list color="transparent" flat>
-                <v-list-item>
-                  <v-list-item-icon>
-                    <v-icon color="black">
-                      mdi-clipboard
-                    </v-icon>
-                  </v-list-item-icon>
-                  <v-list-item-content>
-                    <v-list-item-title class="text-lg-h5 black--text">
-                      Manage multiple sponsorship requests
-                    </v-list-item-title>
-                  </v-list-item-content>
-                </v-list-item>
-                <v-list-item>
-                  <v-list-item-icon>
-                    <v-icon color="black">
-                      mdi-chart-line-variant
-                    </v-icon>
-                  </v-list-item-icon>
-                  <v-list-item-content>
-                    <v-list-item-title class="text-lg-h5 black--text">
-                      Retrieve analytic reports
-                    </v-list-item-title>
-                  </v-list-item-content>
-                </v-list-item>
-                <v-list-item>
-                  <v-list-item-icon>
-                    <v-icon color="black">
-                      mdi-forum
-                    </v-icon>
-                  </v-list-item-icon>
-                  <v-list-item-content>
-                    <v-list-item-title class="text-lg-h5 black--text">
-                      Communicate with event organisers
-                    </v-list-item-title>
-                  </v-list-item-content>
-                </v-list-item>
-                <v-list-item>
-                  <v-list-item-icon>
-                    <v-icon color="black">
-                      mdi-magnify
-                    </v-icon>
-                  </v-list-item-icon>
-                  <v-list-item-content>
-                    <v-list-item-title class="text-lg-h5 black--text">
-                      Search up events in our catalog
-                    </v-list-item-title>
-                  </v-list-item-content>
-                </v-list-item>
-              </v-list>
+              <Keywords :keywords="keywords" />
             </v-card>
-          </v-col>
-        </v-row>
-      </v-container>
-    </v-container>
+          </v-row>
 
-    <!-- Call to action -->
-    <v-container fluid class="primary">
-      <v-container class="content">
-        <v-row align="center">
-          <v-col class="px-0" :lg="6">
-            <v-card color="transparent" elevation="0">
-              <v-card-title class="text-lg-h2 font-weight-bold fix accent1--text">
-                Ready?
+          <v-row>
+            <v-card color="transparent" flat>
+              <v-card-title class="text-h4 black--text">
+                Contact <EditProfile :profile="profile" :attribute="'contact'" />
               </v-card-title>
-              <v-card-title class="text-lg-h2 font-weight-bold fix accent1--text">
-                Let's make it happen.
-              </v-card-title>
+              <Contact :email="email" :link="link" :location="location" :phone="phone" />
             </v-card>
-          </v-col>
-          <v-col class="px-0" :lg="6">
-            <v-img contain src="@/assets/image-teams.svg" />
-          </v-col>
-        </v-row>
-      </v-container>
+          </v-row>
+        </v-card>
+      </v-row>
     </v-container>
   </BasePage>
 </template>
 
 <script lang="ts">
+import About from '@/components/PageComponents/Profile/About.vue';
 import BasePage from '@/layouts/BasePage.vue';
+import Contact from '@/components/PageComponents/Profile/Contact.vue';
+import DisplayPicture from '@/components/PageComponents/Profile/DisplayPicture.vue';
+import EditProfile from '@/components/UserActions/EditProfile.vue';
+import IdentificationNumber from '@/components/PageComponents/Profile/IdentificationNumber.vue';
+import Keywords from '@/components/PageComponents/Profile/Keywords.vue';
+import Title from '@/components/PageComponents/Profile/Title.vue';
+
+import useProfile from '@/composable/profileComposition';
+
 import { defineComponent } from '@vue/composition-api';
 
 export default defineComponent({
+  name: 'Profile',
   components: {
+    About,
     BasePage,
+    Contact,
+    DisplayPicture,
+    EditProfile,
+    IdentificationNumber,
+    Keywords,
+    Title,
+  },
+  setup() {
+    const {
+      about,
+      picture,
+      name,
+      id,
+      profile,
+      email,
+      link,
+      location,
+      phone,
+      keywords,
+    } = useProfile();
+    return {
+      about,
+      picture,
+      name,
+      id,
+      profile,
+      email,
+      link,
+      location,
+      phone,
+      keywords,
+    };
   },
 });
 </script>
@@ -242,8 +104,5 @@ export default defineComponent({
 <style scoped>
 .content {
   max-width: 1320px;
-}
-.fix {
-  word-break: normal;
 }
 </style>

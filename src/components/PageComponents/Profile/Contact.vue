@@ -1,5 +1,5 @@
 <template>
-  <v-card color="transparent" flat width="75%">
+  <v-card color="transparent" flat>
     <v-list color="transparent">
       <v-list-item>
         <v-icon color="black">
