@@ -6,15 +6,3 @@
     <slot name="teams"></slot>
   </v-container>
 </template>
-
-<script lang="ts">
-import { defineComponent } from '@vue/composition-api';
-
-import BasePage from './BasePage.vue';
-
-export default defineComponent({
-  components: {
-    BasePage,
-  },
-});
-</script>

@@ -1,5 +1,5 @@
 <template>
-  <v-footer absolute light>
+  <v-footer light>
     <v-container fill-height>
       <v-row align="center" justify="center">
         <v-col cols="auto" order="first">
