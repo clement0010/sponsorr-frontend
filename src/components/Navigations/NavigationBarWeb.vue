@@ -5,7 +5,7 @@
         <v-col cols="auto" class="py-0">
           <v-app-bar-title>
             <router-link to="/">
-              <LogoSponsorr />
+              <LogoSponsorr :width="logoWidth"/>
             </router-link>
           </v-app-bar-title>
         </v-col>
@@ -37,6 +37,7 @@ export default defineComponent({
     LogoSponsorr,
   },
   setup(_, { root }) {
+    const logoWidth = 175;
     const { signout } = useAuth();
 
     const userSignout = () => {
@@ -48,7 +49,7 @@ export default defineComponent({
 
     const isHome = () => root.$route.name === 'Home' || root.$route.name === 'Playground';
 
-    return { userSignout, isHome };
+    return { userSignout, isHome, logoWidth };
   },
 });
 </script>
