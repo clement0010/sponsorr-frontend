@@ -3,14 +3,14 @@
   <v-app-bar class="primary px-10" flat app>
     <v-app-bar-title>
       <router-link to="/">
-        <LogoSponsorr />
+        <LogoSponsorr v-if="$route.name === 'Home'" />
       </router-link>
     </v-app-bar-title>
 
     <v-spacer></v-spacer>
 
-    <AuthenticationButton :action="'Login'"/>
-    <AuthenticationButton :action="'SignUp'"/>
+    <AuthenticationButton :action="'Login'" v-if="$route.name === 'Home'" />
+    <AuthenticationButton :action="'SignUp'" v-if="$route.name === 'Home'" />
   </v-app-bar>
 </template>
 
