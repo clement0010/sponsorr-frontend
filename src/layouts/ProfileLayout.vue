@@ -19,7 +19,7 @@
       </v-row>
       -->
       <v-row justify="center">
-        <About :about="about"/>
+        <About :about="about" />
         <!--
         <Keywords :keywords="keywords" />
         <Contact
@@ -29,7 +29,9 @@
           :phone="phone"
         />
         -->
-        <v-btn @click="edit">Edit</v-btn>
+        <v-btn @click="edit">
+          Edit
+        </v-btn>
       </v-row>
     </v-container>
   </v-card>
