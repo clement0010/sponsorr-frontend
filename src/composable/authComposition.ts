@@ -7,15 +7,16 @@ export default function useAuth() {
   const loading = ref(true);
   const authenticated = ref(false);
   const error = ref(false);
+  const userInfo = ref<FirebaseUser>();
 
-  const userAuthState = auth.onAuthStateChanged((user) => {
+  const userAuthState = auth.onAuthStateChanged(user => {
     loading.value = false;
     if (!user) {
       authenticated.value = false;
       console.log('Im logged out!');
       return;
     }
-
+    userInfo.value = user;
     console.log('Auth State:', user);
     authenticated.value = true;
   });
@@ -29,7 +30,7 @@ export default function useAuth() {
         loading.value = false;
         authenticated.value = false;
       })
-      .catch((err) => {
+      .catch(err => {
         console.error(err);
         error.value = true;
       });
@@ -69,6 +70,7 @@ export default function useAuth() {
         .collection('users')
         .doc(result.user.uid)
         .set({
+          // TODO: Set the correct user attribute
           uid: result.user.uid,
           ...userMetadata,
         });
@@ -90,6 +92,7 @@ export default function useAuth() {
     loading: computed(() => loading.value),
     authenticated: computed(() => authenticated.value),
     error: computed(() => error.value),
+    userInfo: computed(() => userInfo.value),
     userAuthState,
     signup,
     signout,

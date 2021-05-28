@@ -1,47 +1,84 @@
 <template>
   <BasePage>
-    <v-container class="secondary" fluid >
+    <v-container
+      class="secondary"
+      fluid
+    >
       <v-row justify="center">
-        <v-card max-width="1320px" color="transparent" class="my-16" flat>
-          <v-row align="center" justify="center">
-            <v-col align="center" justify="center" cols="auto">
-              <DisplayPicture :urlPic="displayPicture" />
-              <EditProfile :profile="profile" :attribute="'displayPicture'" />
+        <v-card
+          max-width="1320px"
+          color="transparent"
+          class="my-16"
+          flat
+        >
+          <v-row
+            align="center"
+            justify="center"
+          >
+            <v-col
+              align="center"
+              justify="center"
+              cols="auto"
+            >
+              <DisplayPicture :url-pic="displayPicture" />
+              <EditProfile
+                :profile="profile"
+                :attribute="'displayPicture'"
+              />
             </v-col>
-            <v-col >
+            <v-col>
               <Title :name="name" />
               <IdentificationNumber :id="id" />
             </v-col>
           </v-row>
 
           <v-row>
-            <v-card color="transparent" flat>
+            <v-card
+              color="transparent"
+              flat
+            >
               <v-card-title class="text-h4 black--text">
-                About <EditProfile :profile="profile" :attribute="'about'" />
+                About <EditProfile
+                  :profile="profile"
+                  :attribute="'about'"
+                />
               </v-card-title>
               <About :about="about" />
             </v-card>
           </v-row>
 
           <v-row>
-            <v-card color="transparent" flat>
+            <v-card
+              color="transparent"
+              flat
+            >
               <v-card-title class="text-h4 black--text">
-                Keywords <EditProfile :profile="profile" :attribute="'keywords'" />
+                Keywords <EditProfile
+                  :profile="profile"
+                  :attribute="'keywords'"
+                />
               </v-card-title>
               <Keywords :keywords="keywords" />
             </v-card>
           </v-row>
 
           <v-row>
-            <v-card color="transparent" flat>
+            <v-card
+              color="transparent"
+              flat
+            >
               <v-card-title class="text-h4 black--text">
-                Contact <EditProfile :profile="profile" :attribute="'contact'" />
+                Contact <EditProfile
+                  :profile="profile"
+                  :attribute="'contact'"
+                />
               </v-card-title>
               <Contact
                 :email="contactEmail"
                 :link="websiteURL"
                 :location="location"
-                :phone="contactPhone" />
+                :phone="contactPhone"
+              />
             </v-card>
           </v-row>
         </v-card>

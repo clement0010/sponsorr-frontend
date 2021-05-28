@@ -1,7 +1,15 @@
 <template>
-  <v-dialog v-model="dialog" max-width="600px">
+  <v-dialog
+    v-model="dialog"
+    max-width="600px"
+  >
     <template v-slot:activator="{ on, attrs }">
-      <v-btn class="mx-5" v-bind="attrs" v-on="on" icon>
+      <v-btn
+        class="mx-5"
+        v-bind="attrs"
+        icon
+        v-on="on"
+      >
         <v-icon color="black">
           mdi-pencil
         </v-icon>
@@ -16,9 +24,9 @@
           </v-card-title>
           <v-card-text>
             <v-text-field
+              v-model="profileTemplate.displayPicture"
               label="Enter Image URL"
               outlined
-              v-model="profileTemplate.displayPicture"
               :rules="[validURLRule]"
             />
           </v-card-text>
@@ -29,7 +37,11 @@
             Edit About
           </v-card-title>
           <v-card-text>
-            <v-textarea label="About" outlined v-model="profileTemplate.about" />
+            <v-textarea
+              v-model="profileTemplate.about"
+              label="About"
+              outlined
+            />
           </v-card-text>
         </v-container>
 
@@ -38,11 +50,14 @@
             Edit Keywords
           </v-card-title>
           <v-card-text>
-            <v-chip-group column class="px-4">
+            <v-chip-group
+              column
+              class="px-4"
+            >
               <v-chip
-                close
                 v-for="keyword in profileTemplate.keywords"
                 :key="keyword"
+                close
                 @click:close="removeKeyword(keyword)"
               >
                 {{ keyword }}
@@ -50,11 +65,11 @@
             </v-chip-group>
 
             <v-text-field
+              v-model="keywordInput"
               class="px-4"
               dense
               outlined
               label="Type here and hit 'enter' to save"
-              v-model="keywordInput"
               @keydown.enter="addKeyword"
             />
           </v-card-text>
@@ -67,27 +82,27 @@
           <v-card-text>
             <v-container>
               <v-text-field
+                v-model="profileTemplate.websiteURL"
                 label="Link to Website"
                 outlined
-                v-model="profileTemplate.websiteURL"
                 :rules="[validURLRule]"
               />
               <v-text-field
+                v-model="profileTemplate.location"
                 label="Link to Google Maps"
                 outlined
-                v-model="profileTemplate.location"
                 :rules="[validURLRule]"
               />
               <v-text-field
+                v-model="profileTemplate.contactEmail"
                 label="Email Address"
                 outlined
-                v-model="profileTemplate.contactEmail"
                 :rules="[validEmailRule]"
               />
               <v-text-field
+                v-model="profileTemplate.contactPhone"
                 label="Phone Number"
                 outlined
-                v-model="profileTemplate.contactPhone"
               />
             </v-container>
           </v-card-text>
@@ -95,10 +110,17 @@
 
         <v-card-actions>
           <v-spacer />
-          <v-btn class="error" @click="cancel">
+          <v-btn
+            class="error"
+            @click="cancel"
+          >
             Cancel
           </v-btn>
-          <v-btn class="success" @click="save" :disabled="!valid">
+          <v-btn
+            class="success"
+            :disabled="!valid"
+            @click="save"
+          >
             Save
           </v-btn>
         </v-card-actions>

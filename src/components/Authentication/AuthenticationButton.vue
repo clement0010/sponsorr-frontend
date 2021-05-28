@@ -1,25 +1,29 @@
 <template>
-  <v-dialog v-model="dialog" light width="unset">
+  <v-dialog
+    v-model="dialog"
+    light
+    width="unset"
+  >
     <template v-slot:activator="{ on, attrs }">
       <v-btn
+        v-if="action === 'Login'"
         class="text-lowercase font-weight-regular"
         rounded
         text
         v-bind="attrs"
-        v-on="on"
-        v-if="action === 'Login'"
         :ripple="false"
+        v-on="on"
       >
         login
       </v-btn>
       <v-btn
+        v-if="action === 'SignUp'"
         class="text-lowercase font-weight-regular"
         rounded
         outlined
         v-bind="attrs"
-        v-on="on"
-        v-if="action === 'SignUp'"
         :ripple="false"
+        v-on="on"
       >
         sign up
       </v-btn>

@@ -1,12 +1,18 @@
 <template>
-  <v-card color="transparent" flat>
+  <v-card
+    color="transparent"
+    flat
+  >
     <v-list color="transparent">
       <v-list-item>
         <v-icon color="black">
           mdi-link
         </v-icon>
         <v-card-text>
-          <a class="pa-2" :href="link">
+          <a
+            class="pa-2"
+            :href="link"
+          >
             {{ link }}
           </a>
         </v-card-text>
@@ -17,7 +23,10 @@
           mdi-map-marker
         </v-icon>
         <v-card-text>
-          <a class="pa-2" :href="location">
+          <a
+            class="pa-2"
+            :href="location"
+          >
             {{ location }}
           </a>
         </v-card-text>
@@ -28,7 +37,10 @@
           mdi-email
         </v-icon>
         <v-card-text>
-          <a class="pa-2" :href="'mailto:' + email">
+          <a
+            class="pa-2"
+            :href="'mailto:' + email"
+          >
             {{ email }}
           </a>
         </v-card-text>

@@ -1,23 +1,43 @@
 <template>
-  <v-app-bar class="primary" flat app hide-on-scroll>
-    <v-container fill-height class="py-0">
-      <v-row align="center" justify="center" class="py-0" v-if="isHome()">
-        <v-col cols="auto" class="py-0">
+  <v-app-bar
+    class="primary"
+    flat
+    app
+    hide-on-scroll
+  >
+    <v-container
+      fill-height
+      class="py-0"
+    >
+      <v-row
+        v-if="isHome()"
+        align="center"
+        justify="center"
+        class="py-0"
+      >
+        <v-col
+          cols="auto"
+          class="py-0"
+        >
           <v-app-bar-title>
             <router-link to="/">
-              <LogoSponsorr :width="logoWidth"/>
+              <LogoSponsorr :width="logoWidth" />
             </router-link>
           </v-app-bar-title>
         </v-col>
 
-        <v-spacer></v-spacer>
+        <v-spacer />
 
         <v-col cols="auto">
           <AuthenticationButton :action="'Login'" />
           <AuthenticationButton :action="'SignUp'" />
         </v-col>
       </v-row>
-      <v-btn v-else light @click="userSignout">
+      <v-btn
+        v-else
+        light
+        @click="userSignout"
+      >
         Sign Out
       </v-btn>
     </v-container>
