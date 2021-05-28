@@ -42,7 +42,7 @@
               type="submit"
               text
               :disabled="!valid"
-              @click="routeUser"
+              @click="authenticateUser"
             >
               Login
             </v-btn>
@@ -76,7 +76,7 @@
 </template>
 
 <script lang="ts">
-import { requireInputRule, validEmailRule } from '@/utils/validation';
+import { requireInputRule, validEmailRule } from '@/common/validation';
 import { defineComponent, reactive } from '@vue/composition-api';
 
 import useAuth from '@/composable/authComposition';
@@ -88,28 +88,38 @@ export default defineComponent({
       showPassword: false,
     });
 
-    const { loading, login, error } = useAuth();
+    const {
+      loading, login, error, userInfo,
+    } = useAuth();
 
     const user = reactive({
       email: '',
       password: '',
     });
 
-    const authenticateUser = async () => {
-      const { email, password } = user;
-      return login(email, password);
-    };
-
-    const routeUser = (e: Event) => {
+    const authenticateUser = async (e: Event) => {
       e.preventDefault();
-      authenticateUser()
-        .then((uid) => {
-          root.$router.push({
-            name: 'Profile',
-            params: { id: uid },
-          });
-        })
-        .catch((err) => console.log(err));
+      try {
+        const { email, password } = user;
+
+        await login(email, password);
+
+        const uid = userInfo.value?.uid;
+
+        if (!uid) {
+          console.log('Wrong credentials!');
+          user.email = '';
+          user.password = '';
+          return;
+        }
+
+        root.$router.push({
+          name: 'Profile',
+          params: { id: uid },
+        });
+      } catch (err) {
+        console.error(err);
+      }
     };
 
     return {
@@ -123,9 +133,7 @@ export default defineComponent({
 
       // Login
       error,
-
-      // Routing
-      routeUser,
+      authenticateUser,
 
       // Spinner
       loading,

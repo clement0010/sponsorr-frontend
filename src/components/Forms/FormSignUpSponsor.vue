@@ -3,13 +3,23 @@
     <v-row justify="center">
       <v-col cols="auto">
         <router-link to="/">
-          <LogoSponsorr class="ma-10" justify="center" :width="logoWidth" />
+          <LogoSponsorr
+            class="ma-10"
+            justify="center"
+            :width="logoWidth"
+          />
         </router-link>
       </v-col>
     </v-row>
-    <v-card light class="pa-5">
+    <v-card
+      light
+      class="pa-5"
+    >
       <v-card-title> sign up as sponsor </v-card-title>
-      <v-form ref="form" v-model="valid">
+      <v-form
+        ref="form"
+        v-model="valid"
+      >
         <v-text-field
           v-model="user.name"
           outlined
@@ -54,8 +64,8 @@
           label="password"
           :type="showPassword ? 'text' : 'password'"
           :append-icon="showPassword ? 'mdi-eye' : 'mdi-eye-off'"
-          @click:append="showPassword = !showPassword"
           :rules="[requireInputRule, passwordLengthRule]"
+          @click:append="showPassword = !showPassword"
         />
 
         <v-text-field
@@ -66,20 +76,22 @@
           label="re-type password"
           :type="showConfirmPassword ? 'text' : 'password'"
           :append-icon="showConfirmPassword ? 'mdi-eye' : 'mdi-eye-off'"
-          @click:append="showConfirmPassword = !showConfirmPassword"
           :rules="[requireInputRule, validatePassword]"
+          @click:append="showConfirmPassword = !showConfirmPassword"
         />
 
-        <v-card-text v-if="error"> There's an issue signing up. </v-card-text>
+        <v-card-text v-if="error">
+          There's an issue signing up.
+        </v-card-text>
         <v-row justify="center">
           <v-card-actions>
             <v-btn
               class="accent1 white--text"
               rounded
               type="submit"
-              @click="routeUser"
               text
               :disabled="!valid"
+              @click="routeUser"
             >
               Create Account
             </v-btn>
@@ -95,16 +107,22 @@
     </v-card>
 
     <!-- Spinner -->
-    <div class="text-center" v-if="loading">
+    <div
+      v-if="loading"
+      class="text-center"
+    >
       <v-overlay>
-        <v-progress-circular indeterminate size="64" />
+        <v-progress-circular
+          indeterminate
+          size="64"
+        />
       </v-overlay>
     </div>
   </v-container>
 </template>
 
 <script lang="ts">
-import { requireInputRule, validEmailRule, passwordLengthRule } from '@/utils/validation';
+import { requireInputRule, validEmailRule, passwordLengthRule } from '@/common/validation';
 import { defineComponent, reactive } from '@vue/composition-api';
 import useAuth from '@/composable/authComposition';
 import { Sponsor } from '@/types';

@@ -12,6 +12,7 @@ export default defineComponent({
     about: {
       type: String,
       required: true,
+      default: 'Test',
     },
   },
 });

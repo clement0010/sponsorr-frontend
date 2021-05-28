@@ -20,6 +20,7 @@ export default {
     keywords: {
       type: Array as PropType<string[]>,
       required: true,
+      default: (): string[] => ['Default value'],
     },
   },
 };

@@ -1,5 +1,10 @@
 <template>
-  <v-img contain src="@/assets/logo-sponsorr.svg" :width="width" aspect-ratio />
+  <v-img
+    contain
+    src="@/assets/logo-sponsorr.svg"
+    :width="width"
+    aspect-ratio
+  />
 </template>
 
 <script lang="ts">

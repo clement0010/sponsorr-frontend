@@ -16,6 +16,7 @@ export default {
     id: {
       type: String,
       required: true,
+      default: '01',
     },
   },
 };

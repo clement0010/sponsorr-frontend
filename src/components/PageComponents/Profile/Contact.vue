@@ -11,9 +11,9 @@
         <v-card-text>
           <a
             class="pa-2"
-            :href="link"
+            :href="contact.websiteUrl"
           >
-            {{ link }}
+            {{ contact.websiteUrl }}
           </a>
         </v-card-text>
       </v-list-item>
@@ -25,9 +25,9 @@
         <v-card-text>
           <a
             class="pa-2"
-            :href="location"
+            :href="contact.location"
           >
-            {{ location }}
+            {{ contact.location }}
           </a>
         </v-card-text>
       </v-list-item>
@@ -51,7 +51,7 @@
           mdi-cellphone
         </v-icon>
         <v-card-text class="black--text">
-          {{ phone }}
+          {{ phoneNumber }}
         </v-card-text>
       </v-list-item>
     </v-list>
@@ -59,24 +59,31 @@
 </template>
 
 <script lang="ts">
+import { Contact } from '@/types';
+
 export default {
   props: {
-    link: {
-      type: String,
+    contact: {
+      type: Object as () => Contact,
       required: true,
+      default(): Contact {
+        return {
+          location: 'https://maps.google.com.sg/',
+          websiteUrl: 'https://vuejs.org/v2/guide/components-props.html',
+        };
+      },
     },
-    location: {
+    phoneNumber: {
       type: String,
       required: true,
+      default: '65 89097488',
     },
     email: {
       type: String,
       required: true,
+      default: 'test@gmail.com',
     },
-    phone: {
-      type: String,
-      required: true,
-    },
+
   },
 };
 </script>

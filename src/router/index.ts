@@ -37,11 +37,6 @@ const routes: Array<RouteConfig> = [
     name: 'Playground',
     component: () => import(/* webpackChunkName: "playground" */ '@/views/Playground.vue'),
   },
-  {
-    path: '/makeshiftlogin',
-    name: 'Makeshiftlogin',
-    component: () => import(/* webpackChunkName: "about" */ '../views/Makeshiftlogin.vue'),
-  },
 ];
 
 const router = new VueRouter({

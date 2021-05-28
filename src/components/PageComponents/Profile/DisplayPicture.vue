@@ -10,6 +10,7 @@ export default {
     urlPic: {
       type: String,
       required: true,
+      default: 'https://randomuser.me/api/portraits/med/men/31.jpg',
     },
   },
 };
