@@ -47,6 +47,8 @@
 </template>
 
 <script lang="ts">
+import EditContact from '@/components/UserActions/EditContact.vue';
+
 export default {
   props: {
     link: {
