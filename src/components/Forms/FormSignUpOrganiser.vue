@@ -1,5 +1,12 @@
 <template>
   <v-container>
+    <v-row justify="center">
+      <v-col cols="auto">
+        <router-link to="/">
+          <LogoSponsorr class="ma-10" justify="center" :width="logoWidth" />
+        </router-link>
+      </v-col>
+    </v-row>
     <v-card light class="pa-5">
       <v-card-title> sign up as event organiser </v-card-title>
       <v-form ref="form" v-model="valid">
@@ -64,23 +71,27 @@
         />
 
         <v-card-text v-if="error"> There's an issue signing up. </v-card-text>
-
-        <v-btn
-          class="accent1 white--text"
-          rounded
-          type="submit"
-          @click="routeUser"
-          text
-          :disabled="!valid"
-        >
-          Create Account
-        </v-btn>
+        <v-row justify="center">
+          <v-card-actions>
+            <v-btn
+              class="accent1 white--text"
+              rounded
+              type="submit"
+              @click="routeUser"
+              text
+              :disabled="!valid"
+            >
+              Create Account
+            </v-btn>
+          </v-card-actions>
+        </v-row>
       </v-form>
-
-      <v-card-subtitle>
-        <span>have an account with us? </span>
-        <span><router-link to="login">login</router-link></span>
-      </v-card-subtitle>
+      <v-row justify="center">
+        <v-card-subtitle>
+          <span>have an account with us? </span>
+          <span><router-link to="login">login</router-link></span>
+        </v-card-subtitle>
+      </v-row>
     </v-card>
 
     <!-- Spinner -->
@@ -96,10 +107,15 @@
 import { requireInputRule, validEmailRule, passwordLengthRule } from '@/utils/validation';
 import { defineComponent, reactive } from '@vue/composition-api';
 import useAuth from '@/composable/authComposition';
+import { EventOrganiser } from '@/types';
+import LogoSponsorr from '../BuildingElements/LogoSponsorr.vue';
 
 export default defineComponent({
+  components: { LogoSponsorr },
   setup(_, { root }) {
-    const { error, signup } = useAuth();
+    const logoWidth = 250;
+
+    const { error, signup, loading } = useAuth();
 
     const configuration = reactive({
       valid: true,
@@ -118,24 +134,38 @@ export default defineComponent({
 
     const validatePassword = (password: string) => user.password === password || 'Password do not match';
 
-    const authenticateUser = async () => {
-      const { email, password, name } = user;
-      await signup(email, password, name);
+    const authenticateUser = async (): Promise<string> => {
+      const {
+        email, password, name, phoneNumber, uen,
+      } = user;
+
+      const userMetadata: EventOrganiser = {
+        email,
+        name,
+        phoneNumber,
+        uen,
+        role: 'EventOrganiser',
+      };
+
+      const uid: string = await signup(email, password, userMetadata);
+      return uid;
     };
 
     const routeUser = (e: Event) => {
       e.preventDefault();
       authenticateUser()
-        .then((_value) => {
+        .then((uid) => {
           root.$router.push({
             name: 'Profile',
-            params: { id: '123' },
+            params: { id: uid },
           });
         })
         .catch((err) => console.log(err));
+      console.log(error.value);
     };
 
     return {
+      logoWidth,
       // Input
       user,
 
@@ -148,6 +178,7 @@ export default defineComponent({
 
       // Sign up
       error,
+      loading,
 
       // Routing
       routeUser,

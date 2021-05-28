@@ -1,19 +1,32 @@
 export type Role = 'Sponsor' | 'EventOrganiser';
 
-export interface Profile {
-  id: string;
-  role: Role;
-  name: string;
-  email: string;
-  about: string;
-  phone: string;
-  link: string;
-  location: string;
-  picture: string;
-  keywords: string[];
+export interface Contact {
+  contactEmail?: string;
+  contactPhone?: string;
+  location?: string;
+  websiteURL?: string;
 }
 
-export interface Sponsor {
+export interface User {
+  email: string;
+  name: string;
+  phoneNumber: string;
+  uen?: string;
+}
+
+export interface EventOrganiser extends User {
+  role: Role;
+}
+
+export interface Profile extends User {
+  about?: string;
+  contact: Contact;
   id: string;
-  eventName: string;
+  keywords: string[];
+  displayPicture?: string;
+  role: Role;
+}
+
+export interface Sponsor extends User {
+  role: Role,
 }

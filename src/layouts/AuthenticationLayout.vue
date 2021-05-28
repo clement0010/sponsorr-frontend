@@ -1,5 +1,5 @@
 <template>
-  <v-container fluid class="pa-0 orange" fill-height>
+  <v-container fluid class="pa-0 primary" fill-height>
     <slot></slot>
   </v-container>
 </template>

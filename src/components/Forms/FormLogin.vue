@@ -25,18 +25,23 @@
           :rules="[requireInputRule]"
         />
 
-        <v-card-text v-if="error"> There's an issue logging in. </v-card-text>
-
-        <v-btn
-          class="accent1 white--text"
-          rounded
-          type="submit"
-          text
-          @click="routeUser"
-          :disabled="!valid"
-        >
-          Login
-        </v-btn>
+        <v-card-text v-if="error">
+          There's an issue logging in.
+        </v-card-text>
+        <v-row justify="center">
+          <v-card-actions>
+            <v-btn
+              class="accent1 white--text"
+              rounded
+              type="submit"
+              text
+              @click="routeUser"
+              :disabled="!valid"
+            >
+              Login
+            </v-btn>
+          </v-card-actions>
+        </v-row>
       </v-form>
 
       <v-card-subtitle>
@@ -80,16 +85,16 @@ export default defineComponent({
 
     const authenticateUser = async () => {
       const { email, password } = user;
-      await login(email, password);
+      return login(email, password);
     };
 
     const routeUser = (e: Event) => {
       e.preventDefault();
       authenticateUser()
-        .then((_value) => {
+        .then((uid) => {
           root.$router.push({
             name: 'Profile',
-            params: { id: '123' },
+            params: { id: uid },
           });
         })
         .catch((err) => console.log(err));

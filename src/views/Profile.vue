@@ -5,7 +5,7 @@
         <v-card max-width="1320px" color="transparent" class="my-16" flat>
           <v-row align="center" justify="center">
             <v-col align="center" justify="center" cols="auto">
-              <DisplayPicture :urlPic="picture" />
+              <DisplayPicture :urlPic="displayPicture" />
               <EditProfile :profile="profile" :attribute="'displayPicture'" />
             </v-col>
             <v-col >
@@ -37,7 +37,11 @@
               <v-card-title class="text-h4 black--text">
                 Contact <EditProfile :profile="profile" :attribute="'contact'" />
               </v-card-title>
-              <Contact :email="email" :link="link" :location="location" :phone="phone" />
+              <Contact
+                :email="contactEmail"
+                :link="websiteURL"
+                :location="location"
+                :phone="contactPhone" />
             </v-card>
           </v-row>
         </v-card>
@@ -75,27 +79,27 @@ export default defineComponent({
   setup() {
     const {
       about,
-      picture,
-      name,
+      contactEmail,
+      contactPhone,
+      displayPicture,
       id,
-      profile,
-      email,
-      link,
-      location,
-      phone,
       keywords,
+      location,
+      name,
+      profile,
+      websiteURL,
     } = useProfile();
     return {
       about,
-      picture,
-      name,
+      contactEmail,
+      contactPhone,
+      displayPicture,
       id,
-      profile,
-      email,
-      link,
-      location,
-      phone,
       keywords,
+      location,
+      name,
+      profile,
+      websiteURL,
     };
   },
 });

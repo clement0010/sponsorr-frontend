@@ -18,7 +18,7 @@
             <v-text-field
               label="Enter Image URL"
               outlined
-              v-model="profileTemplate.picture"
+              v-model="profileTemplate.displayPicture"
               :rules="[validURLRule]"
             />
           </v-card-text>
@@ -69,7 +69,7 @@
               <v-text-field
                 label="Link to Website"
                 outlined
-                v-model="profileTemplate.link"
+                v-model="profileTemplate.websiteURL"
                 :rules="[validURLRule]"
               />
               <v-text-field
@@ -81,13 +81,13 @@
               <v-text-field
                 label="Email Address"
                 outlined
-                v-model="profileTemplate.email"
+                v-model="profileTemplate.contactEmail"
                 :rules="[validEmailRule]"
               />
               <v-text-field
                 label="Phone Number"
                 outlined
-                v-model="profileTemplate.phone"
+                v-model="profileTemplate.contactPhone"
               />
             </v-container>
           </v-card-text>
@@ -137,34 +137,34 @@ export default defineComponent({
 
     const profileTemplate = reactive({
       about: profile.value.about,
-      link: profile.value.link,
-      location: profile.value.location,
-      email: profile.value.email,
-      phone: profile.value.phone,
+      contactPhone: profile.value.contact.contactPhone,
+      displayPicture: profile.value.displayPicture,
+      contactEmail: profile.value.contact.contactEmail,
       keywords: JSON.parse(JSON.stringify(profile.value.keywords)),
-      picture: profile.value.picture,
+      location: profile.value.contact.location,
+      websiteURL: profile.value.contact.websiteURL,
     });
 
     const cancel = (): void => {
       dialog.value = false;
       profileTemplate.about = profile.value.about;
-      profileTemplate.link = profile.value.link;
-      profileTemplate.location = profile.value.location;
-      profileTemplate.email = profile.value.email;
-      profileTemplate.phone = profile.value.phone;
+      profileTemplate.contactPhone = profile.value.contact.contactPhone;
+      profileTemplate.displayPicture = profile.value.displayPicture;
+      profileTemplate.contactEmail = profile.value.contact.contactEmail;
       profileTemplate.keywords = JSON.parse(JSON.stringify(profile.value.keywords));
-      profileTemplate.picture = profile.value.picture;
+      profileTemplate.location = profile.value.contact.location;
+      profileTemplate.websiteURL = profile.value.contact.websiteURL;
     };
 
     const save = (): void => {
       dialog.value = false;
       profile.value.about = profileTemplate.about;
-      profile.value.link = profileTemplate.link;
-      profile.value.location = profileTemplate.location;
-      profile.value.email = profileTemplate.email;
-      profile.value.phone = profileTemplate.phone;
+      profile.value.contact.contactEmail = profileTemplate.contactEmail;
+      profile.value.contact.contactPhone = profileTemplate.contactPhone;
+      profile.value.contact.location = profileTemplate.location;
+      profile.value.contact.websiteURL = profileTemplate.websiteURL;
+      profile.value.displayPicture = profileTemplate.displayPicture;
       profile.value.keywords = JSON.parse(JSON.stringify(profileTemplate.keywords));
-      profile.value.picture = profileTemplate.picture;
     };
 
     const keywordInput = ref('');

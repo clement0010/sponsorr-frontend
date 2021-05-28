@@ -1,5 +1,6 @@
 import { ref, computed } from '@vue/composition-api';
 import { auth, firestore } from '@/services/firebase';
+import { EventOrganiser } from '@/types';
 
 // eslint-disable-next-line
 export default function useAuth() {
@@ -7,8 +8,7 @@ export default function useAuth() {
   const authenticated = ref(false);
   const error = ref(false);
 
-  // eslint-disable-next-line
-  const userAuthState = auth.onAuthStateChanged(user => {
+  const userAuthState = auth.onAuthStateChanged((user) => {
     loading.value = false;
     if (!user) {
       authenticated.value = false;
@@ -45,15 +45,18 @@ export default function useAuth() {
       authenticated.value = true;
       loading.value = false;
       error.value = false;
+
+      return result.user?.uid;
     } catch (err) {
       console.error(err);
       error.value = true;
       authenticated.value = false;
       loading.value = false;
+      return err;
     }
   };
 
-  const signup = async (email: string, password: string, name: string) => {
+  const signup = async (email: string, password: string, userMetadata: EventOrganiser) => {
     try {
       const result = await auth.createUserWithEmailAndPassword(email, password);
 
@@ -67,17 +70,19 @@ export default function useAuth() {
         .doc(result.user.uid)
         .set({
           uid: result.user.uid,
-          name,
+          ...userMetadata,
         });
 
       authenticated.value = true;
       loading.value = false;
       error.value = false;
+      return result.user.uid;
     } catch (err) {
       console.error(err);
       error.value = true;
       authenticated.value = false;
       loading.value = false;
+      return err;
     }
   };
 
