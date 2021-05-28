@@ -30,7 +30,7 @@ const routes: Array<RouteConfig> = [
     path: '/profile/:id',
     name: 'Profile',
     component: () => import(/* webpackChunkName: "profile" */ '@/views/Profile.vue'),
-    beforeEnter: (_to, _from, next) => authGuard(next),
+    beforeEnter: (_to, from, next) => authGuard(from, next),
   },
   {
     path: '/playground',

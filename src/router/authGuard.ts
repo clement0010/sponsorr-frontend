@@ -1,16 +1,28 @@
 import useAuth from '@/composable/authComposition';
-import { NavigationGuardNext } from 'vue-router';
+import { NavigationGuardNext, Route } from 'vue-router';
 import { watch } from '@vue/composition-api';
 
-const authGuard = (next: NavigationGuardNext): void => {
+const authGuard = (from: Route, next: NavigationGuardNext): void => {
   const { authenticated, loading } = useAuth();
 
   const redirect = () => {
-    if (!authenticated.value) {
+    if (!authenticated.value
+      && (from.fullPath === '/event-organiser/login'
+      || from.fullPath === '/sponsor/login'
+      || from.fullPath === '/sponsor/signup'
+      || from.fullPath === '/event-organiser/signup'
+      )) {
       return next({
-        path: '/event-organiser/login',
+        path: from.fullPath,
       });
     }
+
+    if (!authenticated.value) {
+      return next({
+        path: '/',
+      });
+    }
+
     return next();
   };
 
