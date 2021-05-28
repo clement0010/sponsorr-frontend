@@ -1,11 +1,15 @@
 <template>
-    <v-card-text>
-      <v-chip-group column>
-        <v-chip v-for="keyword in keywords" :key="keyword" disabled>
-          {{ keyword }}
-        </v-chip>
-      </v-chip-group>
-    </v-card-text>
+  <v-card-text>
+    <v-chip-group column>
+      <v-chip
+        v-for="keyword in keywords"
+        :key="keyword"
+        disabled
+      >
+        {{ keyword }}
+      </v-chip>
+    </v-chip-group>
+  </v-card-text>
 </template>
 
 <script lang="ts">
