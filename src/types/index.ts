@@ -1,6 +1,6 @@
 import firebase from 'firebase/app';
 
-export type FirebaseUser = firebase.User
+export type FirebaseUser = firebase.User;
 
 export type Role = 'Sponsor' | 'EventOrganiser';
 
@@ -17,6 +17,7 @@ export interface Profile {
   location: string;
   picture: string;
   keywords: string[];
+  role: Role;
 }
 export interface Sponsor {
   id: string;
