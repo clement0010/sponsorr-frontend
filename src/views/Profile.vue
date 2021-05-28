@@ -1,84 +1,87 @@
 <template>
   <BasePage>
-    <template v-slot:navigation>
-      <NavigationBarUser />
-    </template>
-    <ProfileLayout>
-      <template v-slot:profile>
-        <v-img :src="profile.picture"></v-img>
-      </template>
-      <template v-slot:name> {{ profile.name }} </template>
-      <template v-slot:ID> {{ profile.id }} </template>
-      <template v-slot:about>
-        {{ profile.about }}
-      </template>
-      <template v-slot:keywords>
-        <v-chip class="ma-1" v-for="keyword in keywords" :key="keyword">
-          {{ keyword }}
-        </v-chip>
-      </template>
-      <template v-slot:link>
-        <a :href="profile.link" target=_blank> {{ profile.link }} </a>
-      </template>
-      <template v-slot:location>
-        <a :href="profile.location" target=_blank> {{ profile.location }} </a>
-      </template>
-      <template v-slot:email>
-        <a :href="'mailto'+ profile.email"> {{ profile.email }} </a>
-      </template>
-      <template v-slot:phone> {{ profile.phone }}  </template>
-    </ProfileLayout>
+    <v-card class="rounded-0" color="white">
+      <v-row align="center" justify="center">
+        <v-card color="transparent" flat width="50%">
+          <v-card-title>
+            <v-row align="center">
+              <v-col class="d-flex justify-center" order="first" cols="auto">
+                <DisplayPicture :urlPic="picture" />
+                <EditProfile :profile="profile" :attribute="'displayPicture'"/>
+              </v-col>
+
+              <v-col order="last">
+                <Title :name="name" />
+                <IdentificationNumber :id="id" />
+              </v-col>
+            </v-row>
+          </v-card-title>
+        </v-card>
+      </v-row>
+
+      <v-row justify="center">
+        <v-card color="transparent" flat width="50%">
+          <v-card-title class="text-h4 black--text">
+            About <EditProfile :profile="profile" :attribute="'about'"/>
+          </v-card-title>
+          <About :about="about" />
+        </v-card>
+      </v-row>
+
+      <v-row justify="center">
+        <v-card color="transparent" flat width="50%">
+          <v-card-title class="text-h4 black--text">
+            Keywords <EditProfile :profile="profile" :attribute="'keywords'"/>
+          </v-card-title>
+          <Keywords :keywords="keywords"/>
+        </v-card>
+      </v-row>
+
+      <v-row justify="center">
+        <v-card color="transparent" flat width="50%">
+          <v-card-title class="text-h4 black--text">
+            Contact <EditProfile :profile="profile" :attribute="'contact'"/>
+          </v-card-title>
+          <Contact :email="email" :link="link" :location="location" :phone="phone" />
+        </v-card>
+      </v-row>
+    </v-card>
   </BasePage>
 </template>
 
 <script lang="ts">
+import About from '@/components/PageComponents/Profile/About.vue';
 import BasePage from '@/layouts/BasePage.vue';
-import NavigationBarUser from '@/components/Navigations/NavigationBarUser.vue';
-import ProfileLayout from '@/layouts/ProfileLayout.vue';
+import Contact from '@/components/PageComponents/Profile/Contact.vue';
+import DisplayPicture from '@/components/PageComponents/Profile/DisplayPicture.vue';
+import EditProfile from '@/components/UserActions/EditProfile.vue';
+import IdentificationNumber from '@/components/PageComponents/Profile/IdentificationNumber.vue';
+import Keywords from '@/components/PageComponents/Profile/Keywords.vue';
+import Title from '@/components/PageComponents/Profile/Title.vue';
 
-import { Profile } from '@/types';
+import useProfile from '@/composable/profileComposition';
 
-import {
-  defineComponent, reactive,
-} from '@vue/composition-api';
+import { defineComponent } from '@vue/composition-api';
 
 export default defineComponent({
   name: 'Profile',
   components: {
+    About,
     BasePage,
-    NavigationBarUser,
-    ProfileLayout,
+    Contact,
+    DisplayPicture,
+    EditProfile,
+    IdentificationNumber,
+    Keywords,
+    Title,
   },
   setup() {
-    const profile: Profile = reactive({
-      id: '01',
-      name: 'The FoorBar Society',
-      email: 'marketing@foobar.org.sg',
-      about: `Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut
-        labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco
-        laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in
-        voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat
-        cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.`,
-      phone: '+65 12345678',
-      link: 'https://vuejs.org/v2/guide/components-props.html',
-      location: 'https://maps.google.com.sg/',
-      picture: 'https://randomuser.me/api/portraits/med/men/31.jpg',
-    });
-
-    const keywords: string[] = [
-      'National University of Singapore',
-      'College/University',
-      'Women',
-      'Sports',
-      'Charity',
-      'Health',
-    ];
-
+    const {
+      about, picture, name, id, profile, email, link, location, phone, keywords,
+    } = useProfile();
     return {
-      profile,
-      keywords,
+      about, picture, name, id, profile, email, link, location, phone, keywords,
     };
   },
-
 });
 </script>

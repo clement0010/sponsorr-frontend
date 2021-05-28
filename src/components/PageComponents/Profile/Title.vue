@@ -1,18 +1,24 @@
 <template>
-  <v-card class="black--text" color="transparent" flat width="75%">
-    <v-row align="center">
-      <v-col cols="4">
-        <slot name="profile"></slot>
-      </v-col>
-      <v-col>
-        <v-card-title class="text-h2" flat>
-          <slot name="name"></slot>
-        </v-card-title>
-        <v-card-text class="black--text">
-          organiser ID:
-          <slot name="ID"></slot>
-        </v-card-text>
-      </v-col>
-    </v-row>
+  <v-card color="transparent" flat>
+    <v-card-title class="black--text text-h3">
+      {{ name }}
+    </v-card-title>
   </v-card>
 </template>
+
+<script lang="ts">
+export default {
+  props: {
+    name: {
+      type: String,
+      required: true,
+    },
+  },
+};
+</script>
+
+<style scoped>
+.v-card__title {
+  word-break: normal;
+}
+</style>

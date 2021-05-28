@@ -1,13 +1,22 @@
 <template>
-  <v-card class="black--text" color="transparent" flat width="75%">
-    <v-card-title class="text-h4">
-      Keywords
-      <v-btn icon>
-        <v-icon color="black">
-          mdi-pencil
-        </v-icon>
-      </v-btn>
-    </v-card-title>
-    <slot></slot>
-  </v-card>
+    <v-card-text>
+      <v-chip-group column>
+        <v-chip v-for="keyword in keywords" :key="keyword" disabled>
+          {{ keyword }}
+        </v-chip>
+      </v-chip-group>
+    </v-card-text>
 </template>
+
+<script lang="ts">
+import { PropType } from 'vue';
+
+export default {
+  props: {
+    keywords: {
+      type: Array as PropType<string[]>,
+      required: true,
+    },
+  },
+};
+</script>

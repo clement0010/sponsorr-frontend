@@ -6,7 +6,7 @@
       </v-card-title>
       <v-form ref="form" v-model="valid">
         <v-text-field
-        v-model="loginDetails.email"
+          v-model="loginDetails.email"
           outlined
           required
           hint="Required"

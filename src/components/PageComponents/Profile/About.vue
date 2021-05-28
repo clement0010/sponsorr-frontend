@@ -1,13 +1,18 @@
 <template>
-  <v-card class="black--text" color="transparent" flat width="75%">
-    <v-card-title class="text-h4">
-      About
-      <v-btn icon>
-        <v-icon color="black">mdi-pencil</v-icon>
-      </v-btn>
-    </v-card-title>
-    <v-card-text class="black--text">
-      <slot></slot>
-    </v-card-text>
-  </v-card>
+  <v-card-text class="black--text text-body-1">
+    {{ about }}
+  </v-card-text>
 </template>
+
+<script lang="ts">
+import { defineComponent } from '@vue/composition-api';
+
+export default defineComponent({
+  props: {
+    about: {
+      type: String,
+      required: true,
+    },
+  },
+});
+</script>
