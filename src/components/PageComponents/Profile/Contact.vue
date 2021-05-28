@@ -1,61 +1,82 @@
 <template>
+  <<<<<<< HEAD
   <v-card
     color="transparent"
     flat
     width="75%"
   >
-    <v-list color="transparent">
-      <v-list-item>
-        <v-icon color="black">
-          mdi-link
-        </v-icon>
-        <v-card-text>
-          <a
-            class="pa-2"
-            :href="link"
-          >
-            {{ link }}
-          </a>
-        </v-card-text>
-      </v-list-item>
+    =======
+    <v-card
+      color="transparent"
+      flat
+      width="75%"
+    >
+      <v-card-title class="text-h4 black--text">
+        Contact
+        <v-btn
+          icon
+          class="mx-5"
+        >
+          <v-icon color="black">
+            mdi-pencil
+          </v-icon>
+        </v-btn>
+      </v-card-title>
 
-      <v-list-item>
-        <v-icon color="black">
-          mdi-map-marker
-        </v-icon>
-        <v-card-text>
-          <a
-            class="pa-2"
-            :href="location"
-          >
-            {{ location }}
-          </a>
-        </v-card-text>
-      </v-list-item>
+      >>>>>>> 2c6cb38... modify edit button margin
+      <v-list color="transparent">
+        <v-list-item>
+          <v-icon color="black">
+            mdi-link
+          </v-icon>
+          <v-card-text>
+            <a
+              class="pa-2"
+              :href="link"
+            >
+              {{ link }}
+            </a>
+          </v-card-text>
+        </v-list-item>
 
-      <v-list-item>
-        <v-icon color="black">
-          mdi-email
-        </v-icon>
-        <v-card-text>
-          <a
-            class="pa-2"
-            :href="'mailto:' + email"
-          >
-            {{ email }}
-          </a>
-        </v-card-text>
-      </v-list-item>
+        <v-list-item>
+          <v-icon color="black">
+            mdi-map-marker
+          </v-icon>
+          <v-card-text>
+            <a
+              class="pa-2"
+              :href="location"
+            >
+              {{ location }}
+            </a>
+          </v-card-text>
+        </v-list-item>
 
-      <v-list-item>
-        <v-icon color="black">
-          mdi-cellphone
-        </v-icon>
-        <v-card-text class="black--text">
-          {{ phone }}
-        </v-card-text>
-      </v-list-item>
-    </v-list>
+        <v-list-item>
+          <v-icon color="black">
+            mdi-email
+          </v-icon>
+          <v-card-text>
+            <a
+              class="pa-2"
+              :href="'mailto:' + email"
+            >
+              {{ email }}
+            </a>
+          </v-card-text>
+        </v-list-item>
+
+        <v-list-item>
+          <v-icon color="black">
+            mdi-cellphone
+          </v-icon>
+          <v-card-text class="black--text">
+            {{ phone }}
+          </v-card-text>
+        </v-list-item>
+      </v-list>
+    </v-card>
   </v-card>
 </template>
 
