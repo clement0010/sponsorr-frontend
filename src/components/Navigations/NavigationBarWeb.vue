@@ -1,16 +1,26 @@
 <template>
   <!-- https://vuetifyjs.com/en/components/app-bars/#fade-image-on-scroll -->
-  <v-app-bar class="primary px-10" flat app>
+  <v-app-bar
+    class="primary px-10"
+    flat
+    app
+  >
     <v-app-bar-title>
       <router-link to="/">
-        <LogoSponsorr />
+        <LogoSponsorr v-if="$route.name === 'Home'" />
       </router-link>
     </v-app-bar-title>
 
-    <v-spacer></v-spacer>
+    <v-spacer />
 
-    <AuthenticationButton :action="'Login'"/>
-    <AuthenticationButton :action="'SignUp'"/>
+    <AuthenticationButton
+      v-if="$route.name === 'Home'"
+      :action="'Login'"
+    />
+    <AuthenticationButton
+      v-if="$route.name === 'Home'"
+      :action="'SignUp'"
+    />
   </v-app-bar>
 </template>
 

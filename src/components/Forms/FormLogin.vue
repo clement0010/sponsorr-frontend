@@ -1,12 +1,18 @@
 <template>
   <v-container>
-    <v-card light class="pa-5">
+    <v-card
+      light
+      class="pa-5"
+    >
       <v-card-title>
         login
       </v-card-title>
-      <v-form ref="form" v-model="valid">
+      <v-form
+        ref="form"
+        v-model="valid"
+      >
         <v-text-field
-        v-model="loginDetails.email"
+          v-model="loginDetails.email"
           outlined
           required
           hint="Required"
@@ -23,17 +29,17 @@
           label="password"
           :type="showPassword ? 'text' : 'password'"
           :append-icon="showPassword ? 'mdi-eye' : 'mdi-eye-off'"
-          @click:append="showPassword = !showPassword"
           :rules="[requireInputRule]"
+          @click:append="showPassword = !showPassword"
         />
 
         <v-btn
           class="accent1 white--text"
           rounded
           type="submit"
-          @click="submitForm"
           text
           :disabled="!valid"
+          @click="submitForm"
         >
           Login
         </v-btn>

@@ -1,11 +1,13 @@
 import { ref, computed } from '@vue/composition-api';
 import { auth, firestore } from '@/services/firebase';
+import { FirebaseUser } from '@/types';
 
 // eslint-disable-next-line
 export default function useAuth() {
   const loading = ref(true);
   const authenticated = ref(false);
   const error = ref(false);
+  const userInfo = ref<FirebaseUser>();
 
   // eslint-disable-next-line
   const userAuthState = auth.onAuthStateChanged(user => {
@@ -15,7 +17,7 @@ export default function useAuth() {
       console.log('Im logged out!');
       return;
     }
-
+    userInfo.value = user;
     console.log('Auth State:', user);
     authenticated.value = true;
   });
@@ -68,6 +70,7 @@ export default function useAuth() {
         .collection('users')
         .doc(result.user.uid)
         .set({
+          // TODO: Set the correct user attribute
           uid: result.user.uid,
           name,
         });
@@ -87,6 +90,7 @@ export default function useAuth() {
     loading: computed(() => loading.value),
     authenticated: computed(() => authenticated.value),
     error: computed(() => error.value),
+    userInfo: computed(() => userInfo.value),
     userAuthState,
     signup,
     signout,

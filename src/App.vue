@@ -1,7 +1,7 @@
 <template>
   <v-app>
     <v-main>
-      <router-view></router-view>
+      <router-view />
     </v-main>
   </v-app>
 </template>
@@ -11,3 +11,9 @@ export default {
   components: {},
 };
 </script>
+
+<style>
+a {
+  text-decoration: none;
+}
+</style>

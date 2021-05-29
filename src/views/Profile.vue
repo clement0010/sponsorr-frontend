@@ -1,67 +1,129 @@
 <template>
   <BasePage>
-    <ProfileLayout
-      @updateAbout="insertAbout"
-      :urlPic="profile.picture"
-      :name="profile.name"
-      :id="profile.id"
-      :about="profile.about"
-      :keywords="keywords"
-      :link="profile.link"
-      :location="profile.location"
-      :email="profile.email"
-      :phone="profile.phone"
-    />
+    <v-card
+      class="rounded-0"
+      color="white"
+    >
+      <v-row
+        align="center"
+        justify="center"
+      >
+        <v-card
+          color="transparent"
+          flat
+          width="50%"
+        >
+          <v-card-title>
+            <v-row align="center">
+              <v-col
+                class="d-flex justify-center"
+                order="first"
+                cols="auto"
+              >
+                <DisplayPicture :url-pic="picture" />
+                <EditProfile
+                  :profile="profile"
+                  :attribute="'displayPicture'"
+                />
+              </v-col>
+
+              <v-col order="last">
+                <Title :name="name" />
+                <IdentificationNumber :id="id" />
+              </v-col>
+            </v-row>
+          </v-card-title>
+        </v-card>
+      </v-row>
+
+      <v-row justify="center">
+        <v-card
+          color="transparent"
+          flat
+          width="50%"
+        >
+          <v-card-title class="text-h4 black--text">
+            About <EditProfile
+              :profile="profile"
+              :attribute="'about'"
+            />
+          </v-card-title>
+          <About :about="about" />
+        </v-card>
+      </v-row>
+
+      <v-row justify="center">
+        <v-card
+          color="transparent"
+          flat
+          width="50%"
+        >
+          <v-card-title class="text-h4 black--text">
+            Keywords <EditProfile
+              :profile="profile"
+              :attribute="'keywords'"
+            />
+          </v-card-title>
+          <Keywords :keywords="keywords" />
+        </v-card>
+      </v-row>
+
+      <v-row justify="center">
+        <v-card
+          color="transparent"
+          flat
+          width="50%"
+        >
+          <v-card-title class="text-h4 black--text">
+            Contact <EditProfile
+              :profile="profile"
+              :attribute="'contact'"
+            />
+          </v-card-title>
+          <Contact
+            :email="email"
+            :link="link"
+            :location="location"
+            :phone="phone"
+          />
+        </v-card>
+      </v-row>
+    </v-card>
   </BasePage>
 </template>
 
 <script lang="ts">
+import About from '@/components/PageComponents/Profile/About.vue';
 import BasePage from '@/layouts/BasePage.vue';
-import ProfileLayout from '@/layouts/ProfileLayout.vue';
+import Contact from '@/components/PageComponents/Profile/Contact.vue';
+import DisplayPicture from '@/components/PageComponents/Profile/DisplayPicture.vue';
+import EditProfile from '@/components/UserActions/EditProfile.vue';
+import IdentificationNumber from '@/components/PageComponents/Profile/IdentificationNumber.vue';
+import Keywords from '@/components/PageComponents/Profile/Keywords.vue';
+import Title from '@/components/PageComponents/Profile/Title.vue';
 
-import { Profile } from '@/types';
+import useProfile from '@/composable/profileComposition';
 
-import { defineComponent, reactive } from '@vue/composition-api';
+import { defineComponent } from '@vue/composition-api';
 
 export default defineComponent({
   name: 'Profile',
   components: {
+    About,
     BasePage,
-    ProfileLayout,
+    Contact,
+    DisplayPicture,
+    EditProfile,
+    IdentificationNumber,
+    Keywords,
+    Title,
   },
   setup() {
-    const profile: Profile = reactive({
-      id: '01',
-      name: 'The FooBar Society',
-      email: 'marketing@foobar.org.sg',
-      about: `Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut
-        labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco
-        laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in
-        voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat
-        cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.`,
-      phone: '+65 12345678',
-      link: 'https://vuejs.org/v2/guide/components-props.html',
-      location: 'https://maps.google.com.sg/',
-      picture: 'https://randomuser.me/api/portraits/med/men/31.jpg',
-    });
-
-    const keywords: string[] = [
-      'National University of Singapore',
-      'College/University',
-      'Women',
-      'Sports',
-      'Charity',
-      'Health',
-    ];
-
-    const insertAbout = (about: string) => {
-      profile.about = about;
-    };
-
+    const {
+      about, picture, name, id, profile, email, link, location, phone, keywords,
+    } = useProfile();
     return {
-      profile,
-      keywords,
-      insertAbout,
+      about, picture, name, id, profile, email, link, location, phone, keywords,
     };
   },
 });

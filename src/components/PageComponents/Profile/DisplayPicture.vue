@@ -4,8 +4,13 @@
   </v-avatar>
 </template>
 
-<script>
+<script lang="ts">
 export default {
-  props: ['urlPic'],
+  props: {
+    urlPic: {
+      type: String,
+      required: true,
+    },
+  },
 };
 </script>
