@@ -20,10 +20,6 @@
             cols="auto"
           >
             <DisplayPicture :url-pic="profile.displayPicture" />
-            <!-- <EditProfile
-                :profile="profile"
-                :attribute="'displayPicture'"
-              /> -->
           </v-col>
           <v-col>
             <Title :name="profile.name" />
@@ -32,51 +28,26 @@
         </v-row>
 
         <v-row>
-          <v-card
-            color="transparent"
-            flat
-          >
-            <About
-              :about="profile.about"
-              @edit="payload => $emit('edit', payload)"
-            />
-          </v-card>
+          <About
+            :about="profile.about"
+            @edit="payload => $emit('edit', payload)"
+          />
         </v-row>
 
         <v-row>
-          <v-card
-            color="transparent"
-            flat
-          >
-            <v-card-title class="text-h4 black--text">
-              Keywords
-              <!-- <EditProfile
-                  :profile="profile"
-                  :attribute="'keywords'"
-                /> -->
-            </v-card-title>
-            <Keywords :keywords="profile.keywords" />
-          </v-card>
+          <Keywords
+            :keywords="profile.keywords"
+            @edit="payload => $emit('edit', payload)"
+          />
         </v-row>
 
         <v-row>
-          <v-card
-            color="transparent"
-            flat
-          >
-            <v-card-title class="text-h4 black--text">
-              Contact
-              <!-- <EditProfile
-                  :profile="profile"
-                  :attribute="'contact'"
-                /> -->
-            </v-card-title>
-            <Contact
-              :email="profile.email"
-              :contact="profile.contact"
-              :phone-number="profile.phoneNumber"
-            />
-          </v-card>
+          <Contact
+            :email="profile.email"
+            :contact="profile.contact"
+            :phone-number="profile.phoneNumber"
+            @edit="payload => $emit('edit', payload)"
+          />
         </v-row>
       </v-card>
     </v-row>
@@ -93,7 +64,7 @@ import Title from '@/components/PageComponents/Profile/Title.vue';
 
 import { Profile } from '@/types';
 
-import { defineComponent, toRefs } from '@vue/composition-api';
+import { defineComponent } from '@vue/composition-api';
 
 export default defineComponent({
   name: 'ProfileLayout',
