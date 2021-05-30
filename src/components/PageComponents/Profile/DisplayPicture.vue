@@ -1,11 +1,25 @@
 <template>
-  <v-avatar size="200">
-    <v-img :src="urlPic" />
-  </v-avatar>
+  <v-container>
+    <v-avatar size="200">
+      <v-img :src="urlPic" />
+    </v-avatar>
+    <EditDisplayPicture
+      :url-pic="urlPic"
+      @edit-display-picture="payload => $emit('edit', payload)"
+    />
+  </v-container>
 </template>
 
 <script lang="ts">
-export default {
+import { defineComponent } from '@vue/composition-api';
+
+import EditDisplayPicture from '@/components/UserActions/EditDisplayPicture.vue';
+
+export default defineComponent({
+  name: 'ProfileDisplayPicture',
+  components: {
+    EditDisplayPicture,
+  },
   props: {
     urlPic: {
       type: String,
@@ -13,5 +27,5 @@ export default {
       default: 'https://randomuser.me/api/portraits/med/men/31.jpg',
     },
   },
-};
+});
 </script>
