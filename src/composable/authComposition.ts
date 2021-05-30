@@ -8,6 +8,7 @@ export default function useAuth() {
   const authenticated = ref(false);
   const error = ref(false);
   const userInfo = ref<FirebaseUser>();
+  const uid = ref();
 
   const userAuthState = auth.onAuthStateChanged((user) => {
     loading.value = false;
@@ -17,6 +18,7 @@ export default function useAuth() {
       return;
     }
     userInfo.value = user;
+    uid.value = user.uid;
     console.log('Auth State:', user);
     authenticated.value = true;
   });
@@ -40,8 +42,6 @@ export default function useAuth() {
     try {
       loading.value = true;
       const { user } = await auth.signInWithEmailAndPassword(email, password);
-
-      console.log('Logged in', user);
 
       authenticated.value = true;
       loading.value = false;
@@ -96,6 +96,7 @@ export default function useAuth() {
     authenticated: computed(() => authenticated.value),
     error: computed(() => error.value),
     userInfo: computed(() => userInfo.value),
+    uid: computed(() => uid.value),
     userAuthState,
     signup,
     signout,

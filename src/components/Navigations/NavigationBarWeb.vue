@@ -21,16 +21,45 @@
         >
           <v-app-bar-title>
             <router-link to="/">
-              <LogoSponsorr :width="logoWidth" />
+              <LogoSponsorr :width="175" />
             </router-link>
           </v-app-bar-title>
         </v-col>
 
         <v-spacer />
 
-        <v-col cols="auto">
-          <AuthenticationButton :action="'Login'" />
-          <AuthenticationButton :action="'SignUp'" />
+        <v-col
+          v-if="authenticated"
+          cols="auto"
+        >
+          <router-link
+            :to="{name:'Profile', params:{ id }}"
+          >
+            <v-btn
+              class="font-weight-regular"
+              rounded
+              text
+            >
+              Profile
+            </v-btn>
+          </router-link>
+        </v-col>
+        <v-col
+          v-else
+          cols="auto"
+        >
+          <router-link
+            :to="{name:'Login'}"
+          >
+            <v-btn
+              class="text-lowercase font-weight-regular"
+              rounded
+              text
+            >
+              Login
+            </v-btn>
+            <AuthenticationButton :action="'SignUp'" />
+          </router-link>
         </v-col>
       </v-row>
       <v-btn
@@ -57,8 +86,7 @@ export default defineComponent({
     LogoSponsorr,
   },
   setup(_, { root }) {
-    const logoWidth = 175;
-    const { signout } = useAuth();
+    const { signout, authenticated, uid } = useAuth();
 
     const userSignout = () => {
       signout();
@@ -69,7 +97,12 @@ export default defineComponent({
 
     const isHome = () => root.$route.name === 'Home' || root.$route.name === 'Playground';
 
-    return { userSignout, isHome, logoWidth };
+    return {
+      userSignout,
+      isHome,
+      authenticated,
+      id: uid,
+    };
   },
 });
 </script>

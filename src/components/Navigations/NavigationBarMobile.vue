@@ -21,7 +21,7 @@
         >
           <v-app-bar-title>
             <router-link to="/">
-              <LogoSponsorr :width="logoWidth" />
+              <LogoSponsorr :width="175" />
             </router-link>
           </v-app-bar-title>
         </v-col>
@@ -67,7 +67,7 @@
                       class="py-0"
                     >
                       <v-app-bar-title>
-                        <LogoSponsorr />
+                        <LogoSponsorr :width="175" />
                       </v-app-bar-title>
                     </v-col>
 
@@ -85,12 +85,31 @@
                   </v-row>
                 </v-container>
               </v-app-bar>
-              <v-list>
+              <v-list v-if="!authenticated">
                 <v-list-item class="justify-center">
-                  <AuthenticationButton :action="'Login'" />
+                  <v-btn
+                    class="text-lowercase font-weight-regular"
+                    rounded
+                    text
+                  >
+                    Login
+                  </v-btn>
                 </v-list-item>
                 <v-list-item class="justify-center">
                   <AuthenticationButton :action="'SignUp'" />
+                </v-list-item>
+              </v-list>
+              <v-list v-else>
+                <v-list-item class="justify-center">
+                  <router-link :to="{name:'Profile', params:{ id }}">
+                    <v-btn
+                      class="font-weight-regular"
+                      rounded
+                      text
+                    >
+                      Profile
+                    </v-btn>
+                  </router-link>
                 </v-list-item>
               </v-list>
             </v-card>
@@ -124,7 +143,7 @@ export default defineComponent({
     const logoWidth = 150;
     const dialog = ref(false);
 
-    const { signout } = useAuth();
+    const { signout, authenticated, uid } = useAuth();
 
     const userSignout = () => {
       signout();
@@ -136,7 +155,12 @@ export default defineComponent({
     const isHome = () => root.$route.name === 'Home' || root.$route.name === 'Playground';
 
     return {
-      userSignout, isHome, dialog, logoWidth,
+      userSignout,
+      isHome,
+      dialog,
+      logoWidth,
+      authenticated,
+      id: uid,
     };
   },
 });
