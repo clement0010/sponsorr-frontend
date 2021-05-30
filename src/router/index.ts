@@ -15,11 +15,13 @@ const routes: Array<RouteConfig> = [
     path: '/:role/signup',
     name: 'SignUp',
     component: () => import(/* webpackChunkName: "signup" */ '@/views/SignUp.vue'),
+    beforeEnter: authGuard,
   },
   {
     path: '/:role/login',
     name: 'Login',
     component: () => import(/* webpackChunkName: "login" */ '@/views/Login.vue'),
+    beforeEnter: authGuard,
   },
   {
     path: '/recover-account',
@@ -30,7 +32,8 @@ const routes: Array<RouteConfig> = [
     path: '/profile/:id',
     name: 'Profile',
     component: () => import(/* webpackChunkName: "profile" */ '@/views/Profile.vue'),
-    beforeEnter: (_to, from, next) => authGuard(from, next),
+    meta: { requiresAuth: true },
+    beforeEnter: authGuard,
   },
   {
     path: '/playground',
