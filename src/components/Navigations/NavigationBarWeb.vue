@@ -21,7 +21,7 @@
         >
           <v-app-bar-title>
             <router-link to="/">
-              <LogoSponsorr :width="logoWidth" />
+              <LogoSponsorr :width="175" />
             </router-link>
           </v-app-bar-title>
         </v-col>
@@ -48,8 +48,18 @@
           v-else
           cols="auto"
         >
-          <AuthenticationButton :action="'Login'" />
-          <AuthenticationButton :action="'SignUp'" />
+          <router-link
+            :to="{name:'Login'}"
+          >
+            <v-btn
+              class="text-lowercase font-weight-regular"
+              rounded
+              text
+            >
+              Login
+            </v-btn>
+            <AuthenticationButton :action="'SignUp'" />
+          </router-link>
         </v-col>
       </v-row>
       <v-btn
@@ -76,7 +86,6 @@ export default defineComponent({
     LogoSponsorr,
   },
   setup(_, { root }) {
-    const logoWidth = 175;
     const { signout, authenticated, uid } = useAuth();
 
     const userSignout = () => {
@@ -91,7 +100,6 @@ export default defineComponent({
     return {
       userSignout,
       isHome,
-      logoWidth,
       authenticated,
       id: uid,
     };
