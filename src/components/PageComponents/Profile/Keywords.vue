@@ -13,8 +13,8 @@
     <v-card-text>
       <v-chip-group column>
         <v-chip
-          v-for="keyword in keywords"
-          :key="keyword"
+          v-for="(keyword, index) in keywords"
+          :key="index"
           disabled
         >
           {{ keyword }}

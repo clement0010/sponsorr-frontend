@@ -14,8 +14,7 @@ export default function useProfile() {
     try {
       const userProfile = await getUserProfileFromDb(uid);
       if (!userProfile) {
-        console.log('Failed to fetch user profile data');
-        return;
+        throw new Error('Failed to fetch user profile data');
       }
       profile.value = userProfile;
       loading.value = false;

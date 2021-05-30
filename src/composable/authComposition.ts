@@ -74,7 +74,7 @@ export default function useAuth() {
         throw new Error('Sign up failed.');
       }
 
-      createUserProfileToDb(result.user.uid, userMetadata);
+      await createUserProfileToDb(result.user.uid, userMetadata);
 
       authenticated.value = true;
       loading.value = false;

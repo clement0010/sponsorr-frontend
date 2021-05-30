@@ -91,7 +91,7 @@
               type="submit"
               text
               :disabled="!valid"
-              @click="routeUser"
+              @click="authenticateUser"
             >
               Create Account
             </v-btn>
@@ -153,9 +153,8 @@ export default defineComponent({
 
     const validatePassword = (password: string) => user.password === password || 'Password do not match';
 
-    const authenticateUser = async (): Promise<string> => {
+    const authenticateUser = async (): Promise<void> => {
       const { email, password } = user;
-
       const userMetadata: EventOrganiser = {
         about: 'Fill in your bio',
         keywords: [],
@@ -167,22 +166,17 @@ export default defineComponent({
         },
         ...user,
       };
+      try {
+        const uid: string = await signup(email, password, userMetadata);
 
-      const uid: string = await signup(email, password, userMetadata);
-      return uid;
-    };
-
-    const routeUser = (e: Event) => {
-      e.preventDefault();
-      authenticateUser()
-        .then((uid) => {
-          root.$router.push({
-            name: 'Profile',
-            params: { id: uid },
-          });
-        })
-        .catch((err) => console.log(err));
-      console.log(error.value);
+        root.$router.push({
+          name: 'Profile',
+          params: { id: uid },
+        });
+      } catch (err) {
+        // Sign up failed
+        console.error(err);
+      }
     };
 
     return {
@@ -202,7 +196,7 @@ export default defineComponent({
       loading,
 
       // Routing
-      routeUser,
+      authenticateUser,
     };
   },
 });
