@@ -1,14 +1,25 @@
 <template>
-  <v-dialog v-model="dialog" max-width="600px">
+  <v-dialog
+    v-model="dialog"
+    max-width="600px"
+  >
     <template v-slot:activator="{ on, attrs }">
-      <v-btn icon class="mx-5" v-bind="attrs" v-on="on">
+      <v-btn
+        icon
+        class="mx-5"
+        v-bind="attrs"
+        v-on="on"
+      >
         <v-icon color="black">
           mdi-pencil
         </v-icon>
       </v-btn>
     </template>
 
-    <v-form ref="form" v-model="valid">
+    <v-form
+      ref="form"
+      v-model="valid"
+    >
       <v-card light>
         <v-card-title>
           <span class="headline">
@@ -18,34 +29,42 @@
 
         <v-card-text>
           <v-text-field
+            v-model="input.websiteUrl"
             outlined
-            v-model="payload.link"
             label="Link to Website"
             :rules="[validURLRule]"
           />
 
           <v-text-field
+            v-model="input.location"
             outlined
-            v-model="payload.location"
             label="Location (Link to Google Maps)"
             :rules="[validURLRule]"
           />
 
           <v-text-field
+            v-model="input.phoneNumber"
             outlined
-            v-model="payload.email"
-            label="Email Address"
-            :rules="[validEmailRule]"
+            label="Phone Number"
           />
-
-          <v-text-field outlined v-model="payload.phone" label="Phone Number" />
         </v-card-text>
         <v-card-actions>
-          <v-spacer></v-spacer>
-          <v-btn class="error" rounded text @click="cancel">
+          <v-spacer />
+          <v-btn
+            class="error"
+            rounded
+            text
+            @click="cancel"
+          >
             Cancel
           </v-btn>
-          <v-btn class="success" rounded text @click="save" :disabled="!valid">
+          <v-btn
+            class="success"
+            rounded
+            text
+            :disabled="!valid"
+            @click="edit"
+          >
             Save
           </v-btn>
         </v-card-actions>
@@ -54,39 +73,59 @@
   </v-dialog>
 </template>
 
-<script>
-import { defineComponent, ref, reactive } from '@vue/composition-api';
-import { abort, payload, send } from '@/utils/profile';
-import { validEmailRule, validURLRule } from '@/utils/validation';
+<script lang="ts">
+import {
+  defineComponent, reactive, ref,
+} from '@vue/composition-api';
+import { validEmailRule, validURLRule } from '@/common/validation';
+import { Contact } from '@/types';
 
 export default defineComponent({
-  setup() {
-    const dialog = ref(false); // Dialog is closed by default
+  name: 'EditContact',
+  props: {
+    contact: {
+      type: Object as () => Contact,
+      required: true,
+    },
+    phoneNumber: {
+      type: String,
+    },
+  },
+  setup(props, { emit }) {
+    const { phoneNumber, contact } = props;
 
-    const configuration = reactive({
-      valid: true,
+    const input = reactive({
+      ...contact,
+      phoneNumber,
     });
+    const dialog = ref(false); // Dialog is closed by default
+    const valid = ref(true);
 
     const cancel = () => {
       dialog.value = false; // Closes dialog
-      abort();
     };
 
-    const save = (e) => {
-      e.preventDefault();
+    const edit = () => {
       dialog.value = false; // Closes dialog
-      send();
+      // eslint-disable-next-line no-shadow
+      const { location, websiteUrl, phoneNumber } = input;
+      emit('edit-contact', {
+        contact: {
+          location,
+          websiteUrl,
+        },
+        phoneNumber,
+      });
     };
 
     return {
-      ...configuration,
       dialog,
       cancel,
-      save,
-      payload,
-      send,
+      edit,
+      input,
       validEmailRule,
       validURLRule,
+      valid,
     };
   },
 });

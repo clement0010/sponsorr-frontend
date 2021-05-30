@@ -3,6 +3,14 @@
     color="transparent"
     flat
   >
+    <v-card-title class="text-h4 black--text">
+      Contact
+      <EditContact
+        :contact="contact"
+        :phone-number="phoneNumber"
+        @edit-contact="payload => $emit('edit', payload)"
+      />
+    </v-card-title>
     <v-list color="transparent">
       <v-list-item>
         <v-icon color="black">
@@ -59,9 +67,15 @@
 </template>
 
 <script lang="ts">
+import { defineComponent } from '@vue/composition-api';
 import { Contact } from '@/types';
+import EditContact from '@/components/UserActions/EditContact.vue';
 
-export default {
+export default defineComponent({
+  name: 'ProfileContact',
+  components: {
+    EditContact,
+  },
   props: {
     contact: {
       type: Object as () => Contact,
@@ -85,7 +99,7 @@ export default {
     },
 
   },
-};
+});
 </script>
 
 <style scoped>
