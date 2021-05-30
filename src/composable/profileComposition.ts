@@ -1,6 +1,6 @@
 import { computed, ref } from '@vue/composition-api';
 
-import { getUserProfileFromDb } from '@/common/firestore/profile';
+import { getUserProfileFromDb, updateUserProfileFromDb } from '@/common/firestore/profile';
 import { Profile } from '@/types';
 
 // eslint-disable-next-line
@@ -26,8 +26,16 @@ export default function useProfile() {
     }
   };
 
-  const editUserProfile = async (editedProfile: Profile) => {
-    profile.value = editedProfile;
+  const editUserProfile = async (uid: string, newData: Record<string, unknown>) => {
+    if (!profile.value) {
+      console.log('No profile to edit');
+      return;
+    }
+    profile.value = {
+      ...profile.value,
+      ...newData,
+    };
+    await updateUserProfileFromDb(uid, newData);
   };
 
   return {
