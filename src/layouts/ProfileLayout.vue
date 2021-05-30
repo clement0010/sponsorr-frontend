@@ -23,7 +23,6 @@
           </v-col>
           <v-col>
             <Title :name="profile.name" />
-            <IdentificationNumber :id="profile.uen" />
           </v-col>
         </v-row>
 

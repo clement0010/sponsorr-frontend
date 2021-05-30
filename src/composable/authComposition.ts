@@ -1,6 +1,9 @@
 import { ref, computed } from '@vue/composition-api';
-import { auth, firestore } from '@/common/firebase';
-import { EventOrganiser, FirebaseUser } from '@/types';
+import { auth } from '@/common/firebase';
+import {
+  EventOrganiser, FirebaseUser, Profile, Sponsor,
+} from '@/types';
+import { createUserProfileToDb } from '@/common/firestore/profile';
 
 // eslint-disable-next-line
 export default function useAuth() {
@@ -61,7 +64,8 @@ export default function useAuth() {
     }
   };
 
-  const signup = async (email: string, password: string, userMetadata: EventOrganiser) => {
+  const signup = async (email: string,
+    password: string, userMetadata: EventOrganiser | Sponsor) => {
     try {
       const result = await auth.createUserWithEmailAndPassword(email, password);
 
@@ -70,13 +74,7 @@ export default function useAuth() {
         throw new Error('Sign up failed.');
       }
 
-      firestore
-        .collection('users')
-        .doc(result.user.uid)
-        .set({
-          uid: result.user.uid,
-          ...userMetadata,
-        });
+      createUserProfileToDb(result.user.uid, userMetadata);
 
       authenticated.value = true;
       loading.value = false;

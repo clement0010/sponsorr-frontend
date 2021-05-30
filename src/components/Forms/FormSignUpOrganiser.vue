@@ -101,7 +101,7 @@
       <v-row justify="center">
         <v-card-subtitle>
           <span>have an account with us? </span>
-          <span><router-link to="login">login</router-link></span>
+          <span><router-link to="/login">login</router-link></span>
         </v-card-subtitle>
       </v-row>
     </v-card>
@@ -154,16 +154,18 @@ export default defineComponent({
     const validatePassword = (password: string) => user.password === password || 'Password do not match';
 
     const authenticateUser = async (): Promise<string> => {
-      const {
-        email, password, name, phoneNumber, uen,
-      } = user;
+      const { email, password } = user;
 
       const userMetadata: EventOrganiser = {
-        email,
-        name,
-        phoneNumber,
-        uen,
+        about: 'Fill in your bio',
+        keywords: [],
+        displayPicture: '',
         role: 'EventOrganiser',
+        contact: {
+          location: 'Insert your location here',
+          websiteUrl: 'Insert your website url here',
+        },
+        ...user,
       };
 
       const uid: string = await signup(email, password, userMetadata);

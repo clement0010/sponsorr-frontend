@@ -17,16 +17,15 @@ export interface User {
 }
 
 export interface Profile extends User {
-  role: Role;
   about: string;
   contact: Contact;
   keywords: string[];
   displayPicture: string;
 }
 
-export interface EventOrganiser extends User {
+export interface EventOrganiser extends Profile {
   role: Role;
 }
-export interface Sponsor extends User {
+export interface Sponsor extends Profile {
   role: Role;
 }

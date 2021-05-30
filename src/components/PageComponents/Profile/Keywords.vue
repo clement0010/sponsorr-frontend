@@ -20,6 +20,12 @@
           {{ keyword }}
         </v-chip>
       </v-chip-group>
+      <p
+        v-if="keywords.length === 0"
+        class="black--text"
+      >
+        Empty...
+      </p>
     </v-card-text>
   </v-card>
 </template>
@@ -37,7 +43,7 @@ export default defineComponent({
     keywords: {
       type: Array as () => string[],
       required: true,
-      default: (): string[] => ['Default value'],
+      default: (): string[] => [],
     },
   },
 });

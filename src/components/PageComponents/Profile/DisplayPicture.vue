@@ -1,7 +1,14 @@
 <template>
   <v-container>
     <v-avatar size="200">
-      <v-img :src="urlPic" />
+      <v-img
+        v-if="!urlPic"
+        src="@/assets/icon-profile.svg"
+      />
+      <v-img
+        v-else
+        :src="urlPic"
+      />
     </v-avatar>
     <EditDisplayPicture
       :url-pic="urlPic"
@@ -23,8 +30,6 @@ export default defineComponent({
   props: {
     urlPic: {
       type: String,
-      required: true,
-      default: 'https://randomuser.me/api/portraits/med/men/31.jpg',
     },
   },
 });

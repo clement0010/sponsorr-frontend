@@ -87,13 +87,17 @@
               </v-app-bar>
               <v-list v-if="!authenticated">
                 <v-list-item class="justify-center">
-                  <v-btn
-                    class="text-lowercase font-weight-regular"
-                    rounded
-                    text
+                  <router-link
+                    :to="{name:'Login'}"
                   >
-                    Login
-                  </v-btn>
+                    <v-btn
+                      class="text-lowercase font-weight-regular"
+                      rounded
+                      text
+                    >
+                      Login
+                    </v-btn>
+                  </router-link>
                 </v-list-item>
                 <v-list-item class="justify-center">
                   <AuthenticationButton :action="'SignUp'" />

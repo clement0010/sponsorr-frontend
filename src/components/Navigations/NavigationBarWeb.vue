@@ -58,8 +58,8 @@
             >
               Login
             </v-btn>
-            <AuthenticationButton :action="'SignUp'" />
           </router-link>
+          <AuthenticationButton :action="'SignUp'" />
         </v-col>
       </v-row>
       <v-btn

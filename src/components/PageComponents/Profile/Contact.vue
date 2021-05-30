@@ -82,8 +82,8 @@ export default defineComponent({
       required: true,
       default(): Contact {
         return {
-          location: 'https://maps.google.com.sg/',
-          websiteUrl: 'https://vuejs.org/v2/guide/components-props.html',
+          location: 'Empty...',
+          websiteUrl: 'Empty...',
         };
       },
     },
