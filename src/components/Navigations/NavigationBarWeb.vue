@@ -28,7 +28,26 @@
 
         <v-spacer />
 
-        <v-col cols="auto">
+        <v-col
+          v-if="authenticated"
+          cols="auto"
+        >
+          <router-link
+            :to="{name:'Profile', params:{ id }}"
+          >
+            <v-btn
+              class="font-weight-regular"
+              rounded
+              text
+            >
+              Profile
+            </v-btn>
+          </router-link>
+        </v-col>
+        <v-col
+          v-else
+          cols="auto"
+        >
           <AuthenticationButton :action="'Login'" />
           <AuthenticationButton :action="'SignUp'" />
         </v-col>
@@ -58,7 +77,7 @@ export default defineComponent({
   },
   setup(_, { root }) {
     const logoWidth = 175;
-    const { signout } = useAuth();
+    const { signout, authenticated, uid } = useAuth();
 
     const userSignout = () => {
       signout();
@@ -69,7 +88,13 @@ export default defineComponent({
 
     const isHome = () => root.$route.name === 'Home' || root.$route.name === 'Playground';
 
-    return { userSignout, isHome, logoWidth };
+    return {
+      userSignout,
+      isHome,
+      logoWidth,
+      authenticated,
+      id: uid,
+    };
   },
 });
 </script>
