@@ -1,34 +1,38 @@
 <template>
-  <v-dialog v-model="dialog" light width="unset">
+  <v-dialog
+    v-model="dialog"
+    light
+    width="unset"
+  >
     <template v-slot:activator="{ on, attrs }">
       <v-btn
-        class="text-lowercase font-weight-regular"
+        v-if="action === 'Login'"
+        class="text-lowercase font-weight-regular white--text"
+        color="transparent"
         rounded
         text
         v-bind="attrs"
-        v-on="on"
-        v-if="action === 'Login'"
         :ripple="false"
+        v-on="on"
       >
         login
       </v-btn>
       <v-btn
-        class="text-lowercase font-weight-regular"
+        v-else
+        class="text-lowercase font-weight-regular white--text"
+        color="transparent"
         rounded
         outlined
         v-bind="attrs"
-        v-on="on"
-        v-if="action === 'SignUp'"
         :ripple="false"
+        v-on="on"
       >
         sign up
       </v-btn>
     </template>
 
     <v-card width="auto">
-      <v-card-title>
-        {{ action === 'Login' ? 'login' : 'sign up' }} as
-      </v-card-title>
+      <v-card-title> {{ action === 'Login' ? 'login' : 'sign up' }} as </v-card-title>
       <v-card-actions>
         <router-link :to="{ name: action, params: { role: 'event-organiser' } }">
           <v-btn class="accent1">
@@ -58,6 +62,10 @@ export default defineComponent({
   },
   setup() {
     const dialog = ref(false);
+    // Sign Up Function
+
+    // Login Function
+
     return {
       dialog,
     };

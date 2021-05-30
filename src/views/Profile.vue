@@ -1,48 +1,94 @@
 <template>
   <BasePage>
-    <v-container class="secondary" fluid >
-      <v-row justify="center">
-        <v-card max-width="1320px" color="transparent" class="my-16" flat>
-          <v-row align="center" justify="center">
-            <v-col align="center" justify="center" cols="auto">
-              <DisplayPicture :urlPic="picture" />
-              <EditProfile :profile="profile" :attribute="'displayPicture'" />
-            </v-col>
-            <v-col >
-              <Title :name="name" />
-              <IdentificationNumber :id="id" />
-            </v-col>
-          </v-row>
+    <v-card
+      class="rounded-0"
+      color="white"
+    >
+      <v-row
+        align="center"
+        justify="center"
+      >
+        <v-card
+          color="transparent"
+          flat
+          width="50%"
+        >
+          <v-card-title>
+            <v-row align="center">
+              <v-col
+                class="d-flex justify-center"
+                order="first"
+                cols="auto"
+              >
+                <DisplayPicture :url-pic="picture" />
+                <EditProfile
+                  :profile="profile"
+                  :attribute="'displayPicture'"
+                />
+              </v-col>
 
-          <v-row>
-            <v-card color="transparent" flat>
-              <v-card-title class="text-h4 black--text">
-                About <EditProfile :profile="profile" :attribute="'about'" />
-              </v-card-title>
-              <About :about="about" />
-            </v-card>
-          </v-row>
-
-          <v-row>
-            <v-card color="transparent" flat>
-              <v-card-title class="text-h4 black--text">
-                Keywords <EditProfile :profile="profile" :attribute="'keywords'" />
-              </v-card-title>
-              <Keywords :keywords="keywords" />
-            </v-card>
-          </v-row>
-
-          <v-row>
-            <v-card color="transparent" flat>
-              <v-card-title class="text-h4 black--text">
-                Contact <EditProfile :profile="profile" :attribute="'contact'" />
-              </v-card-title>
-              <Contact :email="email" :link="link" :location="location" :phone="phone" />
-            </v-card>
-          </v-row>
+              <v-col order="last">
+                <Title :name="name" />
+                <IdentificationNumber :id="id" />
+              </v-col>
+            </v-row>
+          </v-card-title>
         </v-card>
       </v-row>
-    </v-container>
+
+      <v-row justify="center">
+        <v-card
+          color="transparent"
+          flat
+          width="50%"
+        >
+          <v-card-title class="text-h4 black--text">
+            About <EditProfile
+              :profile="profile"
+              :attribute="'about'"
+            />
+          </v-card-title>
+          <About :about="about" />
+        </v-card>
+      </v-row>
+
+      <v-row justify="center">
+        <v-card
+          color="transparent"
+          flat
+          width="50%"
+        >
+          <v-card-title class="text-h4 black--text">
+            Keywords <EditProfile
+              :profile="profile"
+              :attribute="'keywords'"
+            />
+          </v-card-title>
+          <Keywords :keywords="keywords" />
+        </v-card>
+      </v-row>
+
+      <v-row justify="center">
+        <v-card
+          color="transparent"
+          flat
+          width="50%"
+        >
+          <v-card-title class="text-h4 black--text">
+            Contact <EditProfile
+              :profile="profile"
+              :attribute="'contact'"
+            />
+          </v-card-title>
+          <Contact
+            :email="email"
+            :link="link"
+            :location="location"
+            :phone="phone"
+          />
+        </v-card>
+      </v-row>
+    </v-card>
   </BasePage>
 </template>
 
@@ -74,28 +120,10 @@ export default defineComponent({
   },
   setup() {
     const {
-      about,
-      picture,
-      name,
-      id,
-      profile,
-      email,
-      link,
-      location,
-      phone,
-      keywords,
+      about, picture, name, id, profile, email, link, location, phone, keywords,
     } = useProfile();
     return {
-      about,
-      picture,
-      name,
-      id,
-      profile,
-      email,
-      link,
-      location,
-      phone,
-      keywords,
+      about, picture, name, id, profile, email, link, location, phone, keywords,
     };
   },
 });

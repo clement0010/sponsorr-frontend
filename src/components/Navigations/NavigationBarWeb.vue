@@ -1,26 +1,26 @@
 <template>
-  <v-app-bar class="primary" flat app hide-on-scroll>
-    <v-container fill-height class="py-0">
-      <v-row align="center" justify="center" class="py-0" v-if="isHome()">
-        <v-col cols="auto" class="py-0">
-          <v-app-bar-title>
-            <router-link to="/">
-              <LogoSponsorr />
-            </router-link>
-          </v-app-bar-title>
-        </v-col>
+  <!-- https://vuetifyjs.com/en/components/app-bars/#fade-image-on-scroll -->
+  <v-app-bar
+    class="primary px-10"
+    flat
+    app
+  >
+    <v-app-bar-title>
+      <router-link to="/">
+        <LogoSponsorr v-if="$route.name === 'Home'" />
+      </router-link>
+    </v-app-bar-title>
 
-        <v-spacer></v-spacer>
+    <v-spacer />
 
-        <v-col cols="auto">
-          <AuthenticationButton :action="'Login'" />
-          <AuthenticationButton :action="'SignUp'" />
-        </v-col>
-      </v-row>
-      <v-btn v-else light @click="userSignout">
-        Sign Out
-      </v-btn>
-    </v-container>
+    <AuthenticationButton
+      v-if="$route.name === 'Home'"
+      :action="'Login'"
+    />
+    <AuthenticationButton
+      v-if="$route.name === 'Home'"
+      :action="'SignUp'"
+    />
   </v-app-bar>
 </template>
 
