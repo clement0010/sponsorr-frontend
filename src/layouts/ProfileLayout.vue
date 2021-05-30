@@ -1,14 +1,57 @@
 <template>
-  <v-card color="white">
-    <v-container fill-height>
-      <v-row justify="center">
-        <About :about="about" />
-        <v-btn @click="edit">
-          Edit
-        </v-btn>
-      </v-row>
-    </v-container>
-  </v-card>
+  <v-container
+    class="secondary"
+    fluid
+  >
+    <v-row justify="center">
+      <v-card
+        max-width="1320px"
+        color="transparent"
+        class="my-16"
+        flat
+      >
+        <v-row
+          align="center"
+          justify="center"
+        >
+          <v-col
+            align="center"
+            justify="center"
+            cols="auto"
+          >
+            <DisplayPicture :url-pic="profile.displayPicture" />
+          </v-col>
+          <v-col>
+            <Title :name="profile.name" />
+            <IdentificationNumber :id="profile.uen" />
+          </v-col>
+        </v-row>
+
+        <v-row>
+          <About
+            :about="profile.about"
+            @edit="payload => $emit('edit', payload)"
+          />
+        </v-row>
+
+        <v-row>
+          <Keywords
+            :keywords="profile.keywords"
+            @edit="payload => $emit('edit', payload)"
+          />
+        </v-row>
+
+        <v-row>
+          <Contact
+            :email="profile.email"
+            :contact="profile.contact"
+            :phone-number="profile.phoneNumber"
+            @edit="payload => $emit('edit', payload)"
+          />
+        </v-row>
+      </v-card>
+    </v-row>
+  </v-container>
 </template>
 
 <script lang="ts">
@@ -19,13 +62,15 @@ import IdentificationNumber from '@/components/PageComponents/Profile/Identifica
 import Keywords from '@/components/PageComponents/Profile/Keywords.vue';
 import Title from '@/components/PageComponents/Profile/Title.vue';
 
-import { defineComponent, toRefs, isRef } from '@vue/composition-api';
+import { Profile } from '@/types';
+
+import { defineComponent } from '@vue/composition-api';
 
 export default defineComponent({
   name: 'ProfileLayout',
   props: {
-    about: {
-      type: String,
+    profile: {
+      type: Object as () => Profile,
       required: true,
     },
   },
@@ -36,16 +81,6 @@ export default defineComponent({
     IdentificationNumber,
     Keywords,
     Title,
-  },
-  setup(props) {
-    const { about } = toRefs(props);
-    const edit = () => {
-      about.value = '12345';
-    };
-
-    return {
-      edit,
-    };
   },
 });
 </script>

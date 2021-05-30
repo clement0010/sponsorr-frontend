@@ -1,32 +1,48 @@
-import { reactive, toRefs } from '@vue/composition-api';
+import { computed, ref } from '@vue/composition-api';
+
+import { getUserProfileFromDb, updateUserProfileFromDb } from '@/common/firestore/profile';
 import { Profile } from '@/types';
 
+// eslint-disable-next-line
 export default function useProfile() {
-  const profile = reactive<Profile>({
-    id: '01',
-    name: 'The FooBar Society',
-    email: 'marketing@foobar.org.sg',
-    about: `Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut
-      labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco
-      laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in
-      voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat
-      cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.`,
-    phone: '+65 12345678',
-    link: 'https://vuejs.org/v2/guide/components-props.html',
-    location: 'https://maps.google.com.sg/',
-    picture: 'https://randomuser.me/api/portraits/med/men/31.jpg',
-    role: 'EventOrganiser',
-    keywords: [
-      'National University of Singapore',
-      'College/University',
-      'Women',
-      'Sports',
-      'Charity',
-      'Health',
-    ],
-  });
+  const loading = ref(true);
+  const error = ref(false);
+
+  const profile = ref<Profile>();
+
+  const fetchUserProfile = async (uid: string) => {
+    try {
+      const userProfile = await getUserProfileFromDb(uid);
+      if (!userProfile) {
+        console.log('Failed to fetch user profile data');
+        return;
+      }
+      profile.value = userProfile;
+      loading.value = false;
+      error.value = false;
+    } catch (err) {
+      console.error(err);
+      error.value = true;
+    }
+  };
+
+  const editUserProfile = async (uid: string, newData: Record<string, unknown>) => {
+    if (!profile.value) {
+      console.log('No profile to edit');
+      return;
+    }
+    profile.value = {
+      ...profile.value,
+      ...newData,
+    };
+    await updateUserProfileFromDb(uid, newData);
+  };
+
   return {
-    ...toRefs(profile),
-    profile,
+    profile: computed(() => profile.value),
+    fetchUserProfile,
+    editUserProfile,
+    loading,
+    error,
   };
 }

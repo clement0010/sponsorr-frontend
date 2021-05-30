@@ -2,104 +2,104 @@
   <v-card
     color="transparent"
     flat
-    width="75%"
   >
-    <v-card
-      color="transparent"
-      flat
-      width="75%"
-    >
-      <v-card-title class="text-h4 black--text">
-        Contact
-        <v-btn
-          icon
-          class="mx-5"
-        >
-          <v-icon color="black">
-            mdi-pencil
-          </v-icon>
-        </v-btn>
-      </v-card-title>
+    <v-card-title class="text-h4 black--text">
+      Contact
+      <EditContact
+        :contact="contact"
+        :phone-number="phoneNumber"
+        @edit-contact="payload => $emit('edit', payload)"
+      />
+    </v-card-title>
+    <v-list color="transparent">
+      <v-list-item>
+        <v-icon color="black">
+          mdi-link
+        </v-icon>
+        <v-card-text>
+          <a
+            class="pa-2"
+            :href="contact.websiteUrl"
+          >
+            {{ contact.websiteUrl }}
+          </a>
+        </v-card-text>
+      </v-list-item>
 
-      <v-list color="transparent">
-        <v-list-item>
-          <v-icon color="black">
-            mdi-link
-          </v-icon>
-          <v-card-text>
-            <a
-              class="pa-2"
-              :href="link"
-            >
-              {{ link }}
-            </a>
-          </v-card-text>
-        </v-list-item>
+      <v-list-item>
+        <v-icon color="black">
+          mdi-map-marker
+        </v-icon>
+        <v-card-text>
+          <a
+            class="pa-2"
+            :href="contact.location"
+          >
+            {{ contact.location }}
+          </a>
+        </v-card-text>
+      </v-list-item>
 
-        <v-list-item>
-          <v-icon color="black">
-            mdi-map-marker
-          </v-icon>
-          <v-card-text>
-            <a
-              class="pa-2"
-              :href="location"
-            >
-              {{ location }}
-            </a>
-          </v-card-text>
-        </v-list-item>
+      <v-list-item>
+        <v-icon color="black">
+          mdi-email
+        </v-icon>
+        <v-card-text>
+          <a
+            class="pa-2"
+            :href="'mailto:' + email"
+          >
+            {{ email }}
+          </a>
+        </v-card-text>
+      </v-list-item>
 
-        <v-list-item>
-          <v-icon color="black">
-            mdi-email
-          </v-icon>
-          <v-card-text>
-            <a
-              class="pa-2"
-              :href="'mailto:' + email"
-            >
-              {{ email }}
-            </a>
-          </v-card-text>
-        </v-list-item>
-
-        <v-list-item>
-          <v-icon color="black">
-            mdi-cellphone
-          </v-icon>
-          <v-card-text class="black--text">
-            {{ phone }}
-          </v-card-text>
-        </v-list-item>
-      </v-list>
-    </v-card>
+      <v-list-item>
+        <v-icon color="black">
+          mdi-cellphone
+        </v-icon>
+        <v-card-text class="black--text">
+          {{ phoneNumber }}
+        </v-card-text>
+      </v-list-item>
+    </v-list>
   </v-card>
 </template>
 
 <script lang="ts">
+import { defineComponent } from '@vue/composition-api';
+import { Contact } from '@/types';
 import EditContact from '@/components/UserActions/EditContact.vue';
 
-export default {
+export default defineComponent({
+  name: 'ProfileContact',
+  components: {
+    EditContact,
+  },
   props: {
-    link: {
-      type: String,
+    contact: {
+      type: Object as () => Contact,
       required: true,
+      default(): Contact {
+        return {
+          location: 'https://maps.google.com.sg/',
+          websiteUrl: 'https://vuejs.org/v2/guide/components-props.html',
+        };
+      },
     },
-    location: {
+    phoneNumber: {
       type: String,
       required: true,
+      default: '65 89097488',
     },
     email: {
       type: String,
       required: true,
+      default: 'test@gmail.com',
     },
-    phone: {
-      type: String,
-      required: true,
-    },
+
   },
-};
+});
 </script>
 
 <style scoped>

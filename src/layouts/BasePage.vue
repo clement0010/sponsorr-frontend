@@ -1,7 +1,11 @@
 <template>
-  <v-container fluid class="pa-0">
-    <NavigationBarWeb />
-    <slot></slot>
+  <v-container
+    fluid
+    class="primary pa-0"
+  >
+    <NavigationBarWeb v-if="$vuetify.breakpoint.mdAndUp" />
+    <NavigationBarMobile v-else />
+    <slot />
     <Footer />
   </v-container>
 </template>
@@ -11,11 +15,14 @@ import { defineComponent } from '@vue/composition-api';
 
 import NavigationBarWeb from '@/components/Navigations/NavigationBarWeb.vue';
 import Footer from '@/components/PageComponents/Footer.vue';
+import NavigationBarMobile from '@/components/Navigations/NavigationBarMobile.vue';
 
 export default defineComponent({
+  name: 'BasePage',
   components: {
     NavigationBarWeb,
     Footer,
+    NavigationBarMobile,
   },
 });
 </script>

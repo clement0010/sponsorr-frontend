@@ -3,13 +3,11 @@
     v-model="dialog"
     light
     width="unset"
-    :fullscreen="$vuetify.breakpoint.xsOnly"
   >
     <template v-slot:activator="{ on, attrs }">
       <v-btn
         v-if="action === 'Login'"
-        class="text-lowercase font-weight-regular white--text"
-        color="transparent"
+        class="text-lowercase font-weight-regular"
         rounded
         text
         v-bind="attrs"
@@ -19,9 +17,8 @@
         login
       </v-btn>
       <v-btn
-        v-else
-        class="text-lowercase font-weight-regular white--text"
-        color="transparent"
+        v-if="action === 'SignUp'"
+        class="text-lowercase font-weight-regular"
         rounded
         outlined
         v-bind="attrs"
@@ -33,7 +30,9 @@
     </template>
 
     <v-card width="auto">
-      <v-card-title> {{ action === 'Login' ? 'login' : 'sign up' }} as </v-card-title>
+      <v-card-title>
+        {{ action === 'Login' ? 'login' : 'sign up' }} as
+      </v-card-title>
       <v-card-actions>
         <router-link :to="{ name: action, params: { role: 'event-organiser' } }">
           <v-btn class="accent1">
@@ -54,6 +53,7 @@
 import { defineComponent, ref } from '@vue/composition-api';
 
 export default defineComponent({
+  name: 'AuthenticationButton',
   props: {
     action: {
       type: String,
@@ -61,13 +61,8 @@ export default defineComponent({
       enum: ['Login', 'SignUp'],
     },
   },
-
   setup() {
     const dialog = ref(false);
-    // Sign Up Function
-
-    // Login Function
-
     return {
       dialog,
     };

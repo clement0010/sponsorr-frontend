@@ -4,15 +4,13 @@
       light
       class="pa-5"
     >
-      <v-card-title>
-        login
-      </v-card-title>
+      <v-card-title> login </v-card-title>
       <v-form
         ref="form"
         v-model="valid"
       >
         <v-text-field
-          v-model="loginDetails.email"
+          v-model="user.email"
           outlined
           required
           hint="Required"
@@ -21,7 +19,7 @@
         />
 
         <v-text-field
-          v-model="loginDetails.password"
+          v-model="user.password"
           outlined
           flat
           required
@@ -33,71 +31,114 @@
           @click:append="showPassword = !showPassword"
         />
 
-        <v-btn
-          class="accent1 white--text"
-          rounded
-          type="submit"
-          text
-          :disabled="!valid"
-          @click="submitForm"
-        >
-          Login
-        </v-btn>
+        <v-card-text v-if="error">
+          There's an issue logging in.
+        </v-card-text>
+        <v-row justify="center">
+          <v-card-actions>
+            <v-btn
+              class="accent1 white--text"
+              rounded
+              type="submit"
+              text
+              :disabled="!valid"
+              @click="authenticateUser"
+            >
+              Login
+            </v-btn>
+          </v-card-actions>
+        </v-row>
       </v-form>
 
       <v-card-subtitle>
         <span>
-          <router-link to="/recoverAccount">
-            forgot password
-          </router-link>
+          <router-link to="/recoverAccount"> forgot password </router-link>
         </span>
         <span>| don't have an account with us? </span>
         <span>
-          <router-link to="/signup">
-            sign up
-          </router-link>
+          <router-link to="signup"> sign up </router-link>
         </span>
       </v-card-subtitle>
     </v-card>
+
+    <div
+      v-if="loading"
+      class="text-center"
+    >
+      <v-overlay>
+        <v-progress-circular
+          indeterminate
+          size="64"
+        />
+      </v-overlay>
+    </div>
   </v-container>
 </template>
 
 <script lang="ts">
-import { requireInputRule, validEmailRule } from '@/utils/validation';
+import { requireInputRule, validEmailRule } from '@/common/validation';
 import { defineComponent, reactive } from '@vue/composition-api';
 
+import useAuth from '@/composable/authComposition';
+
 export default defineComponent({
+  name: 'FormLogin',
   setup(_, { root }) {
     const configuration = reactive({
       valid: true,
       showPassword: false,
     });
 
-    const loginDetails = reactive({
+    const {
+      loading, login, error, userInfo,
+    } = useAuth();
+
+    const user = reactive({
       email: '',
       password: '',
     });
 
-    const submitForm = (e: Event) => {
+    const authenticateUser = async (e: Event) => {
       e.preventDefault();
+      try {
+        const { email, password } = user;
 
-      // Login login
-      console.log('Login!', root.$route.params);
+        await login(email, password);
 
-      root.$router.push({ name: 'Profile', params: { id: '123' } });
+        const uid = userInfo.value?.uid;
+
+        if (!uid) {
+          console.log('Wrong credentials!');
+          user.email = '';
+          user.password = '';
+          return;
+        }
+
+        root.$router.push({
+          name: 'Profile',
+          params: { id: uid },
+        });
+      } catch (err) {
+        console.error(err);
+      }
     };
 
     return {
-      // Validation
+      // Input
+      user,
+
+      // Input validation
       ...configuration,
       requireInputRule,
       validEmailRule,
 
       // Login
-      loginDetails,
-      submitForm,
+      error,
+      authenticateUser,
+
+      // Spinner
+      loading,
     };
   },
-
 });
 </script>
