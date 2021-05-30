@@ -40,6 +40,11 @@ const routes: Array<RouteConfig> = [
     name: 'Playground',
     component: () => import(/* webpackChunkName: "playground" */ '@/views/Playground.vue'),
   },
+  {
+    path: '*',
+    name: '404',
+    component: () => import(/* webpackChunkName: "404" */ '@/views/404.vue'),
+  },
 ];
 
 const router = new VueRouter({

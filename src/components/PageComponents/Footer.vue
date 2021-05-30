@@ -1,5 +1,9 @@
 <template>
-  <v-footer light>
+  <v-footer
+    light
+    absolute
+    padless
+  >
     <v-container fill-height>
       <v-row
         align="center"
