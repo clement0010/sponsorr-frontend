@@ -4,22 +4,29 @@ export type FirebaseUser = firebase.User;
 
 export type Role = 'Sponsor' | 'EventOrganiser';
 
-export interface User extends FirebaseUser {
-  role: Role;
-}
-export interface Profile {
-  id: string;
-  name: string;
-  email: string;
-  about: string;
-  phone: string;
-  link: string;
+export interface Contact {
   location: string;
-  picture: string;
+  websiteUrl: string;
+}
+
+export interface User {
+  email: string;
+  name: string;
+  phoneNumber: string;
+  uen?: string;
+}
+
+export interface Profile extends User {
+  role: Role;
+  about: string;
+  contact: Contact;
   keywords: string[];
+  displayPicture: string;
+}
+
+export interface EventOrganiser extends User {
   role: Role;
 }
-export interface Sponsor {
-  id: string;
-  eventName: string;
+export interface Sponsor extends User {
+  role: Role;
 }

@@ -1,8 +1,11 @@
 <template>
-  <v-container fluid class="primary pa-0">
-    <NavigationBarWeb v-if="$vuetify.breakpoint.lgAndUp"/>
+  <v-container
+    fluid
+    class="primary pa-0"
+  >
+    <NavigationBarWeb v-if="$vuetify.breakpoint.mdAndUp" />
     <NavigationBarMobile v-else />
-    <slot></slot>
+    <slot />
     <Footer />
   </v-container>
 </template>
@@ -15,6 +18,7 @@ import Footer from '@/components/PageComponents/Footer.vue';
 import NavigationBarMobile from '@/components/Navigations/NavigationBarMobile.vue';
 
 export default defineComponent({
+  name: 'BasePage',
   components: {
     NavigationBarWeb,
     Footer,

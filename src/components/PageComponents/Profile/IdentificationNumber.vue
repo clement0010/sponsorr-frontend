@@ -11,12 +11,16 @@
 </template>
 
 <script lang="ts">
-export default {
+import { defineComponent } from '@vue/composition-api';
+
+export default defineComponent({
+  name: 'ProfileIdentificationNumber',
   props: {
     id: {
       type: String,
       required: true,
+      default: '01',
     },
   },
-};
+});
 </script>

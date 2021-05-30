@@ -29,28 +29,21 @@
 
         <v-card-text>
           <v-text-field
-            v-model="payload.link"
+            v-model="input.websiteUrl"
             outlined
             label="Link to Website"
             :rules="[validURLRule]"
           />
 
           <v-text-field
-            v-model="payload.location"
+            v-model="input.location"
             outlined
             label="Location (Link to Google Maps)"
             :rules="[validURLRule]"
           />
 
           <v-text-field
-            v-model="payload.email"
-            outlined
-            label="Email Address"
-            :rules="[validEmailRule]"
-          />
-
-          <v-text-field
-            v-model="payload.phone"
+            v-model="input.phoneNumber"
             outlined
             label="Phone Number"
           />
@@ -70,7 +63,7 @@
             rounded
             text
             :disabled="!valid"
-            @click="save"
+            @click="edit"
           >
             Save
           </v-btn>
@@ -80,39 +73,59 @@
   </v-dialog>
 </template>
 
-<script>
-import { defineComponent, ref, reactive } from '@vue/composition-api';
-import { abort, payload, send } from '@/utils/profile';
-import { validEmailRule, validURLRule } from '@/utils/validation';
+<script lang="ts">
+import {
+  defineComponent, reactive, ref,
+} from '@vue/composition-api';
+import { validEmailRule, validURLRule } from '@/common/validation';
+import { Contact } from '@/types';
 
 export default defineComponent({
-  setup() {
-    const dialog = ref(false); // Dialog is closed by default
+  name: 'EditContact',
+  props: {
+    contact: {
+      type: Object as () => Contact,
+      required: true,
+    },
+    phoneNumber: {
+      type: String,
+    },
+  },
+  setup(props, { emit }) {
+    const { phoneNumber, contact } = props;
 
-    const configuration = reactive({
-      valid: true,
+    const input = reactive({
+      ...contact,
+      phoneNumber,
     });
+    const dialog = ref(false); // Dialog is closed by default
+    const valid = ref(true);
 
     const cancel = () => {
       dialog.value = false; // Closes dialog
-      abort();
     };
 
-    const save = (e) => {
-      e.preventDefault();
+    const edit = () => {
       dialog.value = false; // Closes dialog
-      send();
+      // eslint-disable-next-line no-shadow
+      const { location, websiteUrl, phoneNumber } = input;
+      emit('edit-contact', {
+        contact: {
+          location,
+          websiteUrl,
+        },
+        phoneNumber,
+      });
     };
 
     return {
-      ...configuration,
       dialog,
       cancel,
-      save,
-      payload,
-      send,
+      edit,
+      input,
       validEmailRule,
       validURLRule,
+      valid,
     };
   },
 });

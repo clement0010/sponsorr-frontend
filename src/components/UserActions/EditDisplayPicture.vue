@@ -15,20 +15,17 @@
         </v-icon>
       </v-btn>
     </template>
-
     <v-form>
       <v-card light>
         <v-card-title>
-          <span class="headline">
-            Edit About
-          </span>
+          Edit Display Picture
         </v-card-title>
-
         <v-card-text>
-          <v-textarea
+          <v-text-field
             v-model="input"
+            label="Enter Image URL"
             outlined
-            label="Tell us about your organisation"
+            :rules="[validURLRule]"
           />
         </v-card-text>
         <v-card-actions>
@@ -55,18 +52,19 @@
   </v-dialog>
 </template>
 
-<script>
+<script lang="ts">
 import { defineComponent, ref } from '@vue/composition-api';
+import { validURLRule } from '@/common/validation';
 
 export default defineComponent({
-  name: 'EditAbout',
+  name: 'EditDisplayPicture',
   props: {
-    about: {
+    urlPic: {
       type: String,
     },
   },
   setup(props, { emit }) {
-    const input = ref(props.about);
+    const input = ref(props.urlPic);
     const dialog = ref(false); // Dialog is closed by default
 
     const cancel = () => {
@@ -75,8 +73,8 @@ export default defineComponent({
 
     const edit = () => {
       dialog.value = false; // Closes dialog
-      emit('edit-about', {
-        about: input.value,
+      emit('edit-display-picture', {
+        displayPicture: input.value,
       });
     };
 
@@ -85,7 +83,9 @@ export default defineComponent({
       cancel,
       edit,
       input,
+      validURLRule,
     };
   },
+
 });
 </script>

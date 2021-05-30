@@ -1,26 +1,46 @@
 <template>
-  <!-- https://vuetifyjs.com/en/components/app-bars/#fade-image-on-scroll -->
   <v-app-bar
-    class="primary px-10"
+    class="primary"
     flat
     app
+    hide-on-scroll
   >
-    <v-app-bar-title>
-      <router-link to="/">
-        <LogoSponsorr v-if="$route.name === 'Home'" />
-      </router-link>
-    </v-app-bar-title>
+    <v-container
+      fill-height
+      class="py-0"
+    >
+      <v-row
+        v-if="isHome()"
+        align="center"
+        justify="center"
+        class="py-0"
+      >
+        <v-col
+          cols="auto"
+          class="py-0"
+        >
+          <v-app-bar-title>
+            <router-link to="/">
+              <LogoSponsorr :width="logoWidth" />
+            </router-link>
+          </v-app-bar-title>
+        </v-col>
 
-    <v-spacer />
+        <v-spacer />
 
-    <AuthenticationButton
-      v-if="$route.name === 'Home'"
-      :action="'Login'"
-    />
-    <AuthenticationButton
-      v-if="$route.name === 'Home'"
-      :action="'SignUp'"
-    />
+        <v-col cols="auto">
+          <AuthenticationButton :action="'Login'" />
+          <AuthenticationButton :action="'SignUp'" />
+        </v-col>
+      </v-row>
+      <v-btn
+        v-else
+        light
+        @click="userSignout"
+      >
+        Sign Out
+      </v-btn>
+    </v-container>
   </v-app-bar>
 </template>
 
@@ -37,6 +57,7 @@ export default defineComponent({
     LogoSponsorr,
   },
   setup(_, { root }) {
+    const logoWidth = 175;
     const { signout } = useAuth();
 
     const userSignout = () => {
@@ -48,7 +69,7 @@ export default defineComponent({
 
     const isHome = () => root.$route.name === 'Home' || root.$route.name === 'Playground';
 
-    return { userSignout, isHome };
+    return { userSignout, isHome, logoWidth };
   },
 });
 </script>
