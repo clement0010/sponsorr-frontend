@@ -39,10 +39,7 @@ export default function useProfile() {
   };
 
   return {
-    profile: computed(() => {
-      console.log('updated');
-      return profile.value;
-    }),
+    profile: computed(() => profile.value),
     fetchUserProfile,
     editUserProfile,
     loading,
