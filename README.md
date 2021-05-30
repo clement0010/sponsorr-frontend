@@ -125,3 +125,12 @@ to delete local branch:
 ```
 git branch -d development
 ```
+# Development Workflow
+
+1. File an issue (see Project board)
+
+2. Open a new branch and work on the issue (follow branch naming and commit message conventions)
+
+3. Pull request and code review
+
+4. Merge and close issue
