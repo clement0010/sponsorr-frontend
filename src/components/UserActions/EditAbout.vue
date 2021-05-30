@@ -1,7 +1,15 @@
 <template>
-  <v-dialog v-model="dialog" max-width="600px">
+  <v-dialog
+    v-model="dialog"
+    max-width="600px"
+  >
     <template v-slot:activator="{ on, attrs }">
-      <v-btn icon class="mx-5" v-bind="attrs" v-on="on">
+      <v-btn
+        icon
+        class="mx-5"
+        v-bind="attrs"
+        v-on="on"
+      >
         <v-icon color="black">
           mdi-pencil
         </v-icon>
@@ -17,14 +25,28 @@
         </v-card-title>
 
         <v-card-text>
-          <v-textarea outlined v-model="payload.about" label="Tell us about your organisation" />
+          <v-textarea
+            v-model="input"
+            outlined
+            label="Tell us about your organisation"
+          />
         </v-card-text>
         <v-card-actions>
-          <v-spacer></v-spacer>
-          <v-btn class="error" rounded text @click="cancel">
+          <v-spacer />
+          <v-btn
+            class="error"
+            rounded
+            text
+            @click="cancel"
+          >
             Cancel
           </v-btn>
-          <v-btn class="success" rounded text @click="save">
+          <v-btn
+            class="success"
+            rounded
+            text
+            @click="edit"
+          >
             Save
           </v-btn>
         </v-card-actions>
@@ -35,29 +57,34 @@
 
 <script>
 import { defineComponent, ref } from '@vue/composition-api';
-import { abort, payload, send } from '@/utils/profile';
 
 export default defineComponent({
-  setup() {
+  name: 'EditAbout',
+  props: {
+    about: {
+      type: String,
+    },
+  },
+  setup(props, { emit }) {
+    const input = ref(props.about);
     const dialog = ref(false); // Dialog is closed by default
 
     const cancel = () => {
       dialog.value = false; // Closes dialog
-      payload.about = '';
-      abort();
     };
 
-    const save = () => {
+    const edit = () => {
       dialog.value = false; // Closes dialog
-      send();
+      emit('edit-about', {
+        about: input.value,
+      });
     };
 
     return {
       dialog,
       cancel,
-      save,
-      payload,
-      send,
+      edit,
+      input,
     };
   },
 });

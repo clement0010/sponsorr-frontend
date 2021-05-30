@@ -36,14 +36,10 @@
             color="transparent"
             flat
           >
-            <v-card-title class="text-h4 black--text">
-              About
-              <!-- <EditProfile
-                  :profile="profile"
-                  :attribute="'about'"
-                /> -->
-            </v-card-title>
-            <About :about="profile.about" />
+            <About
+              :about="profile.about"
+              @edit="payload => $emit('edit', payload)"
+            />
           </v-card>
         </v-row>
 
@@ -114,16 +110,6 @@ export default defineComponent({
     IdentificationNumber,
     Keywords,
     Title,
-  },
-  setup(props) {
-    const { profile } = toRefs(props);
-    const edit = () => {
-      profile.value.about = '12345';
-    };
-
-    return {
-      edit,
-    };
   },
 });
 </script>

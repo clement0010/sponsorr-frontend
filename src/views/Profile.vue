@@ -4,6 +4,7 @@
     <ProfileLayout
       v-else
       :profile="profile"
+      @edit="edit"
     />
   </BasePage>
 </template>
@@ -30,6 +31,7 @@ export default defineComponent({
     const {
       profile,
       fetchUserProfile,
+      editUserProfile,
       loading,
     } = useProfile();
 
@@ -39,9 +41,14 @@ export default defineComponent({
       await fetchUserProfile(uid);
     });
 
+    const edit = async (payload: Record<string, unknown>) => {
+      await editUserProfile(uid, payload);
+    };
+
     return {
       profile,
       loading,
+      edit,
     };
   },
 });
