@@ -129,6 +129,7 @@ import { Sponsor } from '@/types';
 import LogoSponsorr from '../BuildingElements/LogoSponsorr.vue';
 
 export default defineComponent({
+  name: 'FormSignUpSponsor',
   components: { LogoSponsorr },
   setup(_, { root }) {
     const logoWidth = 250;

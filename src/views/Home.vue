@@ -307,9 +307,11 @@
 
 <script lang="ts">
 import BasePage from '@/layouts/BasePage.vue';
+
 import { defineComponent } from '@vue/composition-api';
 
 export default defineComponent({
+  name: 'Home',
   components: {
     BasePage,
   },

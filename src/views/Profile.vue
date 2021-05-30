@@ -16,9 +16,7 @@ import Spinner from '@/components/BuildingElements/Spinner.vue';
 
 import useProfile from '@/composable/profileComposition';
 
-import {
-  defineComponent, onMounted,
-} from '@vue/composition-api';
+import { defineComponent, onMounted } from '@vue/composition-api';
 
 export default defineComponent({
   name: 'Profile',

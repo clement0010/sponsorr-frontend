@@ -82,6 +82,7 @@ import { defineComponent, reactive } from '@vue/composition-api';
 import useAuth from '@/composable/authComposition';
 
 export default defineComponent({
+  name: 'FormLogin',
   setup(_, { root }) {
     const configuration = reactive({
       valid: true,

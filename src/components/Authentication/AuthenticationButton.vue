@@ -53,6 +53,7 @@
 import { defineComponent, ref } from '@vue/composition-api';
 
 export default defineComponent({
+  name: 'AuthenticationButton',
   props: {
     action: {
       type: String,

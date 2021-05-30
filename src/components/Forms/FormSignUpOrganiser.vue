@@ -129,6 +129,7 @@ import { EventOrganiser } from '@/types';
 import LogoSponsorr from '../BuildingElements/LogoSponsorr.vue';
 
 export default defineComponent({
+  name: 'FormSignUpOrganiser',
   components: { LogoSponsorr },
   setup(_, { root }) {
     const logoWidth = 250;

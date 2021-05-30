@@ -11,10 +11,13 @@
 import AuthenticationLayout from '@/layouts/AuthenticationLayout.vue';
 import FormLogin from '@/components/Forms/FormLogin.vue';
 
-export default {
+import { defineComponent } from '@vue/composition-api';
+
+export default defineComponent({
+  name: 'Login',
   components: {
     AuthenticationLayout,
     FormLogin,
   },
-};
+});
 </script>
