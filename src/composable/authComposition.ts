@@ -1,7 +1,7 @@
 import { ref, computed } from '@vue/composition-api';
 import { auth } from '@/common/firebase';
 import {
-  EventOrganiser, FirebaseUser, Profile, Sponsor,
+  EventOrganiser, FirebaseUser, Sponsor,
 } from '@/types';
 import { createUserProfileToDb } from '@/common/firestore/profile';
 
