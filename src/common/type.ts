@@ -1,3 +1,4 @@
+/* eslint-disable */
 type PathImpl<T, K extends keyof T> =
   K extends string
   ? T[K] extends Record<string, any>
