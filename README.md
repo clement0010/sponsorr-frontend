@@ -112,9 +112,6 @@ Three choices for deleting development branches:
 ### Delete via Pull Request
 When confirming merge to master using pull requests, select the option to delete branch
 
-### Delete Manually Through Github (Not Recommended)
-Use SourceTree to delete local branch, and go to repository settings to delete remote branch.
-
 ### Delete via Terminal
 to delete remote branch:
 ```
