@@ -4,13 +4,13 @@ import 'firebase/firestore';
 
 // firebase init - add your own config here
 const firebaseConfig = {
-  apiKey: 'AIzaSyCF8hR6wTRLHirRGVhzWQJ7-LB9T25SkpI',
-  authDomain: 'sponsorr-78463.firebaseapp.com',
-  projectId: 'sponsorr-78463',
-  storageBucket: 'sponsorr-78463.appspot.com',
-  messagingSenderId: '1016952785325',
-  appId: '1:1016952785325:web:b18836a08a444a3d143924',
-  measurementId: 'G-7HV90KFXEL',
+  apiKey: process.env.VUE_APP_FIREBASE_API_KEY,
+  authDomain: process.env.VUE_APP_FIREBASE_AUTH_DOMAIN,
+  projectId: process.env.VUE_APP_FIREBASE_PROJECT_ID,
+  storageBucket: process.env.VUE_APP_FIREBASE_STORAGE_BUCKET,
+  messagingSenderId: process.env.VUE_APP_FIREBASE_MESSAGE_SENDER_ID,
+  appId: process.env.VUE_APP_FIREBASE_APP_ID,
+  measurementId: process.env.VUE_APP_MEASUREMENT_ID,
 };
 
 firebase.initializeApp(firebaseConfig);

@@ -1,7 +1,7 @@
 {
   "projects": {
-    "default": "sponsorr-78463",
-    "staging": "sponsorr-78463",
-    "dev": "sponsorr-78463"
+    "prod": "sponsorr-prod",
+    "default": "sponsorr-prod",
+    "dev": "sponsorr-dev"
   }
 }
