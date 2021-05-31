@@ -25,7 +25,6 @@
           @click:append="showPassword = !showPassword"
         />
 
-        <v-card-text v-if="error"> There's an issue logging in. </v-card-text>
         <v-row justify="center">
           <v-card-actions>
             <v-btn
@@ -69,7 +68,7 @@ import useAuth from '@/composable/authComposition';
 
 export default defineComponent({
   name: 'FormLogin',
-  setup(_, { root }) {
+  setup(_, { root, emit }) {
     const configuration = reactive({
       valid: true,
       showPassword: false,
@@ -93,6 +92,7 @@ export default defineComponent({
 
         if (!uid) {
           console.log('Wrong credentials!');
+          emit('wrong-credentials');
           user.email = '';
           user.password = '';
           return;
