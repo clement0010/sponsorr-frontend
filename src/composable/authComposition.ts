@@ -64,8 +64,11 @@ export default function useAuth() {
     }
   };
 
-  const signup = async (email: string,
-    password: string, userMetadata: EventOrganiser | Sponsor) => {
+  const signup = async (
+    email: string,
+    password: string,
+    userMetadata: EventOrganiser | Sponsor,
+  ) => {
     try {
       const result = await auth.createUserWithEmailAndPassword(email, password);
 
@@ -85,7 +88,7 @@ export default function useAuth() {
       error.value = true;
       authenticated.value = false;
       loading.value = false;
-      return err;
+      throw err;
     }
   };
 
