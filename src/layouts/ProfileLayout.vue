@@ -19,7 +19,10 @@
             justify="center"
             cols="auto"
           >
-            <DisplayPicture :url-pic="profile.displayPicture" />
+            <DisplayPicture
+              :url-pic="profile.displayPicture"
+              @edit="payload => $emit('edit', payload)"
+            />
           </v-col>
           <v-col>
             <Title :name="profile.name" />
