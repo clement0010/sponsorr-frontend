@@ -18,6 +18,7 @@
 
 <script lang="ts">
 import { defineComponent } from '@vue/composition-api';
+
 import EditAbout from '@/components/UserActions/EditAbout.vue';
 
 export default defineComponent({
