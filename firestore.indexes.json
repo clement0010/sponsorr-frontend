@@ -1,4 +1,23 @@
 {
-  "indexes": [],
+  "indexes": [
+    {
+      "collectionGroup": "Events",
+      "queryScope": "COLLECTION",
+      "fields": [
+        {
+          "fieldPath": "organiser_id",
+          "order": "ASCENDING"
+        },
+        {
+          "fieldPath": "sponsor_id",
+          "order": "ASCENDING"
+        },
+        {
+          "fieldPath": "click_count",
+          "order": "ASCENDING"
+        }
+      ]
+    }
+  ],
   "fieldOverrides": []
 }
