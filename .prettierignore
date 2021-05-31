@@ -1,0 +1,28 @@
+# Directories to exclude
+dist
+assets
+node_modules
+functions/**
+.husky/**
+
+
+# File extensions to exclude
+*.sh
+*.log
+*.txt
+*.xml
+*.conf
+.env
+
+# Files to exclude
+package-lock.json
+.gitignore
+.editorconfig
+.prettierignore
+.eslintignore
+.browserslistrc
+.firebaserc
+firestore.rules
+__test__
+netlify.toml
+favicon.ico
