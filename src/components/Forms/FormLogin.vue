@@ -1,5 +1,12 @@
 <template>
   <v-container>
+    <v-row justify="center">
+      <v-col cols="auto">
+        <router-link to="/">
+          <LogoSponsorr class="ma-10" justify="center" :width="logoWidth" />
+        </router-link>
+      </v-col>
+    </v-row>
     <v-card light class="pa-5">
       <v-card-title> login </v-card-title>
       <v-form ref="form" v-model="valid">
@@ -66,9 +73,14 @@ import { defineComponent, reactive } from '@vue/composition-api';
 
 import useAuth from '@/composable/authComposition';
 
+import LogoSponsorr from '../BuildingElements/LogoSponsorr.vue';
+
 export default defineComponent({
   name: 'FormLogin',
+  components: { LogoSponsorr },
   setup(_, { root, emit }) {
+    const logoWidth = 250;
+
     const configuration = reactive({
       valid: true,
       showPassword: false,
@@ -108,6 +120,7 @@ export default defineComponent({
     };
 
     return {
+      logoWidth,
       // Input
       user,
 
