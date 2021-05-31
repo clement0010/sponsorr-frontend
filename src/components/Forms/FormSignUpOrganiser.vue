@@ -153,7 +153,9 @@ export default defineComponent({
 
     const validatePassword = (password: string) => user.password === password || 'Password do not match';
 
-    const authenticateUser = async (): Promise<void> => {
+    const authenticateUser = async (e: Event): Promise<void> => {
+      e.preventDefault();
+
       const { email, password } = user;
       const userMetadata: EventOrganiser = {
         about: 'Fill in your bio',

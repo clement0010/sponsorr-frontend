@@ -1,7 +1,7 @@
 import { ref, computed } from '@vue/composition-api';
 import { auth } from '@/common/firebase';
 import {
-  EventOrganiser, FirebaseUser, Profile, Sponsor,
+  EventOrganiser, FirebaseUser, Sponsor,
 } from '@/types';
 import { createUserProfileToDb } from '@/common/firestore/profile';
 
@@ -64,8 +64,11 @@ export default function useAuth() {
     }
   };
 
-  const signup = async (email: string,
-    password: string, userMetadata: EventOrganiser | Sponsor) => {
+  const signup = async (
+    email: string,
+    password: string,
+    userMetadata: EventOrganiser | Sponsor,
+  ) => {
     try {
       const result = await auth.createUserWithEmailAndPassword(email, password);
 
@@ -85,7 +88,7 @@ export default function useAuth() {
       error.value = true;
       authenticated.value = false;
       loading.value = false;
-      return err;
+      throw err;
     }
   };
 
