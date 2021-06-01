@@ -1,6 +1,11 @@
 <template>
   <AuthenticationLayout>
-    <FormLogin justify="center" align="center" @alert="alert" @success="success" />
+    <FormLogin
+      justify="center"
+      align="center"
+      @alert="(payload) => $emit('alert', payload)"
+      @success="(payload) => $emit('success', payload)"
+    />
   </AuthenticationLayout>
 </template>
 
@@ -15,17 +20,6 @@ export default defineComponent({
   components: {
     AuthenticationLayout,
     FormLogin,
-  },
-  setup(_, { emit }) {
-    const alert = (message: string) => {
-      emit('alert', message);
-    };
-
-    const success = (message: string) => {
-      emit('success', message);
-    };
-
-    return { alert, success };
   },
 });
 </script>

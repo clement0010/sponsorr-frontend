@@ -1,7 +1,15 @@
 <template>
   <AuthenticationLayout>
-    <FormSignUpOrganiser v-if="$route.params.role === 'event-organiser'" />
-    <FormSignUpSponsor v-else />
+    <FormSignUpOrganiser
+      v-if="$route.params.role === 'event-organiser'"
+      @alert="(payload) => $emit('alert', payload)"
+      @success="(payload) => $emit('success', payload)"
+    />
+    <FormSignUpSponsor
+      v-else
+      @alert="(payload) => $emit('alert', payload)"
+      @success="(payload) => $emit('success', payload)"
+    />
   </AuthenticationLayout>
 </template>
 

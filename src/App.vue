@@ -8,7 +8,9 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, ref } from '@vue/composition-api';
+import { defineComponent } from '@vue/composition-api';
+import useSnackbar from '@/composable/snackbarComposition';
+
 import Snackbar from './components/BuildingElements/Snackbar.vue';
 
 export default defineComponent({
@@ -17,32 +19,12 @@ export default defineComponent({
     Snackbar,
   },
   setup() {
-    const snackbarActivate = ref(false);
-    const snackbarMessage = ref('');
-    const snackbarStatus = ref('');
-
-    const snackbarShow = () => {
-      snackbarActivate.value = true;
-      setTimeout(() => {
-        snackbarActivate.value = false;
-      }, 2000);
-    };
-
-    const alert = (message: string): void => {
-      snackbarMessage.value = message;
-      snackbarStatus.value = 'error';
-      snackbarShow();
-    };
-
-    const success = (message: string): void => {
-      snackbarMessage.value = message;
-      snackbarStatus.value = 'success';
-      snackbarShow();
-    };
+    const { alert, success, snackbarActivate, snackbarMessage, snackbarStatus } = useSnackbar();
 
     return {
       alert,
       success,
+
       snackbarActivate,
       snackbarMessage,
       snackbarStatus,
