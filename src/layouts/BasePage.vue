@@ -1,8 +1,5 @@
 <template>
-  <v-container
-    fluid
-    class="primary pa-0"
-  >
+  <v-container fluid class="primary pa-0">
     <NavigationBarWeb v-if="$vuetify.breakpoint.mdAndUp" />
     <NavigationBarMobile v-else />
     <slot />

@@ -1,9 +1,5 @@
 <template>
-  <v-container
-    class="px-12"
-    fluid
-    style="height: 100%;"
-  >
+  <v-container class="px-12" fluid style="height: 100%">
     <v-row>
       <v-col>
         <slot name="left-content" />

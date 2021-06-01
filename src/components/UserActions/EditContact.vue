@@ -1,30 +1,15 @@
 <template>
-  <v-dialog
-    v-model="dialog"
-    max-width="600px"
-  >
+  <v-dialog v-model="dialog" max-width="600px">
     <template v-slot:activator="{ on, attrs }">
-      <v-btn
-        icon
-        class="mx-5"
-        v-bind="attrs"
-        v-on="on"
-      >
-        <v-icon color="black">
-          mdi-pencil
-        </v-icon>
+      <v-btn icon class="mx-5" v-bind="attrs" v-on="on">
+        <v-icon color="black"> mdi-pencil </v-icon>
       </v-btn>
     </template>
 
-    <v-form
-      ref="form"
-      v-model="valid"
-    >
+    <v-form ref="form" v-model="valid">
       <v-card light>
         <v-card-title>
-          <span class="headline">
-            Edit Contact Details
-          </span>
+          <span class="headline"> Edit Contact Details </span>
         </v-card-title>
 
         <v-card-text>
@@ -42,31 +27,12 @@
             :rules="[validURLRule]"
           />
 
-          <v-text-field
-            v-model="input.phoneNumber"
-            outlined
-            label="Phone Number"
-          />
+          <v-text-field v-model="input.phoneNumber" outlined label="Phone Number" />
         </v-card-text>
         <v-card-actions>
           <v-spacer />
-          <v-btn
-            class="error"
-            rounded
-            text
-            @click="cancel"
-          >
-            Cancel
-          </v-btn>
-          <v-btn
-            class="success"
-            rounded
-            text
-            :disabled="!valid"
-            @click="edit"
-          >
-            Save
-          </v-btn>
+          <v-btn class="error" rounded text @click="cancel"> Cancel </v-btn>
+          <v-btn class="success" rounded text :disabled="!valid" @click="edit"> Save </v-btn>
         </v-card-actions>
       </v-card>
     </v-form>
@@ -74,9 +40,7 @@
 </template>
 
 <script lang="ts">
-import {
-  defineComponent, reactive, ref,
-} from '@vue/composition-api';
+import { defineComponent, reactive, ref } from '@vue/composition-api';
 import { validEmailRule, validURLRule } from '@/common/validation';
 import { Contact } from '@/types';
 

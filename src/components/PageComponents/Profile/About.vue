@@ -1,14 +1,8 @@
 <template>
-  <v-card
-    color="transparent"
-    flat
-  >
+  <v-card color="transparent" flat>
     <v-card-title class="text-h4 black--text">
       About
-      <EditAbout
-        :about="about"
-        @edit-about="payload => $emit('edit', payload)"
-      />
+      <EditAbout :about="about" @edit-about="(payload) => $emit('edit', payload)" />
     </v-card-title>
     <v-card-text class="black--text text-body-1">
       {{ about }}

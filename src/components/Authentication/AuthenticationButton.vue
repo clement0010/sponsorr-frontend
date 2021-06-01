@@ -1,10 +1,6 @@
 <template>
-  <v-dialog
-    v-model="dialog"
-    light
-    width="unset"
-  >
-    <template v-slot:activator="{ on, attrs }">
+  <v-dialog v-model="dialog" light width="unset">
+    <template #activator="{ on, attrs }">
       <v-btn
         v-if="action === 'Login'"
         class="text-lowercase font-weight-regular"
@@ -30,9 +26,7 @@
     </template>
 
     <v-card width="auto">
-      <v-card-title>
-        {{ action === 'Login' ? 'login' : 'sign up' }} as
-      </v-card-title>
+      <v-card-title> {{ action === 'Login' ? 'login' : 'sign up' }} as </v-card-title>
       <v-card-actions>
         <router-link :to="{ name: action, params: { role: 'event-organiser' } }">
           <v-btn class="accent1">

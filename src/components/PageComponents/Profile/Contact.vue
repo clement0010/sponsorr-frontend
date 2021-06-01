@@ -1,63 +1,43 @@
 <template>
-  <v-card
-    color="transparent"
-    flat
-  >
+  <v-card color="transparent" flat>
     <v-card-title class="text-h4 black--text">
       Contact
       <EditContact
         :contact="contact"
         :phone-number="phoneNumber"
-        @edit-contact="payload => $emit('edit', payload)"
+        @edit-contact="(payload) => $emit('edit', payload)"
       />
     </v-card-title>
     <v-list color="transparent">
       <v-list-item>
-        <v-icon color="black">
-          mdi-link
-        </v-icon>
+        <v-icon color="black"> mdi-link </v-icon>
         <v-card-text>
-          <a
-            class="pa-2"
-            :href="contact.websiteUrl"
-          >
+          <a class="pa-2" :href="contact.websiteUrl">
             {{ contact.websiteUrl }}
           </a>
         </v-card-text>
       </v-list-item>
 
       <v-list-item>
-        <v-icon color="black">
-          mdi-map-marker
-        </v-icon>
+        <v-icon color="black"> mdi-map-marker </v-icon>
         <v-card-text>
-          <a
-            class="pa-2"
-            :href="contact.location"
-          >
+          <a class="pa-2" :href="contact.location">
             {{ contact.location }}
           </a>
         </v-card-text>
       </v-list-item>
 
       <v-list-item>
-        <v-icon color="black">
-          mdi-email
-        </v-icon>
+        <v-icon color="black"> mdi-email </v-icon>
         <v-card-text>
-          <a
-            class="pa-2"
-            :href="'mailto:' + email"
-          >
+          <a class="pa-2" :href="'mailto:' + email">
             {{ email }}
           </a>
         </v-card-text>
       </v-list-item>
 
       <v-list-item>
-        <v-icon color="black">
-          mdi-cellphone
-        </v-icon>
+        <v-icon color="black"> mdi-cellphone </v-icon>
         <v-card-text class="black--text">
           {{ phoneNumber }}
         </v-card-text>
@@ -97,7 +77,6 @@ export default defineComponent({
       required: true,
       default: 'test@gmail.com',
     },
-
   },
 });
 </script>

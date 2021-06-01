@@ -1,51 +1,20 @@
 <template>
-  <v-dialog
-    v-model="dialog"
-    max-width="600px"
-  >
+  <v-dialog v-model="dialog" max-width="600px">
     <template v-slot:activator="{ on, attrs }">
-      <v-btn
-        icon
-        class="mx-5"
-        v-bind="attrs"
-        v-on="on"
-      >
-        <v-icon color="black">
-          mdi-pencil
-        </v-icon>
+      <v-btn icon class="mx-5" v-bind="attrs" v-on="on">
+        <v-icon color="black"> mdi-pencil </v-icon>
       </v-btn>
     </template>
     <v-form>
       <v-card light>
-        <v-card-title>
-          Edit Display Picture
-        </v-card-title>
+        <v-card-title> Edit Display Picture </v-card-title>
         <v-card-text>
-          <v-text-field
-            v-model="input"
-            label="Enter Image URL"
-            outlined
-            :rules="[validURLRule]"
-          />
+          <v-text-field v-model="input" label="Enter Image URL" outlined :rules="[validURLRule]" />
         </v-card-text>
         <v-card-actions>
           <v-spacer />
-          <v-btn
-            class="error"
-            rounded
-            text
-            @click="cancel"
-          >
-            Cancel
-          </v-btn>
-          <v-btn
-            class="success"
-            rounded
-            text
-            @click="edit"
-          >
-            Save
-          </v-btn>
+          <v-btn class="error" rounded text @click="cancel"> Cancel </v-btn>
+          <v-btn class="success" rounded text @click="edit"> Save </v-btn>
         </v-card-actions>
       </v-card>
     </v-form>
@@ -86,6 +55,5 @@ export default defineComponent({
       validURLRule,
     };
   },
-
 });
 </script>

@@ -3,23 +3,13 @@
     <v-row justify="center">
       <v-col cols="auto">
         <router-link to="/">
-          <LogoSponsorr
-            class="ma-10"
-            justify="center"
-            :width="logoWidth"
-          />
+          <LogoSponsorr class="ma-10" justify="center" :width="logoWidth" />
         </router-link>
       </v-col>
     </v-row>
-    <v-card
-      light
-      class="pa-5"
-    >
+    <v-card light class="pa-5">
       <v-card-title> sign up as sponsor </v-card-title>
-      <v-form
-        ref="form"
-        v-model="valid"
-      >
+      <v-form ref="form" v-model="valid">
         <v-text-field
           v-model="user.name"
           outlined
@@ -80,9 +70,7 @@
           @click:append="showConfirmPassword = !showConfirmPassword"
         />
 
-        <v-card-text v-if="error">
-          There's an issue signing up.
-        </v-card-text>
+        <v-card-text v-if="error"> There's an issue signing up. </v-card-text>
         <v-row justify="center">
           <v-card-actions>
             <v-btn
@@ -107,15 +95,9 @@
     </v-card>
 
     <!-- Spinner -->
-    <div
-      v-if="loading"
-      class="text-center"
-    >
+    <div v-if="loading" class="text-center">
       <v-overlay>
-        <v-progress-circular
-          indeterminate
-          size="64"
-        />
+        <v-progress-circular indeterminate size="64" />
       </v-overlay>
     </div>
   </v-container>
@@ -151,7 +133,8 @@ export default defineComponent({
       uen: '',
     });
 
-    const validatePassword = (password: string) => user.password === password || 'Password do not match';
+    const validatePassword = (password: string) =>
+      user.password === password || 'Password do not match';
 
     const authenticateUser = async (e: Event): Promise<void> => {
       e.preventDefault();
@@ -198,7 +181,6 @@ export default defineComponent({
       loading,
 
       authenticateUser,
-
     };
   },
 });

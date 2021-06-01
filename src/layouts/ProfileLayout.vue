@@ -1,27 +1,12 @@
 <template>
-  <v-container
-    class="secondary"
-    fluid
-  >
+  <v-container class="secondary" fluid>
     <v-row justify="center">
-      <v-card
-        max-width="1320px"
-        color="transparent"
-        class="my-16"
-        flat
-      >
-        <v-row
-          align="center"
-          justify="center"
-        >
-          <v-col
-            align="center"
-            justify="center"
-            cols="auto"
-          >
+      <v-card max-width="1320px" color="transparent" class="my-16" flat>
+        <v-row align="center" justify="center">
+          <v-col align="center" justify="center" cols="auto">
             <DisplayPicture
               :url-pic="profile.displayPicture"
-              @edit="payload => $emit('edit', payload)"
+              @edit="(payload) => $emit('edit', payload)"
             />
           </v-col>
           <v-col>
@@ -30,17 +15,11 @@
         </v-row>
 
         <v-row>
-          <About
-            :about="profile.about"
-            @edit="payload => $emit('edit', payload)"
-          />
+          <About :about="profile.about" @edit="(payload) => $emit('edit', payload)" />
         </v-row>
 
         <v-row>
-          <Keywords
-            :keywords="profile.keywords"
-            @edit="payload => $emit('edit', payload)"
-          />
+          <Keywords :keywords="profile.keywords" @edit="(payload) => $emit('edit', payload)" />
         </v-row>
 
         <v-row>
@@ -48,7 +27,7 @@
             :email="profile.email"
             :contact="profile.contact"
             :phone-number="profile.phoneNumber"
-            @edit="payload => $emit('edit', payload)"
+            @edit="(payload) => $emit('edit', payload)"
           />
         </v-row>
       </v-card>

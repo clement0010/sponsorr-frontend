@@ -1,18 +1,12 @@
 <template>
   <v-container>
     <v-avatar size="200">
-      <v-img
-        v-if="!urlPic"
-        src="@/assets/icon-profile.svg"
-      />
-      <v-img
-        v-else
-        :src="urlPic"
-      />
+      <v-img v-if="!urlPic" src="@/assets/icon-profile.svg" />
+      <v-img v-else :src="urlPic" />
     </v-avatar>
     <EditDisplayPicture
       :url-pic="urlPic"
-      @edit-display-picture="payload => $emit('edit', payload)"
+      @edit-display-picture="(payload) => $emit('edit', payload)"
     />
   </v-container>
 </template>

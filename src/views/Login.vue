@@ -1,9 +1,6 @@
 <template>
   <AuthenticationLayout>
-    <FormLogin
-      justify="center"
-      align="center"
-    />
+    <FormLogin justify="center" align="center" />
   </AuthenticationLayout>
 </template>
 

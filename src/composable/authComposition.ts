@@ -1,8 +1,6 @@
 import { ref, computed } from '@vue/composition-api';
 import { auth } from '@/common/firebase';
-import {
-  EventOrganiser, FirebaseUser, Sponsor,
-} from '@/types';
+import { EventOrganiser, FirebaseUser, Sponsor } from '@/types';
 import { createUserProfileToDb } from '@/common/firestore/profile';
 
 // eslint-disable-next-line

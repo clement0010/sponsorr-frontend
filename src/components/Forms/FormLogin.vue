@@ -1,14 +1,8 @@
 <template>
   <v-container>
-    <v-card
-      light
-      class="pa-5"
-    >
+    <v-card light class="pa-5">
       <v-card-title> login </v-card-title>
-      <v-form
-        ref="form"
-        v-model="valid"
-      >
+      <v-form ref="form" v-model="valid">
         <v-text-field
           v-model="user.email"
           outlined
@@ -31,9 +25,7 @@
           @click:append="showPassword = !showPassword"
         />
 
-        <v-card-text v-if="error">
-          There's an issue logging in.
-        </v-card-text>
+        <v-card-text v-if="error"> There's an issue logging in. </v-card-text>
         <v-row justify="center">
           <v-card-actions>
             <v-btn
@@ -61,15 +53,9 @@
       </v-card-subtitle>
     </v-card>
 
-    <div
-      v-if="loading"
-      class="text-center"
-    >
+    <div v-if="loading" class="text-center">
       <v-overlay>
-        <v-progress-circular
-          indeterminate
-          size="64"
-        />
+        <v-progress-circular indeterminate size="64" />
       </v-overlay>
     </div>
   </v-container>
@@ -89,9 +75,7 @@ export default defineComponent({
       showPassword: false,
     });
 
-    const {
-      loading, login, error, userInfo,
-    } = useAuth();
+    const { loading, login, error, userInfo } = useAuth();
 
     const user = reactive({
       email: '',

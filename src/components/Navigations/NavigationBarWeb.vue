@@ -1,24 +1,8 @@
 <template>
-  <v-app-bar
-    class="primary"
-    flat
-    app
-    hide-on-scroll
-  >
-    <v-container
-      fill-height
-      class="py-0"
-    >
-      <v-row
-        v-if="isHome()"
-        align="center"
-        justify="center"
-        class="py-0"
-      >
-        <v-col
-          cols="auto"
-          class="py-0"
-        >
+  <v-app-bar class="primary" flat app hide-on-scroll>
+    <v-container fill-height class="py-0">
+      <v-row v-if="isHome()" align="center" justify="center" class="py-0">
+        <v-col cols="auto" class="py-0">
           <v-app-bar-title>
             <router-link to="/">
               <LogoSponsorr :width="175" />
@@ -28,47 +12,19 @@
 
         <v-spacer />
 
-        <v-col
-          v-if="authenticated"
-          cols="auto"
-        >
-          <router-link
-            :to="{name:'Profile', params:{ id }}"
-          >
-            <v-btn
-              class="font-weight-regular"
-              rounded
-              text
-            >
-              Profile
-            </v-btn>
+        <v-col v-if="authenticated" cols="auto">
+          <router-link :to="{ name: 'Profile', params: { id } }">
+            <v-btn class="font-weight-regular" rounded text> Profile </v-btn>
           </router-link>
         </v-col>
-        <v-col
-          v-else
-          cols="auto"
-        >
-          <router-link
-            :to="{name:'Login'}"
-          >
-            <v-btn
-              class="text-lowercase font-weight-regular"
-              rounded
-              text
-            >
-              Login
-            </v-btn>
+        <v-col v-else cols="auto">
+          <router-link :to="{ name: 'Login' }">
+            <v-btn class="text-lowercase font-weight-regular" rounded text> Login </v-btn>
           </router-link>
           <AuthenticationButton :action="'SignUp'" />
         </v-col>
       </v-row>
-      <v-btn
-        v-else
-        light
-        @click="userSignout"
-      >
-        Sign Out
-      </v-btn>
+      <v-btn v-else light @click="userSignout"> Sign Out </v-btn>
     </v-container>
   </v-app-bar>
 </template>

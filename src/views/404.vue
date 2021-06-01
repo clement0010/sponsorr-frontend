@@ -1,9 +1,7 @@
 <template>
   <BasePage>
     <v-row justify="center">
-      <v-col align="center">
-        Why are you here?
-      </v-col>
+      <v-col align="center"> Why are you here? </v-col>
     </v-row>
   </BasePage>
 </template>

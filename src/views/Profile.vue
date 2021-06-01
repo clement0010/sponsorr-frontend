@@ -1,14 +1,8 @@
 <template>
   <BasePage>
     <Spinner v-if="loading && !error" />
-    <p v-else-if="error">
-      Error loading profile
-    </p>
-    <ProfileLayout
-      v-else
-      :profile="profile"
-      @edit="edit"
-    />
+    <p v-else-if="error">Error loading profile</p>
+    <ProfileLayout v-else :profile="profile" @edit="edit" />
   </BasePage>
 </template>
 
@@ -29,13 +23,7 @@ export default defineComponent({
     BasePage,
   },
   setup(_, { root }) {
-    const {
-      profile,
-      fetchUserProfile,
-      editUserProfile,
-      loading,
-      error,
-    } = useProfile();
+    const { profile, fetchUserProfile, editUserProfile, loading, error } = useProfile();
 
     const uid = root.$route.params.id;
 
