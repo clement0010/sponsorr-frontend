@@ -1,6 +1,11 @@
 <template>
   <AuthenticationLayout>
-    <FormLogin justify="center" align="center" />
+    <FormLogin
+      justify="center"
+      align="center"
+      @alert="(payload) => $emit('alert', payload)"
+      @success="(payload) => $emit('success', payload)"
+    />
   </AuthenticationLayout>
 </template>
 

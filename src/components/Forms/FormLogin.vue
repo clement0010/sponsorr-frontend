@@ -1,5 +1,12 @@
 <template>
   <v-container>
+    <v-row justify="center">
+      <v-col cols="auto">
+        <router-link to="/">
+          <LogoSponsorr class="ma-10" justify="center" :width="logoWidth" />
+        </router-link>
+      </v-col>
+    </v-row>
     <v-card light class="pa-5">
       <v-card-title> login </v-card-title>
       <v-form ref="form" v-model="valid">
@@ -25,7 +32,6 @@
           @click:append="showPassword = !showPassword"
         />
 
-        <v-card-text v-if="error"> There's an issue logging in. </v-card-text>
         <v-row justify="center">
           <v-card-actions>
             <v-btn
@@ -48,7 +54,7 @@
         </span>
         <span>| don't have an account with us? </span>
         <span>
-          <router-link to="signup"> sign up </router-link>
+          <AuthenticationButton :action="'SignUp'" />
         </span>
       </v-card-subtitle>
     </v-card>
@@ -67,9 +73,15 @@ import { defineComponent, reactive } from '@vue/composition-api';
 
 import useAuth from '@/composable/authComposition';
 
+import AuthenticationButton from '@/components/Authentication/AuthenticationButton.vue';
+import LogoSponsorr from '../BuildingElements/LogoSponsorr.vue';
+
 export default defineComponent({
   name: 'FormLogin',
-  setup(_, { root }) {
+  components: { LogoSponsorr, AuthenticationButton },
+  setup(_, { root, emit }) {
+    const logoWidth = 250;
+
     const configuration = reactive({
       valid: true,
       showPassword: false,
@@ -93,10 +105,13 @@ export default defineComponent({
 
         if (!uid) {
           console.log('Wrong credentials!');
+          emit('alert', 'Authentication Error: Incorrect password or email.');
           user.email = '';
           user.password = '';
           return;
         }
+
+        emit('success', 'Logged in!');
 
         root.$router.push({
           name: 'Profile',
@@ -108,6 +123,7 @@ export default defineComponent({
     };
 
     return {
+      logoWidth,
       // Input
       user,
 

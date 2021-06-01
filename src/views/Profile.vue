@@ -22,7 +22,7 @@ export default defineComponent({
     Spinner,
     BasePage,
   },
-  setup(_, { root }) {
+  setup(_, { root, emit }) {
     const { profile, fetchUserProfile, editUserProfile, loading, error } = useProfile();
 
     const uid = root.$route.params.id;
@@ -32,7 +32,13 @@ export default defineComponent({
     });
 
     const edit = async (payload: Record<string, unknown>) => {
-      await editUserProfile(uid, payload);
+      try {
+        await editUserProfile(uid, payload);
+        emit('success', 'Successfully edited!');
+      } catch (err) {
+        emit('alert', 'Failed to edit!');
+        console.error(err);
+      }
     };
 
     return {

@@ -1,7 +1,7 @@
 <template>
   <v-app-bar class="primary" flat app hide-on-scroll>
     <v-container fill-height class="py-0">
-      <v-row v-if="isHome()" align="center" justify="center" class="py-0">
+      <v-row align="center" justify="center" class="py-0">
         <v-col cols="auto" class="py-0">
           <v-app-bar-title>
             <router-link to="/">
@@ -13,13 +13,8 @@
         <v-spacer />
 
         <v-col cols="auto">
-          <v-dialog
-            v-if="isHome"
-            v-model="dialog"
-            fullscreen
-            transition="slide-x-reverse-transition"
-          >
-            <template v-slot:activator="{ on, attrs }">
+          <v-dialog v-model="dialog" fullscreen transition="slide-x-reverse-transition">
+            <template #activator="{ on, attrs }">
               <v-btn icon v-bind="attrs" v-on="on">
                 <v-app-bar-nav-icon />
               </v-btn>
@@ -61,12 +56,14 @@
                     <v-btn class="font-weight-regular" rounded text> Profile </v-btn>
                   </router-link>
                 </v-list-item>
+                <v-list-item class="justify-center">
+                  <v-btn light @click="userSignout"> Sign Out </v-btn>
+                </v-list-item>
               </v-list>
             </v-card>
           </v-dialog>
         </v-col>
       </v-row>
-      <v-btn v-else light @click="userSignout"> Sign Out </v-btn>
     </v-container>
   </v-app-bar>
 </template>
@@ -83,7 +80,7 @@ export default defineComponent({
     AuthenticationButton,
     LogoSponsorr,
   },
-  setup(_, { root }) {
+  setup(_, { root, emit }) {
     const logoWidth = 150;
     const dialog = ref(false);
 
@@ -91,16 +88,16 @@ export default defineComponent({
 
     const userSignout = () => {
       signout();
+
+      emit('success', 'Signed out!');
+
       root.$router.push({
         name: 'Home',
       });
     };
 
-    const isHome = () => root.$route.name === 'Home' || root.$route.name === 'Playground';
-
     return {
       userSignout,
-      isHome,
       dialog,
       logoWidth,
       authenticated,
@@ -119,3 +116,5 @@ export default defineComponent({
   max-width: 1320px;
 }
 </style>
+
+function emit(arg0: string, arg1: string) { throw new Error('Function not implemented.'); }

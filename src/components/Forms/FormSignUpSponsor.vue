@@ -113,7 +113,7 @@ import LogoSponsorr from '../BuildingElements/LogoSponsorr.vue';
 export default defineComponent({
   name: 'FormSignUpSponsor',
   components: { LogoSponsorr },
-  setup(_, { root }) {
+  setup(_, { root, emit }) {
     const logoWidth = 250;
 
     const { error, signup, loading } = useAuth();
@@ -154,12 +154,15 @@ export default defineComponent({
       try {
         const uid: string = await signup(email, password, userMetadata);
 
+        emit('success', 'Signed up successfully!');
+
         root.$router.push({
           name: 'Profile',
           params: { id: uid },
         });
       } catch (err) {
-        // Sign up failed
+        emit('alert', 'Signed up failed!');
+
         console.error(err);
       }
     };

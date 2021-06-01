@@ -1,6 +1,6 @@
 <template>
   <v-dialog v-model="dialog" max-width="600px">
-    <template v-slot:activator="{ on, attrs }">
+    <template #activator="{ on, attrs }">
       <v-btn icon class="mx-5" v-bind="attrs" v-on="on">
         <v-icon color="black"> mdi-pencil </v-icon>
       </v-btn>

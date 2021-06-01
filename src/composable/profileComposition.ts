@@ -26,15 +26,21 @@ export default function useProfile() {
   };
 
   const editUserProfile = async (uid: string, newData: Record<string, unknown>) => {
-    if (!profile.value) {
-      console.log('No profile to edit');
+    try {
+      if (!profile.value) {
+        console.log('No profile to edit');
+        return;
+      }
+      profile.value = {
+        ...profile.value,
+        ...newData,
+      };
+      await updateUserProfileFromDb(uid, newData);
+
       return;
+    } catch (err) {
+      throw new Error(err);
     }
-    profile.value = {
-      ...profile.value,
-      ...newData,
-    };
-    await updateUserProfileFromDb(uid, newData);
   };
 
   return {
