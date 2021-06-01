@@ -36,6 +36,14 @@ const routes: Array<RouteConfig> = [
     beforeEnter: authGuard,
   },
   {
+    path: '/dashboard',
+    name: 'Dashboard',
+    component: () => import(/* webpackChunkName: "dashboard" */ '@/views/Dashboard.vue'),
+    // To be enabled
+    // meta: { requiresAuth: true },
+    // beforeEnter: authGuard,
+  },
+  {
     path: '/playground',
     name: 'Playground',
     component: () => import(/* webpackChunkName: "playground" */ '@/views/Playground.vue'),
