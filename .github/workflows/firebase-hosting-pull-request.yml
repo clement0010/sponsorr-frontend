@@ -8,7 +8,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
-      - run: npm ci && npm run lint
+      - run: npm ci && npm run check:style
   build_and_preview:
     needs: [linting]
     runs-on: ubuntu-latest
