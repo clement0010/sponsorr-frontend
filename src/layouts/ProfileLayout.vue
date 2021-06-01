@@ -39,7 +39,6 @@
 import About from '@/components/PageComponents/Profile/About.vue';
 import Contact from '@/components/PageComponents/Profile/Contact.vue';
 import DisplayPicture from '@/components/PageComponents/Profile/DisplayPicture.vue';
-import IdentificationNumber from '@/components/PageComponents/Profile/IdentificationNumber.vue';
 import Keywords from '@/components/PageComponents/Profile/Keywords.vue';
 import Title from '@/components/PageComponents/Profile/Title.vue';
 
@@ -49,19 +48,18 @@ import { defineComponent } from '@vue/composition-api';
 
 export default defineComponent({
   name: 'ProfileLayout',
+  components: {
+    About,
+    Contact,
+    DisplayPicture,
+    Keywords,
+    Title,
+  },
   props: {
     profile: {
       type: Object as () => Profile,
       required: true,
     },
-  },
-  components: {
-    About,
-    Contact,
-    DisplayPicture,
-    IdentificationNumber,
-    Keywords,
-    Title,
   },
 });
 </script>
