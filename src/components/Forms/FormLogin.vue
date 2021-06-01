@@ -104,11 +104,13 @@ export default defineComponent({
 
         if (!uid) {
           console.log('Wrong credentials!');
-          emit('wrong-credentials');
+          emit('alert', 'Authentication Error: Incorrect password or email.');
           user.email = '';
           user.password = '';
           return;
         }
+
+        emit('success', 'Logged in!');
 
         root.$router.push({
           name: 'Profile',
