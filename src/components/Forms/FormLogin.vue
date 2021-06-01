@@ -54,7 +54,7 @@
         </span>
         <span>| don't have an account with us? </span>
         <span>
-          <router-link to="signup"> sign up </router-link>
+          <AuthenticationButton :action="'SignUp'" />
         </span>
       </v-card-subtitle>
     </v-card>
@@ -73,11 +73,15 @@ import { defineComponent, reactive } from '@vue/composition-api';
 
 import useAuth from '@/composable/authComposition';
 
+import AuthenticationButton from '@/components/Authentication/AuthenticationButton.vue';
 import LogoSponsorr from '../BuildingElements/LogoSponsorr.vue';
 
 export default defineComponent({
   name: 'FormLogin',
-  components: { LogoSponsorr },
+  components: {
+    LogoSponsorr,
+    AuthenticationButton,
+  },
   setup(_, { root, emit }) {
     const logoWidth = 250;
 

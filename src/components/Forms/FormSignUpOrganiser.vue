@@ -89,7 +89,7 @@
       <v-row justify="center">
         <v-card-subtitle>
           <span>have an account with us? </span>
-          <span><router-link to="/login">login</router-link></span>
+          <span><AuthenticationButton :action="'Login'" /></span>
         </v-card-subtitle>
       </v-row>
     </v-card>
@@ -109,10 +109,14 @@ import { defineComponent, reactive } from '@vue/composition-api';
 import useAuth from '@/composable/authComposition';
 import { EventOrganiser } from '@/types';
 import LogoSponsorr from '../BuildingElements/LogoSponsorr.vue';
+import AuthenticationButton from '../Authentication/AuthenticationButton.vue';
 
 export default defineComponent({
   name: 'FormSignUpOrganiser',
-  components: { LogoSponsorr },
+  components: {
+    LogoSponsorr,
+    AuthenticationButton,
+  },
   setup(_, { root }) {
     const logoWidth = 250;
 
