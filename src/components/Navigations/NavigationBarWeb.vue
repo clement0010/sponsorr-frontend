@@ -1,7 +1,7 @@
 <template>
   <v-app-bar class="primary" flat app hide-on-scroll>
     <v-container fill-height class="py-0">
-      <v-row v-if="isHome()" align="center" justify="center" class="py-0">
+      <v-row align="center" justify="center" class="py-0">
         <v-col cols="auto" class="py-0">
           <v-app-bar-title>
             <router-link to="/">
@@ -16,6 +16,7 @@
           <router-link :to="{ name: 'Profile', params: { id } }">
             <v-btn class="font-weight-regular" rounded text> Profile </v-btn>
           </router-link>
+          <v-btn light @click="userSignout"> Sign Out </v-btn>
         </v-col>
         <v-col v-else cols="auto">
           <router-link :to="{ name: 'Login' }">
@@ -24,7 +25,6 @@
           <AuthenticationButton :action="'SignUp'" />
         </v-col>
       </v-row>
-      <v-btn v-else light @click="userSignout"> Sign Out </v-btn>
     </v-container>
   </v-app-bar>
 </template>
