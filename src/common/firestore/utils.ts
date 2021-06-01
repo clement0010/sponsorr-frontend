@@ -10,8 +10,7 @@ export const converter = <T>() => ({
 });
 
 // eslint-disable-next-line
-export const dataPoint = <T>(collectionPath: string) =>
-  firestore.collection(collectionPath).withConverter(converter<T>());
+export const dataPoint = <T>(collectionPath: string) => firestore.collection(collectionPath).withConverter(converter<T>());
 
 export const db = {
   // list your collections here

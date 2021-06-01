@@ -89,7 +89,9 @@
       <v-row justify="center">
         <v-card-subtitle>
           <span>have an account with us? </span>
-          <span><span><AuthenticationButton :action="'Login'" /></span></span>
+          <span
+            ><span><AuthenticationButton :action="'Login'" /></span
+          ></span>
         </v-card-subtitle>
       </v-row>
     </v-card>

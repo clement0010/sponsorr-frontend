@@ -1,8 +1,5 @@
 <template>
-  <v-snackbar
-    :color="status"
-    :value="activate"
-  >
+  <v-snackbar :color="status" :value="activate">
     {{ message }}
   </v-snackbar>
 </template>
@@ -15,10 +12,12 @@ export default defineComponent({
   props: {
     message: {
       type: String,
+      default: 'Default',
     },
     status: {
       type: String,
       enum: ['error', 'success'],
+      default: 'success',
     },
     activate: {
       type: Boolean,

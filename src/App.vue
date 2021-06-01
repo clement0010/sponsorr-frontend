@@ -1,15 +1,8 @@
 <template>
   <v-app>
     <v-main class="primary">
-      <router-view
-        @alert="alert"
-        @success="success"
-      />
-      <Snackbar
-        :activate="snackbarActivate"
-        :message="snackbarMessage"
-        :status="snackbarStatus"
-      />
+      <router-view @alert="alert" @success="success" />
+      <Snackbar :activate="snackbarActivate" :message="snackbarMessage" :status="snackbarStatus" />
     </v-main>
   </v-app>
 </template>
@@ -30,7 +23,9 @@ export default defineComponent({
 
     const snackbarShow = () => {
       snackbarActivate.value = true;
-      setTimeout(() => { snackbarActivate.value = false; }, 2000);
+      setTimeout(() => {
+        snackbarActivate.value = false;
+      }, 2000);
     };
 
     const alert = (message: string): void => {

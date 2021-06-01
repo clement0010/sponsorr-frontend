@@ -1,10 +1,6 @@
 <template>
   <BasePage>
-    <Snackbar
-      :value="snackbar"
-      :message="message"
-      :status="status"
-    />
+    <Snackbar :value="snackbar" :message="message" :status="status" />
   </BasePage>
 </template>
 
