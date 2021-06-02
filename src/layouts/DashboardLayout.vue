@@ -1,6 +1,6 @@
 <template>
   <v-container class="secondary" fluid>
-    <v-container>
+    <v-container class="content">
       <v-row align="center">
         <v-col cols="auto">
           <v-card-title> Dashboard </v-card-title>
@@ -30,3 +30,9 @@ export default defineComponent({
   },
 });
 </script>
+
+<style scoped>
+.content {
+  max-width: 1320px;
+}
+</style>
