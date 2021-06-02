@@ -1,5 +1,5 @@
 <template>
-  <v-container>
+  <v-container fluid>
     <v-tabs>
       <v-tabs-slider color="blue" />
       <v-tab> Upcoming Events </v-tab>
@@ -7,12 +7,13 @@
       <v-tab> Drafts </v-tab>
     </v-tabs>
 
-    <v-data-table :headers="headers"> </v-data-table>
+    <v-data-table :headers="headers" :items="events"> </v-data-table>
   </v-container>
 </template>
 
 <script lang="ts">
 import { defineComponent } from '@vue/composition-api';
+import useEvent from '@/composable/eventComposition';
 
 export default defineComponent({
   name: 'EventTable',
@@ -22,7 +23,9 @@ export default defineComponent({
       { text: 'Date', value: 'date' },
       { text: 'Venue', value: 'venue' },
     ];
-    return { headers };
+
+    const { events } = useEvent();
+    return { headers, events };
   },
 });
 </script>
