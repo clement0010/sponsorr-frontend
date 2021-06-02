@@ -7,7 +7,7 @@
         </v-col>
         <v-spacer />
         <v-col cols="auto">
-          <CreateEvent />
+          <EventCreate />
         </v-col>
       </v-row>
       <v-row justify="center">
@@ -18,14 +18,14 @@
 </template>
 
 <script lang="ts">
-import CreateEvent from '@/components/UserActions/CreateEvent.vue';
+import EventCreate from '@/components/UserActions/EventCreate.vue';
 import EventTable from '@/components/PageComponents/Dashboard/EventTable.vue';
 import { defineComponent } from '@vue/composition-api';
 
 export default defineComponent({
   name: 'DashboardLayout',
   components: {
-    CreateEvent,
+    EventCreate,
     EventTable,
   },
   props: {
