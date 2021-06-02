@@ -13,6 +13,9 @@
           <template #no-data>
             {{ eventGroup.fallback }}
           </template>
+          <template v-if="eventGroup.group === 'Drafts'" #[`item.actions`]="{ item }">
+            <EventPublish :event="item" />
+          </template>
         </v-data-table>
       </v-tab-item>
     </v-tabs-items>
@@ -20,10 +23,14 @@
 </template>
 
 <script lang="ts">
+import EventPublish from '@/components/UserActions/EventPublish.vue';
 import { defineComponent, ref } from '@vue/composition-api';
 
 export default defineComponent({
   name: 'EventTable',
+  components: {
+    EventPublish,
+  },
   props: {
     eventData: {
       type: Array,
