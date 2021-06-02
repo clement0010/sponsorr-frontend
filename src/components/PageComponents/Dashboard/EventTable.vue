@@ -1,31 +1,41 @@
 <template>
   <v-container fluid>
-    <v-tabs>
+    <v-tabs v-model="group">
       <v-tabs-slider color="blue" />
-      <v-tab> Upcoming Events </v-tab>
-      <v-tab> Past Events </v-tab>
-      <v-tab> Drafts </v-tab>
+      <v-tab v-for="(eventGroup, index) in eventGroups" :key="index">
+        {{ eventGroup.group }}
+      </v-tab>
     </v-tabs>
 
-    <v-data-table :headers="headers" :items="events"> </v-data-table>
+    <v-tabs-items v-model="group">
+      <v-tab-item v-for="(eventGroup, index) in eventGroups" :key="index">
+        <v-data-table :headers="eventGroup.headers" :items="eventGroup.content">
+          <template #no-data>
+            {{ eventGroup.fallback }}
+          </template>
+        </v-data-table>
+      </v-tab-item>
+    </v-tabs-items>
   </v-container>
 </template>
 
 <script lang="ts">
-import { defineComponent } from '@vue/composition-api';
-import useEvent from '@/composable/eventComposition';
+import { defineComponent, ref } from '@vue/composition-api';
 
 export default defineComponent({
   name: 'EventTable',
-  setup() {
-    const headers = [
-      { text: 'Event Title', sortable: false, value: 'title' },
-      { text: 'Date', value: 'date' },
-      { text: 'Venue', value: 'venue' },
-    ];
+  props: {
+    eventData: {
+      type: Array,
+      required: true,
+    },
+  },
+  setup(props) {
+    const group = ref(null);
 
-    const { events } = useEvent();
-    return { headers, events };
+    const { eventData: eventGroups } = props;
+
+    return { eventGroups, group };
   },
 });
 </script>

@@ -32,6 +32,7 @@ export interface Sponsor extends Profile {
 
 export interface SponsorrEvent {
   title: string;
-  date: string;
+  date: Date;
   venue: string;
+  published: boolean;
 }

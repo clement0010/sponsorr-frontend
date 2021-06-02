@@ -11,7 +11,7 @@
         </v-col>
       </v-row>
       <v-row justify="center">
-        <EventTable />
+        <EventTable :event-data="eventData" />
       </v-row>
     </v-container>
   </v-container>
@@ -27,6 +27,12 @@ export default defineComponent({
   components: {
     CreateEvent,
     EventTable,
+  },
+  props: {
+    eventData: {
+      type: Array,
+      required: true,
+    },
   },
 });
 </script>
