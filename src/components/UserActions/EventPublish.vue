@@ -17,11 +17,11 @@ export default defineComponent({
       required: true,
     },
   },
-  setup(props) {
+  setup(props, { emit }) {
     const { event } = props;
     const publish = (): void => {
-      console.log('Publishing event');
       event.published = true;
+      emit('publish', 'Event published successfully');
     };
     return { publish };
   },

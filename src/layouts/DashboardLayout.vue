@@ -11,7 +11,7 @@
         </v-col>
       </v-row>
       <v-row justify="center">
-        <EventTable :event-data="eventData" />
+        <EventTable :event-data="eventData" @publish="(payload) => $emit('publish', payload)" />
       </v-row>
     </v-container>
   </v-container>

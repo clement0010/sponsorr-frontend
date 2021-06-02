@@ -14,7 +14,7 @@
             {{ eventGroup.fallback }}
           </template>
           <template v-if="eventGroup.group === 'Drafts'" #[`item.actions`]="{ item }">
-            <EventPublish :event="item" />
+            <EventPublish :event="item" @publish="(payload) => $emit('publish', payload)" />
           </template>
         </v-data-table>
       </v-tab-item>
