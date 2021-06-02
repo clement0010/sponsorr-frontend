@@ -1,13 +1,13 @@
 <template>
   <v-container fluid>
-    <v-tabs v-model="group">
+    <v-tabs v-model="group" class="elevation-3">
       <v-tabs-slider color="blue" />
       <v-tab v-for="(eventGroup, index) in eventGroups" :key="index">
         {{ eventGroup.group }}
       </v-tab>
     </v-tabs>
 
-    <v-tabs-items v-model="group">
+    <v-tabs-items v-model="group" class="elevation-3">
       <v-tab-item v-for="(eventGroup, index) in eventGroups" :key="index">
         <v-data-table :headers="eventGroup.headers" :items="eventGroup.content">
           <template #no-data>
