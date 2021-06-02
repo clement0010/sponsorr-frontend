@@ -29,3 +29,19 @@ export interface EventOrganiser extends Profile {
 export interface Sponsor extends Profile {
   role: Role;
 }
+
+export interface Event {
+  id: string;
+  organiserId: string;
+  title: string;
+  date: string;
+  venue: string;
+  description: string;
+  nature: string;
+  expectedAttendance: number;
+  demographic: string;
+  keywords: string[];
+  published: boolean;
+  documents?: string[];
+  websiteURL?: string;
+}
