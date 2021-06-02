@@ -20,9 +20,11 @@
         </v-col>
         <v-col v-else cols="auto">
           <router-link :to="{ name: 'Login' }">
-            <v-btn class="text-lowercase font-weight-regular" rounded text> Login </v-btn>
+            <v-btn class="text-lowercase font-weight-regular white--text" rounded text>
+              Login
+            </v-btn>
           </router-link>
-          <AuthenticationButton :action="'SignUp'" />
+          <AuthenticationButton />
         </v-col>
       </v-row>
     </v-container>

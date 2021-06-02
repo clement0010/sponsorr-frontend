@@ -2,23 +2,12 @@
   <v-dialog v-model="dialog" light width="unset">
     <template #activator="{ on, attrs }">
       <v-btn
-        v-if="action === 'Login'"
-        class="text-lowercase font-weight-regular"
-        rounded
-        text
-        v-bind="attrs"
-        :ripple="false"
-        v-on="on"
-      >
-        login
-      </v-btn>
-      <v-btn
-        v-if="action === 'SignUp'"
         class="text-lowercase font-weight-regular"
         rounded
         outlined
         v-bind="attrs"
         :ripple="false"
+        :color="color"
         v-on="on"
       >
         sign up
@@ -26,14 +15,14 @@
     </template>
 
     <v-card width="auto">
-      <v-card-title> {{ action === 'Login' ? 'login' : 'sign up' }} as </v-card-title>
+      <v-card-title> sign up as </v-card-title>
       <v-card-actions>
-        <router-link :to="{ name: action, params: { role: 'event-organiser' } }">
+        <router-link :to="{ name: 'signup', params: { role: 'event-organiser' } }">
           <v-btn class="accent1">
             <span class="white--text">Event Organiser</span>
           </v-btn>
         </router-link>
-        <router-link :to="{ name: action, params: { role: 'sponsor' } }">
+        <router-link :to="{ name: 'signup', params: { role: 'sponsor' } }">
           <v-btn class="accent2">
             <span class="white--text">Sponsor</span>
           </v-btn>
@@ -49,10 +38,10 @@ import { defineComponent, ref } from '@vue/composition-api';
 export default defineComponent({
   name: 'AuthenticationButton',
   props: {
-    action: {
+    color: {
       type: String,
-      default: 'login',
-      enum: ['Login', 'SignUp'],
+      requred: true,
+      default: 'white',
     },
   },
   setup() {

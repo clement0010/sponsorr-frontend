@@ -54,7 +54,7 @@
         </span>
         <span>| don't have an account with us? </span>
         <span>
-          <AuthenticationButton :action="'SignUp'" />
+          <AuthenticationButton :color="'black'" />
         </span>
       </v-card-subtitle>
     </v-card>

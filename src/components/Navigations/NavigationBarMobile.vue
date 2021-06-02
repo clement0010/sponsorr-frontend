@@ -16,7 +16,7 @@
           <v-dialog v-model="dialog" fullscreen transition="slide-x-reverse-transition">
             <template #activator="{ on, attrs }">
               <v-btn icon v-bind="attrs" v-on="on">
-                <v-app-bar-nav-icon />
+                <v-app-bar-nav-icon class="white--text" />
               </v-btn>
             </template>
 
@@ -47,7 +47,7 @@
                   </router-link>
                 </v-list-item>
                 <v-list-item class="justify-center">
-                  <AuthenticationButton :action="'SignUp'" />
+                  <AuthenticationButton :color="'black'" />
                 </v-list-item>
               </v-list>
               <v-list v-else>
