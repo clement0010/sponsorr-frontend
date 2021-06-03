@@ -1,6 +1,9 @@
 <template>
   <BasePage>
-    <DashboardLayout :event-data="eventPacket" @publish="(payload) => $emit('success', payload)" />
+    <DashboardLayout
+      :event-data="eventPacket()"
+      @publish="(payload) => $emit('success', payload)"
+    />
   </BasePage>
 </template>
 

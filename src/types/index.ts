@@ -35,7 +35,7 @@ export interface SponsorrEvent {
   date: Date;
   venue: string;
   published: boolean;
-  views: number;
-  clicks: number;
-  matches: number;
+  views?: number;
+  clicks?: number;
+  matches?: number;
 }
