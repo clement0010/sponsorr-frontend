@@ -17,12 +17,12 @@
     <v-card width="auto">
       <v-card-title> sign up as </v-card-title>
       <v-card-actions>
-        <router-link :to="{ name: 'signup', params: { role: 'event-organiser' } }">
+        <router-link :to="{ name: 'SignUp', params: { role: 'event-organiser' } }">
           <v-btn class="accent1">
             <span class="white--text">Event Organiser</span>
           </v-btn>
         </router-link>
-        <router-link :to="{ name: 'signup', params: { role: 'sponsor' } }">
+        <router-link :to="{ name: 'SignUp', params: { role: 'sponsor' } }">
           <v-btn class="accent2">
             <span class="white--text">Sponsor</span>
           </v-btn>
