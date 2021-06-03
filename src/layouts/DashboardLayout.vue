@@ -3,7 +3,7 @@
     <v-container class="content">
       <v-row align="center">
         <v-col cols="auto">
-          <v-card-title> Dashboard </v-card-title>
+          <v-card-title class="text-h2"> Dashboard </v-card-title>
         </v-col>
         <v-spacer />
         <v-col cols="auto">
