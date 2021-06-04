@@ -1,20 +1,19 @@
 <template>
   <BasePage>
-    <Snackbar :value="snackbar" :message="message" :status="status" />
+    <EventDelete />
   </BasePage>
 </template>
 
 <script lang="ts">
 import BasePage from '@/layouts/BasePage.vue';
-import Snackbar from '@/components/BuildingElements/Snackbar.vue';
-
+import EventDelete from '@/components/UserActions/EventDelete.vue';
 import { defineComponent, ref } from '@vue/composition-api';
 
 export default defineComponent({
   name: 'Playground',
   components: {
     BasePage,
-    Snackbar,
+    EventDelete,
   },
   setup() {
     const message = ref('Big boo');

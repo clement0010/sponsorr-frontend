@@ -13,8 +13,16 @@
           <template #no-data>
             {{ eventGroup.fallback }}
           </template>
-          <template v-if="eventGroup.group === 'Drafts'" #[`item.actions`]="{ item }">
-            <EventPublish :event="item" @publish="(payload) => $emit('publish', payload)" />
+          <template #[`item.actions`]="{ item }">
+            <EventPublish
+              v-if="eventGroup.group === 'Drafts'"
+              :event="item"
+              @publish="(payload) => $emit('publish', payload)"
+            />
+            <EventDelete
+              :event-title="item.title"
+              @deleteEvent="(payload) => $emit('deleteEvent', payload)"
+            />
           </template>
         </v-data-table>
       </v-tab-item>
@@ -23,6 +31,7 @@
 </template>
 
 <script lang="ts">
+import EventDelete from '@/components/UserActions/EventDelete.vue';
 import EventPublish from '@/components/UserActions/EventPublish.vue';
 import { defineComponent, ref } from '@vue/composition-api';
 
@@ -30,6 +39,7 @@ export default defineComponent({
   name: 'EventTable',
   components: {
     EventPublish,
+    EventDelete,
   },
   props: {
     eventData: {

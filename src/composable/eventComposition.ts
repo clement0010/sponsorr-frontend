@@ -174,6 +174,10 @@ export default function useEvent() {
           text: 'Matches',
           value: 'matches',
         },
+        {
+          text: 'Actions',
+          value: 'actions',
+        },
       ],
       content: myEvents.filter((e) => e.published && e.date > new Date()),
       fallback: 'No upcoming events',
@@ -192,6 +196,10 @@ export default function useEvent() {
         {
           text: 'Venue',
           value: 'venue',
+        },
+        {
+          text: 'Actions',
+          value: 'actions',
         },
       ],
       content: myEvents.filter((e) => e.published && e.date < new Date()),
