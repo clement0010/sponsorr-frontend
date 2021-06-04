@@ -7,6 +7,7 @@ import dayjs from 'dayjs';
  */
 export const generateDateFormat = (format?: string): number => {
   // return dayjs().format(format || 'DD/MM/YYYY');
+  console.log(format);
   return dayjs().unix();
 };
 
