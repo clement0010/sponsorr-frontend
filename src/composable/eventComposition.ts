@@ -173,7 +173,7 @@ export default function useEvent() {
         },
         {
           text: 'Date',
-          value: 'date',
+          value: 'createdAt',
         },
         {
           text: 'Venue',
