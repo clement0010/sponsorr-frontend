@@ -35,14 +35,18 @@
           :rules="[requireInputRule, validEmailRule]"
         />
 
-        <v-text-field
+        <vue-tel-input-vuetify
           v-model="user.phoneNumber"
           outlined
           required
-          hint="required"
+          hint="Required"
           label="phone number"
-          type="number"
-          :rules="[requireInputRule]"
+          placeholder=""
+          autocomplete
+          :only-countries="['SG']"
+          :mode="'international'"
+          :valid-characters-only="true"
+          :rules="[requireInputRule, numericsOnlyRule]"
         />
 
         <v-text-field
@@ -104,7 +108,12 @@
 </template>
 
 <script lang="ts">
-import { requireInputRule, validEmailRule, passwordLengthRule } from '@/common/validation';
+import {
+  requireInputRule,
+  validEmailRule,
+  passwordLengthRule,
+  numericsOnlyRule,
+} from '@/common/validation';
 import { defineComponent, reactive } from '@vue/composition-api';
 import useAuth from '@/composable/authComposition';
 import { EventOrganiser } from '@/types';
@@ -178,6 +187,7 @@ export default defineComponent({
       validEmailRule,
       validatePassword,
       passwordLengthRule,
+      numericsOnlyRule,
 
       // Sign up
       error,
@@ -188,4 +198,8 @@ export default defineComponent({
     };
   },
 });
+
+/*
+
+          */
 </script>

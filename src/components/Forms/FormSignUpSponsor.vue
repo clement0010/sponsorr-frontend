@@ -35,14 +35,18 @@
           :rules="[requireInputRule, validEmailRule]"
         />
 
-        <v-text-field
+        <vue-tel-input-vuetify
           v-model="user.phoneNumber"
           outlined
           required
-          hint="required"
+          hint="Required"
           label="phone number"
-          type="number"
-          :rules="[requireInputRule]"
+          placeholder=""
+          autocomplete
+          :only-countries="['SG']"
+          :mode="'international'"
+          :valid-characters-only="true"
+          :rules="[requireInputRule, numericsOnlyRule]"
         />
 
         <v-text-field
