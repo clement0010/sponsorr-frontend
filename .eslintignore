@@ -2,7 +2,6 @@
 dist
 assets
 node_modules
-functions/**
 .husky/**
 
 
