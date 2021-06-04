@@ -30,9 +30,9 @@ export interface Sponsor extends Profile {
   role: Role;
 }
 
-export interface SponsorrEvent {
+export interface SponsorEvent {
   title: string;
-  date: Date;
+  createdAt: number;
   venue: string;
   published: boolean;
   views?: number;
