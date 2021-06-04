@@ -1,7 +1,7 @@
 <template>
   <v-dialog v-model="dialog" max-width="500">
     <template #activator="{ on, attrs }">
-      <v-btn class="error" v-bind="attrs" v-on="on"> Delete Event </v-btn>
+      <v-btn class="error" v-bind="attrs" small v-on="on"> Delete Event </v-btn>
     </template>
 
     <v-card>

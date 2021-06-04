@@ -1,5 +1,5 @@
 <template>
-  <v-btn class="success" @click="publish">
+  <v-btn class="success" small @click="publish">
     <v-icon>mdi-check</v-icon>
     Publish Event
   </v-btn>

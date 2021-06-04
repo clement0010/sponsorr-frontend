@@ -1,5 +1,5 @@
 <template>
-  <v-btn class="warning" @click="unpublish"> Unpublish Event </v-btn>
+  <v-btn class="warning" small @click="unpublish"> Unpublish Event </v-btn>
 </template>
 
 <script lang="ts">

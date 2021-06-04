@@ -19,11 +19,13 @@
               :event="item"
               @publish="(payload) => $emit('publish', payload)"
             />
+
             <EventUnpublish
               v-if="eventGroup.group !== 'Drafts'"
               :event="item"
               @unpublish="(payload) => $emit('unpublish', payload)"
             />
+
             <EventDelete
               :event-title="item.title"
               @deleteEvent="(payload) => $emit('deleteEvent', payload)"
