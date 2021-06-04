@@ -3,6 +3,8 @@
     <DashboardLayout
       :event-data="eventPacket()"
       @publish="(payload) => $emit('success', payload)"
+      @unpublish="(payload) => $emit('success', payload)"
+      @deleteEvent="(payload) => $emit('success', payload)"
     />
   </BasePage>
 </template>

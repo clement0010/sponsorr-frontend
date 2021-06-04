@@ -7,8 +7,9 @@
     <v-card>
       <v-card-title> Delete Event </v-card-title>
       <v-card-text>
-        <span>Are you sure you want to delete the event: </span>
-        <span> "{{ eventTitle }}" ?</span>
+        <span> Are you sure you want to delete the event: "{{ eventTitle }}" ?</span>
+        <br />
+        <span> This action is <strong>irreversible</strong>.</span>
       </v-card-text>
       <v-card-actions>
         <v-btn class="error" @click="deleteEvent"> Delete Event Permanently </v-btn>

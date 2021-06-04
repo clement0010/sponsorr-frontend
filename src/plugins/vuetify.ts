@@ -14,7 +14,7 @@ const opts = {
         accent2: '#0059A3',
         accent3: '#FFC981',
         white: '#FFFFFF',
-        balck: '#000000',
+        black: '#000000',
         // Config here
         // primary: '#1976D2',
         // secondary: '#424242',

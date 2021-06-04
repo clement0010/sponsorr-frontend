@@ -19,6 +19,11 @@
               :event="item"
               @publish="(payload) => $emit('publish', payload)"
             />
+            <EventUnpublish
+              v-if="eventGroup.group !== 'Drafts'"
+              :event="item"
+              @unpublish="(payload) => $emit('unpublish', payload)"
+            />
             <EventDelete
               :event-title="item.title"
               @deleteEvent="(payload) => $emit('deleteEvent', payload)"
@@ -33,13 +38,15 @@
 <script lang="ts">
 import EventDelete from '@/components/UserActions/EventDelete.vue';
 import EventPublish from '@/components/UserActions/EventPublish.vue';
+import EventUnpublish from '@/components/UserActions/EventUnpublish.vue';
 import { defineComponent, ref } from '@vue/composition-api';
 
 export default defineComponent({
   name: 'EventTable',
   components: {
-    EventPublish,
     EventDelete,
+    EventPublish,
+    EventUnpublish,
   },
   props: {
     eventData: {
