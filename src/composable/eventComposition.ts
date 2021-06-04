@@ -1,12 +1,13 @@
-import { SponsorrEvent } from '@/types/index';
-import { ref } from '@vue/composition-api';
+import { generateDateFormat, isPastEvent } from '@/common/utility';
+import { SponsorEvent } from '@/types/index';
+import { computed, ref } from '@vue/composition-api';
 
 // eslint-disable-next-line
 export default function useEvent() {
   const loading = ref(false);
   const error = ref(false);
 
-  const createEvent = async (eventMetadata: SponsorrEvent) => {
+  const createEvent = async (eventMetadata: SponsorEvent) => {
     try {
       // Call to firebase
     } catch (err) {
@@ -71,10 +72,10 @@ export default function useEvent() {
     }
   };
 
-  const myEvents: SponsorrEvent[] = [
+  const events: SponsorEvent[] = [
     {
       title: 'Fundraising Dinner',
-      date: new Date('2021-04-10'),
+      createdAt: generateDateFormat(),
       venue: 'Teh Tarik Place',
       published: true,
       views: 0,
@@ -83,7 +84,7 @@ export default function useEvent() {
     },
     {
       title: 'Fun Run',
-      date: new Date('2021-04-10'),
+      createdAt: generateDateFormat(),
       venue: 'South Coast Park',
       published: true,
       views: 0,
@@ -92,7 +93,7 @@ export default function useEvent() {
     },
     {
       title: 'Farewell Party',
-      date: new Date('2021-04-10'),
+      createdAt: generateDateFormat(),
       venue: 'The Geck',
       published: true,
       views: 0,
@@ -101,25 +102,34 @@ export default function useEvent() {
     },
     {
       title: 'Cinema Outing',
-      date: new Date('2021-04-10'),
+      createdAt: generateDateFormat(),
       venue: 'Silver City Cinema',
       published: false,
+      views: 0,
+      clicks: 0,
+      matches: 0,
     },
     {
       title: 'Social Action: Caring for the Old',
-      date: new Date('2021-04-10'),
+      createdAt: generateDateFormat(),
       venue: "Old Folks' Home",
       published: false,
+      views: 0,
+      clicks: 0,
+      matches: 0,
     },
     {
       title: 'Some Random Event',
-      date: new Date('2021-04-10'),
+      createdAt: generateDateFormat(),
       venue: 'Batam Island',
       published: false,
+      views: 0,
+      clicks: 0,
+      matches: 0,
     },
     {
       title: 'Filler Event 1',
-      date: new Date('2022-04-10'),
+      createdAt: generateDateFormat(),
       venue: 'Silver City Cinema',
       published: true,
       views: 0,
@@ -128,7 +138,7 @@ export default function useEvent() {
     },
     {
       title: 'Filler Event 2',
-      date: new Date('2022-04-10'),
+      createdAt: generateDateFormat(),
       venue: "Old Folks' Home",
       published: true,
       views: 0,
@@ -137,7 +147,7 @@ export default function useEvent() {
     },
     {
       title: 'Filler Event 3',
-      date: new Date('2022-04-10'),
+      createdAt: generateDateFormat(),
       venue: 'Batam Island',
       published: true,
       views: 0,
@@ -146,89 +156,89 @@ export default function useEvent() {
     },
   ];
 
-  const eventPacket = () => [
-    {
-      group: 'Upcoming Events',
-      headers: [
-        {
-          text: 'Event Title',
-          value: 'title',
-        },
-        {
-          text: 'Date',
-          value: 'date',
-        },
-        {
-          text: 'Venue',
-          value: 'venue',
-        },
-        {
-          text: 'Views',
-          value: 'views',
-        },
-        {
-          text: 'Clicks',
-          value: 'clicks',
-        },
-        {
-          text: 'Matches',
-          value: 'matches',
-        },
-        {
-          text: 'Actions',
-          value: 'actions',
-        },
-      ],
-      content: myEvents.filter((e) => e.published && e.date > new Date()),
-      fallback: 'No upcoming events',
-    },
-    {
-      group: 'Past Events',
-      headers: [
-        {
-          text: 'Event Title',
-          value: 'title',
-        },
-        {
-          text: 'Date',
-          value: 'date',
-        },
-        {
-          text: 'Venue',
-          value: 'venue',
-        },
-        {
-          text: 'Actions',
-          value: 'actions',
-        },
-      ],
-      content: myEvents.filter((e) => e.published && e.date < new Date()),
-      fallback: 'No past events',
-    },
-    {
-      group: 'Drafts',
-      headers: [
-        {
-          text: 'Event Title',
-          value: 'title',
-        },
-        {
-          text: 'Date',
-          value: 'date',
-        },
-        {
-          text: 'Venue',
-          value: 'venue',
-        },
-        {
-          text: 'Actions',
-          value: 'actions',
-        },
-      ],
-      content: myEvents.filter((e) => !e.published),
-      fallback: 'Nothing in drafts',
-    },
-  ];
+  // const eventPacket = () => [
+  //   {
+  //     group: 'Upcoming Events',
+  //     headers: [
+  //       {
+  //         text: 'Event Title',
+  //         value: 'title',
+  //       },
+  //       {
+  //         text: 'Date',
+  //         value: 'date',
+  //       },
+  //       {
+  //         text: 'Venue',
+  //         value: 'venue',
+  //       },
+  //       {
+  //         text: 'Views',
+  //         value: 'views',
+  //       },
+  //       {
+  //         text: 'Clicks',
+  //         value: 'clicks',
+  //       },
+  //       {
+  //         text: 'Matches',
+  //         value: 'matches',
+  //       },
+  //       {
+  //         text: 'Actions',
+  //         value: 'actions',
+  //       },
+  //     ],
+  //     content: myEvents.filter((e) => e.published && e.date > new Date()),
+  //     fallback: 'No upcoming events',
+  //   },
+  //   {
+  //     group: 'Past Events',
+  //     headers: [
+  //       {
+  //         text: 'Event Title',
+  //         value: 'title',
+  //       },
+  //       {
+  //         text: 'Date',
+  //         value: 'date',
+  //       },
+  //       {
+  //         text: 'Venue',
+  //         value: 'venue',
+  //       },
+  //       {
+  //         text: 'Actions',
+  //         value: 'actions',
+  //       },
+  //     ],
+  //     content: myEvents.filter(),
+  //     fallback: 'No past events',
+  //   },
+  //   {
+  //     group: 'Drafts',
+  //     headers: [
+  //       {
+  //         text: 'Event Title',
+  //         value: 'title',
+  //       },
+  //       {
+  //         text: 'Date',
+  //         value: 'date',
+  //       },
+  //       {
+  //         text: 'Venue',
+  //         value: 'venue',
+  //       },
+  //       {
+  //         text: 'Actions',
+  //         value: 'actions',
+  //       },
+  //     ],
+  //     content: myEvents.filter((e) => !e.published),
+  //     fallback: 'Nothing in drafts',
+  //   },
+  // ];
 
   return {
     createEvent,
@@ -238,6 +248,8 @@ export default function useEvent() {
     unpublishEvent,
     editEvent,
     deleteEvent,
-    eventPacket,
+
+    events,
+    filteredEvents: computed(() => events.filter((event) => isPastEvent(event.createdAt))),
   };
 }
