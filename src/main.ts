@@ -1,3 +1,4 @@
+import VueTelInputVuetify from 'vue-tel-input-vuetify/lib';
 import VueCompositionApi from '@vue/composition-api';
 import Vue from 'vue';
 import App from './App.vue';
@@ -6,6 +7,7 @@ import vuetify from './plugins/vuetify';
 
 Vue.config.productionTip = false;
 Vue.use(VueCompositionApi);
+Vue.use(VueTelInputVuetify, { vuetify });
 
 new Vue({
   router,
