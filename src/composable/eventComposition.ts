@@ -10,6 +10,7 @@ export default function useEvent() {
   const createEvent = async (eventMetadata: SponsorEvent) => {
     try {
       // Call to firebase
+      console.log(eventMetadata);
     } catch (err) {
       console.error(err);
       error.value = true;
@@ -20,6 +21,7 @@ export default function useEvent() {
   const fetchEvent = async (eventId: string) => {
     try {
       // Call to firebase
+      console.log(eventId);
     } catch (err) {
       console.error(err);
       error.value = true;
@@ -30,6 +32,7 @@ export default function useEvent() {
   const fetchAllEvent = async (uid: string) => {
     try {
       // Call to firebase
+      console.log(uid);
     } catch (err) {
       console.error(err);
       error.value = true;
@@ -39,6 +42,7 @@ export default function useEvent() {
   const publishEvent = async (eventId: string) => {
     try {
       // Call to firebase
+      console.log(eventId);
     } catch (err) {
       console.error(err);
       error.value = true;
@@ -48,6 +52,7 @@ export default function useEvent() {
   const unpublishEvent = async (eventId: string) => {
     try {
       // Call to firebase
+      console.log(eventId);
     } catch (err) {
       console.error(err);
       error.value = true;
@@ -57,6 +62,7 @@ export default function useEvent() {
   const editEvent = async (eventId: string, newData: Record<string, unknown>) => {
     try {
       // Call to firebase
+      console.log(eventId, newData);
     } catch (err) {
       console.error(err);
       error.value = true;
@@ -66,6 +72,7 @@ export default function useEvent() {
   const deleteEvent = async (eventId: string) => {
     try {
       // Call to firebase
+      console.log(eventId);
     } catch (err) {
       console.error(err);
       error.value = true;
@@ -156,89 +163,89 @@ export default function useEvent() {
     },
   ];
 
-  // const eventPacket = () => [
-  //   {
-  //     group: 'Upcoming Events',
-  //     headers: [
-  //       {
-  //         text: 'Event Title',
-  //         value: 'title',
-  //       },
-  //       {
-  //         text: 'Date',
-  //         value: 'date',
-  //       },
-  //       {
-  //         text: 'Venue',
-  //         value: 'venue',
-  //       },
-  //       {
-  //         text: 'Views',
-  //         value: 'views',
-  //       },
-  //       {
-  //         text: 'Clicks',
-  //         value: 'clicks',
-  //       },
-  //       {
-  //         text: 'Matches',
-  //         value: 'matches',
-  //       },
-  //       {
-  //         text: 'Actions',
-  //         value: 'actions',
-  //       },
-  //     ],
-  //     content: myEvents.filter((e) => e.published && e.date > new Date()),
-  //     fallback: 'No upcoming events',
-  //   },
-  //   {
-  //     group: 'Past Events',
-  //     headers: [
-  //       {
-  //         text: 'Event Title',
-  //         value: 'title',
-  //       },
-  //       {
-  //         text: 'Date',
-  //         value: 'date',
-  //       },
-  //       {
-  //         text: 'Venue',
-  //         value: 'venue',
-  //       },
-  //       {
-  //         text: 'Actions',
-  //         value: 'actions',
-  //       },
-  //     ],
-  //     content: myEvents.filter(),
-  //     fallback: 'No past events',
-  //   },
-  //   {
-  //     group: 'Drafts',
-  //     headers: [
-  //       {
-  //         text: 'Event Title',
-  //         value: 'title',
-  //       },
-  //       {
-  //         text: 'Date',
-  //         value: 'date',
-  //       },
-  //       {
-  //         text: 'Venue',
-  //         value: 'venue',
-  //       },
-  //       {
-  //         text: 'Actions',
-  //         value: 'actions',
-  //       },
-  //     ],
-  //     content: myEvents.filter((e) => !e.published),
-  //     fallback: 'Nothing in drafts',
-  //   },
-  // ];
+  const eventPacket = () => [
+    {
+      group: 'Upcoming Events',
+      headers: [
+        {
+          text: 'Event Title',
+          value: 'title',
+        },
+        {
+          text: 'Date',
+          value: 'date',
+        },
+        {
+          text: 'Venue',
+          value: 'venue',
+        },
+        {
+          text: 'Views',
+          value: 'views',
+        },
+        {
+          text: 'Clicks',
+          value: 'clicks',
+        },
+        {
+          text: 'Matches',
+          value: 'matches',
+        },
+        {
+          text: 'Actions',
+          value: 'actions',
+        },
+      ],
+      content: events.filter((e) => e.published && isPastEvent(e.createdAt)),
+      fallback: 'No upcoming events',
+    },
+    {
+      group: 'Past Events',
+      headers: [
+        {
+          text: 'Event Title',
+          value: 'title',
+        },
+        {
+          text: 'Date',
+          value: 'date',
+        },
+        {
+          text: 'Venue',
+          value: 'venue',
+        },
+        {
+          text: 'Actions',
+          value: 'actions',
+        },
+      ],
+      content: events,
+      fallback: 'No past events',
+    },
+    {
+      group: 'Drafts',
+      headers: [
+        {
+          text: 'Event Title',
+          value: 'title',
+        },
+        {
+          text: 'Date',
+          value: 'date',
+        },
+        {
+          text: 'Venue',
+          value: 'venue',
+        },
+        {
+          text: 'Actions',
+          value: 'actions',
+        },
+      ],
+      content: events.filter((e) => !e.published),
+      fallback: 'Nothing in drafts',
+    },
+  ];
 
   return {
     createEvent,
@@ -249,6 +256,9 @@ export default function useEvent() {
     editEvent,
     deleteEvent,
 
+    eventPacket,
+
+    loading,
     events,
     filteredEvents: computed(() => events.filter((event) => isPastEvent(event.createdAt))),
   };

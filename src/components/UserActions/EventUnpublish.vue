@@ -3,14 +3,14 @@
 </template>
 
 <script lang="ts">
-import { SponsorrEvent } from '@/types';
+import { SponsorEvent } from '@/types';
 import { defineComponent } from '@vue/composition-api';
 
 export default defineComponent({
   name: 'PublishEventButton',
   props: {
     event: {
-      type: Object as () => SponsorrEvent,
+      type: Object as () => SponsorEvent,
       required: true,
     },
   },

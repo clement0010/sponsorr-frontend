@@ -1,7 +1,6 @@
 import VueTelInputVuetify from 'vue-tel-input-vuetify/lib';
 import VueCompositionApi from '@vue/composition-api';
 import Vue from 'vue';
-import VueTelInputVuetify from 'vue-tel-input-vuetify/lib';
 import App from './App.vue';
 import router from './router';
 import vuetify from './plugins/vuetify';

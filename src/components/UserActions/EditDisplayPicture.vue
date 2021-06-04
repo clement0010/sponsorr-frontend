@@ -30,6 +30,7 @@ export default defineComponent({
   props: {
     urlPic: {
       type: String,
+      default: () => '',
     },
   },
   setup(props, { emit }) {
