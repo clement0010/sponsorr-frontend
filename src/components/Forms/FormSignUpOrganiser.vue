@@ -98,12 +98,7 @@
       </v-row>
     </v-card>
 
-    <!-- Spinner -->
-    <div v-if="loading" class="text-center">
-      <v-overlay>
-        <v-progress-circular indeterminate size="64" />
-      </v-overlay>
-    </div>
+    <Spinner :loading="loading" />
   </v-container>
 </template>
 
@@ -117,11 +112,12 @@ import {
 import { defineComponent, reactive } from '@vue/composition-api';
 import useAuth from '@/composable/authComposition';
 import { EventOrganiser } from '@/types';
+import Spinner from '@/components/BuildingElements/Spinner.vue';
 import LogoSponsorr from '../BuildingElements/LogoSponsorr.vue';
 
 export default defineComponent({
   name: 'FormSignUpOrganiser',
-  components: { LogoSponsorr },
+  components: { LogoSponsorr, Spinner },
   setup(_, { root, emit }) {
     const logoWidth = 250;
 
@@ -198,8 +194,4 @@ export default defineComponent({
     };
   },
 });
-
-/*
-
-          */
 </script>

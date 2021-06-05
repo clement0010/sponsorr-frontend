@@ -59,11 +59,7 @@
       </v-card-subtitle>
     </v-card>
 
-    <div v-if="loading" class="text-center">
-      <v-overlay>
-        <v-progress-circular indeterminate size="64" />
-      </v-overlay>
-    </div>
+    <Spinner :loading="loading" />
   </v-container>
 </template>
 
@@ -74,11 +70,12 @@ import { defineComponent, reactive } from '@vue/composition-api';
 import useAuth from '@/composable/authComposition';
 
 import AuthenticationButton from '@/components/Authentication/AuthenticationButton.vue';
+import Spinner from '@/components/BuildingElements/Spinner.vue';
 import LogoSponsorr from '../BuildingElements/LogoSponsorr.vue';
 
 export default defineComponent({
   name: 'FormLogin',
-  components: { LogoSponsorr, AuthenticationButton },
+  components: { LogoSponsorr, AuthenticationButton, Spinner },
   setup(_, { root, emit }) {
     const logoWidth = 250;
 
