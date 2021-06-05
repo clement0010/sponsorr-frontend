@@ -24,5 +24,5 @@ package-lock.json
 firestore.rules
 storage.rules
 __test__
-netlify.toml
 favicon.ico
+src/common/type.ts
