@@ -6,7 +6,7 @@
 
 <script lang="ts">
 import BasePage from '@/layouts/BasePage.vue';
-import EventDelete from '@/components/UserActions/EventDelete.vue';
+import EventDelete from '@/components/EventActions/EventDelete.vue';
 import { defineComponent, ref } from '@vue/composition-api';
 
 export default defineComponent({

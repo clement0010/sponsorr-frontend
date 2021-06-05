@@ -38,9 +38,9 @@
 </template>
 
 <script lang="ts">
-import EventDelete from '@/components/UserActions/EventDelete.vue';
-import EventPublish from '@/components/UserActions/EventPublish.vue';
-import EventUnpublish from '@/components/UserActions/EventUnpublish.vue';
+import EventDelete from '@/components/EventActions/EventDelete.vue';
+import EventPublish from '@/components/EventActions/EventPublish.vue';
+import EventUnpublish from '@/components/EventActions/EventUnpublish.vue';
 import { defineComponent, ref } from '@vue/composition-api';
 
 export default defineComponent({

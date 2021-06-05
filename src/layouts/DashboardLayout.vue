@@ -23,7 +23,7 @@
 </template>
 
 <script lang="ts">
-import EventCreate from '@/components/UserActions/EventCreate.vue';
+import EventCreate from '@/components/EventActions/EventCreate.vue';
 import EventTable from '@/components/PageComponents/Dashboard/EventTable.vue';
 import { defineComponent } from '@vue/composition-api';
 
