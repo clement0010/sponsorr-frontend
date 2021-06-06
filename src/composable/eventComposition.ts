@@ -1,10 +1,11 @@
 import { EventCategory, SponsorEvent } from '@/types/index';
 import { computed, ref } from '@vue/composition-api';
+import { isPastEvent } from '@/common/utility';
 import database from './mockFirestore';
 
 // eslint-disable-next-line
 export default function useEvent() {
-  const { fetchUpcomingEvents, fetchPastEvents, fetchDrafts, removeEvent } = database();
+  const { fetchUpcomingEvents, fetchPastEvents, fetchDrafts, removeEvent, publish } = database();
   const loading = ref(true);
 
   const eventCategories = ref<EventCategory[]>();
@@ -137,11 +138,22 @@ export default function useEvent() {
     eventCategory.contents.splice(eventCategory.contents.indexOf(event), 1);
   };
 
+  const publishEvent = async (event: SponsorEvent) => {
+    await publish(event);
+    draftsCategory.contents.splice(draftsCategory.contents.indexOf(event), 1);
+    if (isPastEvent(event.date)) {
+      pastCategory.contents.push(event);
+      return;
+    }
+    upcomingCategory.contents.push(event);
+  };
+
   return {
     eventCategories: computed(() => eventCategories.value),
     loading,
     initialise,
     fetchEvents,
     deleteEvent,
+    publishEvent,
   };
 }

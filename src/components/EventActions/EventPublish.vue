@@ -1,5 +1,11 @@
 <template>
-  <v-btn class="success" small @click="publish"> Publish </v-btn>
+  <v-btn
+    class="success"
+    small
+    @click="$emit('publishEvent', { event, message: 'Event published successfully' })"
+  >
+    Publish
+  </v-btn>
 </template>
 
 <script lang="ts">
@@ -13,14 +19,6 @@ export default defineComponent({
       type: Object as () => SponsorEvent,
       required: true,
     },
-  },
-  setup(props, { emit }) {
-    const { event } = props;
-    const publish = (): void => {
-      event.published = true;
-      emit('publish', 'Event published successfully');
-    };
-    return { publish };
   },
 });
 </script>

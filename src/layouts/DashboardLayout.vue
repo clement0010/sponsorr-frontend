@@ -16,6 +16,7 @@
           :loading="loading"
           @fetchEvents="(eventCategory) => $emit('fetchEvents', eventCategory)"
           @deleteEvent="(payload) => $emit('deleteEvent', payload)"
+          @publishEvent="(payload) => $emit('publishEvent', payload)"
         />
       </v-row>
     </v-container>

@@ -10,6 +10,12 @@
           $emit('success', payload.message);
         }
       "
+      @publishEvent="
+        (payload) => {
+          publishEvent(payload.event);
+          $emit('success', payload.message);
+        }
+      "
     />
   </BasePage>
 </template>
@@ -27,13 +33,20 @@ export default defineComponent({
     DashboardLayout,
   },
   setup() {
-    const { eventCategories, initialise, fetchEvents, loading, deleteEvent } = useEvent();
+    const { eventCategories, initialise, fetchEvents, loading, deleteEvent, publishEvent } =
+      useEvent();
 
     onMounted(async () => {
       await initialise();
     });
 
-    return { eventCategories, fetchEvents, loading, deleteEvent };
+    return {
+      eventCategories,
+      fetchEvents,
+      loading,
+      deleteEvent,
+      publishEvent,
+    };
   },
 });
 </script>

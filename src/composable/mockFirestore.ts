@@ -17,7 +17,7 @@ export default function database() {
     {
       title: 'Social Action: Caring for the Old',
       createdAt: generateCurrentUnixTime(),
-      date: generateUnixTimeFromDate('2021-01-25'),
+      date: generateUnixTimeFromDate('2022-01-25'),
       venue: "Old Folks' Home",
       published: false,
       views: 0,
@@ -120,5 +120,11 @@ export default function database() {
     events.splice(events.indexOf(event), 1);
   };
 
-  return { fetchUpcomingEvents, fetchPastEvents, fetchDrafts, removeEvent };
+  const publish = async (event: SponsorEvent) => {
+    await sleep(1000);
+    const eventRef = event;
+    eventRef.published = true;
+  };
+
+  return { fetchUpcomingEvents, fetchPastEvents, fetchDrafts, removeEvent, publish };
 }
