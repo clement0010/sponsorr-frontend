@@ -1,13 +1,13 @@
 <template>
   <v-dialog v-model="dialog" max-width="500">
     <template #activator="{ on, attrs }">
-      <v-btn class="error" v-bind="attrs" small v-on="on"> Delete Event </v-btn>
+      <v-btn class="error" v-bind="attrs" small v-on="on"> Delete </v-btn>
     </template>
 
     <v-card>
       <v-card-title> Delete Event </v-card-title>
       <v-card-text>
-        <span> Are you sure you want to delete the event: "{{ eventTitle }}" ?</span>
+        <span> Are you sure you want to delete the event: "{{ event.title }}" ?</span>
         <br />
         <span> This action is <strong>irreversible</strong>.</span>
       </v-card-text>
@@ -21,22 +21,25 @@
 </template>
 
 <script lang="ts">
+import { SponsorEvent } from '@/types';
 import { defineComponent, ref } from '@vue/composition-api';
 
 export default defineComponent({
   name: 'DeleteEventButton',
   props: {
-    eventTitle: {
-      type: String,
+    event: {
+      type: Object as () => SponsorEvent,
       required: true,
     },
   },
   setup(props, { emit }) {
     const dialog = ref(false);
 
+    const { event } = props;
+
     const deleteEvent = (): void => {
       dialog.value = false;
-      emit('deleteEvent', 'Event deleted');
+      emit('deleteEvent', { event, message: 'Event deleted' });
     };
 
     const cancel = () => {

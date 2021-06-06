@@ -33,15 +33,24 @@ export interface Sponsor extends Profile {
 export interface SponsorEvent {
   title: string;
   createdAt: number;
+  date: number;
   venue: string;
   published: boolean;
-  views?: number;
-  clicks?: number;
-  matches?: number;
+  views: number;
+  clicks: number;
+  matches: number;
+}
+
+interface Header {
+  text: string;
+  value: string;
+  sortable?: boolean;
 }
 
 export interface EventCategory {
   name: string;
-  content?: SponsorEvent[];
   loaded: boolean;
+  headers: Header[];
+  contents: SponsorEvent[];
+  fallback: string;
 }

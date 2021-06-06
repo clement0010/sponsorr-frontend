@@ -1,8 +1,5 @@
 <template>
-  <v-btn class="success" small @click="publish">
-    <v-icon>mdi-check</v-icon>
-    Publish Event
-  </v-btn>
+  <v-btn class="success" small @click="publish"> Publish </v-btn>
 </template>
 
 <script lang="ts">

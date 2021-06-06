@@ -1,35 +1,41 @@
 <template>
   <v-container fluid>
-    <v-tabs v-model="group" class="elevation-3">
+    <v-tabs v-model="tab" class="elevation-3" grow>
       <v-tabs-slider color="blue" />
-      <v-tab v-for="(eventGroup, index) in eventGroups" :key="index">
-        {{ eventGroup.group }}
+      <v-tab
+        v-for="eventCategory in eventCategories"
+        :key="eventCategory.name"
+        @click="$emit('fetchEvents', eventCategory)"
+      >
+        {{ eventCategory.name }}
       </v-tab>
     </v-tabs>
 
-    <v-tabs-items v-model="group" class="elevation-3">
-      <v-tab-item v-for="(eventGroup, index) in eventGroups" :key="index">
-        <v-data-table :headers="eventGroup.headers" :items="eventGroup.content">
+    <v-tabs-items v-model="tab">
+      <v-tab-item v-for="eventCategory in eventCategories" :key="eventCategory.name">
+        <v-data-table
+          :headers="eventCategory.headers"
+          :items="eventCategory.contents"
+          :loading="loading"
+          :loading-text="'Loading your events...'"
+        >
           <template #no-data>
-            {{ eventGroup.fallback }}
+            {{ eventCategory.fallback }}
           </template>
+
           <template #[`item.actions`]="{ item }">
-            <EventPublish
-              v-if="eventGroup.group === 'Drafts'"
-              :event="item"
-              @publish="(payload) => $emit('publish', payload)"
-            />
-
-            <EventUnpublish
-              v-if="eventGroup.group !== 'Drafts'"
-              :event="item"
-              @unpublish="(payload) => $emit('unpublish', payload)"
-            />
-
+            <EventUnpublish v-if="eventCategory.name !== 'Drafts'" :event="item" />
+            <EventPublish v-if="eventCategory.name === 'Drafts'" :event="item" />
             <EventDelete
-              :event-title="item.title"
-              @deleteEvent="(payload) => $emit('deleteEvent', payload)"
+              :event="item"
+              @deleteEvent="
+                (payload) => $emit('deleteEvent', Object.assign(payload, { eventCategory }))
+              "
             />
+          </template>
+
+          <template #[`item.date`]="{ item }">
+            {{ generateDateFromUnixTime(item.date) }}
           </template>
         </v-data-table>
       </v-tab-item>
@@ -41,7 +47,9 @@
 import EventDelete from '@/components/EventActions/EventDelete.vue';
 import EventPublish from '@/components/EventActions/EventPublish.vue';
 import EventUnpublish from '@/components/EventActions/EventUnpublish.vue';
+import { EventCategory } from '@/types';
 import { defineComponent, ref } from '@vue/composition-api';
+import { generateDateFromUnixTime } from '@/common/utility';
 
 export default defineComponent({
   name: 'EventTable',
@@ -51,17 +59,20 @@ export default defineComponent({
     EventUnpublish,
   },
   props: {
-    eventData: {
-      type: Array,
-      required: true,
+    eventCategories: {
+      type: Array as () => EventCategory[],
+      default: () => [],
+    },
+    loading: {
+      type: Boolean,
+      default: true,
     },
   },
-  setup(props) {
-    const group = ref(null);
+  setup() {
+    // Tab switching
+    const tab = ref(null);
 
-    const { eventData: eventGroups } = props;
-
-    return { eventGroups, group };
+    return { tab, generateDateFromUnixTime };
   },
 });
 </script>

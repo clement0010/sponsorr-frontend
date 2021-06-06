@@ -12,9 +12,9 @@
       </v-row>
       <v-row justify="center">
         <EventTable
-          :event-data="eventData"
-          @publish="(payload) => $emit('publish', payload)"
-          @unpublish="(payload) => $emit('unpublish', payload)"
+          :event-categories="eventCategories"
+          :loading="loading"
+          @fetchEvents="(eventCategory) => $emit('fetchEvents', eventCategory)"
           @deleteEvent="(payload) => $emit('deleteEvent', payload)"
         />
       </v-row>
@@ -25,6 +25,7 @@
 <script lang="ts">
 import EventCreate from '@/components/EventActions/EventCreate.vue';
 import EventTable from '@/components/PageComponents/Dashboard/EventTable.vue';
+import { EventCategory } from '@/types';
 import { defineComponent } from '@vue/composition-api';
 
 export default defineComponent({
@@ -34,9 +35,13 @@ export default defineComponent({
     EventTable,
   },
   props: {
-    eventData: {
-      type: Array,
-      required: true,
+    eventCategories: {
+      type: Array as () => EventCategory[],
+      default: () => [],
+    },
+    loading: {
+      type: Boolean,
+      default: true,
     },
   },
 });

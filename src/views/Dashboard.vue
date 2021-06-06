@@ -1,10 +1,15 @@
 <template>
   <BasePage>
     <DashboardLayout
-      :event-data="eventPacket()"
-      @publish="(payload) => $emit('success', payload)"
-      @unpublish="(payload) => $emit('success', payload)"
-      @deleteEvent="(payload) => $emit('success', payload)"
+      :event-categories="eventCategories"
+      :loading="loading"
+      @fetchEvents="(eventCategory) => fetchEvents(eventCategory)"
+      @deleteEvent="
+        (payload) => {
+          deleteEvent(payload.event, payload.eventCategory);
+          $emit('success', payload.message);
+        }
+      "
     />
   </BasePage>
 </template>
@@ -12,7 +17,7 @@
 <script lang="ts">
 import BasePage from '@/layouts/BasePage.vue';
 import DashboardLayout from '@/layouts/DashboardLayout.vue';
-import { defineComponent } from '@vue/composition-api';
+import { defineComponent, onMounted } from '@vue/composition-api';
 import useEvent from '@/composable/eventComposition';
 
 export default defineComponent({
@@ -22,8 +27,13 @@ export default defineComponent({
     DashboardLayout,
   },
   setup() {
-    const { eventPacket } = useEvent();
-    return { eventPacket };
+    const { eventCategories, initialise, fetchEvents, loading, deleteEvent } = useEvent();
+
+    onMounted(async () => {
+      await initialise();
+    });
+
+    return { eventCategories, fetchEvents, loading, deleteEvent };
   },
 });
 </script>
