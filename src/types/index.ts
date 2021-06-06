@@ -39,3 +39,9 @@ export interface SponsorEvent {
   clicks?: number;
   matches?: number;
 }
+
+export interface EventCategory {
+  name: string;
+  content?: SponsorEvent[];
+  loaded: boolean;
+}
