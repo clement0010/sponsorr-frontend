@@ -120,11 +120,11 @@ export default function database() {
     events.splice(events.indexOf(event), 1);
   };
 
-  const publish = async (event: SponsorEvent) => {
+  const publishStatus = async (event: SponsorEvent, publish: boolean) => {
     await sleep(1000);
     const eventRef = event;
-    eventRef.published = true;
+    eventRef.published = publish;
   };
 
-  return { fetchUpcomingEvents, fetchPastEvents, fetchDrafts, removeEvent, publish };
+  return { fetchUpcomingEvents, fetchPastEvents, fetchDrafts, removeEvent, publishStatus };
 }

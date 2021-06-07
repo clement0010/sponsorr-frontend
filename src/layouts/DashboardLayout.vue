@@ -17,6 +17,7 @@
           @fetchEvents="(eventCategory) => $emit('fetchEvents', eventCategory)"
           @deleteEvent="(payload) => $emit('deleteEvent', payload)"
           @publishEvent="(payload) => $emit('publishEvent', payload)"
+          @unpublishEvent="(payload) => $emit('unpublishEvent', payload)"
         />
       </v-row>
     </v-container>

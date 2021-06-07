@@ -1,5 +1,11 @@
 <template>
-  <v-btn class="warning" small @click="unpublish"> Unpublish </v-btn>
+  <v-btn
+    class="warning"
+    small
+    @click="$emit('unpublishEvent', { event, message: 'Event unpublished' })"
+  >
+    Unpublish
+  </v-btn>
 </template>
 
 <script lang="ts">
@@ -13,14 +19,6 @@ export default defineComponent({
       type: Object as () => SponsorEvent,
       required: true,
     },
-  },
-  setup(props, { emit }) {
-    const { event } = props;
-    const unpublish = (): void => {
-      event.published = false;
-      emit('unpublish', 'Event unpublished');
-    };
-    return { unpublish };
   },
 });
 </script>

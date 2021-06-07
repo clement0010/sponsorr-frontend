@@ -24,7 +24,11 @@
           </template>
 
           <template #[`item.actions`]="{ item }">
-            <EventUnpublish v-if="eventCategory.name !== 'Drafts'" :event="item" />
+            <EventUnpublish
+              v-if="eventCategory.name !== 'Drafts'"
+              :event="item"
+              @unpublishEvent="(payload) => $emit('unpublishEvent', payload)"
+            />
             <EventPublish
               v-if="eventCategory.name === 'Drafts'"
               :event="item"
