@@ -108,7 +108,7 @@ import { defineComponent, reactive } from '@vue/composition-api';
 import useAuth from '@/composable/authComposition';
 import { Sponsor } from '@/types';
 import Spinner from '@/components/BuildingElements/Spinner.vue';
-import LogoSponsorr from '../BuildingElements/LogoSponsorr.vue';
+import LogoSponsorr from '../../BuildingElements/LogoSponsorr.vue';
 
 export default defineComponent({
   name: 'FormSignUpSponsor',

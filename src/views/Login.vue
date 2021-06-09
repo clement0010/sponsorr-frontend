@@ -11,7 +11,7 @@
 
 <script lang="ts">
 import AuthenticationLayout from '@/layouts/AuthenticationLayout.vue';
-import FormLogin from '@/components/Forms/FormLogin.vue';
+import FormLogin from '@/components/Forms/Authentication/FormLogin.vue';
 
 import { defineComponent } from '@vue/composition-api';
 
