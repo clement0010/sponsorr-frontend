@@ -1,8 +1,10 @@
 <template>
-  <v-btn color="accent1">
-    <v-icon> mdi-plus </v-icon>
-    Create New Event
-  </v-btn>
+  <router-link :to="{ name: 'NewEvent' }">
+    <v-btn color="accent1">
+      <v-icon> mdi-plus </v-icon>
+      Create New Event
+    </v-btn>
+  </router-link>
 </template>
 
 <script lang="ts">
