@@ -16,6 +16,16 @@ export const validURLRule = (url: string): boolean | string =>
   /((([A-Za-z]{3,9}:(?:\/\/)?)(?:[-;:&=\\+\\$,\w]+@)?[A-Za-z0-9.-]+|(?:www.|[-;:&=\\+\\$,\w]+@)[A-Za-z0-9.-]+)((?:\/[\\+~%\\/.\w-_]*)?\??(?:[-\\+=&;%@.\w_]*)#?(?:[\w]*))?)/.test(
     url,
   ) || 'URL must be valid';
+
+export const fileUploadSizeRule = (files: File[]): boolean | string =>
+  files
+    .map((value: File) => value.size)
+    .reduce((accumulator: number, currentValue: number) => accumulator + currentValue, 0) <
+    5000000 || 'Files exceeded 5MB limit';
+
+export const nonNegativeIntegerRule = (num: number): boolean | string =>
+  (Number.isInteger(num) && num >= 0) || 'Must be a positive whole number';
+
 // export const validatePassword = (password: string, repeatedPassword: string): boolean | string =>
 //   // eslint-disable-next-line
 //   password === repeatedPassword || 'Password do not match';
