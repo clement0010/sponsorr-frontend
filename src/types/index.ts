@@ -46,6 +46,7 @@ interface Header {
   text: string;
   value: string;
   sortable?: boolean;
+  align?: string;
 }
 
 export interface EventCategory {
