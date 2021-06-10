@@ -24,7 +24,7 @@ export const fileUploadSizeRule = (files: File[]): boolean | string =>
     5000000 || 'Files exceeded 5MB limit';
 
 export const nonNegativeIntegerRule = (num: number): boolean | string =>
-  (Number.isInteger(num) && num >= 0) || 'Must be a positive whole number';
+  (num >= 0 && Number.isInteger(+num)) || 'Must be a non-negative whole number';
 
 // export const validatePassword = (password: string, repeatedPassword: string): boolean | string =>
 //   // eslint-disable-next-line

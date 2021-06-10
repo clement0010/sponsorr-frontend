@@ -1,11 +1,13 @@
 import { generateCurrentUnixTime, generateUnixTimeFromDate, isPastEvent } from '@/common/utility';
 import { SponsorEvent } from '@/types';
+import { reactive } from '@vue/composition-api';
 
 // eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types
 export default function database() {
-  const events: SponsorEvent[] = [
+  const events = reactive<SponsorEvent[]>([
     {
       title: 'Cinema Outing',
+      description: '',
       createdAt: generateCurrentUnixTime(),
       date: generateUnixTimeFromDate('2021-01-25'),
       venue: 'Silver City Cinema',
@@ -16,6 +18,7 @@ export default function database() {
     },
     {
       title: 'Social Action: Caring for the Old',
+      description: '',
       createdAt: generateCurrentUnixTime(),
       date: generateUnixTimeFromDate('2022-01-25'),
       venue: "Old Folks' Home",
@@ -26,6 +29,7 @@ export default function database() {
     },
     {
       title: 'Some Random Event',
+      description: '',
       createdAt: generateCurrentUnixTime(),
       date: generateUnixTimeFromDate('2021-01-25'),
       venue: 'Batam Island',
@@ -36,6 +40,7 @@ export default function database() {
     },
     {
       title: 'Fundraising Dinner',
+      description: '',
       createdAt: generateCurrentUnixTime(),
       date: generateUnixTimeFromDate('2022-12-25'),
       venue: 'Teh Tarik Place',
@@ -46,6 +51,7 @@ export default function database() {
     },
     {
       title: 'Fun Run',
+      description: '',
       createdAt: generateCurrentUnixTime(),
       date: generateUnixTimeFromDate('2022-12-25'),
       venue: 'South Coast Park',
@@ -56,6 +62,7 @@ export default function database() {
     },
     {
       title: 'Farewell Party',
+      description: '',
       createdAt: generateCurrentUnixTime(),
       date: generateUnixTimeFromDate('2022-12-25'),
       venue: 'The Geck',
@@ -66,6 +73,7 @@ export default function database() {
     },
     {
       title: 'Filler Event 1',
+      description: '',
       createdAt: generateCurrentUnixTime(),
       date: generateUnixTimeFromDate('2021-01-25'),
       venue: 'Silver City Cinema',
@@ -76,6 +84,7 @@ export default function database() {
     },
     {
       title: 'Filler Event 2',
+      description: '',
       createdAt: generateCurrentUnixTime(),
       date: generateUnixTimeFromDate('2021-01-25'),
       venue: "Old Folks' Home",
@@ -86,6 +95,7 @@ export default function database() {
     },
     {
       title: 'Filler Event 3',
+      description: '',
       createdAt: generateCurrentUnixTime(),
       date: generateUnixTimeFromDate('2021-01-25'),
       venue: 'Batam Island',
@@ -94,7 +104,7 @@ export default function database() {
       clicks: 0,
       matches: 0,
     },
-  ];
+  ]);
 
   const sleep = (ms: number): Promise<unknown> => {
     return new Promise((resolve) => setTimeout(resolve, ms));
@@ -126,5 +136,18 @@ export default function database() {
     eventRef.published = publish;
   };
 
-  return { fetchUpcomingEvents, fetchPastEvents, fetchDrafts, removeEvent, publishStatus };
+  const create = async (event: SponsorEvent) => {
+    await sleep(1000);
+    events.push(event);
+  };
+
+  return {
+    fetchUpcomingEvents,
+    fetchPastEvents,
+    fetchDrafts,
+    removeEvent,
+    publishStatus,
+    create,
+    events,
+  };
 }

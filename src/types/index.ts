@@ -32,6 +32,7 @@ export interface Sponsor extends Profile {
 
 export interface SponsorEvent {
   title: string;
+  description: string;
   createdAt: number;
   date: number;
   venue: string;
@@ -53,4 +54,10 @@ export interface EventCategory {
   headers: Header[];
   contents: SponsorEvent[];
   fallback: string;
+}
+
+export interface SponsorRequest {
+  itemName: string;
+  description: string;
+  valueInSGD: string;
 }
