@@ -44,6 +44,14 @@ const routes: Array<RouteConfig> = [
     // beforeEnter: authGuard,
   },
   {
+    path: '/new-event',
+    name: 'NewEvent',
+    component: () => import(/* webpackChunkName: "newEvent" */ '@/views/NewEvent.vue'),
+    // To be enabled
+    // meta: { requiresAuth: true },
+    // beforeEnter: authGuard,
+  },
+  {
     path: '/playground',
     name: 'Playground',
     component: () => import(/* webpackChunkName: "playground" */ '@/views/Playground.vue'),
