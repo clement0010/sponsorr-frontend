@@ -24,6 +24,13 @@ export const generateUnixTimeFromDate = (date: string): number => {
 };
 
 /**
+ * Formats the given ISO8601 date to DD/MM/YYYY
+ */
+export const formatISODate = (date: string): string => {
+  return dayjs(date).format('DD/MM/YYYY');
+};
+
+/**
  * Generate date with specified format given unix timestamp
  */
 export const generateDateFromUnixTime = (unixTime: number): string => {

@@ -110,6 +110,7 @@
 <script lang="ts">
 import { computed, defineComponent, reactive, ref } from '@vue/composition-api';
 import { requireInputRule } from '@/common/validation';
+import { formatISODate } from '@/common/utility';
 import NewEventCancel from './NewEventCancel.vue';
 
 export default defineComponent({
@@ -122,14 +123,19 @@ export default defineComponent({
 
     const eventData = reactive({
       title: '',
-      dates: [],
+      dates: [], // ISO8601 Date format, YYYY-MM-DD
       timeStart: null,
       timeEnd: null,
       venue: '',
     });
 
-    // eslint-disable-next-line vue/no-side-effects-in-computed-properties
-    const dateRange = computed(() => eventData.dates.sort().join(' to '));
+    const dateRange = computed(() =>
+      // eslint-disable-next-line vue/no-side-effects-in-computed-properties
+      eventData.dates
+        .sort()
+        .map((date) => formatISODate(date))
+        .join(' to '),
+    );
 
     const persist = () => {
       localStorage.title = eventData.title;
