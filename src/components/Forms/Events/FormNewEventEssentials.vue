@@ -128,7 +128,8 @@ export default defineComponent({
       venue: '',
     });
 
-    const dateRange = computed(() => eventData.dates.join(' to '));
+    // eslint-disable-next-line vue/no-side-effects-in-computed-properties
+    const dateRange = computed(() => eventData.dates.sort().join(' to '));
 
     const persist = () => {
       localStorage.title = eventData.title;
