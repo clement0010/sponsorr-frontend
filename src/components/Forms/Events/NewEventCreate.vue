@@ -24,7 +24,7 @@ export default defineComponent({
         title: localStorage.title,
         description: localStorage.description,
         createdAt: generateCurrentUnixTime(),
-        date: generateUnixTimeFromDate(localStorage.dates[0]),
+        date: localStorage.dates.map((date: string) => generateUnixTimeFromDate(date)),
         venue: localStorage.venue,
         published: true,
         matches: 0,
