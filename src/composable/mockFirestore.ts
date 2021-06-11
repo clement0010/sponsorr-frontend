@@ -9,7 +9,7 @@ export default function database() {
       title: 'Cinema Outing',
       description: '',
       createdAt: generateCurrentUnixTime(),
-      date: generateUnixTimeFromDate('2021-01-25'),
+      date: [generateUnixTimeFromDate('2021-01-25')],
       venue: 'Silver City Cinema',
       published: false,
       views: 0,
@@ -20,7 +20,7 @@ export default function database() {
       title: 'Social Action: Caring for the Old',
       description: '',
       createdAt: generateCurrentUnixTime(),
-      date: generateUnixTimeFromDate('2022-01-25'),
+      date: [generateUnixTimeFromDate('2022-01-25')],
       venue: "Old Folks' Home",
       published: false,
       views: 0,
@@ -31,7 +31,7 @@ export default function database() {
       title: 'Some Random Event',
       description: '',
       createdAt: generateCurrentUnixTime(),
-      date: generateUnixTimeFromDate('2021-01-25'),
+      date: [generateUnixTimeFromDate('2021-01-25')],
       venue: 'Batam Island',
       published: false,
       views: 0,
@@ -42,7 +42,7 @@ export default function database() {
       title: 'Fundraising Dinner',
       description: '',
       createdAt: generateCurrentUnixTime(),
-      date: generateUnixTimeFromDate('2022-12-25'),
+      date: [generateUnixTimeFromDate('2022-12-25')],
       venue: 'Teh Tarik Place',
       published: true,
       views: 0,
@@ -53,7 +53,7 @@ export default function database() {
       title: 'Fun Run',
       description: '',
       createdAt: generateCurrentUnixTime(),
-      date: generateUnixTimeFromDate('2022-12-25'),
+      date: [generateUnixTimeFromDate('2022-12-25')],
       venue: 'South Coast Park',
       published: true,
       views: 0,
@@ -64,7 +64,7 @@ export default function database() {
       title: 'Farewell Party',
       description: '',
       createdAt: generateCurrentUnixTime(),
-      date: generateUnixTimeFromDate('2022-12-25'),
+      date: [generateUnixTimeFromDate('2022-12-25'), generateUnixTimeFromDate('2022-12-26')],
       venue: 'The Geck',
       published: true,
       views: 0,
@@ -75,7 +75,7 @@ export default function database() {
       title: 'Filler Event 1',
       description: '',
       createdAt: generateCurrentUnixTime(),
-      date: generateUnixTimeFromDate('2021-01-25'),
+      date: [generateUnixTimeFromDate('2021-01-25')],
       venue: 'Silver City Cinema',
       published: true,
       views: 0,
@@ -86,7 +86,7 @@ export default function database() {
       title: 'Filler Event 2',
       description: '',
       createdAt: generateCurrentUnixTime(),
-      date: generateUnixTimeFromDate('2021-01-25'),
+      date: [generateUnixTimeFromDate('2021-01-25')],
       venue: "Old Folks' Home",
       published: true,
       views: 0,
@@ -97,7 +97,7 @@ export default function database() {
       title: 'Filler Event 3',
       description: '',
       createdAt: generateCurrentUnixTime(),
-      date: generateUnixTimeFromDate('2021-01-25'),
+      date: [generateUnixTimeFromDate('2021-01-25')],
       venue: 'Batam Island',
       published: true,
       views: 0,
@@ -112,12 +112,12 @@ export default function database() {
 
   const fetchUpcomingEvents = async () => {
     await sleep(1000);
-    return events.filter((event) => !isPastEvent(event.date) && event.published);
+    return events.filter((event) => !isPastEvent(event.date[0]) && event.published);
   };
 
   const fetchPastEvents = async () => {
     await sleep(1000);
-    return events.filter((event) => isPastEvent(event.date) && event.published);
+    return events.filter((event) => isPastEvent(event.date[0]) && event.published);
   };
 
   const fetchDrafts = async () => {

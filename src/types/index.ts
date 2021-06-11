@@ -34,7 +34,7 @@ export interface SponsorEvent {
   title: string;
   description: string;
   createdAt: number;
-  date: number;
+  date: number[];
   venue: string;
   published: boolean;
   views: number;

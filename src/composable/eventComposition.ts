@@ -5,14 +5,8 @@ import database from './mockFirestore';
 
 // eslint-disable-next-line
 export default function useEvent() {
-  const {
-    fetchUpcomingEvents,
-    fetchPastEvents,
-    fetchDrafts,
-    removeEvent,
-    publishStatus,
-    create,
-  } = database();
+  const { fetchUpcomingEvents, fetchPastEvents, fetchDrafts, removeEvent, publishStatus, create } =
+    database();
   const loading = ref(true);
 
   const eventCategories = ref<EventCategory[]>();
@@ -154,7 +148,7 @@ export default function useEvent() {
   const publishEvent = async (event: SponsorEvent) => {
     await publishStatus(event, true);
     draftsCategory.contents.splice(draftsCategory.contents.indexOf(event), 1);
-    if (isPastEvent(event.date)) {
+    if (isPastEvent(event.date[0])) {
       pastCategory.contents.push(event);
       return;
     }
@@ -163,7 +157,7 @@ export default function useEvent() {
 
   const unpublishEvent = async (event: SponsorEvent) => {
     await publishStatus(event, false);
-    if (isPastEvent(event.date)) {
+    if (isPastEvent(event.date[0])) {
       pastCategory.contents.splice(pastCategory.contents.indexOf(event), 1);
     } else {
       upcomingCategory.contents.splice(upcomingCategory.contents.indexOf(event), 1);
