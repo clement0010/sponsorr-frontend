@@ -14,31 +14,16 @@
 
         <v-stepper-items>
           <v-stepper-content step="1">
-            <FormNewEventEssentials
-              @next="steps++"
-              @cancel="(message) => $emit('redirect', message)"
-            />
+            <FormNewEventEssentials @next="steps++" @cancel="redirect" />
           </v-stepper-content>
           <v-stepper-content step="2">
-            <FormNewEventAbout
-              @next="steps++"
-              @back="steps--"
-              @cancel="(message) => $emit('redirect', message)"
-            />
+            <FormNewEventAbout @next="steps++" @back="steps--" @cancel="redirect" />
           </v-stepper-content>
           <v-stepper-content step="3">
-            <FormNewEventRequests
-              @next="steps++"
-              @back="steps--"
-              @cancel="(message) => $emit('redirect', message)"
-            />
+            <FormNewEventRequests @next="steps++" @back="steps--" @cancel="redirect" />
           </v-stepper-content>
           <v-stepper-content step="4">
-            <FormNewEventDocuments
-              @back="steps--"
-              @create="(message) => $emit('redirect', message)"
-              @cancel="(message) => $emit('redirect', message)"
-            />
+            <FormNewEventDocuments @back="steps--" @create="redirect" @cancel="redirect" />
           </v-stepper-content>
         </v-stepper-items>
       </v-stepper>
@@ -61,11 +46,16 @@ export default defineComponent({
     FormNewEventRequests,
     FormNewEventDocuments,
   },
-  setup() {
+  setup(_, { emit }) {
     const steps = ref(1);
+
+    const redirect = (message: string) => {
+      emit('redirect', message);
+    };
 
     return {
       steps,
+      redirect,
     };
   },
 });
