@@ -124,8 +124,8 @@ export default defineComponent({
     const eventData = reactive({
       title: '',
       dates: [], // ISO8601 Date format, YYYY-MM-DD
-      timeStart: null,
-      timeEnd: null,
+      timeStart: '',
+      timeEnd: '',
       venue: '',
     });
 
@@ -138,11 +138,11 @@ export default defineComponent({
     );
 
     const persist = () => {
-      localStorage.title = eventData.title;
-      localStorage.dates = eventData.dates;
-      localStorage.timeStart = eventData.timeStart;
-      localStorage.timeEnd = eventData.timeEnd;
-      localStorage.venue = eventData.venue;
+      localStorage.setItem('title', eventData.title);
+      localStorage.setItem('dates', JSON.stringify(eventData.dates));
+      localStorage.setItem('timeStart', eventData.timeStart);
+      localStorage.setItem('timeEnd', eventData.timeEnd);
+      localStorage.setItem('venue', eventData.venue);
     };
 
     const next = () => {

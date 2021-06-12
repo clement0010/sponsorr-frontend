@@ -47,7 +47,7 @@ export default defineComponent({
     const eventData = ref<File[]>([]);
 
     const persist = () => {
-      localStorage.files = eventData;
+      localStorage.setItem('files', JSON.stringify(eventData));
     };
 
     const back = () => {

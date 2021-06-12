@@ -21,11 +21,13 @@ export default defineComponent({
 
     const create = async () => {
       const newEvent: SponsorEvent = {
-        title: localStorage.title,
-        description: localStorage.description,
+        title: localStorage.getItem('title') || 'No title',
+        description: localStorage.getItem('description') || 'No description',
         createdAt: generateUnixTime(),
-        date: localStorage.dates.map((date: string) => generateUnixTime(date)),
-        venue: localStorage.venue,
+        date: JSON.parse(localStorage.getItem('dates') || '[]').map((date: string) =>
+          generateUnixTime(date),
+        ),
+        venue: localStorage.getItem('venue') || 'No venue provided',
         published: true,
         matches: 0,
         views: 0,

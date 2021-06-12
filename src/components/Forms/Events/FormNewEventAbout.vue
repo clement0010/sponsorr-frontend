@@ -59,15 +59,15 @@ export default defineComponent({
     const eventData = reactive({
       description: '',
       nature: '',
-      participants: null,
+      participants: '',
       keywords: [],
     });
 
     const persist = () => {
-      localStorage.description = eventData.description;
-      localStorage.nature = eventData.nature;
-      localStorage.participants = eventData.participants;
-      localStorage.keywords = eventData.keywords;
+      localStorage.setItem('description', eventData.description);
+      localStorage.setItem('nature', eventData.nature);
+      localStorage.setItem('participants', eventData.participants);
+      localStorage.setItem('keywords', JSON.stringify(eventData.keywords));
     };
 
     const navigate = (direction: string) => {

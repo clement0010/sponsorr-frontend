@@ -93,7 +93,7 @@ export default defineComponent({
     };
 
     const persist = () => {
-      localStorage.requests = eventData;
+      localStorage.setItem('requests', JSON.stringify(eventData));
     };
 
     const navigate = (direction: string) => {
