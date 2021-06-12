@@ -3,7 +3,7 @@
 </template>
 
 <script lang="ts">
-import { generateCurrentUnixTime, generateUnixTimeFromDate } from '@/common/utility';
+import { generateUnixTime } from '@/common/utility';
 import { SponsorEvent } from '@/types';
 import { defineComponent } from '@vue/composition-api';
 import useEvent from '@/composable/eventComposition';
@@ -23,8 +23,8 @@ export default defineComponent({
       const newEvent: SponsorEvent = {
         title: localStorage.title,
         description: localStorage.description,
-        createdAt: generateCurrentUnixTime(),
-        date: localStorage.dates.map((date: string) => generateUnixTimeFromDate(date)),
+        createdAt: generateUnixTime(),
+        date: localStorage.dates.map((date: string) => generateUnixTime(date)),
         venue: localStorage.venue,
         published: true,
         matches: 0,

@@ -110,7 +110,7 @@
 <script lang="ts">
 import { computed, defineComponent, reactive, ref } from '@vue/composition-api';
 import { requireInputRule } from '@/common/validation';
-import { formatISODate } from '@/common/utility';
+import { generateDate } from '@/common/utility';
 import NewEventCancel from './NewEventCancel.vue';
 
 export default defineComponent({
@@ -133,7 +133,7 @@ export default defineComponent({
       // eslint-disable-next-line vue/no-side-effects-in-computed-properties
       eventData.dates
         .sort()
-        .map((date) => formatISODate(date))
+        .map((date) => generateDate(date))
         .join(' to '),
     );
 
