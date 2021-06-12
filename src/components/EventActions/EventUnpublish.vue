@@ -1,11 +1,5 @@
 <template>
-  <v-btn
-    class="warning"
-    small
-    @click="$emit('unpublishEvent', { event, message: 'Event unpublished' })"
-  >
-    Unpublish
-  </v-btn>
+  <v-btn class="warning" small @click="$emit('unpublishEvent', event)"> Unpublish </v-btn>
 </template>
 
 <script lang="ts">

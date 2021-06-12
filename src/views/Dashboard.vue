@@ -18,8 +18,8 @@
       "
       @unpublishEvent="
         (payload) => {
-          unpublishEvent(payload.event);
-          $emit('success', payload.message);
+          unpublishEvent(payload);
+          $emit('success', 'Event unpublished');
         }
       "
     />
