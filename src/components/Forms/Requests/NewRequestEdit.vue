@@ -42,7 +42,7 @@
 
 <script lang="ts">
 import { SponsorRequest } from '@/types';
-import { defineComponent, reactive, ref } from '@vue/composition-api';
+import { defineComponent, ref } from '@vue/composition-api';
 import { requireInputRule, nonNegativeIntegerRule } from '@/common/validation';
 
 export default defineComponent({
@@ -59,23 +59,21 @@ export default defineComponent({
 
     const { sponsorRequest } = props;
 
-    const requestData = reactive<SponsorRequest>({
+    const requestData = ref<SponsorRequest>({
       ...sponsorRequest,
     });
 
     const resetRequestData = (): void => {
-      requestData.itemName = '';
-      requestData.description = '';
-      requestData.valueInSGD = '';
+      requestData.value = { ...sponsorRequest };
     };
 
     const save = () => {
-      sponsorRequest.itemName = requestData.itemName;
-      sponsorRequest.description = requestData.itemName;
-      sponsorRequest.valueInSGD = requestData.valueInSGD;
+      sponsorRequest.itemName = requestData.value.itemName;
+      sponsorRequest.description = requestData.value.description;
+      sponsorRequest.valueInSGD = requestData.value.valueInSGD;
       dialog.value = false;
-      resetRequestData();
     };
+
     const cancel = () => {
       dialog.value = false;
       resetRequestData();
