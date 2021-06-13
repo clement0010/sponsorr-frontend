@@ -5,8 +5,15 @@ import database from './mockFirestore';
 
 // eslint-disable-next-line
 export default function useEvent() {
-  const { fetchUpcomingEvents, fetchPastEvents, fetchDrafts, removeEvent, publishStatus, create } =
-    database();
+  const {
+    fetchUpcomingEvents,
+    fetchPastEvents,
+    fetchDrafts,
+    removeEvent,
+    publishStatus,
+    create,
+  } = database();
+
   const loading = ref(true);
 
   const eventCategories = ref<EventCategory[]>();
