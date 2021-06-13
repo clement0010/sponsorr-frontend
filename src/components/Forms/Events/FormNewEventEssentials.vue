@@ -31,7 +31,11 @@
                 v-on="on"
               />
             </template>
-            <v-date-picker v-model="eventData.dates" range />
+            <v-date-picker
+              v-model="eventData.dates"
+              range
+              :min="generateDate(undefined, 'YYYY-MM-DD')"
+            />
           </v-menu>
         </v-col>
         <v-col>
@@ -165,6 +169,9 @@ export default defineComponent({
 
       // Navigation
       next,
+
+      // Date picker
+      generateDate,
     };
   },
 });
