@@ -39,7 +39,7 @@ export default defineComponent({
 
     const deleteEvent = (): void => {
       dialog.value = false;
-      emit('deleteEvent', { event, message: 'Event deleted' });
+      emit('deleteEvent', event);
     };
 
     const cancel = () => {

@@ -7,13 +7,13 @@
       @deleteEvent="
         (payload) => {
           deleteEvent(payload.event, payload.eventCategory);
-          $emit('success', payload.message);
+          $emit('success', 'Event deleted');
         }
       "
       @publishEvent="
         (payload) => {
-          publishEvent(payload.event);
-          $emit('success', payload.message);
+          publishEvent(payload);
+          $emit('success', 'Event published');
         }
       "
       @unpublishEvent="

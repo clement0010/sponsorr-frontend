@@ -1,9 +1,5 @@
 <template>
-  <v-btn
-    class="success"
-    small
-    @click="$emit('publishEvent', { event, message: 'Event published successfully' })"
-  >
+  <v-btn class="success" small @click="$emit('publishEvent', event)">
     Publish
   </v-btn>
 </template>
