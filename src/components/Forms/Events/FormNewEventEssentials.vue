@@ -62,7 +62,7 @@
                     v-on="on"
                   />
                 </template>
-                <v-time-picker v-model="eventData.timeStart" full-width />
+                <v-time-picker v-model="eventData.timeStart" full-width :max="maxTime" />
               </v-menu>
             </v-col>
 
@@ -88,7 +88,7 @@
                     v-on="on"
                   />
                 </template>
-                <v-time-picker v-model="eventData.timeEnd" full-width />
+                <v-time-picker v-model="eventData.timeEnd" full-width :min="minTime" />
               </v-menu>
             </v-col>
           </v-row>
@@ -154,6 +154,20 @@ export default defineComponent({
       emit('next');
     };
 
+    const minTime = computed(() => {
+      if (eventData.dates.length < 2 && eventData.timeStart) {
+        return eventData.timeStart;
+      }
+      return undefined;
+    });
+
+    const maxTime = computed(() => {
+      if (eventData.dates.length < 2 && eventData.timeEnd) {
+        return eventData.timeEnd;
+      }
+      return undefined;
+    });
+
     return {
       // Form validation
       valid,
@@ -166,6 +180,8 @@ export default defineComponent({
 
       // Input validation
       requireInputRule,
+      minTime,
+      maxTime,
 
       // Navigation
       next,
