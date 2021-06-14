@@ -1,4 +1,5 @@
-import { generateUnixTime, isPastEvent } from '@/common/utility';
+/*
+import { generateUnixTime, isPastEvent } from '@/common/utils';
 import { SponsorEvent } from '@/types';
 import { reactive } from '@vue/composition-api';
 
@@ -151,3 +152,4 @@ export default function database() {
     events,
   };
 }
+*/
