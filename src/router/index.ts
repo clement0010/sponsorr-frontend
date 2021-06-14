@@ -55,6 +55,9 @@ const routes: Array<RouteConfig> = [
     path: '/matches',
     name: 'Matches',
     component: () => import(/* webpackChunkName: "matches" */ '@/views/Matches.vue'),
+    // To be enabled
+    // meta: { requiresAuth: true },
+    // beforeEnter: authGuard,
   },
   {
     path: '/playground',
