@@ -43,7 +43,7 @@
           </template>
 
           <template #[`item.date`]="{ item }">
-            {{ generateDateRangeFromUnixTimeRange(item.date) }}
+            {{ generateDate(item.date, 'DD MMM') }}
           </template>
         </v-data-table>
       </v-tab-item>
@@ -57,7 +57,7 @@ import EventPublish from '@/components/EventActions/EventPublish.vue';
 import EventUnpublish from '@/components/EventActions/EventUnpublish.vue';
 import { EventCategory } from '@/types';
 import { defineComponent, ref } from '@vue/composition-api';
-import { generateDateRangeFromUnixTimeRange } from '@/common/utility';
+import { generateDate } from '@/common/utils';
 
 export default defineComponent({
   name: 'EventTable',
@@ -80,7 +80,7 @@ export default defineComponent({
     // Tab switching
     const tab = ref(null);
 
-    return { tab, generateDateRangeFromUnixTimeRange };
+    return { tab, generateDate };
   },
 });
 </script>
