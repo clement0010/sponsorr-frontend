@@ -30,6 +30,7 @@ export interface Sponsor extends Profile {
   role: Role;
 }
 
+export type EventStatus = 'upcoming' | 'draft' | 'past';
 export interface SponsorEvent {
   title: string;
   description: string;
@@ -40,7 +41,10 @@ export interface SponsorEvent {
   views: number;
   clicks: number;
   matches: number;
+  status: EventStatus;
 }
+
+export type SponsorEvents = SponsorEvent[];
 
 interface Header {
   text: string;
@@ -50,7 +54,7 @@ interface Header {
 }
 
 export interface EventCategory {
-  name: string;
+  name: EventStatus;
   loaded: boolean;
   headers: Header[];
   contents: SponsorEvent[];

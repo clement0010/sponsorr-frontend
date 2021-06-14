@@ -1,5 +1,5 @@
 export enum EventGroup {
-  Upcoming = 'Upcoming',
-  Draft = 'Drafts',
-  Past = 'PastEvents',
+  Upcoming = 'upcoming',
+  Draft = 'draft',
+  Past = 'past',
 }
