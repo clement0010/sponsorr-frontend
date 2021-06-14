@@ -52,6 +52,11 @@ const routes: Array<RouteConfig> = [
     // beforeEnter: authGuard,
   },
   {
+    path: '/matches',
+    name: 'Matches',
+    component: () => import(/* webpackChunkName: "matches" */ '@/views/Matches.vue'),
+  },
+  {
     path: '/playground',
     name: 'Playground',
     component: () => import(/* webpackChunkName: "playground" */ '@/views/Playground.vue'),
