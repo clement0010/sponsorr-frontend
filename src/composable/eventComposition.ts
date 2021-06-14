@@ -114,7 +114,7 @@ export default function useEvent() {
     fallback: 'Nothing in drafts',
   };
 
-  const initialise = async () => {
+  const initialise = async (): Promise<void> => {
     eventCategories.value = [];
     eventCategories.value.push(upcomingCategory);
     eventCategories.value.push(pastCategory);
@@ -127,7 +127,7 @@ export default function useEvent() {
     loading.value = false;
   };
 
-  const fetchEvents = async (eventCategory: EventCategory) => {
+  const fetchEvents = async (eventCategory: EventCategory): Promise<void> => {
     if (!eventCategory.loaded) {
       loading.value = true;
       const categoryRef = eventCategory;
@@ -147,7 +147,7 @@ export default function useEvent() {
     }
   };
 
-  const deleteEvent = async (event: SponsorEvent, eventCategory: EventCategory) => {
+  const deleteEvent = async (event: SponsorEvent, eventCategory: EventCategory): Promise<void> => {
     await removeEvent(event);
     eventCategory.contents.splice(eventCategory.contents.indexOf(event), 1);
   };
@@ -162,7 +162,7 @@ export default function useEvent() {
     upcomingCategory.contents.push(event);
   };
 
-  const unpublishEvent = async (event: SponsorEvent) => {
+  const unpublishEvent = async (event: SponsorEvent): Promise<void> => {
     await publishStatus(event, false);
     if (isPastEvent(event.date[0])) {
       pastCategory.contents.splice(pastCategory.contents.indexOf(event), 1);
@@ -172,7 +172,7 @@ export default function useEvent() {
     draftsCategory.contents.push(event);
   };
 
-  const createEvent = async (event: SponsorEvent) => {
+  const createEvent = async (event: SponsorEvent): Promise<void> => {
     await create(event);
   };
 
