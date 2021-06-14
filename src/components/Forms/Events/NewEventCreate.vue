@@ -3,7 +3,7 @@
 </template>
 
 <script lang="ts">
-import { generateUnixTime } from '@/common/utility';
+import { generateUnixTime } from '@/common/utils';
 import { SponsorEvent } from '@/types';
 import { defineComponent } from '@vue/composition-api';
 import useEvent from '@/composable/eventComposition';
@@ -32,6 +32,7 @@ export default defineComponent({
         matches: 0,
         views: 0,
         clicks: 0,
+        status: 'draft',
       };
       await createEvent(newEvent);
       localStorage.clear();

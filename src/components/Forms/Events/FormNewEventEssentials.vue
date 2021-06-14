@@ -114,7 +114,7 @@
 <script lang="ts">
 import { computed, defineComponent, reactive, ref } from '@vue/composition-api';
 import { requireInputRule } from '@/common/validation';
-import { generateDate } from '@/common/utility';
+import { generateDate } from '@/common/utils';
 import NewEventCancel from './NewEventCancel.vue';
 
 export default defineComponent({
