@@ -1,7 +1,7 @@
 import firebase from 'firebase/app';
 
 import { firestore } from '@/common/firebase';
-import { Profile } from '@/types';
+import { Profile, SponsorEvent } from '@/types';
 
 // eslint-disable-next-line
 export const converter = <T>() => ({
@@ -16,4 +16,6 @@ export const dataPoint = <T>(collectionPath: string) =>
 export const db = {
   // list your collections here
   profile: dataPoint<Profile>('users'),
+  // eslint-disable-next-line
+  events: (uid: string) => dataPoint<SponsorEvent>(`users/${uid}/events`),
 };
