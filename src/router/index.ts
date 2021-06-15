@@ -60,6 +60,11 @@ const routes: Array<RouteConfig> = [
     // beforeEnter: authGuard,
   },
   {
+    path: '/event/:id',
+    name: 'Event',
+    component: () => import(/* webpackChunkName: "event" */ '@/views/Event.vue'),
+  },
+  {
     path: '/playground',
     name: 'Playground',
     component: () => import(/* webpackChunkName: "playground" */ '@/views/Playground.vue'),

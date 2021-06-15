@@ -24,6 +24,9 @@
           "
         />
       </v-list-item>
+      <v-list-item>
+        <EventView :event="event" />
+      </v-list-item>
     </v-list>
   </v-menu>
 </template>
@@ -32,12 +35,18 @@
 import EventDelete from '@/components/EventActions/EventDelete.vue';
 import EventPublish from '@/components/EventActions/EventPublish.vue';
 import EventUnpublish from '@/components/EventActions/EventUnpublish.vue';
+import EventView from '@/components/EventActions/EventView.vue';
 import { EventCategory, SponsorEvent } from '@/types';
 import { EventGroup } from '@/types/enum';
 import { defineComponent } from '@vue/composition-api';
 
 export default defineComponent({
-  components: { EventPublish, EventUnpublish, EventDelete },
+  components: {
+    EventPublish,
+    EventUnpublish,
+    EventDelete,
+    EventView,
+  },
   props: {
     event: {
       type: Object as () => SponsorEvent,
