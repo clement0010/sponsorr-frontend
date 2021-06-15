@@ -24,18 +24,11 @@
           </template>
 
           <template #[`item.actions`]="{ item }">
-            <EventUnpublish
-              v-if="eventCategory.name !== 'Drafts'"
+            <EventActionMenu
+              :event-category="eventCategory"
               :event="item"
               @unpublishEvent="(payload) => $emit('unpublishEvent', payload)"
-            />
-            <EventPublish
-              v-if="eventCategory.name === 'Drafts'"
-              :event="item"
               @publishEvent="(payload) => $emit('publishEvent', payload)"
-            />
-            <EventDelete
-              :event="item"
               @deleteEvent="
                 (payload) => $emit('deleteEvent', Object.assign(payload, { eventCategory }))
               "
@@ -52,19 +45,15 @@
 </template>
 
 <script lang="ts">
-import EventDelete from '@/components/EventActions/EventDelete.vue';
-import EventPublish from '@/components/EventActions/EventPublish.vue';
-import EventUnpublish from '@/components/EventActions/EventUnpublish.vue';
 import { EventCategory } from '@/types';
 import { defineComponent, ref } from '@vue/composition-api';
 import { generateDate } from '@/common/utils';
+import EventActionMenu from './EventActionMenu.vue';
 
 export default defineComponent({
   name: 'EventTable',
   components: {
-    EventDelete,
-    EventPublish,
-    EventUnpublish,
+    EventActionMenu,
   },
   props: {
     eventCategories: {
