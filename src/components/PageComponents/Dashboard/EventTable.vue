@@ -36,7 +36,7 @@
           </template>
 
           <template #[`item.date`]="{ item }">
-            {{ generateDate(item.date, 'DD MMM') }}
+            {{ generateDate(item.date, 'DD MMM YYYY') }}
           </template>
         </v-data-table>
       </v-tab-item>
@@ -46,6 +46,7 @@
 
 <script lang="ts">
 import { EventCategory } from '@/types';
+import { EventGroup } from '@/types/enum';
 import { defineComponent, ref } from '@vue/composition-api';
 import { generateDate } from '@/common/utils';
 import EventActionMenu from './EventActionMenu.vue';
@@ -69,7 +70,7 @@ export default defineComponent({
     // Tab switching
     const tab = ref(null);
 
-    return { tab, generateDate };
+    return { tab, generateDate, EventGroup };
   },
 });
 </script>

@@ -10,13 +10,13 @@
       <v-list-item v-if="eventCategory.name === EventGroup.Draft">
         <EventPublish :event="event" @publishEvent="(payload) => $emit('publishEvent', payload)" />
       </v-list-item>
-      <v-list-item v-else>
+      <v-list-item v-if="eventCategory.name === EventGroup.Published">
         <EventUnpublish
           :event="event"
           @unpublishEvent="(payload) => $emit('unpublishEvent', payload)"
         />
       </v-list-item>
-      <v-list-item>
+      <v-list-item v-if="eventCategory.name !== EventGroup.Matched">
         <EventDelete
           :event="event"
           @deleteEvent="

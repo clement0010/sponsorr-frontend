@@ -1,15 +1,12 @@
 import { EventStatus, SponsorEvents } from '@/types';
-// import { UpdateData } from '../type';
 import { db } from './utils';
+// import { UpdateData } from '../type';
 
-// export const createUserProfileToDb = async (uid: string, userMetadata: Profile): Promise<void> => {
-//   const user = await db.profile.doc(uid);
-
-//   await user.set({
-//     ...userMetadata,
-//   });
-// };
-
+/**
+ * Returns an array of all the events belonging to a user
+ *
+ * @param uid the user's uid
+ */
 export const getUserEventFromDb = async (uid: string): Promise<SponsorEvents> => {
   const snapshot = await db.events(uid).get();
 
@@ -23,16 +20,21 @@ export const getUserEventFromDb = async (uid: string): Promise<SponsorEvents> =>
   return events;
 };
 
+/**
+ * Returns an array of events belonging to a user, filtered by status
+ *
+ * @param uid the user's uid
+ * @param status the status of the events
+ */
 export const getUserEventByStatusFromDb = async (
   uid: string,
   status: EventStatus,
 ): Promise<SponsorEvents> => {
+  const events: SponsorEvents = [];
   const snapshot = await db
     .events(uid)
     .where('status', '==', status)
     .get();
-
-  const events: SponsorEvents = [];
 
   snapshot.forEach((doc) => {
     console.log(doc.id, '=>', doc.data());
@@ -52,4 +54,12 @@ export const getUserEventByStatusFromDb = async (
 //   };
 
 //   await user.update(updates);
+// };
+
+// export const createUserProfileToDb = async (uid: string, userMetadata: Profile): Promise<void> => {
+//   const user = await db.profile.doc(uid);
+
+//   await user.set({
+//     ...userMetadata,
+//   });
 // };

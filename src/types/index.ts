@@ -30,7 +30,8 @@ export interface Sponsor extends Profile {
   role: Role;
 }
 
-export type EventStatus = 'upcoming' | 'draft' | 'past';
+export type EventStatus = 'draft' | 'published' | 'matched';
+
 export interface SponsorEvent {
   title: string;
   description: string;
@@ -66,3 +67,23 @@ export interface SponsorRequest {
   description: string;
   valueInSGD: string;
 }
+
+export type MatchStatus = 'pending' | 'confirmed';
+
+export interface Match {
+  title: string;
+  description: string;
+  eventID: string;
+  status: MatchStatus;
+  sponsorID: string;
+}
+
+export interface MatchCategory {
+  name: MatchStatus;
+  loaded: boolean;
+  headers: Header[];
+  contents: Match[];
+  fallback: string;
+}
+
+export type Matches = Match[];

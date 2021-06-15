@@ -1,8 +1,7 @@
 import { EventCategory, SponsorEvent } from '@/types/index';
 import { computed, ref } from '@vue/composition-api';
-import { isPastEvent } from '@/common/utils';
 import { getUserEventByStatusFromDb } from '@/common/firestore/dashboard';
-import { draftsCategory, pastCategory, upcomingCategory } from '@/common/dashboardConfig';
+import { draftsCategory, matchedCategory, publishedCategory } from '@/common/dashboardConfig';
 import { EventGroup } from '@/types/enum';
 
 // eslint-disable-next-line
@@ -14,14 +13,15 @@ export default function useEvent() {
   const initialise = async (): Promise<void> => {
     try {
       loading.value = true;
-      eventCategories.value = [upcomingCategory, pastCategory, draftsCategory];
+      eventCategories.value = [publishedCategory, matchedCategory, draftsCategory];
 
       // Todo: Integrate UID
-      upcomingCategory.contents = await getUserEventByStatusFromDb(
+      publishedCategory.contents = await getUserEventByStatusFromDb(
         'M2vz9kjWxZZfRe3eBocZ3ktSYcX2',
-        EventGroup.Upcoming,
+        EventGroup.Published,
       );
-      upcomingCategory.loaded = true;
+
+      publishedCategory.loaded = true;
     } catch (err) {
       console.error(err);
       throw new Error(err);
@@ -41,6 +41,7 @@ export default function useEvent() {
           'M2vz9kjWxZZfRe3eBocZ3ktSYcX2',
           eventCategory.name,
         );
+
         categoryRef.loaded = true;
       }
     } catch (err) {
@@ -52,25 +53,44 @@ export default function useEvent() {
   };
 
   const deleteEvent = async (event: SponsorEvent, eventCategory: EventCategory): Promise<void> => {
-    eventCategory.contents.splice(eventCategory.contents.indexOf(event), 1);
+    try {
+      loading.value = true;
+      // call to firebase
+      eventCategory.contents.splice(eventCategory.contents.indexOf(event), 1);
+    } catch (err) {
+      console.error(err);
+      throw new Error(err);
+    } finally {
+      loading.value = false;
+    }
   };
 
-  const publishEvent = async (event: SponsorEvent) => {
-    draftsCategory.contents.splice(draftsCategory.contents.indexOf(event), 1);
-    if (isPastEvent(event.date[0])) {
-      pastCategory.contents.push(event);
-      return;
+  const publishEvent = async (event: SponsorEvent): Promise<void> => {
+    try {
+      loading.value = true;
+      // call to firebase
+      draftsCategory.contents.splice(draftsCategory.contents.indexOf(event), 1);
+      publishedCategory.contents.push(event);
+    } catch (err) {
+      console.error(err);
+      throw new Error(err);
+    } finally {
+      loading.value = false;
     }
-    upcomingCategory.contents.push(event);
   };
 
   const unpublishEvent = async (event: SponsorEvent): Promise<void> => {
-    if (isPastEvent(event.date[0])) {
-      pastCategory.contents.splice(pastCategory.contents.indexOf(event), 1);
-    } else {
-      upcomingCategory.contents.splice(upcomingCategory.contents.indexOf(event), 1);
+    try {
+      loading.value = true;
+      // call to firrebase
+      publishedCategory.contents.splice(publishedCategory.contents.indexOf(event), 1);
+      draftsCategory.contents.push(event);
+    } catch (err) {
+      console.error(err);
+      throw new Error(err);
+    } finally {
+      loading.value = false;
     }
-    draftsCategory.contents.push(event);
   };
 
   const createEvent = async (event: SponsorEvent): Promise<void> => {

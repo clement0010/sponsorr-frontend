@@ -1,8 +1,72 @@
 import { EventCategory } from '@/types';
 import { EventGroup } from '@/types/enum';
 
-export const upcomingCategory: EventCategory = {
-  name: EventGroup.Upcoming,
+export const publishedCategory: EventCategory = {
+  name: EventGroup.Published,
+  loaded: false,
+  headers: [
+    {
+      text: 'Event Title',
+      value: 'title',
+    },
+    {
+      text: 'Date',
+      value: 'date',
+    },
+    {
+      text: 'Venue',
+      value: 'venue',
+    },
+    {
+      text: 'Views',
+      value: 'views',
+      align: 'center',
+    },
+    {
+      text: 'Clicks',
+      value: 'clicks',
+      align: 'center',
+    },
+    {
+      text: 'Actions',
+      value: 'actions',
+      sortable: false,
+      align: 'center',
+    },
+  ],
+  contents: [],
+  fallback: 'No published events',
+};
+
+export const draftsCategory: EventCategory = {
+  name: EventGroup.Draft,
+  loaded: false,
+  headers: [
+    {
+      text: 'Event Title',
+      value: 'title',
+    },
+    {
+      text: 'Date',
+      value: 'date',
+    },
+    {
+      text: 'Venue',
+      value: 'venue',
+    },
+    {
+      text: 'Actions',
+      value: 'actions',
+      sortable: false,
+      align: 'center',
+    },
+  ],
+  contents: [],
+  fallback: 'Nothing in drafts',
+};
+
+export const matchedCategory: EventCategory = {
+  name: EventGroup.Matched,
   loaded: false,
   headers: [
     {
@@ -40,59 +104,5 @@ export const upcomingCategory: EventCategory = {
     },
   ],
   contents: [],
-  fallback: 'No upcoming events',
-};
-
-export const pastCategory: EventCategory = {
-  name: EventGroup.Past,
-  loaded: false,
-  headers: [
-    {
-      text: 'Event Title',
-      value: 'title',
-    },
-    {
-      text: 'Date',
-      value: 'date',
-    },
-    {
-      text: 'Venue',
-      value: 'venue',
-    },
-    {
-      text: 'Actions',
-      value: 'actions',
-      sortable: false,
-      align: 'center',
-    },
-  ],
-  contents: [],
-  fallback: 'No past events',
-};
-
-export const draftsCategory: EventCategory = {
-  name: EventGroup.Draft,
-  loaded: false,
-  headers: [
-    {
-      text: 'Event Title',
-      value: 'title',
-    },
-    {
-      text: 'Date',
-      value: 'date',
-    },
-    {
-      text: 'Venue',
-      value: 'venue',
-    },
-    {
-      text: 'Actions',
-      value: 'actions',
-      sortable: false,
-      align: 'center',
-    },
-  ],
-  contents: [],
-  fallback: 'Nothing in drafts',
+  fallback: 'No events with matches',
 };
