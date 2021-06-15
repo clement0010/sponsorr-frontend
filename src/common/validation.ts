@@ -4,7 +4,7 @@
 export const requireInputRule = (value: string): boolean | string => !!value || 'Required';
 
 export const numericsOnlyRule = (phoneNumber: string): boolean | string =>
-  /^[0-9]+$/.test(phoneNumber) || 'Phone number must be valid';
+  /^[+]*[(]{0,1}[0-9]{1,4}[)]{0,1}[-\s./0-9]*$/.test(phoneNumber) || 'Phone number must be valid';
 
 export const validEmailRule = (email: string): boolean | string =>
   /^\w+([.-]?\w+)*@\w+([.-]?\w+)*(\.\w{2,3})+$/.test(email) || 'Email must be valid';
