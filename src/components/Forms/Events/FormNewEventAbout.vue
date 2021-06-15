@@ -10,12 +10,6 @@
         :rules="[requireInputRule]"
       />
       <v-text-field
-        v-model="eventData.nature"
-        outlined
-        label="Nature of Event"
-        :rules="[requireInputRule]"
-      />
-      <v-text-field
         v-model="eventData.participants"
         outlined
         :min="0"
@@ -58,14 +52,12 @@ export default defineComponent({
 
     const eventData = reactive({
       description: '',
-      nature: '',
       participants: '',
       keywords: [],
     });
 
     const persist = () => {
       localStorage.setItem('description', eventData.description);
-      localStorage.setItem('nature', eventData.nature);
       localStorage.setItem('participants', eventData.participants);
       localStorage.setItem('keywords', JSON.stringify(eventData.keywords));
     };
