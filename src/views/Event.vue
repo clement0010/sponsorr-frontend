@@ -22,6 +22,7 @@
           $emit('success', 'Event unpublished');
         }
       "
+      @edit="edit"
     />
   </BasePage>
 </template>
@@ -40,7 +41,7 @@ export default defineComponent({
     BasePage,
     EventLayout,
   },
-  setup(_, { root }) {
+  setup(_, { root, emit }) {
     const {
       fetchUserEvent,
       event,
@@ -49,8 +50,20 @@ export default defineComponent({
       deleteEvent,
       publishEvent,
       unpublishEvent,
+      editUserEvent,
     } = useEvent();
+
     const eventId = root.$route.params.id;
+
+    const edit = async (payload: Record<string, unknown>) => {
+      try {
+        await editUserEvent(eventId, payload);
+        emit('success', 'Successfully edited!');
+      } catch (err) {
+        emit('alert', 'Failed to edit!');
+        console.error(err);
+      }
+    };
 
     onMounted(async () => {
       await fetchUserEvent('foo', eventId);
@@ -63,6 +76,7 @@ export default defineComponent({
       deleteEvent,
       publishEvent,
       unpublishEvent,
+      edit,
     };
   },
 });

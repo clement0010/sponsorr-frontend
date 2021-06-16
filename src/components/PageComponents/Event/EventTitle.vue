@@ -2,7 +2,7 @@
   <div>
     <v-card-title class="text-h2 text-wrap">
       {{ title }}
-      <EditEventTitle />
+      <EditEventTitle :title="title" @edit-title="(payload) => $emit('edit', payload)" />
     </v-card-title>
   </div>
 </template>

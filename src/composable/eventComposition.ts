@@ -1,4 +1,4 @@
-import { getEventFromDb } from '@/common/firestore/event';
+import { getEventFromDb, updateUserEventFromDb } from '@/common/firestore/event';
 import router from '@/router';
 import { SponsorEvent } from '@/types';
 import { computed, ref } from '@vue/composition-api';
@@ -69,6 +69,23 @@ export default function useEvent() {
     }
   };
 
+  const editUserEvent = async (eventID: string, newData: Record<string, unknown>) => {
+    try {
+      if (!event.value) {
+        console.log('No event to edit!');
+        return;
+      }
+      event.value = {
+        ...event.value,
+        ...newData,
+      };
+      await updateUserEventFromDb(testUserId, eventID, newData);
+      return;
+    } catch (err) {
+      throw new Error(err);
+    }
+  };
+
   return {
     event: computed(() => event.value),
     fetchUserEvent,
@@ -77,5 +94,6 @@ export default function useEvent() {
     deleteEvent,
     publishEvent,
     unpublishEvent,
+    editUserEvent,
   };
 }
