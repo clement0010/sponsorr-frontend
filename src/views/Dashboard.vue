@@ -51,6 +51,7 @@ export default defineComponent({
 
     onMounted(async () => {
       await initialise();
+      console.log(eventCategories);
     });
 
     return {

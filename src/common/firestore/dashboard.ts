@@ -14,7 +14,8 @@ export const getUserEventFromDb = async (uid: string): Promise<SponsorEvents> =>
 
   snapshot.forEach((doc) => {
     console.log(doc.id, '=>', doc.data());
-    events.push(doc.data());
+    const eventID = { eventID: doc.id };
+    events.push(Object.assign(doc.data(), eventID));
   });
 
   return events;
@@ -38,7 +39,8 @@ export const getUserEventByStatusFromDb = async (
 
   snapshot.forEach((doc) => {
     console.log(doc.id, '=>', doc.data());
-    events.push(doc.data());
+    const eventID = { eventID: doc.id };
+    events.push(Object.assign(doc.data(), eventID));
   });
 
   return events;

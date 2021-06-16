@@ -33,6 +33,7 @@ export interface Sponsor extends Profile {
 export type EventStatus = 'draft' | 'published' | 'matched';
 
 export interface SponsorEvent {
+  eventID: string;
   title: string;
   description: string;
   createdAt: number;

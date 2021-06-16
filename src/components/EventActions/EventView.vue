@@ -1,5 +1,5 @@
 <template>
-  <router-link :to="{ name: 'Event', params: { id: '123' } }">
+  <router-link :to="{ name: 'Event', params: { id: eventId } }">
     <v-btn small>
       View
     </v-btn>
@@ -7,14 +7,13 @@
 </template>
 
 <script lang="ts">
-import { SponsorEvent } from '@/types';
 import { defineComponent } from '@vue/composition-api';
 
 export default defineComponent({
   name: 'ViewEventButton',
   props: {
-    event: {
-      type: Object as () => SponsorEvent,
+    eventId: {
+      type: String,
       required: true,
     },
   },

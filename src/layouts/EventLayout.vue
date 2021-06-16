@@ -26,6 +26,7 @@ import EventDescription from '@/components/PageComponents/Event/EventDescription
 import EventDetails from '@/components/PageComponents/Event/EventDetails.vue';
 import EventKeywords from '@/components/PageComponents/Event/EventKeywords.vue';
 import EventDocuments from '@/components/PageComponents/Event/EventDocuments.vue';
+import { SponsorEvent } from '@/types';
 
 export default defineComponent({
   components: {
@@ -35,6 +36,12 @@ export default defineComponent({
     EventDetails,
     EventKeywords,
     EventDocuments,
+  },
+  props: {
+    event: {
+      type: Object as () => SponsorEvent,
+      required: true,
+    },
   },
 });
 </script>
