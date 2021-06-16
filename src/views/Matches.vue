@@ -1,11 +1,16 @@
 <template>
   <BasePage>
-    <MatchesLayout />
+    <MatchesLayout
+      :match-categories="matchCategories"
+      :loading="loading"
+      @fetchMatches="(matchCategory) => fetchMatches(matchCategory)"
+    />
   </BasePage>
 </template>
 
 <script lang="ts">
-import { defineComponent } from '@vue/composition-api';
+import { defineComponent, onMounted } from '@vue/composition-api';
+import useMatch from '@/composable/matchComposition';
 import BasePage from '@/layouts/BasePage.vue';
 import MatchesLayout from '@/layouts/MatchesLayout.vue';
 
@@ -14,6 +19,19 @@ export default defineComponent({
   components: {
     BasePage,
     MatchesLayout,
+  },
+  setup() {
+    const { matchCategories, initialise, loading, fetchMatches } = useMatch();
+
+    onMounted(async () => {
+      await initialise();
+    });
+
+    return {
+      matchCategories,
+      loading,
+      fetchMatches,
+    };
   },
 });
 </script>

@@ -68,7 +68,7 @@ export interface SponsorRequest {
   valueInSGD: string;
 }
 
-export type MatchStatus = 'pending' | 'confirmed';
+export type MatchStatus = 'pending' | 'rejected' | 'accepted';
 
 export interface Match {
   title: string;
