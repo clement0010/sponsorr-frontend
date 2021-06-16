@@ -2,7 +2,27 @@
   <BasePage>
     <Spinner v-if="loading && !error" />
     <p v-else-if="error">Error loading event</p>
-    <EventLayout :event="event" />
+    <EventLayout
+      :event="event"
+      @deleteEvent="
+        (payload) => {
+          deleteEvent(payload);
+          $emit('success', 'Event deleted');
+        }
+      "
+      @publishEvent="
+        (payload) => {
+          publishEvent(payload);
+          $emit('success', 'Event published');
+        }
+      "
+      @unpublishEvent="
+        (payload) => {
+          unpublishEvent(payload);
+          $emit('success', 'Event unpublished');
+        }
+      "
+    />
   </BasePage>
 </template>
 
@@ -21,7 +41,15 @@ export default defineComponent({
     EventLayout,
   },
   setup(_, { root }) {
-    const { fetchUserEvent, event, loading, error } = useEvent();
+    const {
+      fetchUserEvent,
+      event,
+      loading,
+      error,
+      deleteEvent,
+      publishEvent,
+      unpublishEvent,
+    } = useEvent();
     const eventId = root.$route.params.id;
 
     onMounted(async () => {
@@ -32,6 +60,9 @@ export default defineComponent({
       event,
       loading,
       error,
+      deleteEvent,
+      publishEvent,
+      unpublishEvent,
     };
   },
 });

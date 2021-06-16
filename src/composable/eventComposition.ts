@@ -1,4 +1,5 @@
 import { getEventFromDb } from '@/common/firestore/event';
+import router from '@/router';
 import { SponsorEvent } from '@/types';
 import { computed, ref } from '@vue/composition-api';
 
@@ -31,10 +32,50 @@ export default function useEvent() {
     }
   };
 
+  const deleteEvent = async (userEvent: SponsorEvent) => {
+    try {
+      loading.value = true;
+      // Firebase call
+      router.push({ name: 'Dashboard' });
+    } catch (err) {
+      console.error(err);
+      error.value = true;
+    } finally {
+      loading.value = false;
+    }
+  };
+
+  const publishEvent = async (userEvent: SponsorEvent) => {
+    try {
+      loading.value = true;
+      // Firebase call
+    } catch (err) {
+      console.error(err);
+      error.value = true;
+    } finally {
+      loading.value = false;
+    }
+  };
+
+  const unpublishEvent = async (userEvent: SponsorEvent) => {
+    try {
+      loading.value = true;
+      // Firebase call
+    } catch (err) {
+      console.error(err);
+      error.value = true;
+    } finally {
+      loading.value = false;
+    }
+  };
+
   return {
     event: computed(() => event.value),
     fetchUserEvent,
     loading,
     error,
+    deleteEvent,
+    publishEvent,
+    unpublishEvent,
   };
 }

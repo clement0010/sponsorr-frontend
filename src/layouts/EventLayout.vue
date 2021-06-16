@@ -2,16 +2,31 @@
   <v-container class="secondary" fluid>
     <v-row justify="center">
       <v-card class="my-10 pa-5" width="1320" rounded="xl">
-        <EventTitle />
+        <EventTitle :title="event.title" />
         <EventOrganiser />
-        <EventDescription />
-        <EventDetails />
-        <EventKeywords />
+        <EventDescription :event-description="event.description" />
+        <EventDetails
+          :event-date="generateDate(event.date, 'DD MMM YYYY')"
+          :event-venue="event.venue"
+        />
+        <EventKeywords :keywords="event.keywords" />
         <EventDocuments />
         <v-card-text class="text-right">
-          <v-btn class="error">
-            Delete Event
-          </v-btn>
+          <EventUnpublish
+            v-if="event.matches < 1 && event.published"
+            :event="event"
+            @unpublishEvent="(payload) => $emit('unpublishEvent', payload)"
+          />
+          <EventPublish
+            v-if="!event.published"
+            :event="event"
+            @publishEvent="(payload) => $emit('publishEvent', payload)"
+          />
+          <EventDelete
+            v-if="event.matches < 1"
+            :event="event"
+            @deleteEvent="(payload) => $emit('deleteEvent', payload)"
+          />
         </v-card-text>
       </v-card>
     </v-row>
@@ -27,6 +42,10 @@ import EventDetails from '@/components/PageComponents/Event/EventDetails.vue';
 import EventKeywords from '@/components/PageComponents/Event/EventKeywords.vue';
 import EventDocuments from '@/components/PageComponents/Event/EventDocuments.vue';
 import { SponsorEvent } from '@/types';
+import { generateDate } from '@/common/utils';
+import EventDelete from '@/components/EventActions/EventDelete.vue';
+import EventPublish from '@/components/EventActions/EventPublish.vue';
+import EventUnpublish from '@/components/EventActions/EventUnpublish.vue';
 
 export default defineComponent({
   components: {
@@ -36,12 +55,20 @@ export default defineComponent({
     EventDetails,
     EventKeywords,
     EventDocuments,
+    EventDelete,
+    EventPublish,
+    EventUnpublish,
   },
   props: {
     event: {
       type: Object as () => SponsorEvent,
       required: true,
     },
+  },
+  setup() {
+    return {
+      generateDate,
+    };
   },
 });
 </script>
