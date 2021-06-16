@@ -6,19 +6,27 @@
       </v-btn>
     </template>
 
-    <v-form>
+    <v-form v-model="valid">
       <v-card>
         <v-card-title>
           Edit Event Title
         </v-card-title>
 
         <v-card-text>
-          <v-text-field v-model="input" outlined label="Title" :rules="[requireInputRule]" />
+          <v-text-field
+            v-model="input"
+            required
+            outlined
+            label="Title"
+            :rules="[requireInputRule]"
+          />
         </v-card-text>
 
         <v-card-text class="text-right">
           <v-btn class="error" rounded @click="cancel">Cancel</v-btn>
-          <v-btn class="success" rounded @click="edit">Save</v-btn>
+          <v-btn class="success" rounded :disabled="!valid || duplicate" type="submit" @click="edit"
+            >Save</v-btn
+          >
         </v-card-text>
       </v-card>
     </v-form>
@@ -26,7 +34,7 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, ref } from '@vue/composition-api';
+import { computed, defineComponent, ref } from '@vue/composition-api';
 import { requireInputRule } from '@/common/validation';
 
 export default defineComponent({
@@ -40,6 +48,8 @@ export default defineComponent({
   setup(props, { emit }) {
     const dialog = ref(false);
     const input = ref(props.title);
+    const valid = ref(false);
+    const duplicate = computed(() => input.value === props.title);
 
     const cancel = () => {
       dialog.value = false; // Closes dialog
@@ -59,6 +69,8 @@ export default defineComponent({
       cancel,
       requireInputRule,
       edit,
+      valid,
+      duplicate,
     };
   },
 });
