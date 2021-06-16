@@ -1,5 +1,5 @@
 <template>
-  <v-dialog v-model="dialog" light width="unset">
+  <v-dialog v-model="dialog" width="unset">
     <template #activator="{ on, attrs }">
       <v-btn
         class="text-lowercase font-weight-regular"

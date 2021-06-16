@@ -7,7 +7,7 @@
         </router-link>
       </v-col>
     </v-row>
-    <v-card light class="pa-5">
+    <v-card class="pa-5">
       <v-card-title> login </v-card-title>
       <v-form ref="form" v-model="valid">
         <v-text-field

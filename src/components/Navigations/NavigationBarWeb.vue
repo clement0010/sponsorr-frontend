@@ -16,7 +16,7 @@
           <router-link :to="{ name: 'Profile', params: { id } }">
             <v-btn class="font-weight-regular" rounded text> Profile </v-btn>
           </router-link>
-          <v-btn light @click="userSignout"> Sign Out </v-btn>
+          <v-btn @click="userSignout"> Sign Out </v-btn>
         </v-col>
         <v-col v-else cols="auto">
           <router-link :to="{ name: 'Login' }">

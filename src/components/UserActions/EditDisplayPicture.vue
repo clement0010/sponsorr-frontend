@@ -6,7 +6,7 @@
       </v-btn>
     </template>
     <v-form>
-      <v-card light>
+      <v-card>
         <v-card-title> Edit Display Picture </v-card-title>
         <v-card-text>
           <v-text-field v-model="input" label="Enter Image URL" outlined :rules="[validURLRule]" />

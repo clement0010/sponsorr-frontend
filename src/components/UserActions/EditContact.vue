@@ -7,7 +7,7 @@
     </template>
 
     <v-form ref="form" v-model="valid">
-      <v-card light>
+      <v-card>
         <v-card-title>
           <span class="headline"> Edit Contact Details </span>
         </v-card-title>

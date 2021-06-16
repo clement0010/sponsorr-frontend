@@ -20,7 +20,7 @@
               </v-btn>
             </template>
 
-            <v-card class="rounded-0" light>
+            <v-card class="rounded-0">
               <v-app-bar class="primary" flat>
                 <v-container fill-height class="py-0">
                   <v-row align="center" justify="center" class="py-0">
@@ -57,7 +57,7 @@
                   </router-link>
                 </v-list-item>
                 <v-list-item class="justify-center">
-                  <v-btn light @click="userSignout"> Sign Out </v-btn>
+                  <v-btn @click="userSignout"> Sign Out </v-btn>
                 </v-list-item>
               </v-list>
             </v-card>

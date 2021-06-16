@@ -7,7 +7,7 @@
     </template>
 
     <v-form>
-      <v-card light>
+      <v-card>
         <v-card-title>
           <span class="headline"> Edit Keywords </span>
         </v-card-title>
