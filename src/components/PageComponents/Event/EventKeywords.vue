@@ -5,7 +5,7 @@
       <EditEventKeywords />
     </v-card-title>
     <v-card-text>
-      <v-chip-group>
+      <v-chip-group column>
         <v-chip v-for="(keyword, index) in keywords" :key="index">
           {{ keyword }}
         </v-chip>

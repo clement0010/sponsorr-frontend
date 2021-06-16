@@ -1,6 +1,6 @@
 <template>
   <div>
-    <v-card-title class="text-h2">
+    <v-card-title class="text-h2 text-wrap">
       {{ title }}
       <EditEventTitle />
     </v-card-title>
@@ -24,3 +24,10 @@ export default defineComponent({
   },
 });
 </script>
+
+<style scoped>
+.v-card__text,
+.v-card__title {
+  word-break: normal; /* maybe !important  */
+}
+</style>
