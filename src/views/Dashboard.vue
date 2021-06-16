@@ -30,7 +30,7 @@
 import BasePage from '@/layouts/BasePage.vue';
 import DashboardLayout from '@/layouts/DashboardLayout.vue';
 import { defineComponent, onMounted } from '@vue/composition-api';
-import useEvent from '@/composable/eventComposition';
+import useDashboard from '@/composable/dashboardComposition';
 
 export default defineComponent({
   name: 'Dashboard',
@@ -47,7 +47,7 @@ export default defineComponent({
       deleteEvent,
       publishEvent,
       unpublishEvent,
-    } = useEvent();
+    } = useDashboard();
 
     onMounted(async () => {
       await initialise();

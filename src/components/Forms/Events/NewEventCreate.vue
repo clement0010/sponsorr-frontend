@@ -6,7 +6,7 @@
 import { generateUnixTime } from '@/common/utils';
 import { SponsorEvent } from '@/types';
 import { defineComponent } from '@vue/composition-api';
-import useEvent from '@/composable/eventComposition';
+import useDashboard from '@/composable/dashboardComposition';
 
 export default defineComponent({
   name: 'NewEventCreateButton',
@@ -17,7 +17,7 @@ export default defineComponent({
     },
   },
   setup(_, { emit }) {
-    const { createEvent } = useEvent();
+    const { createEvent } = useDashboard();
 
     const create = async () => {
       const newEvent: SponsorEvent = {

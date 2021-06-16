@@ -5,7 +5,7 @@ import { draftsCategory, matchedCategory, publishedCategory } from '@/common/das
 import { EventGroup } from '@/types/enum';
 
 // eslint-disable-next-line
-export default function useEvent() {
+export default function useDashboard() {
   const loading = ref(true);
 
   const eventCategories = ref<EventCategory[]>();
