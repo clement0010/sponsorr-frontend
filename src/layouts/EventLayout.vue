@@ -7,11 +7,12 @@
         <EventDescription />
         <EventDetails />
         <EventKeywords />
-        <v-row justify="end" class="pa-5">
+        <EventDocuments />
+        <v-card-text class="text-right">
           <v-btn class="error">
             Delete Event
           </v-btn>
-        </v-row>
+        </v-card-text>
       </v-card>
     </v-row>
   </v-container>
@@ -24,6 +25,7 @@ import EventOrganiser from '@/components/PageComponents/Event/EventOrganiser.vue
 import EventDescription from '@/components/PageComponents/Event/EventDescription.vue';
 import EventDetails from '@/components/PageComponents/Event/EventDetails.vue';
 import EventKeywords from '@/components/PageComponents/Event/EventKeywords.vue';
+import EventDocuments from '@/components/PageComponents/Event/EventDocuments.vue';
 
 export default defineComponent({
   components: {
@@ -32,6 +34,7 @@ export default defineComponent({
     EventDescription,
     EventDetails,
     EventKeywords,
+    EventDocuments,
   },
 });
 </script>
