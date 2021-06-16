@@ -1,7 +1,9 @@
 <template>
-  <v-btn small @click="viewEvent">
-    View
-  </v-btn>
+  <router-link :to="{ name: 'Event', params: { id: '123' } }">
+    <v-btn small>
+      View
+    </v-btn>
+  </router-link>
 </template>
 
 <script lang="ts">
@@ -15,18 +17,6 @@ export default defineComponent({
       type: Object as () => SponsorEvent,
       required: true,
     },
-  },
-  setup(_, { root }) {
-    const viewEvent = () => {
-      root.$router.push({
-        name: 'Event',
-        params: {
-          id: '123',
-        },
-      });
-    };
-
-    return { viewEvent };
   },
 });
 </script>
