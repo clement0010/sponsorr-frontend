@@ -4,7 +4,10 @@
       <v-card class="my-10 pa-5" width="1320" rounded="xl">
         <EventTitle :title="event.title" @edit="(payload) => $emit('edit', payload)" />
         <EventOrganiser />
-        <EventDescription :event-description="event.description" />
+        <EventDescription
+          :event-description="event.description"
+          @edit="(payload) => $emit('edit', payload)"
+        />
         <EventDetails
           :event-date="generateDate(event.date, 'DD MMM YYYY')"
           :event-venue="event.venue"

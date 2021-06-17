@@ -2,7 +2,10 @@
   <div>
     <v-card-title class="text-h4">
       Description
-      <EditEventDescription />
+      <EditEventDescription
+        :description="eventDescription"
+        @edit-description="(payload) => $emit('edit', payload)"
+      />
     </v-card-title>
     <v-card-text class="text-body-1">
       {{ eventDescription }}

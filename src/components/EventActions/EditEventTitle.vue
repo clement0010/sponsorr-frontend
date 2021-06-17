@@ -24,9 +24,15 @@
 
         <v-card-text class="text-right">
           <v-btn class="error" rounded @click="cancel">Cancel</v-btn>
-          <v-btn class="success" rounded :disabled="!valid || duplicate" type="submit" @click="edit"
-            >Save</v-btn
+          <v-btn
+            class="success"
+            rounded
+            :disabled="!valid || duplicate"
+            type="submit"
+            @click="edit"
           >
+            Save
+          </v-btn>
         </v-card-text>
       </v-card>
     </v-form>
