@@ -2,7 +2,10 @@
   <div>
     <v-card-title class="text-h4">
       Keywords
-      <EditEventKeywords />
+      <EditEventKeywords
+        :keywords="keywords"
+        @edit-keywords="(payload) => $emit('edit', payload)"
+      />
     </v-card-title>
     <v-card-text>
       <v-chip-group column>

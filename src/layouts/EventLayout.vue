@@ -13,7 +13,7 @@
           :event-venue="event.venue"
           @edit="(payload) => $emit('edit', payload)"
         />
-        <EventKeywords :keywords="event.keywords" />
+        <EventKeywords :keywords="event.keywords" @edit="(payload) => $emit('edit', payload)" />
         <EventDocuments />
         <v-card-text class="text-right">
           <EventUnpublish
