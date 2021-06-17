@@ -32,6 +32,7 @@ export default function useEvent() {
     }
   };
 
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const deleteEvent = async (userEvent: SponsorEvent) => {
     try {
       loading.value = true;
@@ -45,6 +46,7 @@ export default function useEvent() {
     }
   };
 
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const publishEvent = async (userEvent: SponsorEvent) => {
     try {
       loading.value = true;
@@ -57,6 +59,7 @@ export default function useEvent() {
     }
   };
 
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const unpublishEvent = async (userEvent: SponsorEvent) => {
     try {
       loading.value = true;
