@@ -1,4 +1,7 @@
 import dayjs from 'dayjs';
+import customParseFormat from 'dayjs/plugin/customParseFormat';
+
+dayjs.extend(customParseFormat);
 
 /**
  * Generates date as string, with option to pass date as ISO8601, unix timestamp, and format
@@ -49,4 +52,8 @@ export const generateDateRangeFromUnixTimeRange = (unixTimeRange: number[]): str
 export const isPastEvent = (timestamp: number): boolean => {
   const today = generateUnixTime();
   return today - timestamp > 0;
+};
+
+export const parseTime = (time: string): string => {
+  return dayjs(time, 'hh:mm').format('hh:mm A');
 };

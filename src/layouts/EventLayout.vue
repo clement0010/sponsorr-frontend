@@ -11,6 +11,9 @@
         <EventDetails
           :event-date="event.date"
           :event-venue="event.venue"
+          :event-expected-attendance="event.attendance"
+          :event-time-start="event.timeStart"
+          :event-time-end="event.timeEnd"
           @edit="(payload) => $emit('edit', payload)"
         />
         <EventKeywords :keywords="event.keywords" @edit="(payload) => $emit('edit', payload)" />

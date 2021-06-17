@@ -38,12 +38,15 @@ export interface SponsorEvent {
   description: string;
   createdAt: number;
   date: number[];
+  timeStart: string;
+  timeEnd: string;
   venue: string;
   published: boolean;
   views: number;
   clicks: number;
   matches: number;
   status: EventStatus;
+  attendance: number;
 }
 
 export type SponsorEvents = SponsorEvent[];

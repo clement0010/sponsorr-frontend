@@ -2,16 +2,14 @@
   <div>
     <v-card-title class="text-h4">
       Details
-      <EditEventDetails />
-      <!--
       <EditEventDetails
         :event-expected-attendance="eventExpectedAttendance"
         :event-date="eventDate"
-        :event-time="eventTime"
+        :event-time-start="eventTimeStart"
+        :event-time-end="eventTimeEnd"
         :event-venue="eventVenue"
         @edit-event-details="(payload) => $emit('edit', payload)"
       />
-      -->
     </v-card-title>
 
     <v-list-item>
@@ -27,7 +25,7 @@
         <strong>
           Time:
         </strong>
-        {{ eventTime }}
+        {{ parseTime(eventTimeStart) + ' - ' + parseTime(eventTimeEnd) }}
       </v-list-item-title>
     </v-list-item>
     <v-list-item>
@@ -51,7 +49,7 @@
 
 <script lang="ts">
 import { defineComponent } from '@vue/composition-api';
-import { generateDate } from '@/common/utils';
+import { generateDate, parseTime } from '@/common/utils';
 import EditEventDetails from '@/components/EventActions/EditEventDetails.vue';
 
 export default defineComponent({
@@ -64,9 +62,13 @@ export default defineComponent({
       type: Number,
       required: true,
     },
-    eventTime: {
+    eventTimeStart: {
       type: String,
-      default: '10:30pm - 11:30pm',
+      default: 'No time given',
+    },
+    eventTimeEnd: {
+      type: String,
+      default: '',
     },
     eventVenue: {
       type: String,
@@ -74,12 +76,13 @@ export default defineComponent({
     },
     eventExpectedAttendance: {
       type: Number,
-      default: 200,
+      default: 0,
     },
   },
   setup() {
     return {
       generateDate,
+      parseTime,
     };
   },
 });
