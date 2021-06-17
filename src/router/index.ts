@@ -44,6 +44,22 @@ const routes: Array<RouteConfig> = [
     // beforeEnter: authGuard,
   },
   {
+    path: '/marketplace',
+    name: 'Marketplace',
+    component: () => import(/* webpackChunkName: "marketplace" */ '@/views/Marketplace.vue'),
+    // To be enabled
+    // meta: { requiresAuth: true },
+    // beforeEnter: authGuard,
+  },
+  {
+    path: '/settings',
+    name: 'Settings',
+    component: () => import(/* webpackChunkName: "settings" */ '@/views/Settings.vue'),
+    // To be enabled
+    // meta: { requiresAuth: true },
+    // beforeEnter: authGuard,
+  },
+  {
     path: '/new-event',
     name: 'NewEvent',
     component: () => import(/* webpackChunkName: "newEvent" */ '@/views/NewEvent.vue'),
