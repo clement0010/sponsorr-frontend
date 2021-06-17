@@ -3,6 +3,15 @@
     <v-card-title class="text-h4">
       Details
       <EditEventDetails />
+      <!--
+      <EditEventDetails
+        :event-expected-attendance="eventExpectedAttendance"
+        :event-date="eventDate"
+        :event-time="eventTime"
+        :event-venue="eventVenue"
+        @edit-event-details="(payload) => $emit('edit', payload)"
+      />
+      -->
     </v-card-title>
 
     <v-list-item>
@@ -10,7 +19,7 @@
         <strong>
           Date:
         </strong>
-        {{ eventDate }}
+        {{ generateDate(eventDate, 'DD MMM YYYY') }}
       </v-list-item-title>
     </v-list-item>
     <v-list-item>
@@ -42,6 +51,7 @@
 
 <script lang="ts">
 import { defineComponent } from '@vue/composition-api';
+import { generateDate } from '@/common/utils';
 import EditEventDetails from '@/components/EventActions/EditEventDetails.vue';
 
 export default defineComponent({
@@ -51,8 +61,8 @@ export default defineComponent({
   },
   props: {
     eventDate: {
-      type: String,
-      default: '10 December 2021',
+      type: Number,
+      required: true,
     },
     eventTime: {
       type: String,
@@ -66,6 +76,11 @@ export default defineComponent({
       type: Number,
       default: 200,
     },
+  },
+  setup() {
+    return {
+      generateDate,
+    };
   },
 });
 </script>

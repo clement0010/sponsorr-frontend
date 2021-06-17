@@ -11,7 +11,7 @@ export default function useEvent() {
 
   const event = ref<SponsorEvent>();
 
-  const fetchUserEvent = async (uid: string, eventID: string) => {
+  const fetchUserEvent = async (uid: string, eventID: string): Promise<void> => {
     try {
       loading.value = true;
 

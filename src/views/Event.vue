@@ -3,25 +3,11 @@
     <Spinner v-if="loading && !error" />
     <p v-else-if="error">Error loading event</p>
     <EventLayout
+      v-else
       :event="event"
-      @deleteEvent="
-        (payload) => {
-          deleteEvent(payload);
-          $emit('success', 'Event deleted');
-        }
-      "
-      @publishEvent="
-        (payload) => {
-          publishEvent(payload);
-          $emit('success', 'Event published');
-        }
-      "
-      @unpublishEvent="
-        (payload) => {
-          unpublishEvent(payload);
-          $emit('success', 'Event unpublished');
-        }
-      "
+      @deleteEvent="remove"
+      @publishEvent="publish"
+      @unpublishEvent="unpublish"
       @edit="edit"
     />
   </BasePage>
@@ -29,6 +15,8 @@
 
 <script lang="ts">
 import { defineComponent, onMounted } from '@vue/composition-api';
+import { SponsorEvent } from '@/types';
+
 import BasePage from '@/layouts/BasePage.vue';
 import EventLayout from '@/layouts/EventLayout.vue';
 import Spinner from '@/components/BuildingElements/Spinner.vue';
@@ -65,18 +53,47 @@ export default defineComponent({
       }
     };
 
+    const publish = async (payload: SponsorEvent) => {
+      try {
+        await publishEvent(payload);
+        emit('success', 'Event published');
+      } catch (err) {
+        emit('alert', 'Failed to publish!');
+      }
+    };
+
+    const unpublish = async (payload: SponsorEvent) => {
+      try {
+        await unpublishEvent(payload);
+        emit('success', 'Event unpublished');
+      } catch (err) {
+        emit('alert', 'Failed to unpublish!');
+      }
+    };
+
+    const remove = async (payload: SponsorEvent) => {
+      try {
+        await deleteEvent(payload);
+        emit('success', 'Event deleted');
+      } catch (err) {
+        emit('alert', 'Failed to delete!');
+      }
+    };
+
     onMounted(async () => {
+      console.log(event);
       await fetchUserEvent('foo', eventId);
+      console.log(event);
     });
 
     return {
       event,
       loading,
       error,
-      deleteEvent,
-      publishEvent,
-      unpublishEvent,
+      publish,
+      unpublish,
       edit,
+      remove,
     };
   },
 });

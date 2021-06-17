@@ -9,8 +9,9 @@
           @edit="(payload) => $emit('edit', payload)"
         />
         <EventDetails
-          :event-date="generateDate(event.date, 'DD MMM YYYY')"
+          :event-date="event.date"
           :event-venue="event.venue"
+          @edit="(payload) => $emit('edit', payload)"
         />
         <EventKeywords :keywords="event.keywords" />
         <EventDocuments />
@@ -38,14 +39,15 @@
 
 <script lang="ts">
 import { defineComponent } from '@vue/composition-api';
+import { SponsorEvent } from '@/types';
+import { generateDate } from '@/common/utils';
+
 import EventTitle from '@/components/PageComponents/Event/EventTitle.vue';
 import EventOrganiser from '@/components/PageComponents/Event/EventOrganiser.vue';
 import EventDescription from '@/components/PageComponents/Event/EventDescription.vue';
 import EventDetails from '@/components/PageComponents/Event/EventDetails.vue';
 import EventKeywords from '@/components/PageComponents/Event/EventKeywords.vue';
 import EventDocuments from '@/components/PageComponents/Event/EventDocuments.vue';
-import { SponsorEvent } from '@/types';
-import { generateDate } from '@/common/utils';
 import EventDelete from '@/components/EventActions/EventDelete.vue';
 import EventPublish from '@/components/EventActions/EventPublish.vue';
 import EventUnpublish from '@/components/EventActions/EventUnpublish.vue';
