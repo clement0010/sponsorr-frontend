@@ -1,6 +1,7 @@
+import { updateEventStatusToDb } from '@/common';
 import { getEventFromDb, updateUserEventFromDb } from '@/common/firestore/event';
 import router from '@/router';
-import { SponsorEvent } from '@/types';
+import { EventStatus, SponsorEvent } from '@/types';
 import { computed, ref } from '@vue/composition-api';
 
 // eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types
@@ -46,24 +47,11 @@ export default function useEvent() {
     }
   };
 
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  const publishEvent = async (userEvent: SponsorEvent) => {
+  const updateEventStatus = async (eventId: string, status: EventStatus) => {
     try {
       loading.value = true;
       // Firebase call
-    } catch (err) {
-      console.error(err);
-      error.value = true;
-    } finally {
-      loading.value = false;
-    }
-  };
-
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  const unpublishEvent = async (userEvent: SponsorEvent) => {
-    try {
-      loading.value = true;
-      // Firebase call
+      await updateEventStatusToDb(testUserId, eventId, status);
     } catch (err) {
       console.error(err);
       error.value = true;
@@ -95,8 +83,7 @@ export default function useEvent() {
     loading,
     error,
     deleteEvent,
-    publishEvent,
-    unpublishEvent,
+    updateEventStatus,
     editUserEvent,
   };
 }

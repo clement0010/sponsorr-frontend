@@ -1,6 +1,6 @@
-import { EventCategory, SponsorEvent } from '@/types/index';
+import { EventCategory, EventStatus, SponsorEvent, SponsorEventDbItem } from '@/types/index';
 import { computed, ref } from '@vue/composition-api';
-import { getUserEventByStatusFromDb } from '@/common/firestore/dashboard';
+import { createEventToDb, getUserEventByStatusFromDb } from '@/common/firestore/dashboard';
 import { draftsCategory, matchedCategory, publishedCategory } from '@/common/dashboardConfig';
 import { EventGroup } from '@/types/enum';
 
@@ -52,11 +52,31 @@ export default function useDashboard() {
     }
   };
 
-  const deleteEvent = async (event: SponsorEvent, eventCategory: EventCategory): Promise<void> => {
+  const deleteEvent = async (eventId: string, eventStatus: EventStatus): Promise<void> => {
     try {
       loading.value = true;
       // call to firebase
-      eventCategory.contents.splice(eventCategory.contents.indexOf(event), 1);
+      switch (eventStatus) {
+        case EventGroup.Matched:
+          matchedCategory.contents = matchedCategory.contents.filter(
+            (event) => event.eventId !== eventId,
+          );
+          break;
+
+        case EventGroup.Draft:
+          draftsCategory.contents = matchedCategory.contents.filter(
+            (event) => event.eventId !== eventId,
+          );
+          break;
+
+        case EventGroup.Published:
+          publishedCategory.contents = matchedCategory.contents.filter(
+            (event) => event.eventId !== eventId,
+          );
+          break;
+        default:
+          break;
+      }
     } catch (err) {
       console.error(err);
       throw new Error(err);
@@ -65,12 +85,15 @@ export default function useDashboard() {
     }
   };
 
-  const publishEvent = async (event: SponsorEvent): Promise<void> => {
+  const publishEvent = async (eventItem: SponsorEventDbItem): Promise<void> => {
     try {
       loading.value = true;
       // call to firebase
-      draftsCategory.contents.splice(draftsCategory.contents.indexOf(event), 1);
-      publishedCategory.contents.push(event);
+      const { eventId } = eventItem;
+      draftsCategory.contents = draftsCategory.contents.filter(
+        (event) => event.eventId !== eventId,
+      );
+      publishedCategory.contents.push(eventItem);
     } catch (err) {
       console.error(err);
       throw new Error(err);
@@ -79,12 +102,15 @@ export default function useDashboard() {
     }
   };
 
-  const unpublishEvent = async (event: SponsorEvent): Promise<void> => {
+  const unpublishEvent = async (eventItem: SponsorEventDbItem): Promise<void> => {
     try {
       loading.value = true;
-      // call to firrebase
-      publishedCategory.contents.splice(publishedCategory.contents.indexOf(event), 1);
-      draftsCategory.contents.push(event);
+      // call to firebase
+      const { eventId } = eventItem;
+      publishedCategory.contents = publishedCategory.contents.filter(
+        (event) => event.eventId !== eventId,
+      );
+      draftsCategory.contents.push(eventItem);
     } catch (err) {
       console.error(err);
       throw new Error(err);
@@ -94,7 +120,15 @@ export default function useDashboard() {
   };
 
   const createEvent = async (event: SponsorEvent): Promise<void> => {
-    console.log(event);
+    try {
+      loading.value = true;
+      createEventToDb('M2vz9kjWxZZfRe3eBocZ3ktSYcX2', event);
+    } catch (err) {
+      console.error(err);
+      throw new Error(err);
+    } finally {
+      loading.value = false;
+    }
   };
 
   return {
