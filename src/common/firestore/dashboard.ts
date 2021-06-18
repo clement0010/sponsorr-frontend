@@ -1,6 +1,6 @@
-import { EventStatus, SponsorEvents } from '@/types';
+import { EventStatus, SponsorEvent, SponsorEventDbItems, SponsorEvents } from '@/types';
+import { UpdateData } from '../type';
 import { db } from './utils';
-// import { UpdateData } from '../type';
 
 /**
  * Returns an array of all the events belonging to a user
@@ -14,10 +14,14 @@ export const getUserEventFromDb = async (uid: string): Promise<SponsorEvents> =>
 
   snapshot.forEach((doc) => {
     console.log(doc.id, '=>', doc.data());
-    const eventID = { eventID: doc.id };
-    events.push(Object.assign(doc.data(), eventID));
-  });
 
+    const event = {
+      ...doc.data(),
+      eventId: doc.id,
+    };
+
+    events.push(event);
+  });
   return events;
 };
 
@@ -30,8 +34,8 @@ export const getUserEventFromDb = async (uid: string): Promise<SponsorEvents> =>
 export const getUserEventByStatusFromDb = async (
   uid: string,
   status: EventStatus,
-): Promise<SponsorEvents> => {
-  const events: SponsorEvents = [];
+): Promise<SponsorEventDbItems> => {
+  const events: SponsorEventDbItems = [];
   const snapshot = await db
     .events(uid)
     .where('status', '==', status)
@@ -39,29 +43,46 @@ export const getUserEventByStatusFromDb = async (
 
   snapshot.forEach((doc) => {
     console.log(doc.id, '=>', doc.data());
-    const eventID = { eventID: doc.id };
-    events.push(Object.assign(doc.data(), eventID));
+
+    const event = {
+      ...doc.data(),
+      eventId: doc.id,
+    };
+
+    events.push(event);
   });
 
   return events;
 };
 
-// export const updateUserProfileFromDb = async (
-//   uid: string,
-//   newData: Record<string, unknown>,
-// ): Promise<void> => {
-//   const user = await db.profile.doc(uid);
-//   const updates: UpdateData<Profile> = {
-//     ...newData,
-//   };
+export const updateEventStatusToDb = async (
+  uid: string,
+  eventId: string,
+  status: EventStatus,
+  published?: boolean,
+): Promise<void> => {
+  const updateData: UpdateData<SponsorEvent> = {
+    status,
+  };
+  if (!published) {
+    updateData.published = published;
+  }
 
-//   await user.update(updates);
-// };
+  await db
+    .events(uid)
+    .doc(eventId)
+    .update(updateData);
+};
 
-// export const createUserProfileToDb = async (uid: string, userMetadata: Profile): Promise<void> => {
-//   const user = await db.profile.doc(uid);
+export const deleteEventFromDb = async (uid: string, eventId: string): Promise<void> => {
+  await db
+    .events(uid)
+    .doc(eventId)
+    .delete();
+};
 
-//   await user.set({
-//     ...userMetadata,
-//   });
-// };
+export const createEventToDb = async (uid: string, event: SponsorEvent): Promise<void> => {
+  const eventDbItem = await db.events(uid).add(event);
+
+  console.log('Successfully created event.', (await eventDbItem.get()).data(), eventDbItem.id);
+};

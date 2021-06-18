@@ -4,11 +4,11 @@ import { db } from './utils';
 
 export const getEventFromDb = async (
   uid: string,
-  eventID: string,
+  eventId: string,
 ): Promise<SponsorEvent | undefined> => {
   const event = await db
     .events(uid)
-    .doc(eventID)
+    .doc(eventId)
     .get();
 
   return event.data();
@@ -16,10 +16,10 @@ export const getEventFromDb = async (
 
 export const updateUserEventFromDb = async (
   uid: string,
-  eventID: string,
+  eventId: string,
   newData: Record<string, unknown>,
 ): Promise<void> => {
-  const event = await db.events(uid).doc(eventID);
+  const event = await db.events(uid).doc(eventId);
   const updates: UpdateData<SponsorEvent> = {
     ...newData,
   };
