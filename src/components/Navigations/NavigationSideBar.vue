@@ -67,7 +67,7 @@
 
 <script lang="ts">
 import useAuth from '@/composable/authComposition';
-import { computed, defineComponent } from '@vue/composition-api';
+import { ref, defineComponent, onMounted } from '@vue/composition-api';
 
 export default defineComponent({
   name: 'NavigationSideBar',
@@ -83,17 +83,22 @@ export default defineComponent({
   },
   setup(_, { root }) {
     const { signout } = useAuth();
+    const selected = ref(0);
 
-    const selected = computed(() => {
+    onMounted(() => {
       switch (root.$route.name) {
         case 'Profile':
-          return 0;
+          selected.value = 0;
+          break;
         case 'Dashboard':
-          return 1;
+          selected.value = 1;
+          break;
         case 'Marketplace':
-          return 2;
+          selected.value = 2;
+          break;
         default:
-          return 3;
+          selected.value = 3;
+          break;
       }
     });
 
