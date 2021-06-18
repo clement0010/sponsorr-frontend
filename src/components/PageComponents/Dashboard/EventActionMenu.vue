@@ -25,7 +25,7 @@
         />
       </v-list-item>
       <v-list-item>
-        <EventView :event-id="event.eventID" />
+        <EventView :event-id="event.eventId" />
       </v-list-item>
     </v-list>
   </v-menu>

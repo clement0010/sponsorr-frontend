@@ -30,16 +30,7 @@ export default defineComponent({
     EventLayout,
   },
   setup(_, { root, emit }) {
-    const {
-      fetchUserEvent,
-      event,
-      loading,
-      error,
-      deleteEvent,
-      publishEvent,
-      unpublishEvent,
-      editUserEvent,
-    } = useEvent();
+    const { fetchUserEvent, event, loading, error, deleteEvent, editUserEvent } = useEvent();
 
     const eventId = root.$route.params.id;
 
@@ -55,7 +46,7 @@ export default defineComponent({
 
     const publish = async (payload: SponsorEvent) => {
       try {
-        await publishEvent(payload);
+        console.log(payload);
         emit('success', 'Event published');
       } catch (err) {
         emit('alert', 'Failed to publish!');
@@ -64,7 +55,7 @@ export default defineComponent({
 
     const unpublish = async (payload: SponsorEvent) => {
       try {
-        await unpublishEvent(payload);
+        console.log(payload);
         emit('success', 'Event unpublished');
       } catch (err) {
         emit('alert', 'Failed to unpublish!');
