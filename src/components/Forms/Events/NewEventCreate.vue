@@ -33,6 +33,9 @@ export default defineComponent({
         views: 0,
         clicks: 0,
         status: 'draft',
+        timeStart: 0,
+        timeEnd: 0,
+        attendance: 0,
       };
       await createEvent(newEvent);
       localStorage.clear();
