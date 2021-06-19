@@ -3,11 +3,10 @@
     <v-card-title class="text-h4">
       Details
       <EditEventDetails
-        :event-expected-attendance="eventExpectedAttendance"
-        :event-date="eventDate"
-        :event-time-start="eventTimeStart"
-        :event-time-end="eventTimeEnd"
-        :event-venue="eventVenue"
+        :event-size="eventSize"
+        :time-start="timeStart"
+        :time-end="timeEnd"
+        :venue="venue"
         @edit-event-details="(payload) => $emit('edit', payload)"
       />
     </v-card-title>
@@ -17,7 +16,7 @@
         <strong>
           Date:
         </strong>
-        {{ generateDate(eventDate, 'DD MMM YYYY') }}
+        {{ eventDate }}
       </v-list-item-title>
     </v-list-item>
     <v-list-item>
@@ -25,7 +24,7 @@
         <strong>
           Time:
         </strong>
-        {{ parseTime(eventTimeStart) + ' - ' + parseTime(eventTimeEnd) }}
+        {{ eventTime }}
       </v-list-item-title>
     </v-list-item>
     <v-list-item>
@@ -33,7 +32,7 @@
         <strong>
           Venue:
         </strong>
-        {{ eventVenue }}
+        {{ venue }}
       </v-list-item-title>
     </v-list-item>
     <v-list-item>
@@ -41,15 +40,15 @@
         <strong>
           Expected Attendance:
         </strong>
-        {{ eventExpectedAttendance }}
+        {{ eventSize }}
       </v-list-item-title>
     </v-list-item>
   </div>
 </template>
 
 <script lang="ts">
-import { defineComponent } from '@vue/composition-api';
-import { generateDate, parseTime } from '@/common/utils';
+import { computed, defineComponent } from '@vue/composition-api';
+import { generateDate } from '@/common/utils';
 import EditEventDetails from '@/components/EventActions/EditEventDetails.vue';
 
 export default defineComponent({
@@ -58,31 +57,41 @@ export default defineComponent({
     EditEventDetails,
   },
   props: {
-    eventDate: {
+    timeStart: {
       type: Number,
       required: true,
     },
-    eventTimeStart: {
-      type: String,
-      default: 'No time given',
+    timeEnd: {
+      type: Number,
+      required: true,
     },
-    eventTimeEnd: {
-      type: String,
-      default: '',
-    },
-    eventVenue: {
+    venue: {
       type: String,
       default: 'The Foo Bar and Bistro',
     },
-    eventExpectedAttendance: {
+    eventSize: {
       type: Number,
       default: 0,
     },
   },
-  setup() {
+  setup(props) {
+    const eventDate = computed(() => {
+      const dateStart = generateDate(props.timeStart, 'DD MMM YYYY');
+      const dateEnd = generateDate(props.timeEnd, 'DD MMM YYYY');
+      if (dateStart === dateEnd) {
+        return dateStart;
+      }
+      return `${dateStart} - ${dateEnd}`;
+    });
+
+    const eventTime = computed(
+      () =>
+        `${generateDate(props.timeStart, 'hh:mm A')} - ${generateDate(props.timeEnd, 'hh:mm A')}`,
+    );
+
     return {
-      generateDate,
-      parseTime,
+      eventDate,
+      eventTime,
     };
   },
 });

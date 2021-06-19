@@ -33,7 +33,7 @@
                 v-on="on"
               />
             </template>
-            <v-date-picker v-model="datePicker" :min="generateDate(undefined, 'YYYY-MM-DD')" />
+            <v-date-picker v-model="datePicker" range :min="today" />
           </v-menu>
 
           <v-row>
@@ -51,7 +51,7 @@
                   />
                 </template>
 
-                <v-time-picker v-model="input.eventTimeStart" :max="input.eventTimeEnd" />
+                <v-time-picker v-model="timePicker.start" :max="maxTime" />
               </v-menu>
             </v-col>
             <v-col>
@@ -68,19 +68,19 @@
                   />
                 </template>
 
-                <v-time-picker v-model="input.eventTimeEnd" :min="input.eventTimeStart" />
+                <v-time-picker v-model="timePicker.end" :min="minTime" />
               </v-menu>
             </v-col>
           </v-row>
           <v-text-field
-            v-model="input.eventVenue"
+            v-model="input.venue"
             required
             outlined
             label="Venue"
             :rules="[requireInputRule]"
           />
           <v-text-field
-            v-model.number="input.eventExpectedAttendance"
+            v-model.number="input.eventSize"
             required
             outlined
             label="Expected Attendance"
@@ -107,30 +107,26 @@
 </template>
 
 <script lang="ts">
-import { computed, defineComponent, ref, watch } from '@vue/composition-api';
+import { computed, defineComponent, Ref, ref, watch } from '@vue/composition-api';
 import { requireInputRule } from '@/common/validation';
-import { generateDate, generateUnixTime, parseTime } from '@/common/utils';
+import { generateDate, generateUnixTime } from '@/common/utils';
 
 export default defineComponent({
   name: 'EditEventDescriptionButton',
   props: {
-    eventDate: {
+    timeStart: {
       type: Number,
       required: true,
     },
-    eventTimeStart: {
+    timeEnd: {
+      type: Number,
+      required: true,
+    },
+    venue: {
       type: String,
       required: true,
     },
-    eventTimeEnd: {
-      type: String,
-      required: true,
-    },
-    eventVenue: {
-      type: String,
-      required: true,
-    },
-    eventExpectedAttendance: {
+    eventSize: {
       type: Number,
       required: true,
     },
@@ -143,52 +139,126 @@ export default defineComponent({
 
     const duplicate = computed(
       () =>
-        generateDate(input.value.eventDate) === generateDate(props.eventDate) &&
-        input.value.eventTimeStart === props.eventTimeStart &&
-        input.value.eventTimeEnd === props.eventTimeEnd &&
-        input.value.eventVenue === props.eventVenue &&
-        input.value.eventExpectedAttendance === props.eventExpectedAttendance,
+        input.value.timeStart === props.timeStart &&
+        input.value.timeEnd === props.timeEnd &&
+        input.value.venue === props.venue &&
+        input.value.eventSize === props.eventSize,
     );
+    const today = generateDate(undefined, 'YYYY-MM-DD');
 
-    const datePicker = ref(generateDate(props.eventDate, 'YYYY-MM-DD'));
-    const dateDisplay = computed(() => generateDate(datePicker.value, 'DD MMM YYYY'));
-    watch(datePicker, (newDate) => {
-      input.value.eventDate = generateUnixTime(newDate);
+    const timePicker = ref({
+      start: generateDate(input.value.timeStart, 'HH:mm'),
+      end: generateDate(input.value.timeEnd, 'HH:mm'),
+    });
+    const timeDisplayStart = computed(() => generateDate(input.value.timeStart, 'hh:mm A'));
+    const timeDisplayEnd = computed(() => generateDate(input.value.timeEnd, 'hh:mm A'));
+    watch(timePicker.value, (time) => {
+      input.value.timeStart = generateUnixTime(
+        `${generateDate(input.value.timeStart, 'YYYY-MM-DD')} ${time.start}`,
+      );
+      input.value.timeEnd = generateUnixTime(
+        `${generateDate(input.value.timeEnd, 'YYYY-MM-DD')} ${time.end}`,
+      );
     });
 
-    const timeDisplayStart = computed(() => parseTime(input.value.eventTimeStart));
-    const timeDisplayEnd = computed(() => parseTime(input.value.eventTimeEnd));
+    const datePicker: Ref<string[]> = ref([]);
+    const dateDisplay = computed(() =>
+      [...datePicker.value]
+        .sort()
+        .map((date) => generateDate(date, 'DD MMM YYYY'))
+        .join(' - '),
+    );
+    watch(datePicker, (newDates) => {
+      const timeStart = timeDisplayStart.value;
+      const timeEnd = timeDisplayEnd.value;
+      const date1 = generateUnixTime(`${newDates[0]} ${timeStart}`);
+      let date2;
+      input.value.timeStart = generateUnixTime(`${newDates[0]} ${timeStart}`);
+      if (newDates.length < 2) {
+        date2 = generateUnixTime(`${newDates[0]} ${timeEnd}`);
+      } else {
+        date2 = generateUnixTime(`${newDates[1]} ${timeEnd}`);
+      }
+      if (date1 < date2) {
+        input.value.timeStart = date1;
+        input.value.timeEnd = date2;
+        return;
+      }
+      input.value.timeStart = date2;
+      input.value.timeEnd = date1;
+    });
+
+    const minTime = computed(() => {
+      if (datePicker.value.length < 2) {
+        return timePicker.value.start;
+      }
+      return undefined;
+    });
+
+    const maxTime = computed(() => {
+      if (datePicker.value.length < 2) {
+        return timePicker.value.end;
+      }
+      return undefined;
+    });
+
+    // Setup
+    watch(dialog, (active) => {
+      const dateStart = computed(() => generateDate(input.value.timeStart, 'YYYY-MM-DD'));
+      const dateEnd = computed(() => generateDate(input.value.timeEnd, 'YYYY-MM-DD'));
+      const timeStart = computed(() => generateDate(input.value.timeStart, 'HH:mm'));
+      const timeEnd = computed(() => generateDate(input.value.timeEnd, 'HH:mm'));
+      if (active) {
+        datePicker.value = [];
+        datePicker.value.push(dateStart.value);
+        timePicker.value.start = timeStart.value;
+        timePicker.value.end = timeEnd.value;
+        if (dateStart.value !== dateEnd.value) {
+          datePicker.value.push(dateEnd.value);
+        }
+      }
+    });
 
     const cancel = () => {
       dialog.value = false; // Closes dialog
       input.value = { ...props }; // Reset
-      datePicker.value = generateDate(props.eventDate, 'YYYY-MM-DD'); // Reset
     };
 
     const edit = () => {
       dialog.value = false;
       emit('edit-event-details', {
-        date: input.value.eventDate,
-        venue: input.value.eventVenue,
-        attendance: input.value.eventExpectedAttendance,
-        timeStart: input.value.eventTimeStart,
-        timeEnd: input.value.eventTimeEnd,
+        venue: input.value.venue,
+        eventSize: input.value.eventSize,
+        timeStart: input.value.timeStart,
+        timeEnd: input.value.timeEnd,
       });
     };
 
     return {
+      // Config
       dialog,
-      input,
-      cancel,
-      requireInputRule,
-      edit,
       valid,
+
+      // Validation
+      requireInputRule,
       duplicate,
-      generateDate,
-      dateDisplay,
+      today,
+      minTime,
+      maxTime,
+
+      // Actions
+      edit,
+      cancel,
+
+      // Input
+      input,
+      timePicker,
       datePicker,
+
+      // Outputs
       timeDisplayStart,
       timeDisplayEnd,
+      dateDisplay,
     };
   },
 });
