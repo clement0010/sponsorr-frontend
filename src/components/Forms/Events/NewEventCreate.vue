@@ -20,14 +20,11 @@ export default defineComponent({
     const { createEvent } = useDashboard();
 
     const create = async () => {
+      const data = JSON.parse(localStorage.getItem('data') || '');
+
       const newEvent: SponsorEvent = {
-        title: localStorage.getItem('title') || 'No title',
-        description: localStorage.getItem('description') || 'No description',
+        ...data,
         createdAt: generateUnixTime(),
-        date: JSON.parse(localStorage.getItem('dates') || '[]').map((date: string) =>
-          generateUnixTime(date),
-        ),
-        venue: localStorage.getItem('venue') || 'No venue provided',
         published: true,
         matches: 0,
         views: 0,

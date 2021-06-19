@@ -14,7 +14,7 @@
         outlined
         :min="0"
         type="number"
-        label="Expected Number of Participants"
+        label="Expected Number of Attendees"
         :rules="[requireInputRule, nonNegativeIntegerRule]"
       />
       <v-combobox
@@ -57,9 +57,15 @@ export default defineComponent({
     });
 
     const persist = () => {
-      localStorage.setItem('description', eventData.description);
-      localStorage.setItem('participants', eventData.participants);
-      localStorage.setItem('keywords', JSON.stringify(eventData.keywords));
+      const localData = JSON.parse(localStorage.getItem('data') || '');
+      const data = {
+        description: eventData.description,
+        eventSize: eventData.participants,
+        keywords: eventData.keywords,
+      };
+      Object.assign(localData, data);
+
+      localStorage.setItem('data', JSON.stringify(localData));
     };
 
     const navigate = (direction: string) => {

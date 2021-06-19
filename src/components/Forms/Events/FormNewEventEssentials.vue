@@ -51,7 +51,7 @@
               >
                 <template #activator="{ on, attrs }">
                   <v-text-field
-                    v-model="eventData.timeStart"
+                    v-model="displayTimeStart"
                     outlined
                     label="Starts at"
                     append-icon="mdi-clock-time-four-outline"
@@ -77,7 +77,7 @@
               >
                 <template #activator="{ on, attrs }">
                   <v-text-field
-                    v-model="eventData.timeEnd"
+                    v-model="displayTimeEnd"
                     outlined
                     label="Ends at"
                     append-icon="mdi-clock-time-four-outline"
@@ -114,7 +114,7 @@
 <script lang="ts">
 import { computed, defineComponent, reactive, ref } from '@vue/composition-api';
 import { requireInputRule } from '@/common/validation';
-import { generateDate } from '@/common/utils';
+import { generateDate, generateUnixTime, parseTime } from '@/common/utils';
 import NewEventCancel from './NewEventCancel.vue';
 
 export default defineComponent({
@@ -141,12 +141,27 @@ export default defineComponent({
         .join(' to '),
     );
 
+    const displayTimeStart = computed(() => parseTime(eventData.timeStart));
+    const displayTimeEnd = computed(() => parseTime(eventData.timeEnd));
+
     const persist = () => {
-      localStorage.setItem('title', eventData.title);
-      localStorage.setItem('dates', JSON.stringify(eventData.dates));
-      localStorage.setItem('timeStart', eventData.timeStart);
-      localStorage.setItem('timeEnd', eventData.timeEnd);
-      localStorage.setItem('venue', eventData.venue);
+      const data = {
+        title: eventData.title,
+        timeStart: generateUnixTime(`${eventData.dates[0]} ${eventData.timeStart}`),
+        venue: eventData.venue,
+      };
+
+      if (eventData.dates.length > 1) {
+        Object.assign(data, {
+          timeEnd: generateUnixTime(`${eventData.dates[1]} ${eventData.timeEnd}`),
+        });
+      } else {
+        Object.assign(data, {
+          timeEnd: generateUnixTime(`${eventData.dates[0]} ${eventData.timeEnd}`),
+        });
+      }
+
+      localStorage.setItem('data', JSON.stringify(data));
     };
 
     const next = () => {
@@ -177,6 +192,10 @@ export default defineComponent({
 
       // Date formatting
       dateRange,
+
+      // Time formatting
+      displayTimeStart,
+      displayTimeEnd,
 
       // Input validation
       requireInputRule,

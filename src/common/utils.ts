@@ -55,5 +55,8 @@ export const isPastEvent = (timestamp: number): boolean => {
 };
 
 export const parseTime = (time: string): string => {
-  return dayjs(time, 'hh:mm').format('hh:mm A');
+  if (!time) {
+    return '';
+  }
+  return dayjs(time, 'HH:mm').format('hh:mm A');
 };
