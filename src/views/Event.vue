@@ -2,14 +2,7 @@
   <BasePage>
     <Spinner v-if="loading && !error" />
     <p v-else-if="error">Error loading event</p>
-    <EventLayout
-      v-else
-      :event="event"
-      @deleteEvent="remove"
-      @publishEvent="publish"
-      @unpublishEvent="unpublish"
-      @edit="edit"
-    />
+    <EventLayout v-else :event="event" @deleteEvent="remove" @publishEvent="publish" @edit="edit" />
   </BasePage>
 </template>
 
@@ -30,7 +23,15 @@ export default defineComponent({
     EventLayout,
   },
   setup(_, { root, emit }) {
-    const { fetchUserEvent, event, loading, error, deleteEvent, editUserEvent } = useEvent();
+    const {
+      fetchUserEvent,
+      event,
+      loading,
+      error,
+      deleteEvent,
+      editUserEvent,
+      updateEventStatus,
+    } = useEvent();
 
     const eventId = root.$route.params.id;
 
@@ -46,19 +47,10 @@ export default defineComponent({
 
     const publish = async (payload: SponsorEvent) => {
       try {
-        console.log(payload);
+        await updateEventStatus(eventId, payload.status);
         emit('success', 'Event published');
       } catch (err) {
-        emit('alert', 'Failed to publish!');
-      }
-    };
-
-    const unpublish = async (payload: SponsorEvent) => {
-      try {
-        console.log(payload);
-        emit('success', 'Event unpublished');
-      } catch (err) {
-        emit('alert', 'Failed to unpublish!');
+        emit('alert', 'Process failed');
       }
     };
 
@@ -82,7 +74,6 @@ export default defineComponent({
       loading,
       error,
       publish,
-      unpublish,
       edit,
       remove,
     };

@@ -21,7 +21,7 @@
           <EventUnpublish
             v-if="event.matches < 1 && event.published"
             :event="event"
-            @unpublishEvent="(payload) => $emit('unpublishEvent', payload)"
+            @publishEvent="(payload) => $emit('publishEvent', payload)"
           />
           <EventPublish
             v-if="!event.published"
