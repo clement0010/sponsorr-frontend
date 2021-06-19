@@ -5,15 +5,14 @@
         <EventTitle :title="event.title" @edit="(payload) => $emit('edit', payload)" />
         <EventOrganiser />
         <EventDescription
-          :event-description="event.description"
+          :description="event.description"
           @edit="(payload) => $emit('edit', payload)"
         />
         <EventDetails
-          :event-date="event.date"
-          :event-venue="event.venue"
-          :event-expected-attendance="event.attendance"
-          :event-time-start="event.timeStart"
-          :event-time-end="event.timeEnd"
+          :venue="event.venue"
+          :event-size="event.eventSize"
+          :time-start="event.timeStart"
+          :time-end="event.timeEnd"
           @edit="(payload) => $emit('edit', payload)"
         />
         <EventKeywords :keywords="event.keywords" @edit="(payload) => $emit('edit', payload)" />

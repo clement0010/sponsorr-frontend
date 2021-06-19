@@ -3,12 +3,12 @@
     <v-card-title class="text-h4">
       Description
       <EditEventDescription
-        :description="eventDescription"
+        :description="description"
         @edit-description="(payload) => $emit('edit', payload)"
       />
     </v-card-title>
     <v-card-text class="text-body-1">
-      {{ eventDescription }}
+      {{ description }}
     </v-card-text>
   </div>
 </template>
@@ -23,7 +23,7 @@ export default defineComponent({
     EditEventDescription,
   },
   props: {
-    eventDescription: {
+    description: {
       type: String,
       default: `Lorem ipsum dolor sit amet, consectetur adipiscing elit,
                 sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. 
