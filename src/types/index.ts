@@ -32,20 +32,33 @@ export interface Sponsor extends Profile {
 
 export type EventStatus = 'draft' | 'published' | 'matched';
 
+interface Budget {
+  maximum: number;
+  minimum: number;
+}
+
+interface EventDate {
+  start: number;
+  end: number;
+}
+
 export interface SponsorEvent {
-  title: string;
-  description: string;
-  createdAt: number;
-  date: number[];
-  timeStart: number;
-  timeEnd: number;
-  venue: string;
-  published: boolean;
-  views: number;
+  budget: Budget;
   clicks: number;
+  createdAt: number;
+  date: EventDate;
+  demographic: string[];
+  description: string;
+  eventSize: number;
+  keywords: string[];
   matches: number;
+  picture: number;
+  published: boolean;
   status: EventStatus;
-  attendance: number;
+  title: string;
+  userId: string;
+  venue: string;
+  views: number;
 }
 
 export interface SponsorEventDbItem extends SponsorEvent {
@@ -79,13 +92,22 @@ export interface SponsorRequest {
 
 export type MatchStatus = 'pending' | 'rejected' | 'accepted';
 
+export interface Message {
+  message: string;
+  timestamp: number;
+}
+
+export type Messages = Message[];
+
 export interface Match {
-  title: string;
-  description: string;
+  userId: string;
   eventId: string;
   status: MatchStatus;
-  sponsorId: string;
+  event: SponsorEvent;
+  messages?: Messages;
 }
+
+export type Matches = Match[];
 
 export interface MatchCategory {
   name: MatchStatus;
@@ -94,5 +116,3 @@ export interface MatchCategory {
   contents: Match[];
   fallback: string;
 }
-
-export type Matches = Match[];
