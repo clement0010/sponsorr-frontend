@@ -60,3 +60,7 @@ export const parseTime = (time: string): string => {
   }
   return dayjs(time, 'HH:mm').format('hh:mm A');
 };
+
+export const parseUserEventId = (userId: string, eventId: string): string => {
+  return `${userId}#${eventId}`;
+};
