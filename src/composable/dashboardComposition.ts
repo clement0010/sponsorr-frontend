@@ -1,27 +1,27 @@
-import { EventCategory, EventStatus, SponsorEvent, SponsorEventDbItem } from '@/types/index';
+import { EventCategory, EventStatus, SponsorEventDbItem } from '@/types/index';
 import { computed, ref } from '@vue/composition-api';
-import { createEventToDb, getUserEventByStatusFromDb } from '@/common/firestore/dashboard';
+import { getUserEventByStatusFromDb, updateEventStatusToDb } from '@/common/firestore/dashboard';
 import { draftsCategory, matchedCategory, publishedCategory } from '@/common/dashboardConfig';
 import { EventGroup } from '@/types/enum';
+import { deleteEventFromDb } from '@/common';
 
 // eslint-disable-next-line
 export default function useDashboard() {
   const loading = ref(true);
 
-  const eventCategories = ref<EventCategory[]>();
+  const eventCategories = ref<EventCategory[]>([
+    draftsCategory,
+    matchedCategory,
+    publishedCategory,
+  ]);
 
-  const initialise = async (): Promise<void> => {
+  const initialise = async (uid: string): Promise<void> => {
     try {
       loading.value = true;
-      eventCategories.value = [publishedCategory, matchedCategory, draftsCategory];
 
-      // Todo: Integrate UID
-      publishedCategory.contents = await getUserEventByStatusFromDb(
-        'M2vz9kjWxZZfRe3eBocZ3ktSYcX2',
-        EventGroup.Published,
-      );
+      draftsCategory.contents = await getUserEventByStatusFromDb(uid, EventGroup.Draft);
 
-      publishedCategory.loaded = true;
+      draftsCategory.loaded = true;
     } catch (err) {
       console.error(err);
       throw new Error(err);
@@ -30,17 +30,13 @@ export default function useDashboard() {
     }
   };
 
-  const fetchEvents = async (eventCategory: EventCategory): Promise<void> => {
+  const fetchEvents = async (uid: string, eventCategory: EventCategory): Promise<void> => {
     try {
       if (!eventCategory.loaded) {
         loading.value = true;
         const categoryRef = eventCategory;
 
-        // Todo: Integrate UID
-        categoryRef.contents = await getUserEventByStatusFromDb(
-          'M2vz9kjWxZZfRe3eBocZ3ktSYcX2',
-          eventCategory.name,
-        );
+        categoryRef.contents = await getUserEventByStatusFromDb(uid, eventCategory.name);
 
         categoryRef.loaded = true;
       }
@@ -55,7 +51,12 @@ export default function useDashboard() {
   const deleteEvent = async (eventId: string, eventStatus: EventStatus): Promise<void> => {
     try {
       loading.value = true;
-      // call to firebase
+      await deleteEventFromDb(eventId);
+    } catch (err) {
+      console.error(err);
+      throw new Error(err);
+    } finally {
+      console.log(eventStatus);
       switch (eventStatus) {
         case EventGroup.Matched:
           matchedCategory.contents = matchedCategory.contents.filter(
@@ -64,65 +65,46 @@ export default function useDashboard() {
           break;
 
         case EventGroup.Draft:
-          draftsCategory.contents = matchedCategory.contents.filter(
+          draftsCategory.contents = draftsCategory.contents.filter(
             (event) => event.eventId !== eventId,
           );
           break;
 
         case EventGroup.Published:
-          publishedCategory.contents = matchedCategory.contents.filter(
+          publishedCategory.contents = publishedCategory.contents.filter(
             (event) => event.eventId !== eventId,
           );
           break;
         default:
           break;
       }
-    } catch (err) {
-      console.error(err);
-      throw new Error(err);
-    } finally {
       loading.value = false;
     }
   };
 
-  const publishEvent = async (eventItem: SponsorEventDbItem): Promise<void> => {
+  const updateEventStatus = async (
+    eventItem: SponsorEventDbItem,
+    published: boolean,
+  ): Promise<void> => {
     try {
       loading.value = true;
-      // call to firebase
       const { eventId } = eventItem;
-      draftsCategory.contents = draftsCategory.contents.filter(
-        (event) => event.eventId !== eventId,
-      );
-      publishedCategory.contents.push(eventItem);
-    } catch (err) {
-      console.error(err);
-      throw new Error(err);
-    } finally {
-      loading.value = false;
-    }
-  };
 
-  const unpublishEvent = async (eventItem: SponsorEventDbItem): Promise<void> => {
-    try {
-      loading.value = true;
-      // call to firebase
-      const { eventId } = eventItem;
-      publishedCategory.contents = publishedCategory.contents.filter(
-        (event) => event.eventId !== eventId,
-      );
-      draftsCategory.contents.push(eventItem);
-    } catch (err) {
-      console.error(err);
-      throw new Error(err);
-    } finally {
-      loading.value = false;
-    }
-  };
+      if (published) {
+        draftsCategory.contents = draftsCategory.contents.filter(
+          (event) => event.eventId !== eventId,
+        );
+        publishedCategory.contents.push(eventItem);
+        await updateEventStatusToDb(eventId, EventGroup.Published, true);
+      }
 
-  const createEvent = async (event: SponsorEvent): Promise<void> => {
-    try {
-      loading.value = true;
-      createEventToDb('M2vz9kjWxZZfRe3eBocZ3ktSYcX2', event);
+      if (!published) {
+        publishedCategory.contents = publishedCategory.contents.filter(
+          (event) => event.eventId !== eventId,
+        );
+        draftsCategory.contents.push(eventItem);
+        await updateEventStatusToDb(eventId, EventGroup.Draft, false);
+      }
     } catch (err) {
       console.error(err);
       throw new Error(err);
@@ -134,11 +116,10 @@ export default function useDashboard() {
   return {
     eventCategories: computed(() => eventCategories.value),
     loading,
+
     initialise,
     fetchEvents,
+    updateEventStatus,
     deleteEvent,
-    publishEvent,
-    unpublishEvent,
-    createEvent,
   };
 }
