@@ -18,9 +18,11 @@
       </v-list-item>
       <v-list-item v-if="eventCategory.name !== EventGroup.Matched">
         <EventDelete
-          :event="event"
+          :event-id="event.eventId"
+          :title="event.title"
           @deleteEvent="
-            (payload) => $emit('deleteEvent', Object.assign(payload, { eventCategory }))
+            (payload) =>
+              $emit('deleteEvent', Object.assign(payload, { eventStatus: eventCategory.name }))
           "
         />
       </v-list-item>

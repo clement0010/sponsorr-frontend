@@ -3,34 +3,27 @@
     <DashboardLayout
       :event-categories="eventCategories"
       :loading="loading"
-      @fetchEvents="(eventCategory) => fetchEvents(eventCategory)"
+      @fetchEvents="fetchMoreEvents"
       @deleteEvent="
         (payload) => {
-          deleteEvent(payload.event, payload.eventCategory);
+          deleteEvent(payload.eventId, payload.eventStatus);
           $emit('success', 'Event deleted');
         }
       "
-      @publishEvent="
-        (payload) => {
-          publishEvent(payload);
-          $emit('success', 'Event published');
-        }
-      "
-      @unpublishEvent="
-        (payload) => {
-          unpublishEvent(payload);
-          $emit('success', 'Event unpublished');
-        }
-      "
+      @publishEvent="(payload) => publishEvent(payload, true)"
+      @unpublishEvent="(payload) => publishEvent(payload, false)"
     />
   </BasePage>
 </template>
 
 <script lang="ts">
+import { defineComponent, onMounted, watch } from '@vue/composition-api';
+import useDashboard from '@/composable/dashboardComposition';
+import useAuth from '@/composable/authComposition';
+
 import BasePage from '@/layouts/BasePage.vue';
 import DashboardLayout from '@/layouts/DashboardLayout.vue';
-import { defineComponent, onMounted } from '@vue/composition-api';
-import useDashboard from '@/composable/dashboardComposition';
+import { EventCategory, SponsorEventDbItem } from '@/types';
 
 export default defineComponent({
   name: 'Dashboard',
@@ -38,29 +31,45 @@ export default defineComponent({
     BasePage,
     DashboardLayout,
   },
-  setup() {
+  setup(_, { emit }) {
     const {
       eventCategories,
       initialise,
       fetchEvents,
       loading,
       deleteEvent,
-      publishEvent,
-      unpublishEvent,
+      updateEventStatus,
     } = useDashboard();
 
-    onMounted(async () => {
-      await initialise();
-      console.log(eventCategories);
+    const { uid, loading: authLoad } = useAuth();
+
+    onMounted(() => {
+      watch(authLoad, async () => {
+        await initialise(uid.value);
+      });
     });
+
+    const publishEvent = (payload: SponsorEventDbItem, published: boolean) => {
+      if (published) {
+        updateEventStatus(payload, true);
+        emit('success', 'Event published');
+      }
+      if (!published) {
+        updateEventStatus(payload, false);
+        emit('success', 'Event unpublished');
+      }
+    };
+
+    const fetchMoreEvents = async (eventCategory: EventCategory) => {
+      await fetchEvents(uid.value, eventCategory);
+    };
 
     return {
       eventCategories,
-      fetchEvents,
+      fetchMoreEvents,
       loading,
       deleteEvent,
       publishEvent,
-      unpublishEvent,
     };
   },
 });

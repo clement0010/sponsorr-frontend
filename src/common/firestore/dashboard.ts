@@ -5,10 +5,9 @@ import { db } from './utils';
 /**
  * Returns an array of all the events belonging to a user
  *
- * @param uid the user's uid
  */
 export const getUserEventFromDb = async (uid: string): Promise<SponsorEvents> => {
-  const snapshot = await db.events(uid).get();
+  const snapshot = await db.events.where('userId', '==', uid).get();
 
   const events: SponsorEvents = [];
 
@@ -28,21 +27,19 @@ export const getUserEventFromDb = async (uid: string): Promise<SponsorEvents> =>
 /**
  * Returns an array of events belonging to a user, filtered by status
  *
- * @param uid the user's uid
- * @param status the status of the events
  */
 export const getUserEventByStatusFromDb = async (
   uid: string,
   status: EventStatus,
 ): Promise<SponsorEventDbItems> => {
   const events: SponsorEventDbItems = [];
-  const snapshot = await db
-    .events(uid)
+  const snapshot = await db.events
+    .where('userId', '==', uid)
     .where('status', '==', status)
     .get();
 
   snapshot.forEach((doc) => {
-    console.log(doc.id, '=>', doc.data());
+    // console.log(doc.id, '=>', doc.data());
 
     const event = {
       ...doc.data(),
@@ -56,7 +53,6 @@ export const getUserEventByStatusFromDb = async (
 };
 
 export const updateEventStatusToDb = async (
-  uid: string,
   eventId: string,
   status: EventStatus,
   published?: boolean,
@@ -64,25 +60,10 @@ export const updateEventStatusToDb = async (
   const updateData: UpdateData<SponsorEvent> = {
     status,
   };
+
   if (!published) {
     updateData.published = published;
   }
 
-  await db
-    .events(uid)
-    .doc(eventId)
-    .update(updateData);
-};
-
-export const deleteEventFromDb = async (uid: string, eventId: string): Promise<void> => {
-  await db
-    .events(uid)
-    .doc(eventId)
-    .delete();
-};
-
-export const createEventToDb = async (uid: string, event: SponsorEvent): Promise<void> => {
-  const eventDbItem = await db.events(uid).add(event);
-
-  console.log('Successfully created event.', (await eventDbItem.get()).data(), eventDbItem.id);
+  await db.events.doc(eventId).update(updateData);
 };

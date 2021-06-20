@@ -29,9 +29,7 @@
               :event="item"
               @unpublishEvent="(payload) => $emit('unpublishEvent', payload)"
               @publishEvent="(payload) => $emit('publishEvent', payload)"
-              @deleteEvent="
-                (payload) => $emit('deleteEvent', Object.assign(payload, { eventCategory }))
-              "
+              @deleteEvent="(payload) => $emit('deleteEvent', payload)"
             />
           </template>
 
