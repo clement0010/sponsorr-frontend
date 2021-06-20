@@ -1,14 +1,27 @@
-import { initializeTestApp, loadFirestoreRules, apps, assertFails, assertSucceeds } from '@firebase/rules-unit-testing';
-import { readFileSync } from 'fs';
-// const http = require('http');
-import { datatype, name as _name, internet, date } from 'faker';
-import { beforeEach,before, after } from "mocha";
+/* eslint-disable @typescript-eslint/no-var-requires */
+import { beforeEach, before, after } from 'mocha';
+
+const { readFileSync } = require('fs');
+
+const { datatype, name: _name, internet, date } = require('faker');
+
+const {
+  initializeTestApp,
+  loadFirestoreRules,
+  apps,
+  assertFails,
+  assertSucceeds,
+} = require('@firebase/rules-unit-testing');
 
 const PROJECT_ID = '1016952785325';
 
 const COVERAGE_URL = `http://${process.env.FIRESTORE_EMULATOR_HOST}/emulator/v1/projects/${PROJECT_ID}:ruleCoverage.html`;
 
-function getAuthedFirestore(auth) {
+interface Auth {
+  uid: string;
+}
+
+function getAuthedFirestore(auth: Auth | undefined) {
   return initializeTestApp({ projectId: PROJECT_ID, auth }).firestore();
 }
 
@@ -22,8 +35,6 @@ before(async () => {
 });
 
 after(async () => {
-  await Promise.all(apps().map(app => app.delete()));
-
   console.log(`Done testing!`);
 });
 
@@ -45,7 +56,7 @@ describe('User login to profile', () => {
     },
   };
   it('require users to log in before creating a profile', async () => {
-    const db = getAuthedFirestore(null);
+    const db = getAuthedFirestore(undefined);
     const profile = db.collection('users').doc(result.user.uid);
     await assertFails(profile.set({ birthday: 'January 1' }));
   });
@@ -59,7 +70,7 @@ describe('User login to profile', () => {
         .doc(result.user.uid)
         .set({
           ...result.user,
-        })
+        }),
     );
     await assertFails(
       db
@@ -67,12 +78,12 @@ describe('User login to profile', () => {
         .doc(result.anotherUser.uid)
         .set({
           ...result.anotherUser,
-        })
+        }),
     );
   });
 
   it('should let anyone read any profile', async () => {
-    const db = getAuthedFirestore(null);
+    const db = getAuthedFirestore(undefined);
     const profile = db.collection('users').doc(datatype.uuid());
     await assertSucceeds(profile.get());
   });
