@@ -13,7 +13,7 @@
         </v-card-title>
 
         <v-card-text>
-          <v-text-field
+          <v-textarea
             v-model="input"
             required
             outlined
