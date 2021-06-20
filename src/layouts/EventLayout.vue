@@ -30,8 +30,12 @@
           />
           <EventDelete
             v-if="event.matches < 1"
-            :event="event"
-            @deleteEvent="(payload) => $emit('deleteEvent', payload)"
+            :event-id="eventId"
+            :title="event.title"
+            @deleteEvent="
+              (payload) =>
+                $emit('deleteEvent', Object.assign(payload, { eventStatus: eventCategory.name }))
+            "
           />
         </v-card-text>
       </v-card>
@@ -72,9 +76,12 @@ export default defineComponent({
       required: true,
     },
   },
-  setup() {
+  setup(_, { root }) {
+    const eventId = root.$route.params.id;
+
     return {
       generateDate,
+      eventId,
     };
   },
 });

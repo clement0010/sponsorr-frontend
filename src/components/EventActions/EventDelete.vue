@@ -9,7 +9,7 @@
     <v-card>
       <v-card-title> Delete Event </v-card-title>
       <v-card-text>
-        <span> Are you sure you want to delete the event: "{{ event.title }}" ?</span>
+        <span> Are you sure you want to delete the event: "{{ title }}" ?</span>
         <br />
         <span> This action is <strong>irreversible</strong>.</span>
       </v-card-text>
@@ -23,25 +23,28 @@
 </template>
 
 <script lang="ts">
-import { SponsorEvent } from '@/types';
 import { defineComponent, ref } from '@vue/composition-api';
 
 export default defineComponent({
   name: 'DeleteEventButton',
   props: {
-    event: {
-      type: Object as () => SponsorEvent,
+    eventId: {
+      type: String,
+      required: true,
+    },
+    title: {
+      type: String,
       required: true,
     },
   },
   setup(props, { emit }) {
     const dialog = ref(false);
 
-    const { event } = props;
+    const { eventId } = props;
 
     const deleteEvent = (): void => {
       dialog.value = false;
-      emit('deleteEvent', event);
+      emit('deleteEvent', { eventId });
     };
 
     const cancel = () => {

@@ -24,12 +24,12 @@ export default defineComponent({
   },
   setup(_, { root, emit }) {
     const {
-      fetchUserEvent,
       event,
       loading,
       error,
+      fetchUserEvent,
       deleteEvent,
-      editUserEvent,
+      editEvent,
       updateEventStatus,
     } = useEvent();
 
@@ -37,7 +37,7 @@ export default defineComponent({
 
     const edit = async (payload: Record<string, unknown>) => {
       try {
-        await editUserEvent(eventId, payload);
+        await editEvent(eventId, payload);
         emit('success', 'Successfully edited!');
       } catch (err) {
         emit('alert', 'Failed to edit!');
@@ -54,9 +54,9 @@ export default defineComponent({
       }
     };
 
-    const remove = async (payload: SponsorEvent) => {
+    const remove = async () => {
       try {
-        await deleteEvent(payload);
+        await deleteEvent(eventId);
         emit('success', 'Event deleted');
       } catch (err) {
         emit('alert', 'Failed to delete!');
@@ -64,9 +64,7 @@ export default defineComponent({
     };
 
     onMounted(async () => {
-      console.log(event);
-      await fetchUserEvent('foo', eventId);
-      console.log(event);
+      await fetchUserEvent(eventId);
     });
 
     return {
