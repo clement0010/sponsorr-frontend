@@ -18,6 +18,7 @@
         placeholder="Accepted file formats: .pdf, .docx, .jpg, .png"
         show-size
         :rules="[fileUploadSizeRule, requireInputRule]"
+        @change="uploadFile"
       />
 
       <v-card-actions>
@@ -31,7 +32,10 @@
 
 <script lang="ts">
 import { defineComponent, ref } from '@vue/composition-api';
+import useAuth from '@/composable/authComposition';
+
 import { fileUploadSizeRule, requireInputRule } from '@/common/validation';
+import { uploadFileToStorage } from '@/common';
 import NewEventCancel from './NewEventCancel.vue';
 import NewEventCreate from './NewEventCreate.vue';
 
@@ -43,13 +47,15 @@ export default defineComponent({
   },
   setup(_, { emit }) {
     const valid = ref(false);
+    const { uid } = useAuth();
 
     const eventData = ref<File[]>([]);
+    const fileUrl = ref('');
 
-    const persist = () => {
+    const persist = async () => {
       const localData = JSON.parse(localStorage.getItem('data') || '');
       const data = {
-        files: eventData.value,
+        documents: fileUrl.value,
       };
       Object.assign(localData, data);
       localStorage.setItem('data', JSON.stringify(localData));
@@ -58,6 +64,20 @@ export default defineComponent({
     const back = () => {
       persist();
       emit('back');
+    };
+
+    const uploadFile = async () => {
+      const url = await uploadFileToStorage(uid.value, eventData.value[0]);
+      if (!url) {
+        console.log('File uploads unsuccessful');
+        return;
+      }
+      const localData = JSON.parse(localStorage.getItem('data') || '');
+      const data = {
+        documents: url,
+      };
+      Object.assign(localData, data);
+      localStorage.setItem('data', JSON.stringify(localData));
     };
 
     return {
@@ -73,6 +93,7 @@ export default defineComponent({
 
       // Navigation
       back,
+      uploadFile,
     };
   },
 });
