@@ -1,9 +1,15 @@
 <template>
   <v-container fluid class="pa-0">
     <v-app-bar class="primary" flat app hide-on-scroll>
-      <v-app-bar-nav-icon v-if="authenticated" class="white--text" @click.stop="toggleSideBar" />
       <v-container fill-height class="py-0">
         <v-row align="center" justify="center" class="py-0">
+          <v-col class="py-0" cols="auto">
+            <v-app-bar-nav-icon
+              v-if="authenticated"
+              class="white--text"
+              @click.stop="toggleSideBar"
+            />
+          </v-col>
           <v-col cols="auto" class="py-0">
             <v-app-bar-title>
               <router-link to="/">
