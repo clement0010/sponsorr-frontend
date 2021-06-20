@@ -25,7 +25,7 @@
         </v-row>
       </v-container>
     </v-app-bar>
-    <NavigationSideBar v-if="!loading" :id="id" :drawer="drawer" />
+    <NavigationSideBar v-if="!loading && authenticated" :id="id" :drawer="drawer" />
   </v-container>
 </template>
 
@@ -47,21 +47,13 @@ export default defineComponent({
   setup(_, { root }) {
     const isHome = () => root.$route.name === 'Home' || root.$route.name === 'Playground';
     const drawer = ref(false);
-    const { signout, authenticated, uid, loading } = useAuth();
-
-    const userSignout = () => {
-      signout();
-      root.$router.push({
-        name: 'Home',
-      });
-    };
+    const { authenticated, uid, loading } = useAuth();
 
     const toggleSideBar = () => {
       drawer.value = !drawer.value;
     };
 
     return {
-      userSignout,
       isHome,
       authenticated,
       id: uid,

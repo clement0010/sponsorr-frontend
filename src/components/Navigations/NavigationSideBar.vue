@@ -49,16 +49,14 @@
             </v-list-item>
           </router-link>
 
-          <router-link :to="{ name: 'Home' }" @click="signout">
-            <v-list-item>
-              <v-list-item-icon>
-                <v-icon>mdi-exit-to-app</v-icon>
-              </v-list-item-icon>
-              <v-list-item-content>
-                Sign Out
-              </v-list-item-content>
-            </v-list-item>
-          </router-link>
+          <v-list-item @click="userSignout">
+            <v-list-item-icon>
+              <v-icon>mdi-exit-to-app</v-icon>
+            </v-list-item-icon>
+            <v-list-item-content>
+              Sign Out
+            </v-list-item-content>
+          </v-list-item>
         </v-list>
       </v-list-item-group>
     </v-list>
@@ -85,6 +83,13 @@ export default defineComponent({
     const { signout } = useAuth();
     const selected = ref(0);
 
+    const userSignout = () => {
+      signout();
+      root.$router.push({
+        name: 'Home',
+      });
+    };
+
     onMounted(() => {
       switch (root.$route.name) {
         case 'Profile':
@@ -104,7 +109,7 @@ export default defineComponent({
 
     return {
       selected,
-      signout,
+      userSignout,
     };
   },
 });
