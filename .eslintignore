@@ -15,6 +15,7 @@ node_modules
 
 # Files to exclude
 package-lock.json
+.vscode
 .gitignore
 .editorconfig
 .prettierignore
@@ -23,6 +24,6 @@ package-lock.json
 .firebaserc
 firestore.rules
 storage.rules
-__test__
+tests/**/**
 favicon.ico
 src/common/type.ts
