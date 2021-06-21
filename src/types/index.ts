@@ -49,10 +49,11 @@ export interface SponsorEvent {
   date: EventDate;
   demographic: string[];
   description: string;
+  documents: string;
   eventSize: number;
   keywords: string[];
   matches: number;
-  picture: number;
+  picture: string;
   published: boolean;
   status: EventStatus;
   title: string;
