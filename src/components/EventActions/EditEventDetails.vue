@@ -13,35 +13,64 @@
         </v-card-title>
 
         <v-card-text>
-          <v-menu
-            :close-on-content-click="false"
-            :nudge-right="40"
-            transition="scale-transition"
-            offset-y
-            min-width="auto"
-          >
-            <template #activator="{ on, attrs }">
-              <v-text-field
-                v-model="dateDisplay"
-                label="Date"
-                append-icon="mdi-calendar"
-                readonly
-                v-bind="attrs"
-                outlined
-                hint="Select a date or a range of dates"
-                :rules="[requireInputRule]"
-                v-on="on"
-              />
-            </template>
-            <v-date-picker v-model="datePicker" range :min="today" />
-          </v-menu>
+          <v-row>
+            <v-col>
+              <v-menu
+                :close-on-content-click="false"
+                :nudge-right="40"
+                transition="scale-transition"
+                offset-y
+                min-width="auto"
+              >
+                <template #activator="{ on, attrs }">
+                  <v-text-field
+                    v-model="dateStartDisplay"
+                    label="Date"
+                    append-icon="mdi-calendar"
+                    readonly
+                    v-bind="attrs"
+                    outlined
+                    hint="Select a date or a range of dates"
+                    :rules="[requireInputRule]"
+                    v-on="on"
+                  />
+                </template>
+                <v-date-picker v-model="input.dateStart" :min="today" :max="input.dateEnd" />
+              </v-menu>
+            </v-col>
+
+            <v-col>
+              <v-menu
+                :close-on-content-click="false"
+                :nudge-right="40"
+                transition="scale-transition"
+                offset-y
+                min-width="auto"
+              >
+                <template #activator="{ on, attrs }">
+                  <v-text-field
+                    v-model="dateEndDisplay"
+                    label="Date"
+                    append-icon="mdi-calendar"
+                    readonly
+                    v-bind="attrs"
+                    outlined
+                    hint="Select a date or a range of dates"
+                    :rules="[requireInputRule]"
+                    v-on="on"
+                  />
+                </template>
+                <v-date-picker v-model="input.dateEnd" :min="input.dateStart || today" />
+              </v-menu>
+            </v-col>
+          </v-row>
 
           <v-row>
             <v-col>
               <v-menu>
                 <template #activator="{ on, attrs }">
                   <v-text-field
-                    v-model="timeDisplayStart"
+                    v-model="timeStartDisplay"
                     required
                     outlined
                     label="Starts at"
@@ -50,15 +79,15 @@
                     v-on="on"
                   />
                 </template>
-
-                <v-time-picker v-model="timePicker.start" :max="maxTime" />
+                <v-time-picker v-model="input.timeStart" :max="maxTime" />
               </v-menu>
             </v-col>
+
             <v-col>
               <v-menu>
                 <template #activator="{ on, attrs }">
                   <v-text-field
-                    v-model="timeDisplayEnd"
+                    v-model="timeEndDisplay"
                     required
                     outlined
                     label="Ends at"
@@ -68,7 +97,7 @@
                   />
                 </template>
 
-                <v-time-picker v-model="timePicker.end" :min="minTime" />
+                <v-time-picker v-model="input.timeEnd" :min="minTime" />
               </v-menu>
             </v-col>
           </v-row>
@@ -107,19 +136,27 @@
 </template>
 
 <script lang="ts">
-import { computed, defineComponent, Ref, ref, watch } from '@vue/composition-api';
+import { computed, defineComponent, ref } from '@vue/composition-api';
 import { requireInputRule } from '@/common/validation';
-import { generateDate, generateUnixTime } from '@/common/utils';
+import { generateDate, generateUnixTime, parseTime } from '@/common/utils';
 
 export default defineComponent({
   name: 'EditEventDescriptionButton',
   props: {
+    dateStart: {
+      type: String,
+      required: true,
+    },
+    dateEnd: {
+      type: String,
+      required: true,
+    },
     timeStart: {
-      type: Number,
+      type: String,
       required: true,
     },
     timeEnd: {
-      type: Number,
+      type: String,
       required: true,
     },
     venue: {
@@ -139,85 +176,33 @@ export default defineComponent({
 
     const duplicate = computed(
       () =>
+        input.value.dateStart === props.dateStart &&
+        input.value.dateEnd === props.dateEnd &&
         input.value.timeStart === props.timeStart &&
         input.value.timeEnd === props.timeEnd &&
         input.value.venue === props.venue &&
         input.value.eventSize === props.eventSize,
     );
     const today = generateDate(undefined, 'YYYY-MM-DD');
-
-    const timePicker = ref({
-      start: generateDate(input.value.timeStart, 'HH:mm'),
-      end: generateDate(input.value.timeEnd, 'HH:mm'),
-    });
-    const timeDisplayStart = computed(() => generateDate(input.value.timeStart, 'hh:mm A'));
-    const timeDisplayEnd = computed(() => generateDate(input.value.timeEnd, 'hh:mm A'));
-    watch(timePicker.value, (time) => {
-      input.value.timeStart = generateUnixTime(
-        `${generateDate(input.value.timeStart, 'YYYY-MM-DD')} ${time.start}`,
-      );
-      input.value.timeEnd = generateUnixTime(
-        `${generateDate(input.value.timeEnd, 'YYYY-MM-DD')} ${time.end}`,
-      );
-    });
-
-    const datePicker: Ref<string[]> = ref([]);
-    const dateDisplay = computed(() =>
-      [...datePicker.value]
-        .sort()
-        .map((date) => generateDate(date, 'DD MMM YYYY'))
-        .join(' - '),
-    );
-    watch(datePicker, (newDates) => {
-      const timeStart = timeDisplayStart.value;
-      const timeEnd = timeDisplayEnd.value;
-      const date1 = generateUnixTime(`${newDates[0]} ${timeStart}`);
-      let date2;
-      input.value.timeStart = generateUnixTime(`${newDates[0]} ${timeStart}`);
-      if (newDates.length < 2) {
-        date2 = generateUnixTime(`${newDates[0]} ${timeEnd}`);
-      } else {
-        date2 = generateUnixTime(`${newDates[1]} ${timeEnd}`);
-      }
-      if (date1 < date2) {
-        input.value.timeStart = date1;
-        input.value.timeEnd = date2;
-        return;
-      }
-      input.value.timeStart = date2;
-      input.value.timeEnd = date1;
-    });
+    const oneDayEvent = computed(() => input.value.dateStart === input.value.dateEnd);
 
     const minTime = computed(() => {
-      if (datePicker.value.length < 2) {
-        return timePicker.value.start;
+      if (oneDayEvent.value && input.value.timeStart) {
+        return input.value.timeStart;
       }
       return undefined;
     });
-
     const maxTime = computed(() => {
-      if (datePicker.value.length < 2) {
-        return timePicker.value.end;
+      if (oneDayEvent.value && input.value.timeEnd) {
+        return input.value.timeEnd;
       }
       return undefined;
     });
 
-    // Setup
-    watch(dialog, (active) => {
-      const dateStart = computed(() => generateDate(input.value.timeStart, 'YYYY-MM-DD'));
-      const dateEnd = computed(() => generateDate(input.value.timeEnd, 'YYYY-MM-DD'));
-      const timeStart = computed(() => generateDate(input.value.timeStart, 'HH:mm'));
-      const timeEnd = computed(() => generateDate(input.value.timeEnd, 'HH:mm'));
-      if (active) {
-        datePicker.value = [];
-        datePicker.value.push(dateStart.value);
-        timePicker.value.start = timeStart.value;
-        timePicker.value.end = timeEnd.value;
-        if (dateStart.value !== dateEnd.value) {
-          datePicker.value.push(dateEnd.value);
-        }
-      }
-    });
+    const dateStartDisplay = computed(() => generateDate(input.value.dateStart, 'DD MMM YYYY'));
+    const dateEndDisplay = computed(() => generateDate(input.value.dateEnd, 'DD MMM YYYY'));
+    const timeStartDisplay = computed(() => parseTime(input.value.timeStart));
+    const timeEndDisplay = computed(() => parseTime(input.value.timeEnd));
 
     const cancel = () => {
       dialog.value = false; // Closes dialog
@@ -225,12 +210,16 @@ export default defineComponent({
     };
 
     const edit = () => {
+      const start = generateUnixTime(`${input.value.dateStart} ${input.value.timeStart}`);
+      const end = generateUnixTime(`${input.value.dateEnd} ${input.value.timeEnd}`);
       dialog.value = false;
       emit('edit-event-details', {
         venue: input.value.venue,
         eventSize: input.value.eventSize,
-        timeStart: input.value.timeStart,
-        timeEnd: input.value.timeEnd,
+        date: {
+          start,
+          end,
+        },
       });
     };
 
@@ -252,13 +241,12 @@ export default defineComponent({
 
       // Input
       input,
-      timePicker,
-      datePicker,
 
       // Outputs
-      timeDisplayStart,
-      timeDisplayEnd,
-      dateDisplay,
+      dateStartDisplay,
+      dateEndDisplay,
+      timeStartDisplay,
+      timeEndDisplay,
     };
   },
 });

@@ -3,9 +3,11 @@
     <v-card-title class="text-h4">
       Details
       <EditEventDetails
+        :date-start="editDateStart"
+        :date-end="editDateEnd"
+        :time-start="editStart"
+        :time-end="editEnd"
         :event-size="eventSize"
-        :time-start="timeStart"
-        :time-end="timeEnd"
         :venue="venue"
         @edit-event-details="(payload) => $emit('edit', payload)"
       />
@@ -47,7 +49,7 @@
 </template>
 
 <script lang="ts">
-import { computed, defineComponent } from '@vue/composition-api';
+import { defineComponent } from '@vue/composition-api';
 import { generateDate } from '@/common/utils';
 import EditEventDetails from '@/components/EventActions/EditEventDetails.vue';
 
@@ -75,23 +77,31 @@ export default defineComponent({
     },
   },
   setup(props) {
-    const eventDate = computed(() => {
-      const dateStart = generateDate(props.timeStart, 'DD MMM YYYY');
-      const dateEnd = generateDate(props.timeEnd, 'DD MMM YYYY');
-      if (dateStart === dateEnd) {
-        return dateStart;
-      }
-      return `${dateStart} - ${dateEnd}`;
-    });
+    const dateStart = generateDate(props.timeStart, 'DD MMM YYYY');
+    const dateEnd = generateDate(props.timeEnd, 'DD MMM YYYY');
+    const start = generateDate(props.timeStart, 'hh:mm A');
+    const end = generateDate(props.timeEnd, 'hh:mm A');
 
-    const eventTime = computed(
-      () =>
-        `${generateDate(props.timeStart, 'hh:mm A')} - ${generateDate(props.timeEnd, 'hh:mm A')}`,
-    );
+    const editDateStart = generateDate(props.timeStart, 'YYYY-MM-DD');
+    const editDateEnd = generateDate(props.timeEnd, 'YYYY-MM-DD');
+    const editStart = generateDate(props.timeStart, 'HH:mm');
+    const editEnd = generateDate(props.timeEnd, 'HH:mm');
+
+    const oneDayEvent = dateStart === dateEnd;
+
+    const eventDate = oneDayEvent ? dateStart : `${dateStart} - ${dateEnd}`;
+
+    const eventTime = `${start} - ${end}`;
 
     return {
       eventDate,
       eventTime,
+      start,
+      end,
+      editDateStart,
+      editDateEnd,
+      editStart,
+      editEnd,
     };
   },
 });

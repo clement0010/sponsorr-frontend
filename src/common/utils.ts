@@ -42,8 +42,11 @@ export const generateUnixTime = (date?: string): number => {
 /**
  * Generate range of dates given array of unix timestamps
  */
-export const generateDateRangeFromUnixTimeRange = (unixTimeRange: number[]): string => {
-  return unixTimeRange.map((unixTime) => generateDate(unixTime)).join(' - ');
+export const generateDateRangeFromUnixTimeRange = (
+  unixTimeRange: number[],
+  format: string,
+): string => {
+  return unixTimeRange.map((unixTime) => generateDate(unixTime, format)).join(' - ');
 };
 
 /**
