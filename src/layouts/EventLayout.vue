@@ -2,8 +2,9 @@
   <v-container class="secondary" fluid>
     <v-row justify="center">
       <v-card class="my-10 pa-5" width="1320" rounded="xl">
+        <EventPicture :picture="event.picture" />
         <EventTitle :title="event.title" @edit="(payload) => $emit('edit', payload)" />
-        <EventOrganiser />
+        <EventOrganiser :user="profile.name" />
         <EventDescription
           :description="event.description"
           @edit="(payload) => $emit('edit', payload)"
@@ -11,12 +12,12 @@
         <EventDetails
           :venue="event.venue"
           :event-size="event.eventSize"
-          :time-start="event.timeStart"
-          :time-end="event.timeEnd"
+          :time-start="event.date.start"
+          :time-end="event.date.end"
           @edit="(payload) => $emit('edit', payload)"
         />
         <EventKeywords :keywords="event.keywords" @edit="(payload) => $emit('edit', payload)" />
-        <EventDocuments />
+        <EventDocuments :documents="event.documents" />
         <v-card-text class="text-right">
           <EventUnpublish
             v-if="event.matches < 1 && event.published"
@@ -44,7 +45,7 @@
 </template>
 
 <script lang="ts">
-import { defineComponent } from '@vue/composition-api';
+import { defineComponent, onMounted } from '@vue/composition-api';
 import { SponsorEvent } from '@/types';
 import { generateDate } from '@/common/utils';
 
@@ -57,6 +58,8 @@ import EventDocuments from '@/components/PageComponents/Event/EventDocuments.vue
 import EventDelete from '@/components/EventActions/EventDelete.vue';
 import EventPublish from '@/components/EventActions/EventPublish.vue';
 import EventUnpublish from '@/components/EventActions/EventUnpublish.vue';
+import EventPicture from '@/components/PageComponents/Event/EventPicture.vue';
+import useProfile from '@/composable/profileComposition';
 
 export default defineComponent({
   components: {
@@ -69,6 +72,7 @@ export default defineComponent({
     EventDelete,
     EventPublish,
     EventUnpublish,
+    EventPicture,
   },
   props: {
     event: {
@@ -76,12 +80,19 @@ export default defineComponent({
       required: true,
     },
   },
-  setup(_, { root }) {
+  setup(props, { root }) {
     const eventId = root.$route.params.id;
+    const { event } = props;
+    const { fetchUserProfile, profile } = useProfile();
+
+    onMounted(async () => {
+      await fetchUserProfile(event.userId);
+    });
 
     return {
       generateDate,
       eventId,
+      profile,
     };
   },
 });
