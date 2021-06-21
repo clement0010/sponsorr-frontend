@@ -1,7 +1,7 @@
 <template>
   <div>
     <v-card-subtitle class="text-h5">
-      {{ eventOrganiser }}
+      {{ user }}
     </v-card-subtitle>
   </div>
 </template>
@@ -12,7 +12,7 @@ import { defineComponent } from '@vue/composition-api';
 export default defineComponent({
   name: 'EventOrganiser',
   props: {
-    eventOrganiser: {
+    user: {
       type: String,
       default: 'The Foo Bar Society',
     },
