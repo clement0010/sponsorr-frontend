@@ -10,7 +10,7 @@
         :rules="[requireInputRule]"
       />
       <v-row>
-        <v-col>
+        <v-col xs="12">
           <v-menu
             :close-on-content-click="false"
             :nudge-right="40"
@@ -20,8 +20,8 @@
           >
             <template #activator="{ on, attrs }">
               <v-text-field
-                v-model="dateRange"
-                label="Date"
+                v-model="displayDateStart"
+                label="Start Date"
                 append-icon="mdi-calendar"
                 readonly
                 v-bind="attrs"
@@ -31,67 +31,85 @@
                 v-on="on"
               />
             </template>
-            <v-date-picker
-              v-model="eventData.dates"
-              range
-              :min="generateDate(undefined, 'YYYY-MM-DD')"
-            />
+            <v-date-picker v-model="eventData.dateStart" :min="today" :max="eventData.dateEnd" />
           </v-menu>
         </v-col>
-        <v-col>
-          <v-row>
-            <v-col>
-              <v-menu
-                :close-on-content-click="false"
-                :nudge-right="40"
-                transition="scale-transition"
-                offset-y
-                max-width="290px"
-                min-width="290px"
-              >
-                <template #activator="{ on, attrs }">
-                  <v-text-field
-                    v-model="displayTimeStart"
-                    outlined
-                    label="Starts at"
-                    append-icon="mdi-clock-time-four-outline"
-                    readonly
-                    v-bind="attrs"
-                    hint="What time does your event start?"
-                    :rules="[requireInputRule]"
-                    v-on="on"
-                  />
-                </template>
-                <v-time-picker v-model="eventData.timeStart" full-width :max="maxTime" />
-              </v-menu>
-            </v-col>
 
-            <v-col>
-              <v-menu
-                :close-on-content-click="false"
-                :nudge-right="40"
-                transition="scale-transition"
-                offset-y
-                max-width="290px"
-                min-width="290px"
-              >
-                <template #activator="{ on, attrs }">
-                  <v-text-field
-                    v-model="displayTimeEnd"
-                    outlined
-                    label="Ends at"
-                    append-icon="mdi-clock-time-four-outline"
-                    readonly
-                    v-bind="attrs"
-                    hint="What time does your event end?"
-                    :rules="[requireInputRule]"
-                    v-on="on"
-                  />
-                </template>
-                <v-time-picker v-model="eventData.timeEnd" full-width :min="minTime" />
-              </v-menu>
-            </v-col>
-          </v-row>
+        <v-col xs="12">
+          <v-menu
+            :close-on-content-click="false"
+            :nudge-right="40"
+            transition="scale-transition"
+            offset-y
+            min-width="auto"
+          >
+            <template #activator="{ on, attrs }">
+              <v-text-field
+                v-model="displayDateEnd"
+                label="End Date"
+                append-icon="mdi-calendar"
+                readonly
+                v-bind="attrs"
+                outlined
+                hint="Select a date or a range of dates"
+                :rules="[requireInputRule]"
+                v-on="on"
+              />
+            </template>
+            <v-date-picker v-model="eventData.dateEnd" :min="eventData.dateStart || today" />
+          </v-menu>
+        </v-col>
+
+        <v-col xs="12">
+          <v-menu
+            :close-on-content-click="false"
+            :nudge-right="40"
+            transition="scale-transition"
+            offset-y
+            max-width="290px"
+            min-width="290px"
+          >
+            <template #activator="{ on, attrs }">
+              <v-text-field
+                v-model="displayTimeStart"
+                outlined
+                label="Starts at"
+                append-icon="mdi-clock-time-four-outline"
+                readonly
+                v-bind="attrs"
+                hint="What time does your event start?"
+                :rules="[requireInputRule]"
+                v-on="on"
+              />
+            </template>
+            <v-time-picker v-model="eventData.timeStart" full-width :max="maxTime" />
+          </v-menu>
+        </v-col>
+
+        <v-col xs="12">
+          <v-menu
+            :close-on-content-click="false"
+            :nudge-right="40"
+            transition="scale-transition"
+            offset-y
+            max-width="290px"
+            min-width="290px"
+          >
+            <template #activator="{ on, attrs }">
+              <v-text-field
+                v-model="displayTimeEnd"
+                outlined
+                label="Ends at"
+                append-icon="mdi-clock-time-four-outline"
+                readonly
+                v-bind="attrs"
+                hint="What time does your event end?"
+                :rules="[requireInputRule]"
+                v-on="on"
+              />
+            </template>
+            <v-time-picker v-model="eventData.timeEnd" full-width :min="minTime" />
+          </v-menu>
         </v-col>
       </v-row>
       <v-text-field
@@ -127,40 +145,36 @@ export default defineComponent({
 
     const eventData = reactive({
       title: '',
-      dates: [], // ISO8601 Date format, YYYY-MM-DD
+      dateStart: '',
+      dateEnd: '',
       timeStart: '',
       timeEnd: '',
       venue: '',
     });
 
-    const dateRange = computed(() =>
-      // eslint-disable-next-line vue/no-side-effects-in-computed-properties
-      eventData.dates
-        .sort()
-        .map((date) => generateDate(date))
-        .join(' to '),
-    );
+    const today = generateDate(undefined, 'YYYY-MM-DD');
+    const oneDayEvent = computed(() => eventData.dateStart === eventData.dateEnd);
 
+    const displayDateStart = computed(() =>
+      eventData.dateStart ? generateDate(eventData.dateStart) : '',
+    );
+    const displayDateEnd = computed(() =>
+      eventData.dateEnd ? generateDate(eventData.dateEnd) : '',
+    );
     const displayTimeStart = computed(() => parseTime(eventData.timeStart));
     const displayTimeEnd = computed(() => parseTime(eventData.timeEnd));
 
     const persist = () => {
       const data = {
         title: eventData.title,
-        timeStart: generateUnixTime(`${eventData.dates[0]} ${eventData.timeStart}`),
+        date: {
+          start: generateUnixTime(`${eventData.dateStart} ${eventData.timeStart}`),
+          end: generateUnixTime(`${eventData.dateEnd} ${eventData.timeEnd}`),
+        },
         venue: eventData.venue,
       };
-
-      if (eventData.dates.length > 1) {
-        Object.assign(data, {
-          timeEnd: generateUnixTime(`${eventData.dates[1]} ${eventData.timeEnd}`),
-        });
-      } else {
-        Object.assign(data, {
-          timeEnd: generateUnixTime(`${eventData.dates[0]} ${eventData.timeEnd}`),
-        });
-      }
-
+      console.log(generateUnixTime(`${eventData.dateStart} ${eventData.timeStart}`));
+      console.log(generateUnixTime(`${eventData.dateEnd} ${eventData.timeEnd}`));
       localStorage.setItem('data', JSON.stringify(data));
     };
 
@@ -170,14 +184,14 @@ export default defineComponent({
     };
 
     const minTime = computed(() => {
-      if (eventData.dates.length < 2 && eventData.timeStart) {
+      if (oneDayEvent.value && eventData.timeStart) {
         return eventData.timeStart;
       }
       return undefined;
     });
 
     const maxTime = computed(() => {
-      if (eventData.dates.length < 2 && eventData.timeEnd) {
+      if (oneDayEvent.value && eventData.timeEnd) {
         return eventData.timeEnd;
       }
       return undefined;
@@ -190,23 +204,20 @@ export default defineComponent({
       // Payload
       eventData,
 
-      // Date formatting
-      dateRange,
-
-      // Time formatting
+      // Output
+      displayDateStart,
+      displayDateEnd,
       displayTimeStart,
       displayTimeEnd,
 
       // Input validation
+      today,
       requireInputRule,
       minTime,
       maxTime,
 
       // Navigation
       next,
-
-      // Date picker
-      generateDate,
     };
   },
 });

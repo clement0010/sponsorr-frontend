@@ -10,15 +10,28 @@
       <v-file-input
         v-model="eventData"
         :value="eventData"
-        accept=".docx,.pdf,.jpg,.png"
+        accept=".pdf"
         chips
         counter
         multiple
         outlined
-        placeholder="Accepted file formats: .pdf, .docx, .jpg, .png"
+        placeholder="Accepted file formats: .pdf"
         show-size
         :rules="[fileUploadSizeRule, requireInputRule]"
         @change="uploadFile"
+      />
+
+      <v-file-input
+        v-model="eventPicture"
+        :value="eventPicture"
+        outlined
+        placeholder="Accepted file formats: .jpg, .png"
+        accept=".jpg,.png"
+        counter
+        chips
+        show-size
+        :rules="[fileUploadSizeRule, requireInputRule]"
+        @change="uploadPicture"
       />
 
       <v-card-actions>
@@ -51,11 +64,14 @@ export default defineComponent({
 
     const eventData = ref<File[]>([]);
     const fileUrl = ref('');
+    const eventPicture = ref<File>();
+    const pictureUrl = ref('');
 
     const persist = async () => {
       const localData = JSON.parse(localStorage.getItem('data') || '');
       const data = {
         documents: fileUrl.value,
+        picture: pictureUrl.value,
       };
       Object.assign(localData, data);
       localStorage.setItem('data', JSON.stringify(localData));
@@ -80,6 +96,20 @@ export default defineComponent({
       localStorage.setItem('data', JSON.stringify(localData));
     };
 
+    const uploadPicture = async () => {
+      const url = await uploadFileToStorage(uid.value, eventPicture.value);
+      if (!url) {
+        console.log('Picture upload unsuccessful');
+        return;
+      }
+      const localData = JSON.parse(localStorage.getItem('data') || '');
+      const data = {
+        picture: url,
+      };
+      Object.assign(localData, data);
+      localStorage.setItem('data', JSON.stringify(localData));
+    };
+
     return {
       // Form validation
       valid,
@@ -90,10 +120,12 @@ export default defineComponent({
 
       // Payload
       eventData,
+      eventPicture,
 
       // Navigation
       back,
       uploadFile,
+      uploadPicture,
     };
   },
 });

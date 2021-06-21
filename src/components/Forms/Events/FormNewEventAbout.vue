@@ -9,14 +9,51 @@
         hint="Tell sponsors what is your event about"
         :rules="[requireInputRule]"
       />
-      <v-text-field
-        v-model="eventData.participants"
+      <v-row>
+        <v-col>
+          <v-text-field
+            v-model.number="eventData.participants"
+            outlined
+            :min="0"
+            type="number"
+            label="Expected Number of Attendees"
+            :rules="[requireInputRule, nonNegativeIntegerRule]"
+          />
+        </v-col>
+        <v-col>
+          <v-text-field
+            v-model.number="eventData.budgetMin"
+            outlined
+            :min="0"
+            type="number"
+            label="Budget (minimum)"
+            hint="All currency in Singapore Dollars"
+            :rules="[requireInputRule, nonNegativeIntegerRule, minBudgetRule]"
+          />
+        </v-col>
+        <v-col>
+          <v-text-field
+            v-model.number="eventData.budgetMax"
+            outlined
+            :min="0"
+            type="number"
+            label="Budget (maximum)"
+            hint="All currency in Singapore Dollars"
+            :rules="[requireInputRule, nonNegativeIntegerRule, maxBudgetRule]"
+          />
+        </v-col>
+      </v-row>
+
+      <v-select
+        v-model="eventData.demographic"
         outlined
-        :min="0"
-        type="number"
-        label="Expected Number of Attendees"
-        :rules="[requireInputRule, nonNegativeIntegerRule]"
+        label="Demographic"
+        multiple
+        chips
+        :items="demographic"
+        :rules="[vselectRule]"
       />
+
       <v-combobox
         v-model="eventData.keywords"
         outlined
@@ -25,7 +62,7 @@
         chips
         multiple
         placeholder="Type away and hit 'enter' to save the keyword"
-        :rules="[requireInputRule]"
+        :rules="[vselectRule]"
       >
       </v-combobox>
       <v-card-actions>
@@ -52,15 +89,48 @@ export default defineComponent({
 
     const eventData = reactive({
       description: '',
-      participants: '',
+      participants: 0,
+      budgetMin: undefined,
+      budgetMax: undefined,
+      demographic: [],
       keywords: [],
     });
+
+    const demographic = [
+      'Public',
+      'Senior Citizens',
+      'Adults',
+      'University/College',
+      'Teens',
+      'Children',
+    ];
+
+    const vselectRule = (input: string[]) => input.length > 0 || 'Required';
+
+    const maxBudgetRule = (budget: number) => {
+      if (!eventData.budgetMin) {
+        return true;
+      }
+      return eventData.budgetMin <= budget || 'Enter a higher value';
+    };
+
+    const minBudgetRule = (budget: number) => {
+      if (!eventData.budgetMax) {
+        return true;
+      }
+      return eventData.budgetMax >= budget || 'Enter a lower value';
+    };
 
     const persist = () => {
       const localData = JSON.parse(localStorage.getItem('data') || '');
       const data = {
         description: eventData.description,
         eventSize: eventData.participants,
+        budget: {
+          maximum: eventData.budgetMax,
+          minimum: eventData.budgetMin,
+        },
+        demographic: eventData.demographic,
         keywords: eventData.keywords,
       };
       Object.assign(localData, data);
@@ -85,9 +155,13 @@ export default defineComponent({
       // Input validation
       requireInputRule,
       nonNegativeIntegerRule,
+      maxBudgetRule,
+      minBudgetRule,
+      vselectRule,
 
       // Payload
       eventData,
+      demographic,
 
       // Navigation
       navigate,

@@ -26,25 +26,28 @@ export default defineComponent({
       const data = JSON.parse(localStorage.getItem('data') || '');
 
       const newEvent: SponsorEvent = {
-        ...data,
+        title: data.title,
+        description: data.description,
+        documents: data.documents,
+        keywords: data.keywords,
+        venue: data.venue,
         budget: {
-          maximum: 1000,
-          minimum: 500,
+          maximum: data.budget.maximum,
+          minimum: data.budget.minimum,
         },
         date: {
-          start: 1622829222,
-          end: 1622829222,
+          start: data.date.start,
+          end: data.date.end,
         },
-        demographic: ['Adult'],
+        demographic: data.demographic,
         createdAt: generateUnixTime(),
         published: true,
         matches: 0,
         clicks: 0,
         views: 0,
-        picture:
-          'https://firebasestorage.googleapis.com/v0/b/sponsorr-dev.appspot.com/o/public_assets%2Ficon-profile.svg?alt=media&token=1ddcee8a-2889-43a1-aecd-a8959474814d',
+        picture: data.picture,
         status: 'published',
-        eventSize: 0,
+        eventSize: data.eventSize,
         userId: uid.value,
       };
       console.log(newEvent);

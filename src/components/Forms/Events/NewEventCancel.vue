@@ -9,7 +9,7 @@ export default defineComponent({
   name: 'NewEventCancelButton',
   setup(_, { emit }) {
     const cancel = () => {
-      localStorage.clear();
+      localStorage.removeItem('data');
       emit('cancel', 'Event creation cancelled');
     };
 
