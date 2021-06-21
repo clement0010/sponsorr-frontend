@@ -26,7 +26,7 @@ const routes: Array<RouteConfig> = [
   {
     path: '/recover-account',
     name: 'RecoverAccount',
-    component: () => import(/* webpackChunkName: "recoverAccount" */ '@/views/RecoverAccount.vue'),
+    component: () => import(/* webpackChunkName: "recoverAccount" */ '@/views/404.vue'),
   },
   {
     path: '/profile/:id',
@@ -46,7 +46,7 @@ const routes: Array<RouteConfig> = [
   {
     path: '/marketplace',
     name: 'Marketplace',
-    component: () => import(/* webpackChunkName: "marketplace" */ '@/views/Marketplace.vue'),
+    component: () => import(/* webpackChunkName: "marketplace" */ '@/views/404.vue'),
     // To be enabled
     // meta: { requiresAuth: true },
     // beforeEnter: authGuard,
@@ -54,7 +54,7 @@ const routes: Array<RouteConfig> = [
   {
     path: '/settings',
     name: 'Settings',
-    component: () => import(/* webpackChunkName: "settings" */ '@/views/Settings.vue'),
+    component: () => import(/* webpackChunkName: "settings" */ '@/views/404.vue'),
     // To be enabled
     // meta: { requiresAuth: true },
     // beforeEnter: authGuard,
