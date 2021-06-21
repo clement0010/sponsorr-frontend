@@ -4,13 +4,8 @@
       Documents
       <EditEventDocuments />
     </v-card-title>
-    <v-list v-if="eventDocuments.length > 0">
-      <v-list-item v-for="(eventDocument, index) in eventDocuments" :key="index">
-        {{ eventDocument }}
-      </v-list-item>
-    </v-list>
-    <v-card-text v-else>
-      No documents
+    <v-card-text>
+      <a :href="documents">Link to document</a>
     </v-card-text>
   </div>
 </template>
@@ -25,9 +20,9 @@ export default defineComponent({
     EditEventDocuments,
   },
   props: {
-    eventDocuments: {
-      type: Array as () => File[],
-      default: () => [],
+    documents: {
+      type: String,
+      required: true,
     },
   },
 });
