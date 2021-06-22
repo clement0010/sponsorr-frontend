@@ -54,10 +54,11 @@ export default defineComponent({
       }
     };
 
-    const remove = async () => {
+    const remove = async (payload: string) => {
       try {
-        await deleteEvent(eventId);
+        await deleteEvent(payload);
         emit('success', 'Event deleted');
+        root.$router.push({ name: 'Dashboard' });
       } catch (err) {
         emit('alert', 'Failed to delete!');
       }

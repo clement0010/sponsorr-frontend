@@ -33,10 +33,7 @@
             v-if="event.matches < 1"
             :event-id="eventId"
             :title="event.title"
-            @deleteEvent="
-              (payload) =>
-                $emit('deleteEvent', Object.assign(payload, { eventStatus: eventCategory.name }))
-            "
+            @deleteEvent="(payload) => $emit('deleteEvent', payload)"
           />
         </v-card-text>
       </v-card>
