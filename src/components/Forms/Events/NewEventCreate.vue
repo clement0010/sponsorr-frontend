@@ -51,9 +51,10 @@ export default defineComponent({
         userId: uid.value,
       };
       console.log(newEvent);
+      emit('loading');
       await createEvent(newEvent);
       localStorage.clear();
-      emit('create', 'Event created successfully');
+      emit('create');
     };
 
     return { create };

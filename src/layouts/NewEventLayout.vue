@@ -23,7 +23,12 @@
             <FormNewEventRequests @next="steps++" @back="steps--" @cancel="redirect" />
           </v-stepper-content>
           <v-stepper-content step="4">
-            <FormNewEventDocuments @back="steps--" @create="redirect" @cancel="redirect" />
+            <FormNewEventDocuments
+              @back="steps--"
+              @create="redirect"
+              @cancel="redirect"
+              @loading="$emit('loading')"
+            />
           </v-stepper-content>
         </v-stepper-items>
       </v-stepper>
