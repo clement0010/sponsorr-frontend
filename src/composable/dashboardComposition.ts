@@ -10,9 +10,9 @@ export default function useDashboard() {
   const loading = ref(true);
 
   const eventCategories = ref<EventCategory[]>([
-    draftsCategory,
-    matchedCategory,
     publishedCategory,
+    matchedCategory,
+    draftsCategory,
   ]);
 
   const initialise = async (uid: string): Promise<void> => {
