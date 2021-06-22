@@ -2,7 +2,7 @@
   <v-container class="secondary" fluid>
     <v-row justify="center">
       <v-card class="my-10 pa-5" width="1320" rounded="xl">
-        <EventPicture :picture="event.picture" />
+        <EventPicture :picture="event.picture" @edit="(payload) => $emit('edit', payload)" />
         <EventTitle :title="event.title" @edit="(payload) => $emit('edit', payload)" />
         <EventOrganiser :user="profile.name" />
         <EventDescription

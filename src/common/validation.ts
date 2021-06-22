@@ -23,6 +23,13 @@ export const fileUploadSizeRule = (files: File[]): boolean | string =>
     .reduce((accumulator: number, currentValue: number) => accumulator + currentValue, 0) <
     5000000 || 'Files exceeded 5MB limit';
 
+export const fileUploadSizeRuleSingle = (file: File | undefined): boolean | string => {
+  if (file) {
+    return file.size < 5000000 || 'Files exceeded 5MB limit';
+  }
+  return true;
+};
+
 export const nonNegativeIntegerRule = (num: number): boolean | string =>
   (num >= 0 && Number.isInteger(+num)) || 'Must be a non-negative whole number';
 
