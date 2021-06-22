@@ -30,7 +30,7 @@
         counter
         chips
         show-size
-        :rules="[fileUploadSizeRule, requireInputRule]"
+        :rules="[fileUploadSizeRuleSingle, requireInputRule]"
         @change="uploadPicture"
       />
 
@@ -47,7 +47,11 @@
 import { defineComponent, ref } from '@vue/composition-api';
 import useAuth from '@/composable/authComposition';
 
-import { fileUploadSizeRule, requireInputRule } from '@/common/validation';
+import {
+  fileUploadSizeRule,
+  requireInputRule,
+  fileUploadSizeRuleSingle,
+} from '@/common/validation';
 import { uploadFileToStorage } from '@/common';
 import NewEventCancel from './NewEventCancel.vue';
 import NewEventCreate from './NewEventCreate.vue';
@@ -83,32 +87,41 @@ export default defineComponent({
     };
 
     const uploadFile = async () => {
-      const url = await uploadFileToStorage(uid.value, eventData.value[0]);
-      if (!url) {
-        console.log('File uploads unsuccessful');
-        return;
+      try {
+        const url = await uploadFileToStorage(uid.value, eventData.value[0]);
+        if (!url) {
+          console.log('File uploads unsuccessful');
+          return;
+        }
+        console.log(url);
+        const localData = JSON.parse(localStorage.getItem('data') || '');
+        const data = {
+          documents: url,
+        };
+        Object.assign(localData, data);
+        localStorage.setItem('data', JSON.stringify(localData));
+      } catch (error) {
+        console.error(error);
       }
-      console.log(url);
-      const localData = JSON.parse(localStorage.getItem('data') || '');
-      const data = {
-        documents: url,
-      };
-      Object.assign(localData, data);
-      localStorage.setItem('data', JSON.stringify(localData));
     };
 
     const uploadPicture = async () => {
-      const url = await uploadFileToStorage(uid.value, eventPicture.value);
-      if (!url) {
-        console.log('Picture upload unsuccessful');
-        return;
+      try {
+        const url = await uploadFileToStorage(uid.value, eventPicture.value);
+        if (!url) {
+          console.log('Picture upload unsuccessful');
+          return;
+        }
+        console.log(url);
+        const localData = JSON.parse(localStorage.getItem('data') || '');
+        const data = {
+          picture: url,
+        };
+        Object.assign(localData, data);
+        localStorage.setItem('data', JSON.stringify(localData));
+      } catch (error) {
+        console.error(error);
       }
-      const localData = JSON.parse(localStorage.getItem('data') || '');
-      const data = {
-        picture: url,
-      };
-      Object.assign(localData, data);
-      localStorage.setItem('data', JSON.stringify(localData));
     };
 
     return {
@@ -117,6 +130,7 @@ export default defineComponent({
 
       // Input validation
       fileUploadSizeRule,
+      fileUploadSizeRuleSingle,
       requireInputRule,
 
       // Payload
