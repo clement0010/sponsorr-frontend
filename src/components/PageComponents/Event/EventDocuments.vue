@@ -2,9 +2,10 @@
   <div>
     <v-card-title class="text-h4">
       Documents
-      <EditEventDocuments />
+      <EditEventDocuments @edit-documents="(payload) => $emit('edit', payload)" />
     </v-card-title>
     <v-card-text>
+      <v-icon>mdi-file</v-icon>
       <a :href="documents">Link to document</a>
     </v-card-text>
   </div>

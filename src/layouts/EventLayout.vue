@@ -17,7 +17,7 @@
           @edit="(payload) => $emit('edit', payload)"
         />
         <EventKeywords :keywords="event.keywords" @edit="(payload) => $emit('edit', payload)" />
-        <EventDocuments :documents="event.documents" />
+        <EventDocuments :documents="event.documents" @edit="(payload) => $emit('edit', payload)" />
         <v-card-text class="text-right">
           <EventUnpublish
             v-if="event.matches < 1 && event.published"
