@@ -88,6 +88,7 @@ export default defineComponent({
         console.log('File uploads unsuccessful');
         return;
       }
+      console.log(url);
       const localData = JSON.parse(localStorage.getItem('data') || '');
       const data = {
         documents: url,
