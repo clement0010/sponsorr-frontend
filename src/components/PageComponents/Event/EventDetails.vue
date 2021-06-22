@@ -90,7 +90,7 @@ export default defineComponent({
     const oneDayEvent = computed(() => dateStart.value === dateEnd.value);
 
     const eventDate = computed(() =>
-      oneDayEvent.value ? dateStart : `${dateStart.value} - ${dateEnd.value}`,
+      oneDayEvent.value ? dateStart.value : `${dateStart.value} - ${dateEnd.value}`,
     );
 
     const eventTime = computed(() => `${start.value} - ${end.value}`);
