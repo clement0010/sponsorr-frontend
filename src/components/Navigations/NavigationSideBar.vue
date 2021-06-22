@@ -1,5 +1,7 @@
 <template>
   <v-navigation-drawer :value="drawer" absolute temporary height="94vh">
+    <UserStatusCard />
+    <v-divider />
     <v-list nav>
       <v-list-item-group v-model="selected" color="primary" mandatory>
         <router-link :to="{ name: 'Profile', params: { id } }">
@@ -66,9 +68,13 @@
 <script lang="ts">
 import useAuth from '@/composable/authComposition';
 import { ref, defineComponent, onMounted } from '@vue/composition-api';
+import UserStatusCard from '@/components/BuildingElements/UserStatusCard.vue';
 
 export default defineComponent({
   name: 'NavigationSideBar',
+  components: {
+    UserStatusCard,
+  },
   props: {
     drawer: {
       type: Boolean,

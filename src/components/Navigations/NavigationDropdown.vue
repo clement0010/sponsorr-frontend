@@ -38,66 +38,70 @@
           </v-list-item>
         </v-list>
 
-        <v-list v-else nav>
-          <v-list-item-group v-model="selected" color="primary" mandatory>
-            <router-link :to="{ name: 'Profile', params: { id } }">
-              <v-list-item>
-                <v-list-item-icon>
-                  <v-icon>mdi-account</v-icon>
-                </v-list-item-icon>
-                <v-list-item-content>
-                  Profile
-                </v-list-item-content>
-              </v-list-item>
-            </router-link>
-
-            <router-link :to="{ name: 'Dashboard' }">
-              <v-list-item>
-                <v-list-item-icon>
-                  <v-icon>mdi-view-dashboard</v-icon>
-                </v-list-item-icon>
-                <v-list-item-content>
-                  Dashboard
-                </v-list-item-content>
-              </v-list-item>
-            </router-link>
-
-            <router-link :to="{ name: 'Marketplace' }">
-              <v-list-item>
-                <v-list-item-icon>
-                  <v-icon>mdi-shopping</v-icon>
-                </v-list-item-icon>
-                <v-list-item-content>
-                  Marketplace
-                </v-list-item-content>
-              </v-list-item>
-            </router-link>
-
-            <v-divider />
-
-            <v-list>
-              <router-link :to="{ name: 'Settings' }">
+        <div v-else>
+          <UserStatusCard />
+          <v-divider />
+          <v-list nav>
+            <v-list-item-group v-model="selected" color="primary" mandatory>
+              <router-link :to="{ name: 'Profile', params: { id } }">
                 <v-list-item>
                   <v-list-item-icon>
-                    <v-icon>mdi-cog</v-icon>
+                    <v-icon>mdi-account</v-icon>
                   </v-list-item-icon>
                   <v-list-item-content>
-                    Settings
+                    Profile
                   </v-list-item-content>
                 </v-list-item>
               </router-link>
 
-              <v-list-item @click="userSignout">
-                <v-list-item-icon>
-                  <v-icon>mdi-exit-to-app</v-icon>
-                </v-list-item-icon>
-                <v-list-item-content>
-                  Sign Out
-                </v-list-item-content>
-              </v-list-item>
-            </v-list>
-          </v-list-item-group>
-        </v-list>
+              <router-link :to="{ name: 'Dashboard' }">
+                <v-list-item>
+                  <v-list-item-icon>
+                    <v-icon>mdi-view-dashboard</v-icon>
+                  </v-list-item-icon>
+                  <v-list-item-content>
+                    Dashboard
+                  </v-list-item-content>
+                </v-list-item>
+              </router-link>
+
+              <router-link :to="{ name: 'Marketplace' }">
+                <v-list-item>
+                  <v-list-item-icon>
+                    <v-icon>mdi-shopping</v-icon>
+                  </v-list-item-icon>
+                  <v-list-item-content>
+                    Marketplace
+                  </v-list-item-content>
+                </v-list-item>
+              </router-link>
+
+              <v-divider />
+
+              <v-list>
+                <router-link :to="{ name: 'Settings' }">
+                  <v-list-item>
+                    <v-list-item-icon>
+                      <v-icon>mdi-cog</v-icon>
+                    </v-list-item-icon>
+                    <v-list-item-content>
+                      Settings
+                    </v-list-item-content>
+                  </v-list-item>
+                </router-link>
+
+                <v-list-item @click="userSignout">
+                  <v-list-item-icon>
+                    <v-icon>mdi-exit-to-app</v-icon>
+                  </v-list-item-icon>
+                  <v-list-item-content>
+                    Sign Out
+                  </v-list-item-content>
+                </v-list-item>
+              </v-list>
+            </v-list-item-group>
+          </v-list>
+        </div>
       </v-card>
     </v-dialog>
   </v-col>
@@ -108,12 +112,14 @@ import useAuth from '@/composable/authComposition';
 import { defineComponent, onMounted, ref } from '@vue/composition-api';
 import AuthenticationButton from '@/components/Authentication/AuthenticationButton.vue';
 import LogoSponsorr from '@/components/BuildingElements/LogoSponsorr.vue';
+import UserStatusCard from '@/components/BuildingElements/UserStatusCard.vue';
 
 export default defineComponent({
   name: 'NavigationDropdown',
   components: {
     AuthenticationButton,
     LogoSponsorr,
+    UserStatusCard,
   },
   setup(_, { root, emit }) {
     const dialog = ref(false);
