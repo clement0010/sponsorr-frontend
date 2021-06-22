@@ -4,7 +4,7 @@
       <v-card class="my-10 pa-5" width="1320" rounded="xl">
         <EventPicture :picture="event.picture" @edit="(payload) => $emit('edit', payload)" />
         <EventTitle :title="event.title" @edit="(payload) => $emit('edit', payload)" />
-        <EventOrganiser :user="profile.name" />
+        <EventOrganiser v-if="!loading" :user="profile.name" />
         <EventDescription
           :description="event.description"
           @edit="(payload) => $emit('edit', payload)"
@@ -83,7 +83,7 @@ export default defineComponent({
   setup(props, { root }) {
     const eventId = root.$route.params.id;
     const { event } = props;
-    const { fetchUserProfile, profile } = useProfile();
+    const { fetchUserProfile, profile, loading } = useProfile();
 
     onMounted(async () => {
       await fetchUserProfile(event.userId);
@@ -93,6 +93,7 @@ export default defineComponent({
       generateDate,
       eventId,
       profile,
+      loading,
     };
   },
 });
