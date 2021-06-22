@@ -49,7 +49,7 @@
 </template>
 
 <script lang="ts">
-import { defineComponent } from '@vue/composition-api';
+import { computed, defineComponent } from '@vue/composition-api';
 import { generateDate } from '@/common/utils';
 import EditEventDetails from '@/components/EventActions/EditEventDetails.vue';
 
@@ -77,21 +77,23 @@ export default defineComponent({
     },
   },
   setup(props) {
-    const dateStart = generateDate(props.timeStart, 'DD MMM YYYY');
-    const dateEnd = generateDate(props.timeEnd, 'DD MMM YYYY');
-    const start = generateDate(props.timeStart, 'hh:mm A');
-    const end = generateDate(props.timeEnd, 'hh:mm A');
+    const dateStart = computed(() => generateDate(props.timeStart, 'DD MMM YYYY'));
+    const dateEnd = computed(() => generateDate(props.timeEnd, 'DD MMM YYYY'));
+    const start = computed(() => generateDate(props.timeStart, 'hh:mm A'));
+    const end = computed(() => generateDate(props.timeEnd, 'hh:mm A'));
 
-    const editDateStart = generateDate(props.timeStart, 'YYYY-MM-DD');
-    const editDateEnd = generateDate(props.timeEnd, 'YYYY-MM-DD');
-    const editStart = generateDate(props.timeStart, 'HH:mm');
-    const editEnd = generateDate(props.timeEnd, 'HH:mm');
+    const editDateStart = computed(() => generateDate(props.timeStart, 'YYYY-MM-DD'));
+    const editDateEnd = computed(() => generateDate(props.timeEnd, 'YYYY-MM-DD'));
+    const editStart = computed(() => generateDate(props.timeStart, 'HH:mm'));
+    const editEnd = computed(() => generateDate(props.timeEnd, 'HH:mm'));
 
-    const oneDayEvent = dateStart === dateEnd;
+    const oneDayEvent = computed(() => dateStart.value === dateEnd.value);
 
-    const eventDate = oneDayEvent ? dateStart : `${dateStart} - ${dateEnd}`;
+    const eventDate = computed(() =>
+      oneDayEvent.value ? dateStart : `${dateStart.value} - ${dateEnd.value}`,
+    );
 
-    const eventTime = `${start} - ${end}`;
+    const eventTime = computed(() => `${start.value} - ${end.value}`);
 
     return {
       eventDate,
