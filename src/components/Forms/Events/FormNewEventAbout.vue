@@ -90,8 +90,8 @@ export default defineComponent({
     const eventData = reactive({
       description: '',
       participants: 0,
-      budgetMin: undefined,
-      budgetMax: undefined,
+      budgetMin: 0,
+      budgetMax: 0,
       demographic: [],
       keywords: [],
     });
