@@ -1,6 +1,6 @@
 <template>
   <router-link :to="{ name: 'Event', params: { id: eventId } }">
-    <v-btn small>
+    <v-btn :small="small" :text="text" :class="classes">
       View
     </v-btn>
   </router-link>
@@ -15,6 +15,18 @@ export default defineComponent({
     eventId: {
       type: String,
       required: true,
+    },
+    small: {
+      type: Boolean,
+      default: true,
+    },
+    text: {
+      type: Boolean,
+      default: false,
+    },
+    classes: {
+      type: String,
+      default: '',
     },
   },
 });
