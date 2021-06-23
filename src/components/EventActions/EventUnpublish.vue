@@ -1,5 +1,5 @@
 <template>
-  <v-btn class="warning" :small="$route.name !== 'Event'" @click="$emit('unpublishEvent', event)">
+  <v-btn class="warning" :small="$route.name !== 'Event'" @click="$emit('publishEvent', event)">
     Unpublish
   </v-btn>
 </template>

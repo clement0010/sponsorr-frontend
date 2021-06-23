@@ -13,7 +13,7 @@
       <v-list-item v-if="eventCategory.name === EventGroup.Published">
         <EventUnpublish
           :event="event"
-          @unpublishEvent="(payload) => $emit('unpublishEvent', payload)"
+          @publishEvent="(payload) => $emit('unpublishEvent', payload)"
         />
       </v-list-item>
       <v-list-item v-if="eventCategory.name !== EventGroup.Matched">

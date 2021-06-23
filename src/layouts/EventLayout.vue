@@ -22,12 +22,12 @@
           <EventUnpublish
             v-if="event.matches < 1 && event.published"
             :event="event"
-            @publishEvent="(payload) => $emit('publishEvent', payload)"
+            @publishEvent="$emit('publishEvent', { status: 'draft', published: false })"
           />
           <EventPublish
             v-if="!event.published"
             :event="event"
-            @publishEvent="(payload) => $emit('publishEvent', payload)"
+            @publishEvent="$emit('publishEvent', { status: 'published', published: true })"
           />
           <EventDelete
             v-if="event.matches < 1"
