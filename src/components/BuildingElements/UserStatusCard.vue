@@ -1,7 +1,9 @@
 <template>
   <v-card flat>
-    <v-card-title>{{ username }}</v-card-title>
-    <v-card-subtitle>{{ role }}</v-card-subtitle>
+    <v-card-title>{{ username.toUpperCase() }}</v-card-title>
+    <v-card-subtitle>{{
+      role === 'EventOrganiser' ? 'Event Organiser' : 'Sponsor'
+    }}</v-card-subtitle>
   </v-card>
 </template>
 
