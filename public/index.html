@@ -17,7 +17,7 @@
   </head>
   <body>
     <script>
-      self.FIREBASE_APPCHECK_DEBUG_TOKEN = true;
+      self.FIREBASE_APPCHECK_DEBUG_TOKEN = <%= process.env.NODE_ENV === 'development' %>;
     </script>
     <noscript>
       <strong
