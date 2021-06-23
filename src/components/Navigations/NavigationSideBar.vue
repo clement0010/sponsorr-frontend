@@ -1,6 +1,7 @@
 <template>
   <v-navigation-drawer :value="drawer" absolute temporary height="94vh">
-    <UserStatusCard />
+    <p v-if="!profile"></p>
+    <UserStatusCard v-else :role="profile.role" :username="profile.name" />
     <v-divider />
     <v-list nav>
       <v-list-item-group v-model="selected" color="primary" mandatory>
@@ -67,8 +68,9 @@
 
 <script lang="ts">
 import useAuth from '@/composable/authComposition';
-import { ref, defineComponent, onMounted } from '@vue/composition-api';
+import { ref, defineComponent, onMounted, watch } from '@vue/composition-api';
 import UserStatusCard from '@/components/BuildingElements/UserStatusCard.vue';
+import useProfile from '@/composable/profileComposition';
 
 export default defineComponent({
   name: 'NavigationSideBar',
@@ -86,7 +88,16 @@ export default defineComponent({
     },
   },
   setup(_, { root }) {
-    const { signout } = useAuth();
+    const { signout, uid, authenticated, loading } = useAuth();
+    const { profile, fetchUserProfile } = useProfile();
+
+    watch(authenticated, async () => {
+      if (authenticated) {
+        console.log('fetching user');
+        await fetchUserProfile(uid.value);
+      }
+    });
+
     const selected = ref(0);
 
     const userSignout = () => {
@@ -116,6 +127,9 @@ export default defineComponent({
     return {
       selected,
       userSignout,
+      authenticated,
+      loading,
+      profile,
     };
   },
 });
