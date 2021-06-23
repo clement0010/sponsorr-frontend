@@ -15,8 +15,8 @@
 
 <script lang="ts">
 import AuthenticationLayout from '@/layouts/AuthenticationLayout.vue';
-import FormSignUpOrganiser from '@/components/Forms/FormSignUpOrganiser.vue';
-import FormSignUpSponsor from '@/components/Forms/FormSignUpSponsor.vue';
+import FormSignUpOrganiser from '@/components/Forms/Authentication/FormSignUpOrganiser.vue';
+import FormSignUpSponsor from '@/components/Forms/Authentication/FormSignUpSponsor.vue';
 
 import { defineComponent } from '@vue/composition-api';
 

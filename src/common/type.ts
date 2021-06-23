@@ -1,3 +1,5 @@
+import { MatchStatus, Messages } from '@/types';
+
 /* eslint-disable */
 type PathImpl<T, K extends keyof T> = K extends string
   ? T[K] extends Record<string, any>
@@ -22,4 +24,11 @@ export type UpdateData<T extends object> = Partial<
   {
     [TKey in Path<T>]: PathValue<T, TKey>;
   }
->;
+  >;
+
+  export interface MatchedJunction {
+    userId: string;
+    eventId: string;
+    status: MatchStatus;
+    messages: Messages;
+  }

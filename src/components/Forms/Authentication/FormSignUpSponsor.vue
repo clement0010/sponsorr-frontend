@@ -7,8 +7,8 @@
         </router-link>
       </v-col>
     </v-row>
-    <v-card light class="pa-5">
-      <v-card-title> sign up as event organiser </v-card-title>
+    <v-card class="pa-5">
+      <v-card-title> sign up as sponsor </v-card-title>
       <v-form ref="form" v-model="valid">
         <v-text-field
           v-model="user.name"
@@ -35,14 +35,18 @@
           :rules="[requireInputRule, validEmailRule]"
         />
 
-        <v-text-field
+        <vue-tel-input-vuetify
           v-model="user.phoneNumber"
           outlined
           required
-          hint="required"
+          hint="Required"
           label="phone number"
-          type="number"
-          :rules="[requireInputRule]"
+          placeholder=""
+          autocomplete
+          :only-countries="['SG']"
+          :mode="'international'"
+          :valid-characters-only="true"
+          :rules="[requireInputRule, numericsOnlyRule]"
         />
 
         <v-text-field
@@ -94,12 +98,7 @@
       </v-row>
     </v-card>
 
-    <!-- Spinner -->
-    <div v-if="loading" class="text-center">
-      <v-overlay>
-        <v-progress-circular indeterminate size="64" />
-      </v-overlay>
-    </div>
+    <Spinner :loading="loading" />
   </v-container>
 </template>
 
@@ -107,12 +106,13 @@
 import { requireInputRule, validEmailRule, passwordLengthRule } from '@/common/validation';
 import { defineComponent, reactive } from '@vue/composition-api';
 import useAuth from '@/composable/authComposition';
-import { EventOrganiser } from '@/types';
-import LogoSponsorr from '../BuildingElements/LogoSponsorr.vue';
+import { Sponsor } from '@/types';
+import Spinner from '@/components/BuildingElements/Spinner.vue';
+import LogoSponsorr from '../../BuildingElements/LogoSponsorr.vue';
 
 export default defineComponent({
-  name: 'FormSignUpOrganiser',
-  components: { LogoSponsorr },
+  name: 'FormSignUpSponsor',
+  components: { LogoSponsorr, Spinner },
   setup(_, { root, emit }) {
     const logoWidth = 250;
 
@@ -140,11 +140,11 @@ export default defineComponent({
       e.preventDefault();
 
       const { email, password } = user;
-      const userMetadata: EventOrganiser = {
+      const userMetadata: Sponsor = {
         about: 'Fill in your bio',
         keywords: [],
         displayPicture: '',
-        role: 'EventOrganiser',
+        role: 'Sponsor',
         contact: {
           location: 'Insert your location here',
           websiteUrl: 'Insert your website url here',
@@ -183,7 +183,6 @@ export default defineComponent({
       error,
       loading,
 
-      // Routing
       authenticateUser,
     };
   },

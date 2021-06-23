@@ -2,7 +2,6 @@
 dist
 assets
 node_modules
-functions/**
 .husky/**
 
 
@@ -16,6 +15,7 @@ functions/**
 
 # Files to exclude
 package-lock.json
+.vscode
 .gitignore
 .editorconfig
 .prettierignore
@@ -24,6 +24,6 @@ package-lock.json
 .firebaserc
 firestore.rules
 storage.rules
-__test__
-netlify.toml
+tests/**/**
 favicon.ico
+src/common/type.ts

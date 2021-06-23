@@ -1,5 +1,5 @@
 <template>
-  <v-dialog v-model="dialog" max-width="600px">
+  <v-dialog v-model="dialog" max-width="500px">
     <template #activator="{ on, attrs }">
       <v-btn icon class="mx-5" v-bind="attrs" v-on="on">
         <v-icon color="black"> mdi-pencil </v-icon>
@@ -7,47 +7,38 @@
     </template>
 
     <v-form>
-      <v-card light>
+      <v-card>
         <v-card-title>
-          <span class="headline"> Edit Keywords </span>
+          <span class="headline">
+            Edit Keywords
+          </span>
         </v-card-title>
 
         <v-card-text>
-          <v-chip-group column class="px-4">
-            <v-chip
-              v-for="(keyword, index) in input"
-              :key="keyword"
-              close
-              @click:close="removeKeyword(index)"
-            >
-              {{ keyword }}
-            </v-chip>
-          </v-chip-group>
-
-          <v-text-field
-            v-model="keywordInput"
-            class="px-4"
-            dense
+          <v-combobox
+            v-model="input"
             outlined
-            label="Type here and hit 'enter' to save"
-            @keydown.enter="addKeyword"
+            label="Keywords"
+            chips
+            multiple
+            placeholder="Type away and hit 'enter' to save the keyword"
           />
         </v-card-text>
 
-        <v-card-actions>
-          <v-spacer />
+        <v-card-text class="text-right">
           <v-btn class="error" rounded text @click="cancel"> Cancel </v-btn>
-          <v-btn class="success" rounded text @click="edit"> Save </v-btn>
-        </v-card-actions>
+          <v-btn class="success" rounded text :disabled="duplicate" @click="edit"> Save </v-btn>
+        </v-card-text>
       </v-card>
     </v-form>
   </v-dialog>
 </template>
 
 <script lang="ts">
-import { defineComponent, ref, toRefs } from '@vue/composition-api';
+import { computed, defineComponent, ref } from '@vue/composition-api';
 
 export default defineComponent({
+  name: 'EditProfileKeywordsButton',
   props: {
     keywords: {
       type: Array as () => string[],
@@ -55,32 +46,30 @@ export default defineComponent({
     },
   },
   setup(props, { emit }) {
-    const { keywords } = toRefs(props);
-    const input = keywords.value;
-
-    const keywordInput = ref('');
     const dialog = ref(false); // Dialog is closed by default
+
+    const input = ref(props.keywords);
+
+    const duplicate = computed(
+      () =>
+        props.keywords
+          .map((keyword) => input.value.includes(keyword))
+          .reduce((accumulator, currentValue) => accumulator && currentValue, true) &&
+        input.value
+          .map((keyword) => props.keywords.includes(keyword))
+          .reduce((accumulator, currentValue) => accumulator && currentValue, true),
+    );
 
     const cancel = () => {
       dialog.value = false; // Closes dialog
+      input.value = props.keywords; // Reset
     };
 
     const edit = () => {
       dialog.value = false; // Closes dialog
       emit('edit-keywords', {
-        keywords: input,
+        keywords: input.value,
       });
-    };
-
-    const removeKeyword = (index: number): void => {
-      input.splice(index, 1);
-    };
-
-    const addKeyword = (e: Event): void => {
-      e.preventDefault();
-
-      input.push(keywordInput.value);
-      keywordInput.value = '';
     };
 
     return {
@@ -88,9 +77,7 @@ export default defineComponent({
       cancel,
       edit,
       input,
-      removeKeyword,
-      addKeyword,
-      keywordInput,
+      duplicate,
     };
   },
 });

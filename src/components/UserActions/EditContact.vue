@@ -7,7 +7,7 @@
     </template>
 
     <v-form ref="form" v-model="valid">
-      <v-card light>
+      <v-card>
         <v-card-title>
           <span class="headline"> Edit Contact Details </span>
         </v-card-title>
@@ -53,6 +53,7 @@ export default defineComponent({
     },
     phoneNumber: {
       type: String,
+      required: true,
     },
   },
   setup(props, { emit }) {
@@ -71,7 +72,8 @@ export default defineComponent({
 
     const edit = () => {
       dialog.value = false; // Closes dialog
-      // eslint-disable-next-line no-shadow
+
+      // eslint-disable-next-line @typescript-eslint/no-shadow
       const { location, websiteUrl, phoneNumber } = input;
       emit('edit-contact', {
         contact: {

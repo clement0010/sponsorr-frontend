@@ -1,6 +1,15 @@
-import { initializeTestApp, clearFirestoreData, loadFirestoreRules, apps, assertFails, assertSucceeds, firestore } from '@firebase/rules-unit-testing';
-import { readFileSync, createWriteStream } from 'fs';
-import { get } from 'http';
+/* eslint-disable import/extensions */
+import {
+  initializeTestApp,
+  clearFirestoreData,
+  apps,
+  assertFails,
+  assertSucceeds,
+  firestore,
+} from '@firebase/rules-unit-testing';
+// eslint-disable-next-line import/no-unresolved
+// import { writeFileSync } from 'fs';
+// import { get } from 'http';
 
 /**
  * The emulator will accept any project ID for testing.
@@ -13,10 +22,13 @@ const PROJECT_ID = '1016952785325';
  */
 const COVERAGE_URL = `http://${process.env.FIRESTORE_EMULATOR_HOST}/emulator/v1/projects/${PROJECT_ID}:ruleCoverage.html`;
 
+interface Auth {
+  uid: string;
+}
 /**
  * Creates a new client FirebaseApp with authentication and returns the Firestore instance.
  */
-function getAuthedFirestore(auth) {
+function getAuthedFirestore(auth: Auth | undefined) {
   return initializeTestApp({ projectId: PROJECT_ID, auth }).firestore();
 }
 
@@ -27,31 +39,31 @@ beforeEach(async () => {
 
 before(async () => {
   // Load the rules file before the tests begin
-  const rules = readFileSync('firestore.rules', 'utf8');
-  await loadFirestoreRules({ projectId: PROJECT_ID, rules });
+  // const rules = fs.readFileSync('firestore.rules', 'utf8');
+  // await loadFirestoreRules({ projectId: PROJECT_ID, rules });
 });
 
 after(async () => {
   // Delete all the FirebaseApp instances created during testing
   // Note: this does not affect or clear any data
-  await Promise.all(apps().map(app => app.delete()));
+  await Promise.all(apps().map((app) => app.delete()));
 
   // Write the coverage report to a file
   const coverageFile = 'firestore-coverage.html';
-  const fstream = createWriteStream(coverageFile);
+  // const fstream = fs.createWriteStream(coverageFile);
 
-  get(COVERAGE_URL, res => {
-    res.pipe(fstream, { end: true });
-    res.on('end', resolve);
-    res.on('error', reject);
-  });
+  // get(COVERAGE_URL, (res) => {
+  //   res.pipe(fstream, { end: true });
+  //   res.on('end', resolve);
+  //   res.on('error', reject);
+  // });
 
   console.log(`View firestore rule coverage information at ${coverageFile}\n`);
 });
 
 describe('My app', () => {
   it('require users to log in before creating a profile', async () => {
-    const db = getAuthedFirestore(null);
+    const db = getAuthedFirestore(undefined);
     const profile = db.collection('users').doc('alice');
     await assertFails(profile.set({ birthday: 'January 1' }));
   });
@@ -64,7 +76,7 @@ describe('My app', () => {
       profile.set({
         birthday: 'January 1',
         createdAt: firestore.FieldValue.serverTimestamp(),
-      })
+      }),
     );
   });
 
@@ -77,7 +89,7 @@ describe('My app', () => {
         .set({
           birthday: 'January 1',
           createdAt: firestore.FieldValue.serverTimestamp(),
-        })
+        }),
     );
     await assertFails(
       db
@@ -86,12 +98,12 @@ describe('My app', () => {
         .set({
           birthday: 'January 1',
           createdAt: firestore.FieldValue.serverTimestamp(),
-        })
+        }),
     );
   });
 
   it('should let anyone read any profile', async () => {
-    const db = getAuthedFirestore(null);
+    const db = getAuthedFirestore(undefined);
     const profile = db.collection('users').doc('alice');
     await assertSucceeds(profile.get());
   });
@@ -103,7 +115,7 @@ describe('My app', () => {
       room.set({
         owner: 'alice',
         topic: 'All Things Firebase',
-      })
+      }),
     );
   });
 
@@ -114,7 +126,7 @@ describe('My app', () => {
       room.set({
         owner: 'scott',
         topic: 'Firebase Rocks!',
-      })
+      }),
     );
   });
 
@@ -129,7 +141,7 @@ describe('My app', () => {
         .set({
           owner: 'bob',
           topic: 'All Things Snowboarding',
-        })
+        }),
     );
 
     await assertFails(
@@ -139,7 +151,7 @@ describe('My app', () => {
         .set({
           owner: 'alice',
           topic: 'skiing > snowboarding',
-        })
+        }),
     );
   });
 });

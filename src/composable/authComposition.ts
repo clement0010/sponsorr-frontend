@@ -1,3 +1,5 @@
+import Vue from 'vue';
+
 import { ref, computed } from '@vue/composition-api';
 import { auth } from '@/common/firebase';
 import { EventOrganiser, FirebaseUser, Sponsor } from '@/types';
@@ -18,6 +20,7 @@ export default function useAuth() {
       console.log('Im logged out!');
       return;
     }
+    Vue.prototype.$uid = uid;
     userInfo.value = user;
     uid.value = user.uid;
     console.log('Auth State:', user);
@@ -97,6 +100,7 @@ export default function useAuth() {
     userInfo: computed(() => userInfo.value),
     uid: computed(() => uid.value),
     userAuthState,
+
     signup,
     signout,
     login,

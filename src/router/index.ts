@@ -26,7 +26,7 @@ const routes: Array<RouteConfig> = [
   {
     path: '/recover-account',
     name: 'RecoverAccount',
-    component: () => import(/* webpackChunkName: "recoverAccount" */ '@/views/RecoverAccount.vue'),
+    component: () => import(/* webpackChunkName: "recoverAccount" */ '@/views/404.vue'),
   },
   {
     path: '/profile/:id',
@@ -34,6 +34,54 @@ const routes: Array<RouteConfig> = [
     component: () => import(/* webpackChunkName: "profile" */ '@/views/Profile.vue'),
     meta: { requiresAuth: true },
     beforeEnter: authGuard,
+  },
+  {
+    path: '/dashboard',
+    name: 'Dashboard',
+    component: () => import(/* webpackChunkName: "dashboard" */ '@/views/Dashboard.vue'),
+    // To be enabled
+    // meta: { requiresAuth: true },
+    // beforeEnter: authGuard,
+  },
+  {
+    path: '/marketplace',
+    name: 'Marketplace',
+    component: () => import(/* webpackChunkName: "marketplace" */ '@/views/404.vue'),
+    // To be enabled
+    // meta: { requiresAuth: true },
+    // beforeEnter: authGuard,
+  },
+  {
+    path: '/settings',
+    name: 'Settings',
+    component: () => import(/* webpackChunkName: "settings" */ '@/views/404.vue'),
+    // To be enabled
+    // meta: { requiresAuth: true },
+    // beforeEnter: authGuard,
+  },
+  {
+    path: '/new-event',
+    name: 'NewEvent',
+    component: () => import(/* webpackChunkName: "newEvent" */ '@/views/NewEvent.vue'),
+    // To be enabled
+    // meta: { requiresAuth: true },
+    // beforeEnter: authGuard,
+  },
+  {
+    path: '/matches',
+    name: 'Matches',
+    component: () => import(/* webpackChunkName: "matches" */ '@/views/Matches.vue'),
+    // To be enabled
+    // meta: { requiresAuth: true },
+    // beforeEnter: authGuard,
+  },
+  {
+    path: '/event/:id',
+    name: 'Event',
+    component: () => import(/* webpackChunkName: "event" */ '@/views/Event.vue'),
+    // To be enabled
+    // meta: { requiresAuth: true },
+    // beforeEnter: authGuard,
   },
   {
     path: '/playground',

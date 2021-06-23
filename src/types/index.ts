@@ -21,6 +21,7 @@ export interface Profile extends User {
   contact: Contact;
   keywords: string[];
   displayPicture: string;
+  role: Role;
 }
 
 export interface EventOrganiser extends Profile {
@@ -28,4 +29,92 @@ export interface EventOrganiser extends Profile {
 }
 export interface Sponsor extends Profile {
   role: Role;
+}
+
+export type EventStatus = 'draft' | 'published' | 'matched';
+
+interface Budget {
+  maximum: number;
+  minimum: number;
+}
+
+interface EventDate {
+  start: number;
+  end: number;
+}
+
+export interface SponsorEvent {
+  budget: Budget;
+  clicks: number;
+  createdAt: number;
+  date: EventDate;
+  demographic: string[];
+  description: string;
+  documents: string;
+  eventSize: number;
+  keywords: string[];
+  matches: number;
+  picture: string;
+  published: boolean;
+  status: EventStatus;
+  title: string;
+  userId: string;
+  venue: string;
+  views: number;
+}
+
+export interface SponsorEventDbItem extends SponsorEvent {
+  eventId: string;
+}
+
+export type SponsorEventDbItems = SponsorEventDbItem[];
+
+export type SponsorEvents = SponsorEvent[];
+
+interface Header {
+  text: string;
+  value: string;
+  sortable?: boolean;
+  align?: string;
+}
+
+export interface EventCategory {
+  name: EventStatus;
+  loaded: boolean;
+  headers: Header[];
+  contents: SponsorEventDbItems;
+  fallback: string;
+}
+
+export interface SponsorRequest {
+  itemName: string;
+  description: string;
+  valueInSGD: string;
+}
+
+export type MatchStatus = 'pending' | 'rejected' | 'accepted';
+
+export interface Message {
+  message: string;
+  timestamp: number;
+}
+
+export type Messages = Message[];
+
+export interface Match {
+  userId: string;
+  eventId: string;
+  status: MatchStatus;
+  event: SponsorEvent;
+  messages?: Messages;
+}
+
+export type Matches = Match[];
+
+export interface MatchCategory {
+  name: MatchStatus;
+  loaded: boolean;
+  headers: Header[];
+  contents: Match[];
+  fallback: string;
 }

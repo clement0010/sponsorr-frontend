@@ -1,6 +1,8 @@
 <template>
   <v-snackbar :color="status" :value="activate">
-    {{ message }}
+    <v-row justify="center">
+      {{ message }}
+    </v-row>
   </v-snackbar>
 </template>
 
