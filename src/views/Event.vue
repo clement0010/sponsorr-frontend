@@ -46,9 +46,10 @@ export default defineComponent({
     };
 
     const publish = async (payload: SponsorEvent) => {
+      const message = payload.status === 'published' ? 'Event published' : 'Event unpublished';
       try {
-        await updateEventStatus(eventId, payload.status);
-        emit('success', 'Event published');
+        await updateEventStatus(eventId, payload.status, payload.published);
+        emit('success', message);
       } catch (err) {
         emit('alert', 'Process failed');
       }

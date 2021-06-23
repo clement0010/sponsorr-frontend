@@ -59,10 +59,16 @@ export default function useEvent() {
     }
   };
 
-  const updateEventStatus = async (eventId: string, status: EventStatus) => {
+  const updateEventStatus = async (eventId: string, status: EventStatus, published: boolean) => {
     try {
+      if (!event.value) {
+        console.log('No event to update');
+        return;
+      }
       loading.value = true;
-      await updateEventStatusToDb(eventId, status);
+      await updateEventStatusToDb(eventId, status, published);
+      event.value.status = status;
+      event.value.published = published;
     } catch (err) {
       console.error(err);
       error.value = true;
