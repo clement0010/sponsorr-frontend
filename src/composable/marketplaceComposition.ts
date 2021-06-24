@@ -4,6 +4,7 @@ import { ref } from '@vue/composition-api';
 // eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types
 export default function useMarketplace() {
   const loading = ref(false);
+  const error = ref(false);
 
   const searchSponsor = async (input: string): Promise<Sponsor[] | undefined> => {
     return [
@@ -225,6 +226,7 @@ export default function useMarketplace() {
 
   return {
     loading,
+    error,
     searchSponsor,
     searchEvent,
   };

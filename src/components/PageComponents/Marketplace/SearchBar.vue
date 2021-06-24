@@ -79,7 +79,7 @@ export default defineComponent({
     },
     role: {
       type: String as () => Role,
-      default: () => 'EventOrganiser',
+      required: true,
     },
   },
   setup(props) {
