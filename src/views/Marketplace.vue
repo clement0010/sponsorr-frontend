@@ -5,7 +5,7 @@
     <MarketplaceLayout
       v-if="!error && role"
       :loading="loading"
-      :search-result="searchResult"
+      :search-result="events"
       :input="userInput"
       :role="role"
       :authenticated="authenticated"
@@ -16,7 +16,7 @@
 </template>
 
 <script lang="ts">
-import { computed, defineComponent, onMounted, Ref, ref } from '@vue/composition-api';
+import { computed, defineComponent, onMounted, Ref, ref, watch } from '@vue/composition-api';
 import { Role, Sponsor, SponsorEventDbItems } from '@/types';
 import useMarketplace from '@/composable/marketplaceComposition';
 import BasePage from '@/layouts/BasePage.vue';
@@ -33,7 +33,7 @@ export default defineComponent({
     Spinner,
   },
   setup() {
-    const { loading, error: marketplaceError, searchSponsor, searchEvent } = useMarketplace();
+    const { loading, error: marketplaceError, searchEvent, initialise, events } = useMarketplace();
     const { profile, error: profileError, fetchUserProfile } = useProfile();
     const { authenticated, uid } = useAuth();
 
@@ -43,8 +43,11 @@ export default defineComponent({
     const error = computed(() => marketplaceError.value || profileError.value);
 
     onMounted(async () => {
-      console.log(authenticated.value);
-      if (authenticated.value) {
+      await initialise();
+    });
+
+    watch(authenticated, async () => {
+      if (authenticated) {
         loading.value = true;
         await fetchUserProfile(uid.value);
         role.value = profile.value?.role;
@@ -57,17 +60,28 @@ export default defineComponent({
     const searchResult: Ref<Sponsor[] | SponsorEventDbItems | undefined> = ref([]);
 
     const search = async (input: string) => {
+      if (!input) {
+        await initialise();
+
+        return;
+      }
+
+      if (criteria.value === 'budget') {
+        console.log('Not ready yet. To be extended');
+        return;
+      }
+
       switch (role.value) {
         case 'EventOrganiser':
-          searchResult.value = await searchSponsor(input, criteria.value);
+          console.log('Not available at this stage');
+          await searchEvent(input, criteria.value);
           break;
         case 'Sponsor':
-          searchResult.value = await searchEvent(input, criteria.value);
+          await searchEvent(input, criteria.value);
           break;
         default:
           break;
       }
-      userInput.value = input;
     };
 
     const searchCriteria = (input: string) => {
@@ -82,7 +96,7 @@ export default defineComponent({
       role,
       error,
       searchCriteria,
-      authenticated,
+      events,
     };
   },
 });

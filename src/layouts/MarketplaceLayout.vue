@@ -18,13 +18,7 @@
         </v-col>
       </v-row>
       <v-row>
-        <SearchResult
-          v-if="input"
-          :input="input"
-          :search-result="searchResult"
-          :role="role"
-          :authenticated="authenticated"
-        />
+        <SearchResult :input="input" :search-result="searchResult" :role="role" />
       </v-row>
     </v-container>
   </v-container>
