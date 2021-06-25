@@ -6,8 +6,12 @@ export default function useMarketplace() {
   const loading = ref(false);
   const error = ref(false);
 
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  const searchSponsor = async (input: string): Promise<Sponsor[] | undefined> => {
+  const searchSponsor = async (
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
+    input: string,
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
+    criteria?: string,
+  ): Promise<Sponsor[] | undefined> => {
     return [
       {
         name: 'Sample Sponsor',
@@ -92,8 +96,12 @@ export default function useMarketplace() {
     ];
   };
 
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  const searchEvent = async (input: string): Promise<SponsorEventDbItems | undefined> => {
+  const searchEvent = async (
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
+    input: string,
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
+    criteria?: string,
+  ): Promise<SponsorEventDbItems | undefined> => {
     return [
       {
         title: 'Sample Event',

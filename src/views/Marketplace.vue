@@ -9,6 +9,7 @@
       :input="userInput"
       :role="role"
       @search="search"
+      @search-criteria="searchCriteria"
     />
   </BasePage>
 </template>
@@ -37,6 +38,7 @@ export default defineComponent({
 
     const role: Ref<Role | undefined> = ref();
     const userInput = ref('');
+    const criteria = ref('');
     const error = computed(() => marketplaceError.value || profileError.value);
 
     watch(authenticated, async () => {
@@ -53,15 +55,19 @@ export default defineComponent({
     const search = async (input: string) => {
       switch (role.value) {
         case 'EventOrganiser':
-          searchResult.value = await searchSponsor(input);
+          searchResult.value = await searchSponsor(input, criteria.value);
           break;
         case 'Sponsor':
-          searchResult.value = await searchEvent(input);
+          searchResult.value = await searchEvent(input, criteria.value);
           break;
         default:
           break;
       }
       userInput.value = input;
+    };
+
+    const searchCriteria = (input: string) => {
+      criteria.value = input;
     };
 
     return {
@@ -71,6 +77,7 @@ export default defineComponent({
       userInput: computed(() => userInput.value),
       role,
       error,
+      searchCriteria,
     };
   },
 });
