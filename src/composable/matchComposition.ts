@@ -23,6 +23,7 @@ export default function useMatch() {
     try {
       loading.value = true;
 
+      // uid is sponsor id
       pendingCategory.contents = await getAllMatchedEventFromDb(uid, MatchGroup.Pending);
 
       pendingCategory.loaded = true;
