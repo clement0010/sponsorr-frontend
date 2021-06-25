@@ -3,6 +3,7 @@
     <v-card-title class="text-h4">
       Keywords
       <EditEventKeywords
+        v-if="isOwner"
         :keywords="keywords"
         @edit-keywords="(payload) => $emit('edit', payload)"
       />
@@ -40,6 +41,10 @@ export default defineComponent({
         'Corporate',
         'Dinner',
       ],
+    },
+    isOwner: {
+      type: Boolean,
+      required: true,
     },
   },
 });

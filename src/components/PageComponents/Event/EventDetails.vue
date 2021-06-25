@@ -3,6 +3,7 @@
     <v-card-title class="text-h4">
       Details
       <EditEventDetails
+        v-if="isOwner"
         :date-start="editDateStart"
         :date-end="editDateEnd"
         :time-start="editStart"
@@ -59,6 +60,10 @@ export default defineComponent({
     EditEventDetails,
   },
   props: {
+    isOwner: {
+      type: Boolean,
+      required: true,
+    },
     timeStart: {
       type: Number,
       required: true,

@@ -3,6 +3,7 @@
     <v-card-title class="text-h4">
       Description
       <EditEventDescription
+        v-if="isOwner"
         :description="description"
         @edit-description="(payload) => $emit('edit', payload)"
       />
@@ -32,6 +33,10 @@ export default defineComponent({
                 reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla 
                 pariatur. Excepteur sint occaecat cupidatat non proident, sunt in 
                 culpa qui officia deserunt mollit anim id est laborum`,
+    },
+    isOwner: {
+      type: Boolean,
+      required: true,
     },
   },
 });

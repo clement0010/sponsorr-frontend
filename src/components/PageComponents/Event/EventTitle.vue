@@ -2,7 +2,11 @@
   <div>
     <v-card-title class="text-h2 text-wrap">
       {{ title }}
-      <EditEventTitle :title="title" @edit-title="(payload) => $emit('edit', payload)" />
+      <EditEventTitle
+        v-if="isOwner"
+        :title="title"
+        @edit-title="(payload) => $emit('edit', payload)"
+      />
     </v-card-title>
   </div>
 </template>
@@ -17,6 +21,10 @@ export default defineComponent({
     EditEventTitle,
   },
   props: {
+    isOwner: {
+      type: Boolean,
+      required: true,
+    },
     title: {
       type: String,
       default: 'Some Default Event',
