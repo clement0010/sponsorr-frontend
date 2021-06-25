@@ -1,5 +1,5 @@
 <template>
-  <v-navigation-drawer :value="drawer" absolute temporary height="94vh">
+  <v-navigation-drawer :value="drawer" temporary absolute>
     <p v-if="!profile"></p>
     <UserStatusCard v-else :role="profile.role" :username="profile.name" />
     <v-divider />
