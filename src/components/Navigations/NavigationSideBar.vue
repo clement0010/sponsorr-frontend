@@ -93,7 +93,6 @@ export default defineComponent({
 
     watch(authenticated, async () => {
       if (authenticated) {
-        console.log('fetching user');
         await fetchUserProfile(uid.value);
       }
     });

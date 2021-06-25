@@ -39,7 +39,9 @@
         </v-list>
 
         <div v-else>
-          <UserStatusCard />
+          <p v-if="!profile"></p>
+
+          <UserStatusCard v-else :role="profile.role" :username="profile.name" />
           <v-divider />
           <v-list nav>
             <v-list-item-group v-model="selected" color="primary" mandatory>
@@ -109,7 +111,8 @@
 
 <script lang="ts">
 import useAuth from '@/composable/authComposition';
-import { defineComponent, onMounted, ref } from '@vue/composition-api';
+import useProfile from '@/composable/profileComposition';
+import { defineComponent, onMounted, ref, watch } from '@vue/composition-api';
 import AuthenticationButton from '@/components/Authentication/AuthenticationButton.vue';
 import LogoSponsorr from '@/components/BuildingElements/LogoSponsorr.vue';
 import UserStatusCard from '@/components/BuildingElements/UserStatusCard.vue';
@@ -124,8 +127,14 @@ export default defineComponent({
   setup(_, { root, emit }) {
     const dialog = ref(false);
     const selected = ref(0);
+    const { signout, uid, authenticated, loading } = useAuth();
+    const { profile, fetchUserProfile } = useProfile();
 
-    const { signout, authenticated, uid } = useAuth();
+    watch(authenticated, async () => {
+      if (authenticated) {
+        await fetchUserProfile(uid.value);
+      }
+    });
 
     const toggleDialog = () => {
       dialog.value = !dialog.value;
@@ -165,6 +174,8 @@ export default defineComponent({
       userSignout,
       toggleDialog,
       selected,
+      loading,
+      profile,
     };
   },
 });
