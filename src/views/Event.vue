@@ -99,6 +99,9 @@ export default defineComponent({
         await fetchUserEvent(eventId);
         role.value = profile.value?.role;
         loading.value = false;
+        if (!isOwner.value && !error.value) {
+          await editEvent(eventId, { clicks: (event.value?.clicks || 0) + 1 });
+        }
       }
     });
 
