@@ -1,4 +1,4 @@
-import { Sponsor, SponsorEvent, SponsorEventDbItems } from '@/types';
+import { Sponsor, SponsorEventDbItems } from '@/types';
 import { ref } from '@vue/composition-api';
 
 // eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types
@@ -6,6 +6,7 @@ export default function useMarketplace() {
   const loading = ref(false);
   const error = ref(false);
 
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const searchSponsor = async (input: string): Promise<Sponsor[] | undefined> => {
     return [
       {
@@ -91,6 +92,7 @@ export default function useMarketplace() {
     ];
   };
 
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const searchEvent = async (input: string): Promise<SponsorEventDbItems | undefined> => {
     return [
       {

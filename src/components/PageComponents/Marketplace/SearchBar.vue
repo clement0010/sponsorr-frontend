@@ -71,6 +71,7 @@ export default defineComponent({
   props: {
     filter: {
       type: Function,
+      // eslint-disable-next-line @typescript-eslint/no-unused-vars
       default: (item: Sponsor, queryText: string, itemText: string) => true,
     },
     loading: {
