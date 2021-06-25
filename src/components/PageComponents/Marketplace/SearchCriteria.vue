@@ -15,10 +15,7 @@ export default defineComponent({
     },
   },
   setup(props, { emit }) {
-    const { role } = props;
-    const criteria = computed(() =>
-      role === 'Sponsor' ? ['Title', 'Budget', 'Keyword'] : ['Name', 'Keyword'],
-    );
+    const criteria = computed(() => ['title', 'budget', 'keywords']);
 
     const input = ref('');
 
