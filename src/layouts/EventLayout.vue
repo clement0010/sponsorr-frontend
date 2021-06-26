@@ -45,14 +45,12 @@
           <EventPublish
             v-if="!event.published && isOwner"
             :event="event"
-            :is-owner="isOwner"
             @publishEvent="$emit('publishEvent', { status: 'published', published: true })"
           />
           <EventDelete
             v-if="event.matches < 1 && isOwner"
             :event-id="eventId"
             :title="event.title"
-            :is-owner="isOwner"
             @deleteEvent="(payload) => $emit('deleteEvent', payload)"
           />
           <EventApply v-if="role === 'Sponsor'" @apply="(input) => $emit('apply', input)" />
