@@ -4,7 +4,7 @@
     <v-row v-if="searchResult">
       <v-col v-for="(result, index) in searchResult" :key="index">
         <SponsorCard v-if="role === 'EventOrganiser'" :sponsor="result" />
-        <EventCard v-else :event="result" />
+        <EventCard v-else :event="result" :authenticated="authenticated" />
       </v-col>
     </v-row>
   </v-container>
@@ -33,6 +33,10 @@ export default defineComponent({
     },
     role: {
       type: String as () => Role,
+      required: true,
+    },
+    authenticated: {
+      type: Boolean,
       required: true,
     },
   },

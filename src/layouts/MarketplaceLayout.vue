@@ -18,7 +18,13 @@
         </v-col>
       </v-row>
       <v-row>
-        <SearchResult v-if="input" :input="input" :search-result="searchResult" :role="role" />
+        <SearchResult
+          v-if="input"
+          :input="input"
+          :search-result="searchResult"
+          :role="role"
+          :authenticated="authenticated"
+        />
       </v-row>
     </v-container>
   </v-container>
@@ -54,6 +60,10 @@ export default defineComponent({
     searchResult: {
       type: Array as () => Sponsor[] | SponsorEventDbItems,
       default: () => [],
+    },
+    authenticated: {
+      type: Boolean,
+      required: true,
     },
   },
 });

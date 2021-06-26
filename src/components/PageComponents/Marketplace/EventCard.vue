@@ -11,12 +11,20 @@
       {{ event.description }}
     </v-card-text>
     <v-card-actions>
-      <EventView :event-id="event.eventId" :small="false" :text="true" :classes="'primary--text'" />
+      <EventView
+        v-if="authenticated"
+        :event-id="event.eventId"
+        :small="false"
+        :text="true"
+        :classes="'primary--text'"
+      />
+      <AuthenticationPrompt />
     </v-card-actions>
   </v-card>
 </template>
 
 <script lang="ts">
+import AuthenticationPrompt from '@/components/Authentication/AuthenticationPrompt.vue';
 import EventView from '@/components/EventActions/EventView.vue';
 import { SponsorEventDbItem } from '@/types';
 import { defineComponent } from '@vue/composition-api';
@@ -24,11 +32,16 @@ import { defineComponent } from '@vue/composition-api';
 export default defineComponent({
   name: 'EventCard',
   components: {
+    AuthenticationPrompt,
     EventView,
   },
   props: {
     event: {
       type: Object as () => SponsorEventDbItem,
+      required: true,
+    },
+    authenticated: {
+      type: Boolean,
       required: true,
     },
   },

@@ -3,11 +3,12 @@
     <Spinner :loading="loading && !error" />
     <p v-if="error">Error</p>
     <MarketplaceLayout
-      v-if="role && !error"
+      v-if="!error && role"
       :loading="loading"
       :search-result="searchResult"
       :input="userInput"
       :role="role"
+      :authenticated="authenticated"
       @search="search"
       @search-criteria="searchCriteria"
     />
@@ -15,7 +16,7 @@
 </template>
 
 <script lang="ts">
-import { computed, defineComponent, Ref, ref, watch } from '@vue/composition-api';
+import { computed, defineComponent, onMounted, Ref, ref } from '@vue/composition-api';
 import { Role, Sponsor, SponsorEventDbItems } from '@/types';
 import useMarketplace from '@/composable/marketplaceComposition';
 import BasePage from '@/layouts/BasePage.vue';
@@ -41,12 +42,15 @@ export default defineComponent({
     const criteria = ref('');
     const error = computed(() => marketplaceError.value || profileError.value);
 
-    watch(authenticated, async () => {
-      if (authenticated) {
+    onMounted(async () => {
+      console.log(authenticated.value);
+      if (authenticated.value) {
         loading.value = true;
         await fetchUserProfile(uid.value);
         role.value = profile.value?.role;
         loading.value = false;
+      } else {
+        role.value = 'Sponsor';
       }
     });
 
@@ -78,6 +82,7 @@ export default defineComponent({
       role,
       error,
       searchCriteria,
+      authenticated,
     };
   },
 });
