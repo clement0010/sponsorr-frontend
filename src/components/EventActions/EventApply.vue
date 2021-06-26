@@ -48,7 +48,7 @@ export default defineComponent({
   setup(_, { emit }) {
     const dialog = ref(false);
     const valid = ref(false);
-    const disabled = ref(true);
+    const disabled = ref(false);
 
     const prompt = computed(() => (disabled.value ? 'Application Closed' : 'Apply'));
 
