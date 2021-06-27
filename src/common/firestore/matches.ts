@@ -18,17 +18,23 @@ export const getAllMatchedEventFromDb = async (
   matches = await db.matches.where('userId', '==', userId).get();
 
   const matchedEvents: Matches = [];
-  matches.docs
-    .filter((doc) => doc.exists)
-    .forEach(async (doc) => {
-      const event = await getEventFromDb(doc.data().eventId);
-      if (!event) return;
-      const matchedEvent: Match = {
-        event,
-        ...doc.data(),
-      };
-      matchedEvents.push(matchedEvent);
-    });
+  const filteredMatches = matches.docs.filter((doc) => doc.exists);
+
+  // eslint-disable-next-line no-restricted-syntax
+  for (const match of filteredMatches) {
+    // eslint-disable-next-line no-await-in-loop
+    const event = await getEventFromDb(match.data().eventId);
+
+    if (!event) break;
+    const matchedEvent: Match = {
+      event,
+      ...match.data(),
+    };
+    console.log(matchedEvent);
+    matchedEvents.push(matchedEvent);
+  }
+
+  console.log(matchedEvents);
 
   return matchedEvents;
 };
