@@ -18,7 +18,7 @@
         :text="true"
         :classes="'primary--text'"
       />
-      <AuthenticationPrompt />
+      <AuthenticationPrompt v-else />
     </v-card-actions>
   </v-card>
 </template>
