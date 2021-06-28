@@ -16,13 +16,24 @@
           </v-list-item>
         </router-link>
 
-        <router-link :to="{ name: 'Dashboard' }">
+        <router-link v-if="profile.role === 'EventOrganiser'" :to="{ name: 'Dashboard' }">
           <v-list-item>
             <v-list-item-icon>
               <v-icon>mdi-view-dashboard</v-icon>
             </v-list-item-icon>
             <v-list-item-content>
               Dashboard
+            </v-list-item-content>
+          </v-list-item>
+        </router-link>
+
+        <router-link :to="{ name: 'Matches' }">
+          <v-list-item>
+            <v-list-item-icon>
+              <v-icon>mdi-account-supervisor-circle-outline</v-icon>
+            </v-list-item-icon>
+            <v-list-item-content>
+              Matches
             </v-list-item-content>
           </v-list-item>
         </router-link>
@@ -68,7 +79,7 @@
 
 <script lang="ts">
 import useAuth from '@/composable/authComposition';
-import { ref, defineComponent, onMounted, watch } from '@vue/composition-api';
+import { ref, defineComponent, watch } from '@vue/composition-api';
 import UserStatusCard from '@/components/BuildingElements/UserStatusCard.vue';
 import useProfile from '@/composable/profileComposition';
 
@@ -90,14 +101,48 @@ export default defineComponent({
   setup(_, { root }) {
     const { signout, uid, authenticated, loading } = useAuth();
     const { profile, fetchUserProfile } = useProfile();
+    const selected = ref(0);
 
     watch(authenticated, async () => {
       if (authenticated) {
         await fetchUserProfile(uid.value);
       }
+      if (profile.value?.role === 'EventOrganiser') {
+        switch (root.$route.name) {
+          case 'Profile':
+            selected.value = 0;
+            break;
+          case 'Dashboard':
+            selected.value = 1;
+            break;
+          case 'Matches':
+            selected.value = 2;
+            break;
+          case 'Marketplace':
+            selected.value = 3;
+            break;
+          default:
+            selected.value = 4;
+            break;
+        }
+      }
+      if (profile.value?.role === 'Sponsor') {
+        switch (root.$route.name) {
+          case 'Profile':
+            selected.value = 0;
+            break;
+          case 'Matches':
+            selected.value = 1;
+            break;
+          case 'Marketplace':
+            selected.value = 2;
+            break;
+          default:
+            selected.value = 3;
+            break;
+        }
+      }
     });
-
-    const selected = ref(0);
 
     const userSignout = () => {
       signout();
@@ -105,23 +150,6 @@ export default defineComponent({
         name: 'Home',
       });
     };
-
-    onMounted(() => {
-      switch (root.$route.name) {
-        case 'Profile':
-          selected.value = 0;
-          break;
-        case 'Dashboard':
-          selected.value = 1;
-          break;
-        case 'Marketplace':
-          selected.value = 2;
-          break;
-        default:
-          selected.value = 3;
-          break;
-      }
-    });
 
     return {
       selected,
