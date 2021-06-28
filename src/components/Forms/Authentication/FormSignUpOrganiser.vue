@@ -154,7 +154,10 @@ export default defineComponent({
           location: 'Insert your location here',
           websiteUrl: 'Insert your website url here',
         },
-        ...user,
+        name: user.name,
+        email: user.email,
+        phoneNumber: user.phoneNumber,
+        uen: user.uen,
       };
       try {
         const uid: string = await signup(email, password, userMetadata);
