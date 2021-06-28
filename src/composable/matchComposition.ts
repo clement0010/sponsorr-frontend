@@ -22,7 +22,6 @@ export default function useMatch() {
   const initialise = async (uid: string): Promise<void> => {
     try {
       loading.value = true;
-
       // uid is sponsor id
       pendingCategory.contents = await getAllMatchedEventFromDb(uid, MatchGroup.Pending);
 

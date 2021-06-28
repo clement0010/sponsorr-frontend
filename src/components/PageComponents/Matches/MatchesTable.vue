@@ -21,6 +21,10 @@
           <template #no-data>
             {{ matchCategory.fallback }}
           </template>
+
+          <template #[`item.event.date`]="{ item }">
+            {{ generateDateRangeFromUnixTimeRange([item.start, item.end], 'DD MMM YYYY') }}
+          </template>
         </v-data-table>
       </v-tab-item>
     </v-tabs-items>
@@ -30,6 +34,7 @@
 <script lang="ts">
 import { MatchCategory } from '@/types';
 import { defineComponent, ref } from '@vue/composition-api';
+import { generateDateRangeFromUnixTimeRange } from '@/common/utils';
 
 export default defineComponent({
   name: 'MatchesTable',
@@ -40,14 +45,17 @@ export default defineComponent({
     },
     loading: {
       type: Boolean,
-      default: true,
+      required: true,
     },
   },
   setup() {
     // Tab switching
     const tab = ref(null);
 
-    return { tab };
+    return {
+      tab,
+      generateDateRangeFromUnixTimeRange,
+    };
   },
 });
 </script>

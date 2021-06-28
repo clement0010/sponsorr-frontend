@@ -6,12 +6,16 @@ export const pendingCategory: MatchCategory = {
   loaded: false,
   headers: [
     {
-      text: 'Event Title',
-      value: 'title',
+      text: 'Event',
+      value: 'event.title',
     },
     {
-      text: 'Sponsor',
-      value: 'sponsorID',
+      text: 'Date',
+      value: 'event.date',
+    },
+    {
+      text: 'Venue',
+      value: 'event.venue',
     },
     {
       text: 'Actions',
@@ -28,12 +32,16 @@ export const acceptedCategory: MatchCategory = {
   loaded: false,
   headers: [
     {
-      text: 'Event Title',
-      value: 'title',
+      text: 'Event',
+      value: 'event.title',
     },
     {
-      text: 'Sponsor',
-      value: 'sponsorID',
+      text: 'Date',
+      value: 'event.date',
+    },
+    {
+      text: 'Venue',
+      value: 'event.venue',
     },
     {
       text: 'Actions',
@@ -50,12 +58,16 @@ export const rejectedCategory: MatchCategory = {
   loaded: false,
   headers: [
     {
-      text: 'Event Title',
-      value: 'title',
+      text: 'Event',
+      value: 'event.title',
     },
     {
-      text: 'Sponsor',
-      value: 'sponsorID',
+      text: 'Date',
+      value: 'event.date',
+    },
+    {
+      text: 'Venue',
+      value: 'event.venue',
     },
     {
       text: 'Actions',

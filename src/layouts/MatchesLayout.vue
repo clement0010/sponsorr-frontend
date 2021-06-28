@@ -29,11 +29,11 @@ export default defineComponent({
   props: {
     matchCategories: {
       type: Array as () => MatchCategory[],
-      default: () => [],
+      required: true,
     },
     loading: {
       type: Boolean,
-      default: true,
+      required: true,
     },
   },
 });

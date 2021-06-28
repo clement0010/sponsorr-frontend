@@ -70,7 +70,11 @@ export default defineComponent({
     // Tab switching
     const tab = ref(null);
 
-    return { tab, generateDateRangeFromUnixTimeRange, EventGroup };
+    return {
+      tab,
+      generateDateRangeFromUnixTimeRange,
+      EventGroup,
+    };
   },
 });
 </script>

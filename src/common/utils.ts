@@ -47,6 +47,9 @@ export const generateDateRangeFromUnixTimeRange = (
   unixTimeRange: number[],
   format: string,
 ): string => {
+  if (generateDate(unixTimeRange[0]) === generateDate(unixTimeRange[1])) {
+    unixTimeRange.pop();
+  }
   return unixTimeRange.map((unixTime) => generateDate(unixTime, format)).join(' - ');
 };
 
