@@ -25,6 +25,8 @@ import Spinner from '@/components/BuildingElements/Spinner.vue';
 import useEvent from '@/composable/eventComposition';
 import useProfile from '@/composable/profileComposition';
 import useAuth from '@/composable/authComposition';
+import useMarketplace from '@/composable/marketplaceComposition';
+import { generateUnixTime } from '@/common';
 
 export default defineComponent({
   name: 'Event',
@@ -45,6 +47,7 @@ export default defineComponent({
     } = useEvent();
     const { profile, fetchUserProfile } = useProfile();
     const { uid, authenticated } = useAuth();
+    const { applyEvent } = useMarketplace();
 
     const isOwner = computed(() => event.value?.userId === uid.value);
     const role: Ref<Role | undefined> = ref();
@@ -85,7 +88,7 @@ export default defineComponent({
     const sendApplication = async (payload: string) => {
       try {
         emit('success', 'Sending application');
-        console.log(payload);
+        await applyEvent(eventId, uid.value, [{ message: payload, timestamp: generateUnixTime() }]);
         emit('success', 'Application sent');
       } catch (err) {
         emit('alert', 'Send application failed');
