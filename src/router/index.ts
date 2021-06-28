@@ -48,7 +48,7 @@ const routes: Array<RouteConfig> = [
     path: '/marketplace',
     name: 'Marketplace',
     component: () => import(/* webpackChunkName: "marketplace" */ '@/views/Marketplace.vue'),
-    meta: { requiresAuth: true, authorize: [Role.Sponsor] },
+    meta: { requiresAuth: true },
     // To be enabled
     beforeEnter: authGuard,
   },
