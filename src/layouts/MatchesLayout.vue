@@ -10,6 +10,8 @@
         <MatchesTable
           :match-categories="matchCategories"
           @fetchMatches="(matchCategory) => $emit('fetchMatches', matchCategory)"
+          @acceptMatch="(payload) => $emit('acceptMatch', payload)"
+          @rejectMatch="(payload) => $emit('rejectMatch', payload)"
         />
       </v-row>
     </v-container>
