@@ -9,3 +9,8 @@ export enum MatchGroup {
   Rejected = 'rejected',
   Accepted = 'accepted',
 }
+
+export enum Role {
+  Sponsor = 'Sponsor',
+  Organiser = 'EventOrganiser',
+}

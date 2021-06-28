@@ -15,13 +15,18 @@
     </template>
 
     <v-card width="auto">
-      <v-card-title> sign up as </v-card-title>
-      <v-card-actions>
+      <v-card-title class="justify-center">
+        sign up as
+      </v-card-title>
+      <v-card-actions class="justify-center">
         <router-link :to="{ name: 'SignUp', params: { role: 'event-organiser' } }">
           <v-btn class="accent1">
             <span class="white--text">Event Organiser</span>
           </v-btn>
         </router-link>
+
+        <v-divider vertical class="mx-3" />
+
         <router-link :to="{ name: 'SignUp', params: { role: 'sponsor' } }">
           <v-btn class="accent2">
             <span class="white--text">Sponsor</span>
@@ -40,7 +45,6 @@ export default defineComponent({
   props: {
     color: {
       type: String,
-      requred: true,
       default: 'white',
     },
   },

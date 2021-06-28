@@ -1,19 +1,32 @@
 <template>
   <BasePage>
-    <Spinner v-if="loading && !error" />
-    <p v-else-if="error">Error loading event</p>
-    <EventLayout v-else :event="event" @deleteEvent="remove" @publishEvent="publish" @edit="edit" />
+    <Spinner :loading="loading && !error" />
+    <p v-if="error">Error loading event</p>
+    <EventLayout
+      v-if="role && !(error || loading)"
+      :event="event"
+      :is-owner="isOwner"
+      :role="role"
+      @deleteEvent="remove"
+      @publishEvent="publish"
+      @edit="edit"
+      @apply="sendApplication"
+    />
   </BasePage>
 </template>
 
 <script lang="ts">
-import { defineComponent, onMounted } from '@vue/composition-api';
-import { SponsorEvent } from '@/types';
+import { computed, defineComponent, Ref, ref, watch } from '@vue/composition-api';
+import { Role, SponsorEvent } from '@/types';
 
 import BasePage from '@/layouts/BasePage.vue';
 import EventLayout from '@/layouts/EventLayout.vue';
 import Spinner from '@/components/BuildingElements/Spinner.vue';
 import useEvent from '@/composable/eventComposition';
+import useProfile from '@/composable/profileComposition';
+import useAuth from '@/composable/authComposition';
+import useMarketplace from '@/composable/marketplaceComposition';
+import { generateUnixTime } from '@/common';
 
 export default defineComponent({
   name: 'Event',
@@ -32,6 +45,12 @@ export default defineComponent({
       editEvent,
       updateEventStatus,
     } = useEvent();
+    const { profile, fetchUserProfile } = useProfile();
+    const { uid, authenticated } = useAuth();
+    const { applyEvent } = useMarketplace();
+
+    const isOwner = computed(() => event.value?.userId === uid.value);
+    const role: Ref<Role | undefined> = ref();
 
     const eventId = root.$route.params.id;
 
@@ -65,8 +84,28 @@ export default defineComponent({
       }
     };
 
-    onMounted(async () => {
-      await fetchUserEvent(eventId);
+    // TODO: Send logic
+    const sendApplication = async (payload: string) => {
+      try {
+        emit('success', 'Sending application');
+        await applyEvent(eventId, uid.value, [{ message: payload, timestamp: generateUnixTime() }]);
+        emit('success', 'Application sent');
+      } catch (err) {
+        emit('alert', 'Send application failed');
+      }
+    };
+
+    watch(authenticated, async () => {
+      if (authenticated.value) {
+        loading.value = true;
+        await fetchUserProfile(uid.value);
+        await fetchUserEvent(eventId);
+        role.value = profile.value?.role;
+        loading.value = false;
+        if (!isOwner.value && !error.value) {
+          await editEvent(eventId, { clicks: (event.value?.clicks || 0) + 1 });
+        }
+      }
     });
 
     return {
@@ -76,6 +115,9 @@ export default defineComponent({
       publish,
       edit,
       remove,
+      isOwner,
+      role,
+      sendApplication,
     };
   },
 });

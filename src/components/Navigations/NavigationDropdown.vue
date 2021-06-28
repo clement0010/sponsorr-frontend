@@ -39,7 +39,9 @@
         </v-list>
 
         <div v-else>
-          <UserStatusCard />
+          <p v-if="!profile"></p>
+
+          <UserStatusCard v-else :role="profile.role" :username="profile.name" />
           <v-divider />
           <v-list nav>
             <v-list-item-group v-model="selected" color="primary" mandatory>
@@ -54,13 +56,24 @@
                 </v-list-item>
               </router-link>
 
-              <router-link :to="{ name: 'Dashboard' }">
+              <router-link v-if="profile.role === 'EventOrganiser'" :to="{ name: 'Dashboard' }">
                 <v-list-item>
                   <v-list-item-icon>
                     <v-icon>mdi-view-dashboard</v-icon>
                   </v-list-item-icon>
                   <v-list-item-content>
                     Dashboard
+                  </v-list-item-content>
+                </v-list-item>
+              </router-link>
+
+              <router-link v-if="profile.role === 'Sponsor'" :to="{ name: 'Matches' }">
+                <v-list-item>
+                  <v-list-item-icon>
+                    <v-icon>mdi-account-supervisor-circle-outline</v-icon>
+                  </v-list-item-icon>
+                  <v-list-item-content>
+                    Matches
                   </v-list-item-content>
                 </v-list-item>
               </router-link>
@@ -109,7 +122,8 @@
 
 <script lang="ts">
 import useAuth from '@/composable/authComposition';
-import { defineComponent, onMounted, ref } from '@vue/composition-api';
+import useProfile from '@/composable/profileComposition';
+import { defineComponent, ref, watch } from '@vue/composition-api';
 import AuthenticationButton from '@/components/Authentication/AuthenticationButton.vue';
 import LogoSponsorr from '@/components/BuildingElements/LogoSponsorr.vue';
 import UserStatusCard from '@/components/BuildingElements/UserStatusCard.vue';
@@ -124,8 +138,46 @@ export default defineComponent({
   setup(_, { root, emit }) {
     const dialog = ref(false);
     const selected = ref(0);
+    const { signout, uid, authenticated, loading } = useAuth();
+    const { profile, fetchUserProfile } = useProfile();
 
-    const { signout, authenticated, uid } = useAuth();
+    watch(authenticated, async () => {
+      if (authenticated) {
+        await fetchUserProfile(uid.value);
+      }
+      if (profile.value?.role === 'EventOrganiser') {
+        switch (root.$route.name) {
+          case 'Profile':
+            selected.value = 0;
+            break;
+          case 'Dashboard':
+            selected.value = 1;
+            break;
+          case 'Marketplace':
+            selected.value = 2;
+            break;
+          default:
+            selected.value = 3;
+            break;
+        }
+      }
+      if (profile.value?.role === 'Sponsor') {
+        switch (root.$route.name) {
+          case 'Profile':
+            selected.value = 0;
+            break;
+          case 'Matches':
+            selected.value = 1;
+            break;
+          case 'Marketplace':
+            selected.value = 2;
+            break;
+          default:
+            selected.value = 3;
+            break;
+        }
+      }
+    });
 
     const toggleDialog = () => {
       dialog.value = !dialog.value;
@@ -141,23 +193,6 @@ export default defineComponent({
       });
     };
 
-    onMounted(() => {
-      switch (root.$route.name) {
-        case 'Profile':
-          selected.value = 0;
-          break;
-        case 'Dashboard':
-          selected.value = 1;
-          break;
-        case 'Marketplace':
-          selected.value = 2;
-          break;
-        default:
-          selected.value = 3;
-          break;
-      }
-    });
-
     return {
       dialog,
       authenticated,
@@ -165,6 +200,8 @@ export default defineComponent({
       userSignout,
       toggleDialog,
       selected,
+      loading,
+      profile,
     };
   },
 });

@@ -1,6 +1,6 @@
 <template>
   <v-card>
-    <v-hover>
+    <v-hover :disabled="!isOwner">
       <template #default="{ hover }">
         <v-card class="mx-auto">
           <v-img v-if="picture" :src="picture" height="150" />
@@ -17,6 +17,7 @@
       </template>
     </v-hover>
     <EditEventPicture
+      v-if="isOwner"
       :dialog="dialog"
       @toggle="toggleDialog"
       @edit-picture="(payload) => $emit('edit', payload)"
@@ -34,6 +35,10 @@ export default defineComponent({
     EditEventPicture,
   },
   props: {
+    isOwner: {
+      type: Boolean,
+      required: true,
+    },
     picture: {
       type: String,
       default: '',

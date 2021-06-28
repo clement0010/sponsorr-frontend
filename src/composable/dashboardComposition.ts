@@ -19,9 +19,9 @@ export default function useDashboard() {
     try {
       loading.value = true;
 
-      draftsCategory.contents = await getUserEventByStatusFromDb(uid, EventGroup.Draft);
+      publishedCategory.contents = await getUserEventByStatusFromDb(uid, EventGroup.Published);
 
-      draftsCategory.loaded = true;
+      publishedCategory.loaded = true;
     } catch (err) {
       console.error(err);
       throw new Error(err);

@@ -1,5 +1,5 @@
 <template>
-  <v-footer padless>
+  <v-footer padless absolute>
     <v-container fill-height>
       <v-row align="center" justify="center">
         <v-col cols="auto" order="first"> NUS Orbital 2021 </v-col>

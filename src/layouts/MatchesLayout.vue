@@ -9,7 +9,10 @@
       <v-row justify="center">
         <MatchesTable
           :match-categories="matchCategories"
+          :loading="loading"
           @fetchMatches="(matchCategory) => $emit('fetchMatches', matchCategory)"
+          @acceptMatch="(payload) => $emit('acceptMatch', payload)"
+          @rejectMatch="(payload) => $emit('rejectMatch', payload)"
         />
       </v-row>
     </v-container>
@@ -29,11 +32,11 @@ export default defineComponent({
   props: {
     matchCategories: {
       type: Array as () => MatchCategory[],
-      default: () => [],
+      required: true,
     },
     loading: {
       type: Boolean,
-      default: true,
+      required: true,
     },
   },
 });

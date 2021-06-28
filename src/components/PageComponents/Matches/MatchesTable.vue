@@ -21,6 +21,20 @@
           <template #no-data>
             {{ matchCategory.fallback }}
           </template>
+
+          <template #[`item.actions`]="{ item }">
+            <MatchAccept :match="item" @acceptMatch="(payload) => $emit('acceptMatch', payload)" />
+            <MatchReject :match="item" @rejectMatch="(payload) => $emit('rejectMatch', payload)" />
+          </template>
+
+          <template #[`item.event.date`]="{ item }">
+            {{
+              generateDateRangeFromUnixTimeRange(
+                [item.event.date.start, item.event.date.end],
+                'DD MMM YYYY',
+              )
+            }}
+          </template>
         </v-data-table>
       </v-tab-item>
     </v-tabs-items>
@@ -30,9 +44,16 @@
 <script lang="ts">
 import { MatchCategory } from '@/types';
 import { defineComponent, ref } from '@vue/composition-api';
+import { generateDateRangeFromUnixTimeRange } from '@/common/utils';
+import MatchAccept from '@/components/MatchActions/MatchAccept.vue';
+import MatchReject from '@/components/MatchActions/MatchReject.vue';
 
 export default defineComponent({
   name: 'MatchesTable',
+  components: {
+    MatchAccept,
+    MatchReject,
+  },
   props: {
     matchCategories: {
       type: Array as () => MatchCategory[],
@@ -40,14 +61,17 @@ export default defineComponent({
     },
     loading: {
       type: Boolean,
-      default: true,
+      required: true,
     },
   },
   setup() {
     // Tab switching
     const tab = ref(null);
 
-    return { tab };
+    return {
+      tab,
+      generateDateRangeFromUnixTimeRange,
+    };
   },
 });
 </script>

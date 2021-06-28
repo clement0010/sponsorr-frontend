@@ -31,4 +31,6 @@ export type UpdateData<T extends object> = Partial<
     eventId: string;
     status: MatchStatus;
     messages: Messages;
+    organiserStatus: MatchStatus;
+    sponsorStatus: MatchStatus
   }

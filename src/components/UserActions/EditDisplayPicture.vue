@@ -1,10 +1,5 @@
 <template>
-  <v-dialog v-model="dialog" max-width="600px">
-    <template #activator="{ on, attrs }">
-      <v-btn icon class="mx-5" v-bind="attrs" v-on="on">
-        <v-icon color="black"> mdi-pencil </v-icon>
-      </v-btn>
-    </template>
+  <v-dialog :value="dialog" width="500">
     <v-form>
       <v-card>
         <v-card-title> Edit Display Picture </v-card-title>
@@ -13,8 +8,20 @@
         </v-card-text>
         <v-card-actions>
           <v-spacer />
-          <v-btn class="error" rounded text @click="cancel"> Cancel </v-btn>
-          <v-btn class="success" rounded text @click="edit"> Save </v-btn>
+          <v-btn class="error" rounded text @click="toggle"> Cancel </v-btn>
+          <v-btn
+            class="success"
+            rounded
+            text
+            @click="
+              {
+                edit();
+                toggle();
+              }
+            "
+          >
+            Save
+          </v-btn>
         </v-card-actions>
       </v-card>
     </v-form>
@@ -32,26 +39,28 @@ export default defineComponent({
       type: String,
       default: () => '',
     },
+    dialog: {
+      type: Boolean,
+      default: false,
+    },
   },
   setup(props, { emit }) {
     const input = ref(props.urlPic);
-    const dialog = ref(false); // Dialog is closed by default
 
-    const cancel = () => {
-      dialog.value = false; // Closes dialog
+    const toggle = () => {
+      emit('toggle');
+      input.value = props.urlPic;
     };
 
     const edit = () => {
-      dialog.value = false; // Closes dialog
       emit('edit-display-picture', {
         displayPicture: input.value,
       });
     };
 
     return {
-      dialog,
-      cancel,
       edit,
+      toggle,
       input,
       validURLRule,
     };

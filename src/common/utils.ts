@@ -1,3 +1,4 @@
+import Fuse from 'fuse.js';
 import dayjs from 'dayjs';
 import customParseFormat from 'dayjs/plugin/customParseFormat';
 
@@ -46,6 +47,9 @@ export const generateDateRangeFromUnixTimeRange = (
   unixTimeRange: number[],
   format: string,
 ): string => {
+  if (generateDate(unixTimeRange[0]) === generateDate(unixTimeRange[1])) {
+    unixTimeRange.pop();
+  }
   return unixTimeRange.map((unixTime) => generateDate(unixTime, format)).join(' - ');
 };
 
@@ -66,4 +70,13 @@ export const parseTime = (time: string): string => {
 
 export const parseUserEventId = (userId: string, eventId: string): string => {
   return `${userId}#${eventId}`;
+};
+
+export const fuzzySearchArray = <T>(
+  list: T[],
+  inputs: string,
+  options: Fuse.IFuseOptions<T>,
+): Fuse.FuseResult<T>[] => {
+  const fuse = new Fuse(list, options);
+  return fuse.search(inputs);
 };

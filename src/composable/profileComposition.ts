@@ -1,7 +1,7 @@
 import { computed, ref } from '@vue/composition-api';
 
 import { getUserProfileFromDb, updateUserProfileFromDb } from '@/common/firestore/profile';
-import { Profile } from '@/types';
+import { Profile, Role } from '@/types';
 
 // eslint-disable-next-line
 export default function useProfile() {
@@ -19,6 +19,22 @@ export default function useProfile() {
       profile.value = userProfile;
       loading.value = false;
       error.value = false;
+    } catch (err) {
+      console.error(err);
+      error.value = true;
+    }
+  };
+
+  const getRole = async (uid: string): Promise<Role | undefined> => {
+    try {
+      loading.value = true;
+      await fetchUserProfile(uid);
+      if (!profile.value) {
+        throw new Error('Failed to fetch user profile data');
+      }
+      loading.value = false;
+      error.value = false;
+      return profile.value.role;
     } catch (err) {
       console.error(err);
       error.value = true;
@@ -47,6 +63,7 @@ export default function useProfile() {
     profile: computed(() => profile.value),
     fetchUserProfile,
     editUserProfile,
+    getRole,
     loading,
     error,
   };
