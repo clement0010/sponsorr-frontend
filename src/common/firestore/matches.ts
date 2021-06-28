@@ -1,4 +1,4 @@
-import { Match, Matches, MatchStatus, Message } from '@/types';
+import { Match, Matches, MatchStatus, Message, Role } from '@/types';
 import { UpdateData } from '../type';
 import { getEventFromDb } from './event';
 import { db } from './utils';
@@ -6,19 +6,31 @@ import { db } from './utils';
 // eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types
 export const getAllMatchedEventFromDb = async (
   userId: string,
+  role?: Role,
   status?: MatchStatus,
 ): Promise<Matches> => {
   let matches;
-  if (!status) {
+  if (role && status) {
+    // ToDo: Extend this part
+    // const roleStatus = role === 'Sponsor' ? 'sponsorStatus' : 'organiserStatus';
     matches = await db.matches
       .where('userId', '==', userId)
       .where('status', '==', status)
       .get();
   }
-  matches = await db.matches.where('userId', '==', userId).get();
+  if (!role && status) {
+    matches = await db.matches
+      .where('userId', '==', userId)
+      .where('status', '==', status)
+      .get();
+  }
+
+  if (!role && !status) {
+    matches = await db.matches.where('userId', '==', userId).get();
+  }
 
   const matchedEvents: Matches = [];
-  const filteredMatches = matches.docs.filter((doc) => doc.exists);
+  const filteredMatches = matches?.docs.filter((doc) => doc.exists) || [];
 
   // eslint-disable-next-line no-restricted-syntax
   for (const match of filteredMatches) {
@@ -30,11 +42,8 @@ export const getAllMatchedEventFromDb = async (
       event,
       ...match.data(),
     };
-    console.log(matchedEvent);
     matchedEvents.push(matchedEvent);
   }
-
-  console.log(matchedEvents);
 
   return matchedEvents;
 };
@@ -49,8 +58,8 @@ export const updateMatchedEventStatusFromDb = async (
     status,
   };
 
-  if (!message) {
-    updateData.messages = message;
+  if (message) {
+    updateData.messages = [message];
   }
 
   await event.update(updateData);
