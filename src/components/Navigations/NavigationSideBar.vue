@@ -3,7 +3,7 @@
     <p v-if="!profile"></p>
     <UserStatusCard v-else :role="profile.role" :username="profile.name" />
     <v-divider />
-    <v-list nav>
+    <v-list v-if="profile" nav>
       <v-list-item-group v-model="selected" color="primary" mandatory>
         <router-link :to="{ name: 'Profile', params: { id } }">
           <v-list-item>

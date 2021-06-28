@@ -58,6 +58,7 @@ export default defineComponent({
       try {
         await editEvent(eventId, payload);
         emit('success', 'Successfully edited!');
+        root.$router.push({ name: 'Matches' });
       } catch (err) {
         emit('alert', 'Failed to edit!');
         console.error(err);
