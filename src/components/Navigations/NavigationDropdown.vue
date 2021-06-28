@@ -56,7 +56,7 @@
                 </v-list-item>
               </router-link>
 
-              <router-link :to="{ name: 'Dashboard' }">
+              <router-link v-if="profile.role === 'EventOrganiser'" :to="{ name: 'Dashboard' }">
                 <v-list-item>
                   <v-list-item-icon>
                     <v-icon>mdi-view-dashboard</v-icon>
@@ -67,7 +67,7 @@
                 </v-list-item>
               </router-link>
 
-              <router-link :to="{ name: 'Matches' }">
+              <router-link v-if="profile.role === 'Sponsor'" :to="{ name: 'Matches' }">
                 <v-list-item>
                   <v-list-item-icon>
                     <v-icon>mdi-account-supervisor-circle-outline</v-icon>
@@ -153,14 +153,11 @@ export default defineComponent({
           case 'Dashboard':
             selected.value = 1;
             break;
-          case 'Matches':
+          case 'Marketplace':
             selected.value = 2;
             break;
-          case 'Marketplace':
-            selected.value = 3;
-            break;
           default:
-            selected.value = 4;
+            selected.value = 3;
             break;
         }
       }

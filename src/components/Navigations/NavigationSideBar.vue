@@ -115,14 +115,11 @@ export default defineComponent({
           case 'Dashboard':
             selected.value = 1;
             break;
-          case 'Matches':
+          case 'Marketplace':
             selected.value = 2;
             break;
-          case 'Marketplace':
-            selected.value = 3;
-            break;
           default:
-            selected.value = 4;
+            selected.value = -1;
             break;
         }
       }
@@ -138,7 +135,7 @@ export default defineComponent({
             selected.value = 2;
             break;
           default:
-            selected.value = 3;
+            selected.value = -1;
             break;
         }
       }
