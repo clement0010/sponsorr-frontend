@@ -48,5 +48,7 @@ export const applyEventToDb = async (
     userId,
     messages: matchMessages,
     status: 'pending',
+    organiserStatus: 'pending',
+    sponsorStatus: 'accepted',
   });
 };
