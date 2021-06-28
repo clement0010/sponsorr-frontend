@@ -17,8 +17,13 @@
           <SearchBar :loading="loading" :role="role" @search="(input) => $emit('search', input)" />
         </v-col>
       </v-row>
-      <v-row>
-        <SearchResult :input="input" :search-result="searchResult" :role="role" />
+      <v-row justify="center">
+        <SearchResult
+          :input="input"
+          :search-result="searchResult"
+          :role="role"
+          :authenticated="authenticated"
+        />
       </v-row>
     </v-container>
   </v-container>

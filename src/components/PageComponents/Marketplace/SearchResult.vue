@@ -3,7 +3,7 @@
     <v-card-title> {{ headline }} </v-card-title>
     <v-row v-if="searchResult">
       <v-col v-for="(result, index) in searchResult" :key="index">
-        <EventCard :event="result" />
+        <EventCard :event="result" :authenticated="authenticated" />
       </v-col>
     </v-row>
   </v-container>

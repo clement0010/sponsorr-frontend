@@ -97,6 +97,7 @@ export default defineComponent({
       error,
       searchCriteria,
       events,
+      authenticated,
     };
   },
 });
