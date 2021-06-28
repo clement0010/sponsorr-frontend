@@ -27,7 +27,7 @@
           </v-list-item>
         </router-link>
 
-        <router-link :to="{ name: 'Matches' }">
+        <router-link v-if="profile.role === 'Sponsor'" :to="{ name: 'Matches' }">
           <v-list-item>
             <v-list-item-icon>
               <v-icon>mdi-account-supervisor-circle-outline</v-icon>
