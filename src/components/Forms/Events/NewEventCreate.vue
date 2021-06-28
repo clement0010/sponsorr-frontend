@@ -1,11 +1,11 @@
 <template>
-  <v-btn :disabled="disabled" class="success" @click="create"> Create and Publish </v-btn>
+  <v-btn :disabled="disable" class="success" @click="create"> Create and Publish </v-btn>
 </template>
 
 <script lang="ts">
 import { generateUnixTime } from '@/common/utils';
 import { SponsorEvent } from '@/types';
-import { defineComponent } from '@vue/composition-api';
+import { defineComponent, toRefs } from '@vue/composition-api';
 import useEvent from '@/composable/eventComposition';
 import useAuth from '@/composable/authComposition';
 
@@ -17,12 +17,15 @@ export default defineComponent({
       default: true,
     },
   },
-  setup(_, { emit }) {
+  setup(props, { emit }) {
     const { createEvent } = useEvent();
 
     const { uid } = useAuth();
 
+    const { disabled: disable } = toRefs(props);
+
     const create = async () => {
+      disable.value = true;
       const data = JSON.parse(localStorage.getItem('data') || '');
 
       const newEvent: SponsorEvent = {
@@ -55,9 +58,10 @@ export default defineComponent({
       await createEvent(newEvent);
       localStorage.clear();
       emit('create');
+      disable.value = false;
     };
 
-    return { create };
+    return { create, disable };
   },
 });
 </script>
