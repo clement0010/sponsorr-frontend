@@ -3,18 +3,12 @@
 </template>
 
 <script lang="ts">
-import { Role } from '@/types';
 import { computed, defineComponent, ref, watch } from '@vue/composition-api';
 
 export default defineComponent({
   name: 'SearchCriteria',
-  props: {
-    role: {
-      type: String as () => Role,
-      required: true,
-    },
-  },
-  setup(props, { emit }) {
+
+  setup(_, { emit }) {
     const criteria = computed(() => ['title', 'budget', 'keywords']);
 
     const input = ref('');

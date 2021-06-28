@@ -1,37 +1,5 @@
 <template>
   <v-autocomplete
-    v-if="role === 'EventOrganiser'"
-    solo
-    rounded
-    class="my-3"
-    hide-no-data
-    placeholder="Search for sponsors"
-    :search-input.sync="input"
-    :loading="loading"
-    :items="sponsors"
-    :filter="filter"
-  >
-    <template #label>
-      Search for sponsors
-    </template>
-
-    <template #append>
-      <v-btn v-if="input" icon @click="clear">
-        <v-icon>
-          mdi-close
-        </v-icon>
-      </v-btn>
-
-      <v-btn icon :disabled="disabled" @click="$emit('search', input)">
-        <v-icon>
-          mdi-magnify
-        </v-icon>
-      </v-btn>
-    </template>
-  </v-autocomplete>
-
-  <v-autocomplete
-    v-else
     solo
     rounded
     class="my-3"
@@ -41,6 +9,7 @@
     :items="events"
     :filter="filter"
     placeholder="Search for events"
+    @keypress.enter="$emit('search', input)"
   >
     <template #label>
       Search for events
@@ -64,7 +33,7 @@
 
 <script lang="ts">
 import { defineComponent, ref, watch } from '@vue/composition-api';
-import { Role, Sponsor } from '@/types';
+import { Sponsor } from '@/types';
 
 export default defineComponent({
   name: 'SearchBar',
@@ -77,10 +46,6 @@ export default defineComponent({
     loading: {
       type: Boolean,
       default: true,
-    },
-    role: {
-      type: String as () => Role,
-      required: true,
     },
   },
   setup(props) {

@@ -10,7 +10,7 @@
 </template>
 
 <script lang="ts">
-import { Role, Sponsor, SponsorEventDbItems } from '@/types';
+import { Sponsor, SponsorEventDbItems } from '@/types';
 import { computed, defineComponent, toRefs } from '@vue/composition-api';
 import EventCard from '@/components/PageComponents/Marketplace/EventCard.vue';
 
@@ -28,10 +28,6 @@ export default defineComponent({
       type: Array as () => Sponsor[] | SponsorEventDbItems,
       default: () => [],
     },
-    role: {
-      type: String as () => Role,
-      required: true,
-    },
     authenticated: {
       type: Boolean,
       required: true,
@@ -41,6 +37,10 @@ export default defineComponent({
     const { searchResult, input } = toRefs(props);
 
     const headline = computed(() => {
+      // if (!input) {
+      //   return 'All Result:';
+      // }
+
       const numResults = searchResult.value.length;
       if (numResults === 0) {
         return `No results for "${input.value}"`;

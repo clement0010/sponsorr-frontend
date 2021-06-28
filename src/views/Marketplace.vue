@@ -1,13 +1,12 @@
 <template>
   <BasePage>
-    <Spinner :loading="loading && !error" />
     <p v-if="error">Error</p>
+    <Spinner v-if="loading" :loading="loading && !error" />
     <MarketplaceLayout
-      v-if="!error && role"
+      v-else
       :loading="loading"
       :search-result="events"
       :input="userInput"
-      :role="role"
       :authenticated="authenticated"
       @search="search"
       @search-criteria="searchCriteria"
@@ -16,12 +15,11 @@
 </template>
 
 <script lang="ts">
-import { computed, defineComponent, onMounted, Ref, ref, watch } from '@vue/composition-api';
-import { Role, Sponsor, SponsorEventDbItems } from '@/types';
+import { computed, defineComponent, onMounted, Ref, ref } from '@vue/composition-api';
+import { Sponsor, SponsorEventDbItems } from '@/types';
 import useMarketplace from '@/composable/marketplaceComposition';
 import BasePage from '@/layouts/BasePage.vue';
 import MarketplaceLayout from '@/layouts/MarketplaceLayout.vue';
-import useProfile from '@/composable/profileComposition';
 import useAuth from '@/composable/authComposition';
 import Spinner from '@/components/BuildingElements/Spinner.vue';
 
@@ -32,59 +30,45 @@ export default defineComponent({
     MarketplaceLayout,
     Spinner,
   },
-  setup() {
-    const { loading, error: marketplaceError, searchEvent, initialise, events } = useMarketplace();
-    const { profile, error: profileError, fetchUserProfile } = useProfile();
-    const { authenticated, uid } = useAuth();
+  setup(_, { emit }) {
+    const {
+      loading,
+      error: marketplaceError,
+      searchEvent,
+      initialise,
+      filteredEvents: events,
+    } = useMarketplace();
+    const { authenticated } = useAuth();
 
-    const role: Ref<Role | undefined> = ref();
     const userInput = ref('');
     const criteria = ref('');
-    const error = computed(() => marketplaceError.value || profileError.value);
+    const error = computed(() => marketplaceError.value);
 
     onMounted(async () => {
       await initialise();
     });
 
-    watch(authenticated, async () => {
-      if (authenticated) {
-        loading.value = true;
-        await fetchUserProfile(uid.value);
-        role.value = profile.value?.role;
-        loading.value = false;
-      } else {
-        role.value = 'Sponsor';
-      }
-    });
-
     const searchResult: Ref<Sponsor[] | SponsorEventDbItems | undefined> = ref([]);
 
     const search = async (input: string) => {
-      if (!input) {
-        await initialise();
-
+      if (!criteria.value) {
+        emit('alert', 'Please input criteria');
         return;
       }
 
       if (criteria.value === 'budget') {
-        console.log('Not ready yet. To be extended');
+        emit('alert', 'Not ready yet. To be extended');
         return;
       }
 
-      switch (role.value) {
-        case 'EventOrganiser':
-          console.log('Not available at this stage');
-          await searchEvent(input, criteria.value);
-          break;
-        case 'Sponsor':
-          await searchEvent(input, criteria.value);
-          break;
-        default:
-          break;
-      }
+      userInput.value = input;
+      await searchEvent(input, criteria.value);
     };
 
     const searchCriteria = (input: string) => {
+      if (!input) {
+        searchEvent('', input);
+      }
       criteria.value = input;
     };
 
@@ -93,7 +77,6 @@ export default defineComponent({
       search,
       searchResult: computed(() => searchResult.value),
       userInput: computed(() => userInput.value),
-      role,
       error,
       searchCriteria,
       events,

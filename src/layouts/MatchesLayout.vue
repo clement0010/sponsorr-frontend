@@ -9,6 +9,7 @@
       <v-row justify="center">
         <MatchesTable
           :match-categories="matchCategories"
+          :loading="loading"
           @fetchMatches="(matchCategory) => $emit('fetchMatches', matchCategory)"
           @acceptMatch="(payload) => $emit('acceptMatch', payload)"
           @rejectMatch="(payload) => $emit('rejectMatch', payload)"

@@ -9,13 +9,20 @@ export default function useMarketplace() {
   const error = ref(false);
   const events = ref<SponsorEventDbItems>([]);
 
+  const filteredEvents = ref<SponsorEventDbItems>([]);
+
   const initialise = async (): Promise<void> => {
     const eventDbItems = await getEventsFromDb();
     events.value = eventDbItems;
+    filteredEvents.value = eventDbItems;
   };
 
   const searchEvent = async (input: string, criteria: string): Promise<void> => {
-    events.value = fuzzySearchArray(events.value, input, {
+    if (!input || !criteria) {
+      filteredEvents.value = events.value;
+      return;
+    }
+    filteredEvents.value = fuzzySearchArray(events.value, input, {
       keys: [criteria],
     }).map((result) => result.item);
   };
@@ -34,6 +41,6 @@ export default function useMarketplace() {
     initialise,
     searchEvent,
     applyEvent,
-    events: computed(() => events.value),
+    filteredEvents: computed(() => filteredEvents.value),
   };
 }

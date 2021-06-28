@@ -6,12 +6,15 @@ import {
   updateMatchedEventStatusFromDb,
 } from '@/common';
 import { pendingCategory, rejectedCategory, acceptedCategory } from '@/common/matchesConfig';
-import { Match, MatchCategory, MatchStatus, Message } from '@/types';
+import { Match, MatchCategory, MatchStatus, Message, Role } from '@/types';
 import { MatchGroup } from '@/types/enum';
 
 // eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types
 export default function useMatch() {
   const loading = ref(true);
+
+  const storedRole = ref<Role>();
+  const id = ref<string>('');
 
   const matchCategories = ref<MatchCategory[]>([
     pendingCategory,
@@ -19,11 +22,13 @@ export default function useMatch() {
     acceptedCategory,
   ]);
 
-  const initialise = async (uid: string): Promise<void> => {
+  const initialise = async (uid: string, role: Role): Promise<void> => {
     try {
       loading.value = true;
       // uid is sponsor id
-      pendingCategory.contents = await getAllMatchedEventFromDb(uid, MatchGroup.Pending);
+      pendingCategory.contents = await getAllMatchedEventFromDb(uid, role, MatchGroup.Pending);
+      storedRole.value = role;
+      id.value = uid;
 
       pendingCategory.loaded = true;
     } catch (err) {
@@ -34,13 +39,17 @@ export default function useMatch() {
     }
   };
 
-  const fetchMatches = async (uid: string, matchCategory: MatchCategory): Promise<void> => {
+  const fetchMatches = async (matchCategory: MatchCategory): Promise<void> => {
     try {
       if (!matchCategory.loaded) {
         loading.value = true;
         const matchRef = matchCategory;
 
-        matchRef.contents = await getAllMatchedEventFromDb(uid, matchRef.name);
+        matchRef.contents = await getAllMatchedEventFromDb(
+          id.value,
+          storedRole.value,
+          matchRef.name,
+        );
 
         matchRef.loaded = true;
       }

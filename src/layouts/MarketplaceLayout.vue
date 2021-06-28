@@ -8,22 +8,14 @@
       </v-row>
       <v-row justify="center" align="center">
         <v-col cols="3">
-          <SearchCriteria
-            :role="role"
-            @search-criteria="(criteria) => $emit('search-criteria', criteria)"
-          />
+          <SearchCriteria @search-criteria="(criteria) => $emit('search-criteria', criteria)" />
         </v-col>
         <v-col>
-          <SearchBar :loading="loading" :role="role" @search="(input) => $emit('search', input)" />
+          <SearchBar :loading="loading" @search="(input) => $emit('search', input)" />
         </v-col>
       </v-row>
       <v-row justify="center">
-        <SearchResult
-          :input="input"
-          :search-result="searchResult"
-          :role="role"
-          :authenticated="authenticated"
-        />
+        <SearchResult :input="input" :search-result="searchResult" :authenticated="authenticated" />
       </v-row>
     </v-container>
   </v-container>
@@ -34,7 +26,7 @@ import { defineComponent } from '@vue/composition-api';
 import SearchBar from '@/components/PageComponents/Marketplace/SearchBar.vue';
 import SearchCriteria from '@/components/PageComponents/Marketplace/SearchCriteria.vue';
 import SearchResult from '@/components/PageComponents/Marketplace/SearchResult.vue';
-import { Role, Sponsor, SponsorEventDbItems } from '@/types';
+import { Sponsor, SponsorEventDbItems } from '@/types';
 
 export default defineComponent({
   name: 'MarketplaceLayout',
@@ -47,10 +39,6 @@ export default defineComponent({
     loading: {
       type: Boolean,
       default: true,
-    },
-    role: {
-      type: String as () => Role,
-      required: true,
     },
     input: {
       type: String,
