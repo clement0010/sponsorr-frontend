@@ -1,3 +1,4 @@
+import { Role } from '@/types/enum';
 import Home from '@/views/Home.vue';
 import Vue from 'vue';
 import VueRouter, { RouteConfig } from 'vue-router';
@@ -40,16 +41,16 @@ const routes: Array<RouteConfig> = [
     name: 'Dashboard',
     component: () => import(/* webpackChunkName: "dashboard" */ '@/views/Dashboard.vue'),
     // To be enabled
-    // meta: { requiresAuth: true },
-    // beforeEnter: authGuard,
+    meta: { requiresAuth: true, authorize: [Role.Organiser] },
+    beforeEnter: authGuard,
   },
   {
     path: '/marketplace',
     name: 'Marketplace',
     component: () => import(/* webpackChunkName: "marketplace" */ '@/views/Marketplace.vue'),
+    meta: { requiresAuth: true, authorize: [Role.Sponsor] },
     // To be enabled
-    // meta: { requiresAuth: true },
-    // beforeEnter: authGuard,
+    beforeEnter: authGuard,
   },
   {
     path: '/settings',
@@ -64,24 +65,23 @@ const routes: Array<RouteConfig> = [
     name: 'NewEvent',
     component: () => import(/* webpackChunkName: "newEvent" */ '@/views/NewEvent.vue'),
     // To be enabled
-    // meta: { requiresAuth: true },
-    // beforeEnter: authGuard,
+    meta: { requiresAuth: true, authorize: [Role.Organiser] },
+    beforeEnter: authGuard,
   },
   {
     path: '/matches',
     name: 'Matches',
     component: () => import(/* webpackChunkName: "matches" */ '@/views/Matches.vue'),
-    // To be enabled
-    // meta: { requiresAuth: true },
-    // beforeEnter: authGuard,
+    meta: { requiresAuth: true, authorize: [Role.Sponsor] },
+    beforeEnter: authGuard,
   },
   {
     path: '/event/:id',
     name: 'Event',
     component: () => import(/* webpackChunkName: "event" */ '@/views/Event.vue'),
     // To be enabled
-    // meta: { requiresAuth: true },
-    // beforeEnter: authGuard,
+    meta: { requiresAuth: true, authorize: [Role.Organiser] },
+    beforeEnter: authGuard,
   },
   {
     path: '/playground',
