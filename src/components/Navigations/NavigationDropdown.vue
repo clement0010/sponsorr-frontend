@@ -67,6 +67,17 @@
                 </v-list-item>
               </router-link>
 
+              <router-link :to="{ name: 'Matches' }">
+                <v-list-item>
+                  <v-list-item-icon>
+                    <v-icon>mdi-account-supervisor-circle-outline</v-icon>
+                  </v-list-item-icon>
+                  <v-list-item-content>
+                    Matches
+                  </v-list-item-content>
+                </v-list-item>
+              </router-link>
+
               <router-link :to="{ name: 'Marketplace' }">
                 <v-list-item>
                   <v-list-item-icon>
@@ -112,7 +123,7 @@
 <script lang="ts">
 import useAuth from '@/composable/authComposition';
 import useProfile from '@/composable/profileComposition';
-import { defineComponent, onMounted, ref, watch } from '@vue/composition-api';
+import { defineComponent, ref, watch } from '@vue/composition-api';
 import AuthenticationButton from '@/components/Authentication/AuthenticationButton.vue';
 import LogoSponsorr from '@/components/BuildingElements/LogoSponsorr.vue';
 import UserStatusCard from '@/components/BuildingElements/UserStatusCard.vue';
@@ -134,6 +145,41 @@ export default defineComponent({
       if (authenticated) {
         await fetchUserProfile(uid.value);
       }
+      if (profile.value?.role === 'EventOrganiser') {
+        switch (root.$route.name) {
+          case 'Profile':
+            selected.value = 0;
+            break;
+          case 'Dashboard':
+            selected.value = 1;
+            break;
+          case 'Matches':
+            selected.value = 2;
+            break;
+          case 'Marketplace':
+            selected.value = 3;
+            break;
+          default:
+            selected.value = 4;
+            break;
+        }
+      }
+      if (profile.value?.role === 'Sponsor') {
+        switch (root.$route.name) {
+          case 'Profile':
+            selected.value = 0;
+            break;
+          case 'Matches':
+            selected.value = 1;
+            break;
+          case 'Marketplace':
+            selected.value = 2;
+            break;
+          default:
+            selected.value = 3;
+            break;
+        }
+      }
     });
 
     const toggleDialog = () => {
@@ -149,23 +195,6 @@ export default defineComponent({
         name: 'Home',
       });
     };
-
-    onMounted(() => {
-      switch (root.$route.name) {
-        case 'Profile':
-          selected.value = 0;
-          break;
-        case 'Dashboard':
-          selected.value = 1;
-          break;
-        case 'Marketplace':
-          selected.value = 2;
-          break;
-        default:
-          selected.value = 3;
-          break;
-      }
-    });
 
     return {
       dialog,
