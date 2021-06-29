@@ -21,6 +21,7 @@ export const pendingCategory: MatchCategory = {
       text: 'Actions',
       value: 'actions',
       sortable: false,
+      align: 'center',
     },
   ],
   contents: [],
@@ -43,14 +44,9 @@ export const acceptedCategory: MatchCategory = {
       text: 'Venue',
       value: 'event.venue',
     },
-    {
-      text: 'Actions',
-      value: 'actions',
-      sortable: false,
-    },
   ],
   contents: [],
-  fallback: 'No confirmed matches',
+  fallback: 'No accepted matches',
 };
 
 export const rejectedCategory: MatchCategory = {
@@ -68,11 +64,6 @@ export const rejectedCategory: MatchCategory = {
     {
       text: 'Venue',
       value: 'event.venue',
-    },
-    {
-      text: 'Actions',
-      value: 'actions',
-      sortable: false,
     },
   ],
   contents: [],
