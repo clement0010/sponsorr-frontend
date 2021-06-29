@@ -80,7 +80,7 @@ const routes: Array<RouteConfig> = [
     name: 'Event',
     component: () => import(/* webpackChunkName: "event" */ '@/views/Event.vue'),
     // To be enabled
-    meta: { requiresAuth: true, authorize: [Role.Organiser] },
+    meta: { requiresAuth: true, authorize: [Role.Organiser, Role.Sponsor] },
     beforeEnter: authGuard,
   },
   {
