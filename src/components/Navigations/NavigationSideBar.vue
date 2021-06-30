@@ -118,6 +118,9 @@ export default defineComponent({
           case 'Marketplace':
             selected.value = 2;
             break;
+          case 'Settings':
+            selected.value = 3;
+            break;
           default:
             selected.value = -1;
             break;
@@ -133,6 +136,9 @@ export default defineComponent({
             break;
           case 'Marketplace':
             selected.value = 2;
+            break;
+          case 'Settings':
+            selected.value = 3;
             break;
           default:
             selected.value = -1;
