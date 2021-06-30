@@ -89,6 +89,8 @@ export default defineComponent({
       try {
         emit('success', 'Sending application');
         await applyEvent(eventId, uid.value, [{ message: payload, timestamp: generateUnixTime() }]);
+        await updateEventStatus(eventId, 'matched', true);
+        await editEvent(eventId, { matches: (event.value?.matches || 0) + 1 });
         emit('success', 'Application sent');
       } catch (err) {
         emit('alert', 'Send application failed');
