@@ -19,6 +19,7 @@ import useAuth from '@/composable/authComposition';
 import useProfile from '@/composable/profileComposition';
 
 import { Match } from '@/types';
+import { updateEventStatusToDb } from '@/common';
 
 export default defineComponent({
   name: 'Matches',
@@ -27,7 +28,14 @@ export default defineComponent({
     MatchesLayout,
   },
   setup(_, { emit }) {
-    const { matchCategories, initialise, loading, fetchMatches, updateMatchStatus } = useMatch();
+    const {
+      matchCategories,
+      initialise,
+      loading,
+      fetchMatches,
+      updateMatchStatus,
+      updateUserMatchStatus,
+    } = useMatch();
     const { uid, loading: authLoad } = useAuth();
     const { getRole } = useProfile();
 
@@ -41,7 +49,8 @@ export default defineComponent({
 
     const accept = async (payload: Match) => {
       try {
-        await updateMatchStatus(payload, 'accepted');
+        await updateUserMatchStatus(payload.eventId, payload.userId, 'accepted', 'Sponsor');
+        await updateEventStatusToDb(payload.eventId, 'matched', true);
         emit('success', 'Match accepted');
       } catch (err) {
         emit('alert', 'Process failed');
@@ -50,6 +59,7 @@ export default defineComponent({
 
     const reject = async (payload: Match) => {
       try {
+        await updateUserMatchStatus(payload.eventId, payload.userId, 'rejected', 'Sponsor');
         await updateMatchStatus(payload, 'rejected');
         emit('success', 'Match rejected');
       } catch (err) {

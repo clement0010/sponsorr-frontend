@@ -1,4 +1,5 @@
-import { Match, Matches, MatchStatus, Message, Role } from '@/types';
+import useProfile from '@/composable/profileComposition';
+import { Match, Matches, MatchStatus, Message, Role, SponsorEvent } from '@/types';
 import { UpdateData } from '../type';
 import { getEventFromDb } from './event';
 import { db } from './utils';
@@ -46,6 +47,32 @@ export const getAllMatchedEventFromDb = async (
   }
 
   return matchedEvents;
+};
+
+export const getMatchesByEventId = async (
+  userEventId: string,
+  userEvent: SponsorEvent | undefined,
+): Promise<Matches> => {
+  const dbMatches = await db.matches.where('eventId', '==', userEventId).get();
+  const matches: Matches = [];
+  const filteredMatches = dbMatches?.docs.filter((doc) => doc.exists) || [];
+  const { fetchUserProfile, profile } = useProfile();
+
+  // eslint-disable-next-line no-restricted-syntax
+  for (const match of filteredMatches) {
+    if (!userEvent) break;
+    const normalisedMatch: Match = {
+      event: userEvent,
+      ...match.data(),
+    };
+    // eslint-disable-next-line no-await-in-loop
+    await fetchUserProfile(normalisedMatch.userId);
+    const name = { name: profile.value?.name };
+    Object.assign(normalisedMatch, name);
+    matches.push(normalisedMatch);
+  }
+
+  return matches;
 };
 
 export const updateMatchedEventStatusFromDb = async (

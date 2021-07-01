@@ -1,12 +1,15 @@
 import { ref } from '@vue/composition-api';
 
 import {
+  changeUserMatchStatusFromDb,
   getAllMatchedEventFromDb,
+  getEventFromDb,
+  getMatchesByEventId,
   parseUserEventId,
   updateMatchedEventStatusFromDb,
 } from '@/common';
 import { pendingCategory, rejectedCategory, acceptedCategory } from '@/common/matchesConfig';
-import { Match, MatchCategory, MatchStatus, Message, Role } from '@/types';
+import { Match, MatchCategory, Matches, MatchStatus, Message, Role } from '@/types';
 import { MatchGroup } from '@/types/enum';
 
 // eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types
@@ -15,6 +18,8 @@ export default function useMatch() {
 
   const storedRole = ref<Role>();
   const id = ref<string>('');
+
+  const matches = ref<Matches>();
 
   const matchCategories = ref<MatchCategory[]>([
     pendingCategory,
@@ -61,6 +66,12 @@ export default function useMatch() {
     }
   };
 
+  const fetchMatchesByEventId = async (eventId: string) => {
+    const userEvent = await getEventFromDb(eventId);
+    const eventMatches = await getMatchesByEventId(eventId, userEvent);
+    matches.value = eventMatches;
+  };
+
   const updateMatchStatus = async (
     eventItem: Match,
     matchCategory: MatchStatus,
@@ -90,6 +101,16 @@ export default function useMatch() {
       }
       loading.value = false;
     }
+    await fetchMatchesByEventId(eventId);
+  };
+
+  const updateUserMatchStatus = async (
+    eventId: string,
+    userId: string,
+    status: MatchStatus,
+    role?: Role,
+  ) => {
+    await changeUserMatchStatusFromDb(eventId, userId, status, role);
   };
 
   return {
@@ -98,6 +119,9 @@ export default function useMatch() {
 
     initialise,
     fetchMatches,
+    fetchMatchesByEventId,
     updateMatchStatus,
+    updateUserMatchStatus,
+    matches,
   };
 }

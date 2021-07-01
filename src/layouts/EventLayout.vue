@@ -36,6 +36,12 @@
           :is-owner="isOwner"
           @edit="(payload) => $emit('edit', payload)"
         />
+        <EventMatchesTable
+          v-if="isOwner"
+          :matches="matches"
+          @acceptMatch="(payload) => $emit('acceptMatch', payload)"
+          @rejectMatch="(payload) => $emit('rejectMatch', payload)"
+        />
         <v-card-text class="text-right">
           <EventUnpublish
             v-if="event.matches < 1 && event.published && isOwner"
@@ -61,22 +67,22 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, onMounted } from '@vue/composition-api';
-import { Role, SponsorEvent } from '@/types';
+import { defineComponent } from '@vue/composition-api';
+import { Matches, Profile, Role, SponsorEvent } from '@/types';
 import { generateDate } from '@/common/utils';
 
-import EventTitle from '@/components/PageComponents/Event/EventTitle.vue';
-import EventOrganiser from '@/components/PageComponents/Event/EventOrganiser.vue';
-import EventDescription from '@/components/PageComponents/Event/EventDescription.vue';
+import EventApply from '@/components/EventActions/EventApply.vue';
 import EventDetails from '@/components/PageComponents/Event/EventDetails.vue';
-import EventKeywords from '@/components/PageComponents/Event/EventKeywords.vue';
-import EventDocuments from '@/components/PageComponents/Event/EventDocuments.vue';
 import EventDelete from '@/components/EventActions/EventDelete.vue';
+import EventDescription from '@/components/PageComponents/Event/EventDescription.vue';
+import EventDocuments from '@/components/PageComponents/Event/EventDocuments.vue';
+import EventKeywords from '@/components/PageComponents/Event/EventKeywords.vue';
+import EventTitle from '@/components/PageComponents/Event/EventTitle.vue';
+import EventMatchesTable from '@/components/PageComponents/Event/EventMatchesTable.vue';
+import EventOrganiser from '@/components/PageComponents/Event/EventOrganiser.vue';
+import EventPicture from '@/components/PageComponents/Event/EventPicture.vue';
 import EventPublish from '@/components/EventActions/EventPublish.vue';
 import EventUnpublish from '@/components/EventActions/EventUnpublish.vue';
-import EventApply from '@/components/EventActions/EventApply.vue';
-import EventPicture from '@/components/PageComponents/Event/EventPicture.vue';
-import useProfile from '@/composable/profileComposition';
 
 export default defineComponent({
   components: {
@@ -91,10 +97,19 @@ export default defineComponent({
     EventUnpublish,
     EventPicture,
     EventApply,
+    EventMatchesTable,
   },
   props: {
     event: {
       type: Object as () => SponsorEvent,
+      required: true,
+    },
+    eventId: {
+      type: String,
+      required: true,
+    },
+    matches: {
+      type: Array as () => Matches,
       required: true,
     },
     isOwner: {
@@ -105,21 +120,18 @@ export default defineComponent({
       type: String as () => Role,
       required: true,
     },
+    profile: {
+      type: Object as () => Profile,
+      required: true,
+    },
+    loading: {
+      type: Boolean,
+      required: true,
+    },
   },
-  setup(props, { root }) {
-    const eventId = root.$route.params.id;
-    const { event } = props;
-    const { fetchUserProfile, profile, loading } = useProfile();
-
-    onMounted(async () => {
-      await fetchUserProfile(event.userId);
-    });
-
+  setup() {
     return {
       generateDate,
-      eventId,
-      profile,
-      loading,
     };
   },
 });
