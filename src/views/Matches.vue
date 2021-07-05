@@ -15,11 +15,11 @@ import { defineComponent, onMounted, watch } from '@vue/composition-api';
 import useMatch from '@/composable/matchComposition';
 import BasePage from '@/layouts/BasePage.vue';
 import MatchesLayout from '@/layouts/MatchesLayout.vue';
-import useAuth from '@/composable/authComposition';
 import useProfile from '@/composable/profileComposition';
 
 import { Match } from '@/types';
 import { updateEventStatusToDb } from '@/common';
+import { authLoading, uid } from '@/composable/store';
 
 export default defineComponent({
   name: 'Matches',
@@ -36,14 +36,12 @@ export default defineComponent({
       updateMatchStatus,
       updateUserMatchStatus,
     } = useMatch();
-    const { uid, loading: authLoad } = useAuth();
-    const { getRole } = useProfile();
+    const { role } = useProfile();
 
     onMounted(() => {
-      watch(authLoad, async () => {
-        const resultRole = await getRole(uid.value);
-        if (!resultRole) return;
-        await initialise(uid.value, resultRole);
+      watch(authLoading, async () => {
+        if (!role.value) return;
+        await initialise(uid.value, role.value);
       });
     });
 

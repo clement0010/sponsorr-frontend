@@ -123,10 +123,11 @@
 <script lang="ts">
 import useAuth from '@/composable/authComposition';
 import useProfile from '@/composable/profileComposition';
-import { defineComponent, ref, watch } from '@vue/composition-api';
+import { defineComponent, onMounted, ref } from '@vue/composition-api';
 import AuthenticationButton from '@/components/Authentication/AuthenticationButton.vue';
 import LogoSponsorr from '@/components/BuildingElements/LogoSponsorr.vue';
 import UserStatusCard from '@/components/BuildingElements/UserStatusCard.vue';
+import { authenticated, uid } from '@/composable/store';
 
 export default defineComponent({
   name: 'NavigationDropdown',
@@ -138,13 +139,14 @@ export default defineComponent({
   setup(_, { root, emit }) {
     const dialog = ref(false);
     const selected = ref(0);
-    const { signout, uid, authenticated, loading } = useAuth();
-    const { profile, fetchUserProfile } = useProfile();
+    const { signout } = useAuth();
+    const { profile } = useProfile();
 
-    watch(authenticated, async () => {
-      if (authenticated) {
-        await fetchUserProfile(uid.value);
+    onMounted(() => {
+      if (!authenticated.value) {
+        return;
       }
+
       if (profile.value?.role === 'EventOrganiser') {
         switch (root.$route.name) {
           case 'Profile':
@@ -183,8 +185,8 @@ export default defineComponent({
       dialog.value = !dialog.value;
     };
 
-    const userSignout = () => {
-      signout();
+    const userSignout = async () => {
+      await signout();
 
       emit('success', 'Signed out!');
 
@@ -200,7 +202,6 @@ export default defineComponent({
       userSignout,
       toggleDialog,
       selected,
-      loading,
       profile,
     };
   },

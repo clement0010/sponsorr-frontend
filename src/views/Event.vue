@@ -30,10 +30,10 @@ import EventLayout from '@/layouts/EventLayout.vue';
 import Spinner from '@/components/BuildingElements/Spinner.vue';
 import useEvent from '@/composable/eventComposition';
 import useProfile from '@/composable/profileComposition';
-import useAuth from '@/composable/authComposition';
 import useMarketplace from '@/composable/marketplaceComposition';
 import { generateUnixTime } from '@/common';
 import useMatch from '@/composable/matchComposition';
+import { authenticated, uid } from '@/composable/store';
 
 export default defineComponent({
   name: 'Event',
@@ -53,7 +53,6 @@ export default defineComponent({
       updateEventStatus,
     } = useEvent();
     const { profile, fetchUserProfile } = useProfile();
-    const { uid, authenticated } = useAuth();
     const { applyEvent } = useMarketplace();
     const { updateMatchStatus, updateUserMatchStatus, matches, fetchMatchesByEventId } = useMatch();
 

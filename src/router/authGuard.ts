@@ -1,13 +1,14 @@
-import useAuth from '@/composable/authComposition';
 import { NavigationGuardNext, Route } from 'vue-router';
 import { watch } from '@vue/composition-api';
 import useProfile from '@/composable/profileComposition';
+import { authenticated, authLoading, uid } from '@/composable/store';
 
 const authGuard = (to: Route, from: Route, next: NavigationGuardNext): void => {
-  const { authenticated, loading, userInfo } = useAuth();
   const { role } = useProfile();
 
-  const redirect = async () => {
+  const redirect = () => {
+    if (authLoading.value) return;
+
     if (to.matched.some((record) => record.meta.requiresAuth)) {
       if (!authenticated.value) {
         return next({
@@ -31,7 +32,7 @@ const authGuard = (to: Route, from: Route, next: NavigationGuardNext): void => {
 
     // Redirect user if they have logged in
     if (authenticated.value) {
-      const id = userInfo.value?.uid;
+      const id = uid.value;
       if (!id) {
         return next({
           path: '/',
@@ -47,9 +48,9 @@ const authGuard = (to: Route, from: Route, next: NavigationGuardNext): void => {
 
     return next();
   };
-  watch(loading, () => redirect());
+  watch(authLoading, () => redirect());
 
-  return next();
+  return redirect();
 };
 
 export default authGuard;

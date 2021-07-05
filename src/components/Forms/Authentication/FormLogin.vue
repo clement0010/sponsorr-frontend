@@ -59,7 +59,7 @@
       </v-card-subtitle>
     </v-card>
 
-    <Spinner :loading="loading" />
+    <Spinner :loading="authLoading" />
   </v-container>
 </template>
 
@@ -71,6 +71,7 @@ import useAuth from '@/composable/authComposition';
 
 import AuthenticationButton from '@/components/Authentication/AuthenticationButton.vue';
 import Spinner from '@/components/BuildingElements/Spinner.vue';
+import { authLoading } from '@/composable/store';
 import LogoSponsorr from '../../BuildingElements/LogoSponsorr.vue';
 
 export default defineComponent({
@@ -84,7 +85,7 @@ export default defineComponent({
       showPassword: false,
     });
 
-    const { loading, login, error, userInfo } = useAuth();
+    const { login, error, userInfo } = useAuth();
 
     const user = reactive({
       email: '',
@@ -95,7 +96,6 @@ export default defineComponent({
       e.preventDefault();
       try {
         const { email, password } = user;
-
         await login(email, password);
 
         const uid = userInfo.value?.uid;
@@ -134,7 +134,7 @@ export default defineComponent({
       authenticateUser,
 
       // Spinner
-      loading,
+      authLoading,
     };
   },
 });

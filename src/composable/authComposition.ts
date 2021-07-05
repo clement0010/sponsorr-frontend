@@ -2,41 +2,45 @@ import Vue from 'vue';
 
 import { ref, computed } from '@vue/composition-api';
 import { auth } from '@/common/firebase';
-import { EventOrganiser, FirebaseUser, Sponsor } from '@/types';
+import { EventOrganiser, Sponsor } from '@/types';
 import { createUserProfileToDb } from '@/common/firestore/profile';
 import useProfile from './profileComposition';
+import { authenticated, authLoading, uid, userInfo } from './store';
 
-// eslint-disable-next-line
-export default function useAuth() {
-  const loading = ref(true);
-  const authenticated = ref(false);
-  const error = ref(false);
-  const userInfo = ref<FirebaseUser>();
-  const uid = ref();
-  const { fetchUserProfile } = useProfile();
+const { fetchUserProfile } = useProfile();
 
-  const userAuthState = auth.onAuthStateChanged((user) => {
-    loading.value = false;
+auth.onAuthStateChanged(async (user) => {
+  try {
+    authLoading.value = true;
     if (!user) {
       authenticated.value = false;
       console.log('Im logged out!');
       return;
     }
-    Vue.prototype.$uid = uid;
     userInfo.value = user;
     uid.value = user.uid;
-    fetchUserProfile(uid.value);
+    Vue.prototype.$uid = uid.value;
+    await fetchUserProfile(uid.value);
     console.log('Auth State:', user);
     authenticated.value = true;
-  });
+  } catch (err) {
+    console.error(err);
+  } finally {
+    authLoading.value = false;
+  }
+});
 
-  const signout = () => {
-    loading.value = true;
+// eslint-disable-next-line
+export default function useAuth() {
+  const error = ref(false);
+
+  const signout = async () => {
+    authLoading.value = true;
 
     auth
       .signOut()
       .then(() => {
-        loading.value = false;
+        authLoading.value = false;
         authenticated.value = false;
       })
       .catch((err) => {
@@ -47,11 +51,11 @@ export default function useAuth() {
 
   const login = async (email: string, password: string): Promise<string | undefined> => {
     try {
-      loading.value = true;
+      authLoading.value = true;
       const { user } = await auth.signInWithEmailAndPassword(email, password);
 
       authenticated.value = true;
-      loading.value = false;
+      authLoading.value = false;
       error.value = false;
 
       if (!user) {
@@ -63,7 +67,7 @@ export default function useAuth() {
       console.error(err);
       error.value = true;
       authenticated.value = false;
-      loading.value = false;
+      authLoading.value = false;
       return err;
     }
   };
@@ -84,25 +88,22 @@ export default function useAuth() {
       await createUserProfileToDb(result.user.uid, userMetadata);
 
       authenticated.value = true;
-      loading.value = false;
+      authLoading.value = false;
       error.value = false;
       return result.user.uid;
     } catch (err) {
       console.error(err);
       error.value = true;
       authenticated.value = false;
-      loading.value = false;
+      authLoading.value = false;
       throw err;
     }
   };
 
   return {
-    loading: computed(() => loading.value),
-    authenticated: computed(() => authenticated.value),
     error: computed(() => error.value),
     userInfo: computed(() => userInfo.value),
     uid: computed(() => uid.value),
-    userAuthState,
 
     signup,
     signout,

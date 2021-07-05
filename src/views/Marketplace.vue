@@ -7,7 +7,6 @@
       :loading="loading"
       :search-result="events"
       :input="userInput"
-      :authenticated="authenticated"
       @search="search"
       @search-criteria="searchCriteria"
     />
@@ -20,7 +19,6 @@ import { Sponsor, SponsorEventDbItems } from '@/types';
 import useMarketplace from '@/composable/marketplaceComposition';
 import BasePage from '@/layouts/BasePage.vue';
 import MarketplaceLayout from '@/layouts/MarketplaceLayout.vue';
-import useAuth from '@/composable/authComposition';
 import Spinner from '@/components/BuildingElements/Spinner.vue';
 
 export default defineComponent({
@@ -38,7 +36,6 @@ export default defineComponent({
       initialise,
       filteredEvents: events,
     } = useMarketplace();
-    const { authenticated } = useAuth();
 
     const userInput = ref('');
     const criteria = ref('');
@@ -80,7 +77,6 @@ export default defineComponent({
       error,
       searchCriteria,
       events,
-      authenticated,
     };
   },
 });

@@ -39,8 +39,7 @@
 import AuthenticationButton from '@/components/Authentication/AuthenticationButton.vue';
 import LogoSponsorr from '@/components/BuildingElements/LogoSponsorr.vue';
 import NavigationSideBar from '@/components/Navigations/NavigationSideBar.vue';
-
-import useAuth from '@/composable/authComposition';
+import { authenticated, authLoading } from '@/composable/store';
 
 import { defineComponent, ref } from '@vue/composition-api';
 
@@ -53,8 +52,6 @@ export default defineComponent({
   },
   setup() {
     const drawer = ref(false);
-    const { authenticated, loading } = useAuth();
-
     const toggleSideBar = () => {
       drawer.value = !drawer.value;
     };
@@ -62,7 +59,7 @@ export default defineComponent({
     return {
       authenticated,
       drawer,
-      loading,
+      loading: authLoading,
       toggleSideBar,
     };
   },

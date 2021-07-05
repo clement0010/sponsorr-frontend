@@ -80,9 +80,10 @@
 
 <script lang="ts">
 import useAuth from '@/composable/authComposition';
-import { ref, defineComponent, watch } from '@vue/composition-api';
+import { ref, defineComponent, onMounted } from '@vue/composition-api';
 import UserStatusCard from '@/components/BuildingElements/UserStatusCard.vue';
 import useProfile from '@/composable/profileComposition';
+import { authenticated, uid } from '@/composable/store';
 
 export default defineComponent({
   name: 'NavigationSideBar',
@@ -96,12 +97,16 @@ export default defineComponent({
     },
   },
   setup(_, { root }) {
-    const { signout, authenticated, uid } = useAuth();
+    const { signout } = useAuth();
     const { role } = useProfile();
 
     const selected = ref(0);
 
-    watch(authenticated, () => {
+    onMounted(() => {
+      if (!authenticated.value) {
+        return;
+      }
+
       if (role.value === 'EventOrganiser') {
         switch (root.$route.name) {
           case 'Profile':
@@ -152,7 +157,6 @@ export default defineComponent({
     return {
       selected,
       userSignout,
-      authenticated,
       role,
       id: uid,
     };

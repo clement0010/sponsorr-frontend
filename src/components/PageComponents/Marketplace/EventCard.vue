@@ -26,6 +26,7 @@
 <script lang="ts">
 import AuthenticationPrompt from '@/components/Authentication/AuthenticationPrompt.vue';
 import EventView from '@/components/EventActions/EventView.vue';
+import { authenticated } from '@/composable/store';
 import { SponsorEventDbItem } from '@/types';
 import { defineComponent } from '@vue/composition-api';
 
@@ -40,10 +41,11 @@ export default defineComponent({
       type: Object as () => SponsorEventDbItem,
       required: true,
     },
-    authenticated: {
-      type: Boolean,
-      required: true,
-    },
+  },
+  setup() {
+    return {
+      authenticated,
+    };
   },
 });
 </script>
