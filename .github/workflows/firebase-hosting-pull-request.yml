@@ -4,8 +4,8 @@
 name: Deploy to Firebase Hosting on PR
 'on': [push, pull_request]
 jobs:
-  if: github.event_name == 'push'
   linting:
+    if: github.event_name == 'push'
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
