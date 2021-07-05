@@ -1,28 +1,27 @@
 <template>
-  <v-btn :disabled="disable" class="success" @click="create"> Create and Publish </v-btn>
+  <v-btn :disabled="!valid || disable" class="success" @click="create"> Create and Publish </v-btn>
 </template>
 
 <script lang="ts">
 import { generateUnixTime } from '@/common/utils';
 import { SponsorEvent } from '@/types';
-import { defineComponent, toRefs } from '@vue/composition-api';
+import { defineComponent, ref } from '@vue/composition-api';
 import useEvent from '@/composable/eventComposition';
-import useAuth from '@/composable/authComposition';
+import { uid } from '@/composable/store';
 
 export default defineComponent({
   name: 'NewEventCreateButton',
   props: {
-    disabled: {
+    valid: {
       type: Boolean,
       default: true,
+      require: true,
     },
   },
-  setup(props, { emit }) {
+  setup(_, { emit }) {
     const { createEvent } = useEvent();
 
-    const { uid } = useAuth();
-
-    const { disabled: disable } = toRefs(props);
+    const disable = ref(false);
 
     const create = async () => {
       disable.value = true;

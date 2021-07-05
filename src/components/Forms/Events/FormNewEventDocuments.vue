@@ -38,7 +38,7 @@
         <NewEventCancel @cancel="(message) => $emit('cancel', message)" />
         <v-btn @click="back"> Back </v-btn>
         <NewEventCreate
-          :disabled="!valid"
+          :valid="!valid"
           @create="$emit('create', 'Event created successfully')"
           @loading="$emit('loading')"
         />
