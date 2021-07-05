@@ -1,11 +1,6 @@
-import Vue from 'vue';
-import VueComposistionApi, { computed, ref } from '@vue/composition-api';
+import { computed, ref } from '@vue/composition-api';
 import { getUserProfileFromDb, updateUserProfileFromDb } from '@/common/firestore/profile';
-import { Profile } from '@/types';
-
-Vue.use(VueComposistionApi);
-
-const userProfile = ref<Profile>();
+import { userProfile } from './store';
 
 // eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types
 export default function useProfile() {
