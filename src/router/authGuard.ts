@@ -4,8 +4,8 @@ import { watch } from '@vue/composition-api';
 import useProfile from '@/composable/profileComposition';
 
 const authGuard = (to: Route, from: Route, next: NavigationGuardNext): void => {
-  const { authenticated, loading, userInfo, uid } = useAuth();
-  const { getRole } = useProfile();
+  const { authenticated, loading, userInfo } = useAuth();
+  const { role } = useProfile();
 
   const redirect = async () => {
     if (to.matched.some((record) => record.meta.requiresAuth)) {
@@ -20,9 +20,8 @@ const authGuard = (to: Route, from: Route, next: NavigationGuardNext): void => {
         return next();
       }
 
-      const role = await getRole(uid.value);
       console.log('I am Role: ', role, authorize);
-      if (!authorize.includes(role)) {
+      if (!authorize.includes(role.value)) {
         // role not authorised so redirect to home page
         return next({ path: '/' });
       }
