@@ -26,18 +26,15 @@
 </template>
 
 <script lang="ts">
+import useProfile from '@/composable/profileComposition';
 import { defineComponent, ref } from '@vue/composition-api';
 
 export default defineComponent({
   name: 'EditAbout',
-  props: {
-    about: {
-      type: String,
-      default: 'Fill in your bio!',
-    },
-  },
-  setup(props, { emit }) {
-    const input = ref(props.about);
+  setup(_, { emit }) {
+    const { about } = useProfile();
+
+    const input = ref(about.value);
     const dialog = ref(false); // Dialog is closed by default
 
     const cancel = () => {

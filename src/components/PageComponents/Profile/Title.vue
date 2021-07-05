@@ -7,15 +7,18 @@
 </template>
 
 <script lang="ts">
+import useProfile from '@/composable/profileComposition';
+
 import { defineComponent } from '@vue/composition-api';
 
 export default defineComponent({
   name: 'ProfileName',
-  props: {
-    name: {
-      type: String,
-      required: true,
-    },
+  setup() {
+    const { name } = useProfile();
+
+    return {
+      name,
+    };
   },
 });
 </script>

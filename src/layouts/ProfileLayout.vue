@@ -4,31 +4,23 @@
       <v-card max-width="1320px" color="transparent" class="my-16" flat>
         <v-row align="center" justify="center">
           <v-col align="center" justify="center" cols="auto">
-            <DisplayPicture
-              :url-pic="profile.displayPicture"
-              @edit="(payload) => $emit('edit', payload)"
-            />
+            <DisplayPicture @edit="(payload) => $emit('edit', payload)" />
           </v-col>
           <v-col>
-            <Title :name="profile.name" />
+            <Title />
           </v-col>
         </v-row>
 
         <v-row>
-          <About :about="profile.about" @edit="(payload) => $emit('edit', payload)" />
+          <About @edit="(payload) => $emit('edit', payload)" />
         </v-row>
 
         <v-row>
-          <Keywords :keywords="profile.keywords" @edit="(payload) => $emit('edit', payload)" />
+          <Keywords @edit="(payload) => $emit('edit', payload)" />
         </v-row>
 
         <v-row>
-          <Contact
-            :email="profile.email"
-            :contact="profile.contact"
-            :phone-number="profile.phoneNumber"
-            @edit="(payload) => $emit('edit', payload)"
-          />
+          <Contact @edit="(payload) => $emit('edit', payload)" />
         </v-row>
       </v-card>
     </v-row>
@@ -42,8 +34,6 @@ import DisplayPicture from '@/components/PageComponents/Profile/DisplayPicture.v
 import Keywords from '@/components/PageComponents/Profile/Keywords.vue';
 import Title from '@/components/PageComponents/Profile/Title.vue';
 
-import { Profile } from '@/types';
-
 import { defineComponent } from '@vue/composition-api';
 
 export default defineComponent({
@@ -54,12 +44,6 @@ export default defineComponent({
     DisplayPicture,
     Keywords,
     Title,
-  },
-  props: {
-    profile: {
-      type: Object as () => Profile,
-      required: true,
-    },
   },
 });
 </script>

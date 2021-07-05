@@ -29,27 +29,25 @@
 </template>
 
 <script lang="ts">
+import useProfile from '@/composable/profileComposition';
 import { defineComponent, ref } from '@vue/composition-api';
 import { validURLRule } from '@/common/validation';
 
 export default defineComponent({
   name: 'EditDisplayPicture',
   props: {
-    urlPic: {
-      type: String,
-      default: () => '',
-    },
     dialog: {
       type: Boolean,
       default: false,
     },
   },
-  setup(props, { emit }) {
-    const input = ref(props.urlPic);
+  setup(_, { emit }) {
+    const { displayPicture } = useProfile();
+    const input = ref(displayPicture.value);
 
     const toggle = () => {
       emit('toggle');
-      input.value = props.urlPic;
+      input.value = displayPicture.value;
     };
 
     const edit = () => {

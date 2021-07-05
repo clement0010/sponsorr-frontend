@@ -42,45 +42,35 @@
 <script lang="ts">
 import { defineComponent, reactive, ref } from '@vue/composition-api';
 import { validEmailRule, validURLRule } from '@/common/validation';
-import { Contact } from '@/types';
+import useProfile from '@/composable/profileComposition';
 
 export default defineComponent({
   name: 'EditContact',
-  props: {
-    contact: {
-      type: Object as () => Contact,
-      required: true,
-    },
-    phoneNumber: {
-      type: String,
-      required: true,
-    },
-  },
-  setup(props, { emit }) {
-    const { phoneNumber, contact } = props;
+  setup(_, { emit }) {
+    const { phoneNumber, location, websiteUrl } = useProfile();
 
     const input = reactive({
-      ...contact,
-      phoneNumber,
+      phoneNumber: phoneNumber.value,
+      location: location.value,
+      websiteUrl: websiteUrl.value,
     });
-    const dialog = ref(false); // Dialog is closed by default
+
+    const dialog = ref(false);
     const valid = ref(true);
 
     const cancel = () => {
-      dialog.value = false; // Closes dialog
+      dialog.value = false;
     };
 
     const edit = () => {
-      dialog.value = false; // Closes dialog
+      dialog.value = false;
 
-      // eslint-disable-next-line @typescript-eslint/no-shadow
-      const { location, websiteUrl, phoneNumber } = input;
       emit('edit-contact', {
         contact: {
-          location,
-          websiteUrl,
+          location: input.location,
+          websiteUrl: input.websiteUrl,
         },
-        phoneNumber,
+        phoneNumber: input.phoneNumber,
       });
     };
 

@@ -2,7 +2,7 @@
   <v-card color="transparent" flat>
     <v-card-title class="text-h4 black--text">
       Keywords
-      <EditKeywords :keywords="keywords" @edit-keywords="(payload) => $emit('edit', payload)" />
+      <EditKeywords @edit-keywords="(payload) => $emit('edit', payload)" />
     </v-card-title>
     <v-card-text>
       <v-chip-group column>
@@ -16,20 +16,23 @@
 </template>
 
 <script lang="ts">
-import { defineComponent } from '@vue/composition-api';
 import EditKeywords from '@/components/UserActions/EditKeywords.vue';
+
+import useProfile from '@/composable/profileComposition';
+
+import { defineComponent } from '@vue/composition-api';
 
 export default defineComponent({
   name: 'ProfileKeywords',
   components: {
     EditKeywords,
   },
-  props: {
-    keywords: {
-      type: Array as () => string[],
-      required: true,
-      default: (): string[] => [],
-    },
+  setup() {
+    const { keywords } = useProfile();
+
+    return {
+      keywords,
+    };
   },
 });
 </script>

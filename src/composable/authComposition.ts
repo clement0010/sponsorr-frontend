@@ -4,6 +4,7 @@ import { ref, computed } from '@vue/composition-api';
 import { auth } from '@/common/firebase';
 import { EventOrganiser, FirebaseUser, Sponsor } from '@/types';
 import { createUserProfileToDb } from '@/common/firestore/profile';
+import useProfile from './profileComposition';
 
 // eslint-disable-next-line
 export default function useAuth() {
@@ -12,6 +13,7 @@ export default function useAuth() {
   const error = ref(false);
   const userInfo = ref<FirebaseUser>();
   const uid = ref();
+  const { fetchUserProfile } = useProfile();
 
   const userAuthState = auth.onAuthStateChanged((user) => {
     loading.value = false;
@@ -23,6 +25,7 @@ export default function useAuth() {
     Vue.prototype.$uid = uid;
     userInfo.value = user;
     uid.value = user.uid;
+    fetchUserProfile(uid.value);
     console.log('Auth State:', user);
     authenticated.value = true;
   });

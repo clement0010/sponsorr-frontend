@@ -35,34 +35,32 @@
 </template>
 
 <script lang="ts">
+import useProfile from '@/composable/profileComposition';
+
 import { computed, defineComponent, ref } from '@vue/composition-api';
 
 export default defineComponent({
   name: 'EditProfileKeywordsButton',
-  props: {
-    keywords: {
-      type: Array as () => string[],
-      required: true,
-    },
-  },
   setup(props, { emit }) {
-    const dialog = ref(false); // Dialog is closed by default
+    const { keywords } = useProfile();
 
-    const input = ref(props.keywords);
+    const dialog = ref(false);
+
+    const input = ref(keywords.value);
 
     const duplicate = computed(
       () =>
-        props.keywords
-          .map((keyword) => input.value.includes(keyword))
+        (keywords.value || [])
+          .map((keyword) => (input.value || []).includes(keyword))
           .reduce((accumulator, currentValue) => accumulator && currentValue, true) &&
-        input.value
-          .map((keyword) => props.keywords.includes(keyword))
+        (input.value || [])
+          .map((keyword) => (keywords.value || []).includes(keyword))
           .reduce((accumulator, currentValue) => accumulator && currentValue, true),
     );
 
     const cancel = () => {
       dialog.value = false; // Closes dialog
-      input.value = props.keywords; // Reset
+      input.value = keywords.value; // Reset
     };
 
     const edit = () => {

@@ -2,18 +2,14 @@
   <v-card color="transparent" flat>
     <v-card-title class="text-h4 black--text">
       Contact
-      <EditContact
-        :contact="contact"
-        :phone-number="phoneNumber"
-        @edit-contact="(payload) => $emit('edit', payload)"
-      />
+      <EditContact @edit-contact="(payload) => $emit('edit', payload)" />
     </v-card-title>
     <v-list color="transparent">
       <v-list-item>
         <v-icon color="black"> mdi-link </v-icon>
         <v-card-text>
-          <a class="pa-2" :href="contact.websiteUrl">
-            {{ contact.websiteUrl }}
+          <a class="pa-2" :href="websiteUrl">
+            {{ websiteUrl }}
           </a>
         </v-card-text>
       </v-list-item>
@@ -21,8 +17,8 @@
       <v-list-item>
         <v-icon color="black"> mdi-map-marker </v-icon>
         <v-card-text>
-          <a class="pa-2" :href="contact.location">
-            {{ contact.location }}
+          <a class="pa-2" :href="location">
+            {{ location }}
           </a>
         </v-card-text>
       </v-list-item>
@@ -47,36 +43,26 @@
 </template>
 
 <script lang="ts">
-import { defineComponent } from '@vue/composition-api';
-import { Contact } from '@/types';
 import EditContact from '@/components/UserActions/EditContact.vue';
+
+import useProfile from '@/composable/profileComposition';
+
+import { defineComponent } from '@vue/composition-api';
 
 export default defineComponent({
   name: 'ProfileContact',
   components: {
     EditContact,
   },
-  props: {
-    contact: {
-      type: Object as () => Contact,
-      required: true,
-      default(): Contact {
-        return {
-          location: 'Empty...',
-          websiteUrl: 'Empty...',
-        };
-      },
-    },
-    phoneNumber: {
-      type: String,
-      required: true,
-      default: '65 89097488',
-    },
-    email: {
-      type: String,
-      required: true,
-      default: 'test@gmail.com',
-    },
+  setup() {
+    const { phoneNumber, email, location, websiteUrl } = useProfile();
+
+    return {
+      phoneNumber,
+      email,
+      location,
+      websiteUrl,
+    };
   },
 });
 </script>
