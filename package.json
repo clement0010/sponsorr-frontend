@@ -12,9 +12,7 @@
     "check:style:format": "prettier --check './**/*'",
     "check:style:lint": "lint(){ eslint --ext .js,.ts --max-warnings 0 ${1:-'.'}; }; lint",
     "fix:style:format": "prettier --write './**/*'",
-    "fix:style:lint": "fixLint(){ eslint --ext .js,.ts --max-warnings 0 --fix ${1:-'.'}; }; fixLint",
-    "start:firestore": "firebase emulators:start --only firestore",
-    "test:firestore": "mocha -r ts-node/register tests/firebase/*.spec.ts"
+    "fix:style:lint": "fixLint(){ eslint --ext .js,.ts --max-warnings 0 --fix ${1:-'.'}; }; fixLint"
   },
   "dependencies": {
     "@vue/composition-api": "^1.0.0-rc.8",
