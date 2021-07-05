@@ -14,7 +14,7 @@
 </template>
 
 <script lang="ts">
-import { computed, defineComponent, onMounted, Ref, ref } from '@vue/composition-api';
+import { computed, defineComponent, ref } from '@vue/composition-api';
 import { Sponsor, SponsorEventDbItems } from '@/types';
 import useMarketplace from '@/composable/marketplaceComposition';
 import BasePage from '@/layouts/BasePage.vue';
@@ -33,7 +33,6 @@ export default defineComponent({
       loading,
       error: marketplaceError,
       searchEvent,
-      initialise,
       filteredEvents: events,
     } = useMarketplace();
 
@@ -41,11 +40,7 @@ export default defineComponent({
     const criteria = ref('');
     const error = computed(() => marketplaceError.value);
 
-    onMounted(async () => {
-      await initialise();
-    });
-
-    const searchResult: Ref<Sponsor[] | SponsorEventDbItems | undefined> = ref([]);
+    const searchResult = ref<Sponsor[] | SponsorEventDbItems>([]);
 
     const search = async (input: string) => {
       if (!criteria.value) {

@@ -1,9 +1,10 @@
 import { EventCategory, EventStatus, SponsorEventDbItem } from '@/types/index';
-import { computed, ref } from '@vue/composition-api';
+import { computed, ref, onMounted } from '@vue/composition-api';
 import { getUserEventByStatusFromDb, updateEventStatusToDb } from '@/common/firestore/dashboard';
 import { draftsCategory, matchedCategory, publishedCategory } from '@/common/dashboardConfig';
 import { EventGroup } from '@/types/enum';
 import { deleteEventFromDb } from '@/common';
+import { uid } from './store';
 
 // eslint-disable-next-line
 export default function useDashboard() {
@@ -15,11 +16,11 @@ export default function useDashboard() {
     draftsCategory,
   ]);
 
-  const initialise = async (uid: string): Promise<void> => {
+  const initialise = async (id: string): Promise<void> => {
     try {
       loading.value = true;
 
-      publishedCategory.contents = await getUserEventByStatusFromDb(uid, EventGroup.Published);
+      publishedCategory.contents = await getUserEventByStatusFromDb(id, EventGroup.Published);
 
       publishedCategory.loaded = true;
     } catch (err) {
@@ -30,13 +31,17 @@ export default function useDashboard() {
     }
   };
 
-  const fetchEvents = async (uid: string, eventCategory: EventCategory): Promise<void> => {
+  onMounted(async () => {
+    await initialise(uid.value);
+  });
+
+  const fetchEvents = async (id: string, eventCategory: EventCategory): Promise<void> => {
     try {
       if (!eventCategory.loaded) {
         loading.value = true;
         const categoryRef = eventCategory;
 
-        categoryRef.contents = await getUserEventByStatusFromDb(uid, eventCategory.name);
+        categoryRef.contents = await getUserEventByStatusFromDb(id, eventCategory.name);
 
         categoryRef.loaded = true;
       }

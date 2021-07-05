@@ -1,7 +1,7 @@
 import { fuzzySearchArray } from '@/common';
 import { applyEventToDb, getEventsFromDb } from '@/common/firestore/marketplace';
 import { Messages, SponsorEventDbItems } from '@/types';
-import { ref, computed } from '@vue/composition-api';
+import { ref, computed, onMounted } from '@vue/composition-api';
 
 // eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types
 export default function useMarketplace() {
@@ -16,6 +16,10 @@ export default function useMarketplace() {
     events.value = eventDbItems;
     filteredEvents.value = eventDbItems;
   };
+
+  onMounted(async () => {
+    await initialise();
+  });
 
   const searchEvent = async (input: string, criteria: string): Promise<void> => {
     if (!input || !criteria) {

@@ -11,15 +11,13 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, onMounted, watch } from '@vue/composition-api';
+import { defineComponent } from '@vue/composition-api';
 import useMatch from '@/composable/matchComposition';
 import BasePage from '@/layouts/BasePage.vue';
 import MatchesLayout from '@/layouts/MatchesLayout.vue';
-import useProfile from '@/composable/profileComposition';
 
 import { Match } from '@/types';
 import { updateEventStatusToDb } from '@/common';
-import { authLoading, uid } from '@/composable/store';
 
 export default defineComponent({
   name: 'Matches',
@@ -30,20 +28,11 @@ export default defineComponent({
   setup(_, { emit }) {
     const {
       matchCategories,
-      initialise,
       loading,
       fetchMatches,
       updateMatchStatus,
       updateUserMatchStatus,
     } = useMatch();
-    const { role } = useProfile();
-
-    onMounted(() => {
-      watch(authLoading, async () => {
-        if (!role.value) return;
-        await initialise(uid.value, role.value);
-      });
-    });
 
     const accept = async (payload: Match) => {
       try {

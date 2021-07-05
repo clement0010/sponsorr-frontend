@@ -17,13 +17,13 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, onMounted, watch } from '@vue/composition-api';
+import { defineComponent } from '@vue/composition-api';
 import useDashboard from '@/composable/dashboardComposition';
 
 import BasePage from '@/layouts/BasePage.vue';
 import DashboardLayout from '@/layouts/DashboardLayout.vue';
 import { EventCategory, SponsorEventDbItem } from '@/types';
-import { authLoading, uid } from '@/composable/store';
+import { uid } from '@/composable/store';
 
 export default defineComponent({
   name: 'Dashboard',
@@ -34,18 +34,11 @@ export default defineComponent({
   setup(_, { emit }) {
     const {
       eventCategories,
-      initialise,
       fetchEvents,
       loading,
       deleteEvent,
       updateEventStatus,
     } = useDashboard();
-
-    onMounted(() => {
-      watch(authLoading, async () => {
-        await initialise(uid.value);
-      });
-    });
 
     const publishEvent = (payload: SponsorEventDbItem, published: boolean) => {
       if (published) {

@@ -1,6 +1,6 @@
 import { computed, ref } from '@vue/composition-api';
 import { getUserProfileFromDb, updateUserProfileFromDb } from '@/common/firestore/profile';
-import { userProfile } from './store';
+import { userProfile, role } from './store';
 
 // eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types
 export default function useProfile() {
@@ -14,6 +14,7 @@ export default function useProfile() {
       if (!userProfile.value) {
         throw new Error('Failed to fetch user profile data');
       }
+      role.value = userProfile.value.role;
       error.value = false;
     } catch (err) {
       console.error(err);

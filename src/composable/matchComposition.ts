@@ -1,4 +1,4 @@
-import { ref } from '@vue/composition-api';
+import { ref, onMounted } from '@vue/composition-api';
 
 import {
   changeUserMatchStatusFromDb,
@@ -11,6 +11,7 @@ import {
 import { pendingCategory, rejectedCategory, acceptedCategory } from '@/common/matchesConfig';
 import { Match, MatchCategory, Matches, MatchStatus, Message, Role } from '@/types';
 import { MatchGroup } from '@/types/enum';
+import { uid, role } from '@/composable/store';
 
 // eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types
 export default function useMatch() {
@@ -27,13 +28,19 @@ export default function useMatch() {
     acceptedCategory,
   ]);
 
-  const initialise = async (uid: string, role: Role): Promise<void> => {
+  const initialise = async (): Promise<void> => {
     try {
       loading.value = true;
       // uid is sponsor id
-      pendingCategory.contents = await getAllMatchedEventFromDb(uid, role, MatchGroup.Pending);
-      storedRole.value = role;
-      id.value = uid;
+      console.log(uid);
+
+      if (!role.value) return;
+
+      pendingCategory.contents = await getAllMatchedEventFromDb(
+        uid.value,
+        role.value,
+        MatchGroup.Pending,
+      );
 
       pendingCategory.loaded = true;
     } catch (err) {
@@ -43,6 +50,10 @@ export default function useMatch() {
       loading.value = false;
     }
   };
+
+  onMounted(async () => {
+    await initialise();
+  });
 
   const fetchMatches = async (matchCategory: MatchCategory): Promise<void> => {
     try {
@@ -108,9 +119,9 @@ export default function useMatch() {
     eventId: string,
     userId: string,
     status: MatchStatus,
-    role?: Role,
+    userRole?: Role,
   ) => {
-    await changeUserMatchStatusFromDb(eventId, userId, status, role);
+    await changeUserMatchStatusFromDb(eventId, userId, status, userRole);
   };
 
   return {
