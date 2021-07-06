@@ -41,7 +41,7 @@
         <div v-else>
           <p v-if="!profile"></p>
 
-          <UserStatusCard v-else :role="profile.role" :username="profile.name" />
+          <UserStatusCard v-else />
           <v-divider />
           <v-list nav>
             <v-list-item-group v-model="selected" color="primary" mandatory>
@@ -56,7 +56,7 @@
                 </v-list-item>
               </router-link>
 
-              <router-link v-if="profile.role === 'EventOrganiser'" :to="{ name: 'Dashboard' }">
+              <router-link v-if="role === 'EventOrganiser'" :to="{ name: 'Dashboard' }">
                 <v-list-item>
                   <v-list-item-icon>
                     <v-icon>mdi-view-dashboard</v-icon>
@@ -67,7 +67,7 @@
                 </v-list-item>
               </router-link>
 
-              <router-link v-if="profile.role === 'Sponsor'" :to="{ name: 'Matches' }">
+              <router-link v-if="role === 'Sponsor'" :to="{ name: 'Matches' }">
                 <v-list-item>
                   <v-list-item-icon>
                     <v-icon>mdi-account-supervisor-circle-outline</v-icon>
@@ -121,13 +121,15 @@
 </template>
 
 <script lang="ts">
-import useAuth from '@/composable/authComposition';
-import useProfile from '@/composable/profileComposition';
-import { defineComponent, onMounted, ref } from '@vue/composition-api';
 import AuthenticationButton from '@/components/Authentication/AuthenticationButton.vue';
 import LogoSponsorr from '@/components/BuildingElements/LogoSponsorr.vue';
 import UserStatusCard from '@/components/BuildingElements/UserStatusCard.vue';
+
+import useAuth from '@/composable/authComposition';
+import useProfile from '@/composable/profileComposition';
+
 import { authenticated, uid } from '@/composable/store';
+import { defineComponent, onMounted, ref } from '@vue/composition-api';
 
 export default defineComponent({
   name: 'NavigationDropdown',
@@ -137,17 +139,17 @@ export default defineComponent({
     UserStatusCard,
   },
   setup(_, { root }) {
+    const { signout } = useAuth();
+    const { clearProfile, role } = useProfile();
     const dialog = ref(false);
     const selected = ref(0);
-    const { signout } = useAuth();
-    const { profile } = useProfile();
 
     onMounted(() => {
       if (!authenticated.value) {
         return;
       }
 
-      if (profile.value?.role === 'EventOrganiser') {
+      if (role.value === 'EventOrganiser') {
         switch (root.$route.name) {
           case 'Profile':
             selected.value = 0;
@@ -163,7 +165,7 @@ export default defineComponent({
             break;
         }
       }
-      if (profile.value?.role === 'Sponsor') {
+      if (role.value === 'Sponsor') {
         switch (root.$route.name) {
           case 'Profile':
             selected.value = 0;
@@ -190,6 +192,7 @@ export default defineComponent({
       root.$router.push({
         name: 'Home',
       });
+      clearProfile();
     };
 
     return {
@@ -199,7 +202,7 @@ export default defineComponent({
       userSignout,
       toggleDialog,
       selected,
-      profile,
+      role,
     };
   },
 });

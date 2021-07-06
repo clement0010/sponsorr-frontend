@@ -12,7 +12,7 @@
 <script lang="ts">
 import useProfile from '@/composable/profileComposition';
 
-import { defineComponent } from '@vue/composition-api';
+import { computed, defineComponent } from '@vue/composition-api';
 
 export default defineComponent({
   name: 'UserStatusCard',
@@ -20,7 +20,7 @@ export default defineComponent({
     const { profile, role } = useProfile();
 
     return {
-      name: profile.value?.name,
+      name: computed(() => profile.value?.name),
       role,
     };
   },

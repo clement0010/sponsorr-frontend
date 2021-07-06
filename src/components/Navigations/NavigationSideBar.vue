@@ -98,7 +98,7 @@ export default defineComponent({
   },
   setup(_, { root }) {
     const { signout } = useAuth();
-    const { profile } = useProfile();
+    const { clearProfile, role } = useProfile();
 
     const selected = ref(0);
 
@@ -107,7 +107,7 @@ export default defineComponent({
         return;
       }
 
-      if (profile.value?.role === 'EventOrganiser') {
+      if (role.value === 'EventOrganiser') {
         switch (root.$route.name) {
           case 'Profile':
             selected.value = 0;
@@ -126,7 +126,7 @@ export default defineComponent({
             break;
         }
       }
-      if (profile.value?.role === 'Sponsor') {
+      if (role.value === 'Sponsor') {
         switch (root.$route.name) {
           case 'Profile':
             selected.value = 0;
@@ -152,12 +152,13 @@ export default defineComponent({
       root.$router.push({
         name: 'Home',
       });
+      clearProfile();
     };
 
     return {
       selected,
       userSignout,
-      role: profile.value?.role,
+      role,
       id: uid,
     };
   },

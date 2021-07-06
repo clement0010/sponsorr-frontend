@@ -1,4 +1,5 @@
 import useSnackbar from '@/composable/snackbarComposition';
+
 import { computed, ref } from '@vue/composition-api';
 import { getUserProfileFromDb, updateUserProfileFromDb } from '@/common/firestore/profile';
 import { userProfile, role } from '@/composable/store';
@@ -45,9 +46,15 @@ export default function useProfile() {
     }
   };
 
+  // Sign out only!
+  const clearProfile = () => {
+    userProfile.value = undefined;
+  };
+
   return {
     fetchUserProfile,
     editUserProfile,
+    clearProfile,
 
     loading: computed(() => loading.value),
     error: computed(() => error.value),
