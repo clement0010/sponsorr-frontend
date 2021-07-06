@@ -2,9 +2,11 @@ import { fuzzySearchArray } from '@/common';
 import { applyEventToDb, getEventsFromDb } from '@/common/firestore/marketplace';
 import { Messages, SponsorEventDbItems } from '@/types';
 import { ref, computed, onMounted } from '@vue/composition-api';
+import useSnackbar from './snackbarComposition';
 
 // eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types
 export default function useMarketplace() {
+  const { success, alert } = useSnackbar();
   const loading = ref(false);
   const error = ref(false);
   const events = ref<SponsorEventDbItems>([]);
@@ -36,7 +38,13 @@ export default function useMarketplace() {
     userId: string,
     messages?: Messages,
   ): Promise<void> => {
-    await applyEventToDb(eventId, userId, messages);
+    try {
+      await applyEventToDb(eventId, userId, messages);
+      success('Application sent!');
+    } catch (err) {
+      error.value = true;
+      alert('Something went wrong!');
+    }
   };
 
   return {

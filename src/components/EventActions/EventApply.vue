@@ -1,8 +1,8 @@
 <template>
   <v-dialog v-model="dialog" width="500">
     <template #activator="{ on, attrs }">
-      <v-btn v-bind="attrs" class="success" :disabled="disabled" v-on="on">
-        {{ prompt }}
+      <v-btn v-bind="attrs" class="success" v-on="on">
+        Apply
       </v-btn>
     </template>
 
@@ -34,23 +34,27 @@
 </template>
 
 <script lang="ts">
-import { computed, defineComponent, ref } from '@vue/composition-api';
+import { defineComponent, ref } from '@vue/composition-api';
 import { requireInputRule } from '@/common/validation';
+import useMarketplace from '@/composable/marketplaceComposition';
+import { generateUnixTime } from '@/common';
+import useAuth from '@/composable/authComposition';
 
 export default defineComponent({
   name: 'ApplyEventButton',
   props: {
-    sending: {
-      type: Boolean,
-      default: false,
+    eventId: {
+      type: String,
+      required: true,
     },
   },
-  setup(_, { emit }) {
+  setup(props) {
+    const { uid } = useAuth();
+    const { applyEvent } = useMarketplace();
+    const { eventId } = props;
+
     const dialog = ref(false);
     const valid = ref(false);
-    const disabled = ref(false);
-
-    const prompt = computed(() => (disabled.value ? 'Application Closed' : 'Apply'));
 
     const input = ref('');
 
@@ -59,9 +63,11 @@ export default defineComponent({
       input.value = '';
     };
 
-    const send = () => {
-      emit('apply', input.value);
+    const send = async () => {
       dialog.value = false;
+      await applyEvent(eventId, uid.value, [
+        { message: input.value, timestamp: generateUnixTime() },
+      ]);
       input.value = '';
     };
 
@@ -69,7 +75,6 @@ export default defineComponent({
       // Config
       dialog,
       valid,
-      disabled,
 
       // Data
       input,
@@ -80,9 +85,6 @@ export default defineComponent({
       // Actions
       cancel,
       send,
-
-      // Output
-      prompt,
     };
   },
 });

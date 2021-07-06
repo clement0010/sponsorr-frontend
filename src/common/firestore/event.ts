@@ -39,12 +39,13 @@ export const changeUserMatchStatusFromDb = async (
   eventId: string,
   userId: string,
   status: MatchStatus,
-  role?: Role,
+  role: Role | undefined,
 ): Promise<void> => {
   const match = await db.matches.doc(parseUserEventId(userId, eventId));
-  if (!role) {
+  if (role === 'EventOrganiser') {
     await match.update({ organiserStatus: status });
-    return;
   }
-  await match.update({ sponsorStatus: status });
+  if (role === 'Sponsor') {
+    await match.update({ sponsorStatus: status });
+  }
 };

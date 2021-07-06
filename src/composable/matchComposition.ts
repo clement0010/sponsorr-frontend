@@ -119,7 +119,7 @@ export default function useMatch() {
     eventId: string,
     userId: string,
     status: MatchStatus,
-    userRole?: Role,
+    userRole: Role | undefined,
   ) => {
     await changeUserMatchStatusFromDb(eventId, userId, status, userRole);
   };
