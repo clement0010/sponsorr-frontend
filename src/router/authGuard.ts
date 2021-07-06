@@ -22,7 +22,7 @@ const authGuard = (to: Route, from: Route, next: NavigationGuardNext): void => {
       }
 
       console.log('I am Role: ', role, authorize);
-      if (!authorize.includes(role.value)) {
+      if (!authorize.includes(role)) {
         // role not authorised so redirect to home page
         return next({ path: '/' });
       }

@@ -136,7 +136,7 @@ export default defineComponent({
     LogoSponsorr,
     UserStatusCard,
   },
-  setup(_, { root, emit }) {
+  setup(_, { root }) {
     const dialog = ref(false);
     const selected = ref(0);
     const { signout } = useAuth();
@@ -187,9 +187,6 @@ export default defineComponent({
 
     const userSignout = async () => {
       await signout();
-
-      emit('success', 'Signed out!');
-
       root.$router.push({
         name: 'Home',
       });

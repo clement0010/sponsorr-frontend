@@ -1,11 +1,14 @@
 import Vue from 'vue';
 
-import { ref, computed } from '@vue/composition-api';
+import useProfile from '@/composable/profileComposition';
+import useSnackbar from '@/composable/snackbarComposition';
+
+import { authenticated, authLoading, uid, userInfo } from '@/composable/store';
 import { auth } from '@/common/firebase';
 import { EventOrganiser, Sponsor } from '@/types';
 import { createUserProfileToDb } from '@/common/firestore/profile';
-import useProfile from './profileComposition';
-import { authenticated, authLoading, uid, userInfo } from './store';
+
+import { ref, computed } from '@vue/composition-api';
 
 const { fetchUserProfile } = useProfile();
 
@@ -32,11 +35,12 @@ auth.onAuthStateChanged(async (user) => {
 
 // eslint-disable-next-line
 export default function useAuth() {
+  const { alert, success } = useSnackbar();
+
   const error = ref(false);
 
   const signout = async () => {
     authLoading.value = true;
-
     auth
       .signOut()
       .then(() => {
@@ -47,6 +51,7 @@ export default function useAuth() {
         console.error(err);
         error.value = true;
       });
+    success('Signed out!');
   };
 
   const login = async (email: string, password: string): Promise<string | undefined> => {
@@ -61,13 +66,14 @@ export default function useAuth() {
       if (!user) {
         console.log('Login Error');
       }
-
+      success('Logged in!');
       return user?.uid;
     } catch (err) {
       console.error(err);
       error.value = true;
       authenticated.value = false;
       authLoading.value = false;
+      alert('Login error');
       return err;
     }
   };

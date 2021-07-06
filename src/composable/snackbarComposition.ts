@@ -1,11 +1,8 @@
-import { ref } from '@vue/composition-api';
+import { snackbarActivate, snackbarMessage, snackbarStatus } from '@/composable/store';
+import { computed } from '@vue/composition-api';
 
 // eslint-disable-next-line
 export default function useSnackbar() {
-  const snackbarActivate = ref(false);
-  const snackbarMessage = ref('');
-  const snackbarStatus = ref('');
-
   const snackbarShow = () => {
     snackbarActivate.value = true;
     setTimeout(() => {
@@ -26,12 +23,11 @@ export default function useSnackbar() {
   };
 
   return {
-    snackbarActivate,
-    snackbarMessage,
-    snackbarStatus,
-
-    snackbarShow,
     alert,
     success,
+
+    activate: computed(() => snackbarActivate.value),
+    message: computed(() => snackbarMessage.value),
+    status: computed(() => snackbarStatus.value),
   };
 }

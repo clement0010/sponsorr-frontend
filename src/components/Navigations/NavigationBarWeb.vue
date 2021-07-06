@@ -52,6 +52,7 @@ export default defineComponent({
   },
   setup() {
     const drawer = ref(false);
+
     const toggleSideBar = () => {
       drawer.value = !drawer.value;
     };

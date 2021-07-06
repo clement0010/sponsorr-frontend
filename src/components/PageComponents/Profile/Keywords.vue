@@ -2,7 +2,7 @@
   <v-card color="transparent" flat>
     <v-card-title class="text-h4 black--text">
       Keywords
-      <EditKeywords @edit-keywords="(payload) => $emit('edit', payload)" />
+      <EditKeywords v-if="isOwner" :keywords="keywords" />
     </v-card-title>
     <v-card-text>
       <v-chip-group column>
@@ -10,15 +10,15 @@
           {{ keyword }}
         </v-chip>
       </v-chip-group>
-      <p v-if="keywords.length === 0" class="black--text">Empty...</p>
+      <p v-if="keywords.length === 0" class="black--text">
+        Empty...
+      </p>
     </v-card-text>
   </v-card>
 </template>
 
 <script lang="ts">
 import EditKeywords from '@/components/UserActions/EditKeywords.vue';
-
-import useProfile from '@/composable/profileComposition';
 
 import { defineComponent } from '@vue/composition-api';
 
@@ -27,12 +27,15 @@ export default defineComponent({
   components: {
     EditKeywords,
   },
-  setup() {
-    const { keywords } = useProfile();
-
-    return {
-      keywords,
-    };
+  props: {
+    isOwner: {
+      type: Boolean,
+      required: true,
+    },
+    keywords: {
+      type: Array as () => string[],
+      default: () => [],
+    },
   },
 });
 </script>

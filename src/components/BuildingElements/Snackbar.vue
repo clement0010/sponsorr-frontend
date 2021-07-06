@@ -7,23 +7,20 @@
 </template>
 
 <script lang="ts">
+import useSnackbar from '@/composable/snackbarComposition';
+
 import { defineComponent } from '@vue/composition-api';
 
 export default defineComponent({
   name: 'Snackbar',
-  props: {
-    message: {
-      type: String,
-      default: 'Default',
-    },
-    status: {
-      type: String,
-      enum: ['error', 'success'],
-      default: 'success',
-    },
-    activate: {
-      type: Boolean,
-    },
+  setup() {
+    const { activate, message, status } = useSnackbar();
+
+    return {
+      activate,
+      message,
+      status,
+    };
   },
 });
 </script>

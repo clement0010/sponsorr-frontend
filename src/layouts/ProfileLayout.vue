@@ -4,23 +4,28 @@
       <v-card max-width="1320px" color="transparent" class="my-16" flat>
         <v-row align="center" justify="center">
           <v-col align="center" justify="center" cols="auto">
-            <DisplayPicture @edit="(payload) => $emit('edit', payload)" />
+            <DisplayPicture :is-owner="isOwner" :display-picture="displayPicture" />
           </v-col>
           <v-col>
-            <Title />
+            <Title :name="name" />
           </v-col>
         </v-row>
 
         <v-row>
-          <About @edit="(payload) => $emit('edit', payload)" />
+          <About :is-owner="isOwner" :about="about" />
         </v-row>
 
         <v-row>
-          <Keywords @edit="(payload) => $emit('edit', payload)" />
+          <Keywords :is-owner="isOwner" :keywords="keywords" />
         </v-row>
 
         <v-row>
-          <Contact @edit="(payload) => $emit('edit', payload)" />
+          <Contact
+            :is-owner="isOwner"
+            :email="email"
+            :phone-number="phoneNumber"
+            :contact="contact"
+          />
         </v-row>
       </v-card>
     </v-row>
@@ -34,7 +39,9 @@ import DisplayPicture from '@/components/PageComponents/Profile/DisplayPicture.v
 import Keywords from '@/components/PageComponents/Profile/Keywords.vue';
 import Title from '@/components/PageComponents/Profile/Title.vue';
 
-import { defineComponent } from '@vue/composition-api';
+import { Profile } from '@/types';
+
+import { computed, defineComponent, toRefs } from '@vue/composition-api';
 
 export default defineComponent({
   name: 'ProfileLayout',
@@ -44,6 +51,29 @@ export default defineComponent({
     DisplayPicture,
     Keywords,
     Title,
+  },
+  props: {
+    isOwner: {
+      type: Boolean,
+      required: true,
+    },
+    profile: {
+      type: Object as () => Profile,
+      required: true,
+    },
+  },
+  setup(props) {
+    const { profile } = toRefs(props);
+
+    return {
+      name: computed(() => profile.value.name),
+      displayPicture: computed(() => profile.value.displayPicture),
+      about: computed(() => profile.value.about),
+      keywords: computed(() => profile.value.keywords),
+      email: computed(() => profile.value.email),
+      phoneNumber: computed(() => profile.value.phoneNumber),
+      contact: computed(() => profile.value.contact),
+    };
   },
 });
 </script>

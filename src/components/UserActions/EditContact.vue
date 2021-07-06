@@ -27,7 +27,19 @@
             :rules="[validURLRule]"
           />
 
-          <v-text-field v-model="input.phoneNumber" outlined label="Phone Number" />
+          <vue-tel-input-vuetify
+            v-model="input.phoneNumber"
+            outlined
+            required
+            hint="Required"
+            label="phone number"
+            placeholder=""
+            autocomplete
+            :only-countries="['SG']"
+            :mode="'international'"
+            :valid-characters-only="true"
+            :rules="[requireInputRule, numericsOnlyRule]"
+          />
         </v-card-text>
         <v-card-actions>
           <v-spacer />
@@ -40,32 +52,57 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, reactive, ref } from '@vue/composition-api';
-import { validEmailRule, validURLRule } from '@/common/validation';
+import useAuth from '@/composable/authComposition';
 import useProfile from '@/composable/profileComposition';
+
+import {
+  validEmailRule,
+  validURLRule,
+  numericsOnlyRule,
+  requireInputRule,
+} from '@/common/validation';
+import { defineComponent, reactive, ref } from '@vue/composition-api';
 
 export default defineComponent({
   name: 'EditContact',
-  setup(_, { emit }) {
-    const { phoneNumber, location, websiteUrl } = useProfile();
-
-    const input = reactive({
-      phoneNumber: phoneNumber.value,
-      location: location.value,
-      websiteUrl: websiteUrl.value,
-    });
+  props: {
+    phoneNumber: {
+      type: String,
+      required: true,
+    },
+    location: {
+      type: String,
+      required: true,
+    },
+    websiteUrl: {
+      type: String,
+      required: true,
+    },
+  },
+  setup(props) {
+    const { uid } = useAuth();
+    const { editUserProfile } = useProfile();
+    const { phoneNumber, location, websiteUrl } = props;
 
     const dialog = ref(false);
     const valid = ref(true);
 
+    const input = reactive({
+      phoneNumber,
+      location,
+      websiteUrl,
+    });
+
     const cancel = () => {
       dialog.value = false;
+      input.phoneNumber = phoneNumber;
+      input.location = location;
+      input.websiteUrl = websiteUrl;
     };
 
-    const edit = () => {
+    const edit = async () => {
       dialog.value = false;
-
-      emit('edit-contact', {
+      await editUserProfile(uid.value, {
         contact: {
           location: input.location,
           websiteUrl: input.websiteUrl,
@@ -81,6 +118,8 @@ export default defineComponent({
       input,
       validEmailRule,
       validURLRule,
+      numericsOnlyRule,
+      requireInputRule,
       valid,
     };
   },

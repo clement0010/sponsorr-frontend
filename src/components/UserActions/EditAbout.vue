@@ -26,33 +26,43 @@
 </template>
 
 <script lang="ts">
+import useAuth from '@/composable/authComposition';
 import useProfile from '@/composable/profileComposition';
 import { defineComponent, ref } from '@vue/composition-api';
 
 export default defineComponent({
   name: 'EditAbout',
-  setup(_, { emit }) {
-    const { about } = useProfile();
+  props: {
+    about: {
+      type: String,
+      required: true,
+    },
+  },
+  setup(props) {
+    const { uid } = useAuth();
+    const { editUserProfile } = useProfile();
+    const { about } = props;
 
-    const input = ref(about.value);
-    const dialog = ref(false); // Dialog is closed by default
+    const input = ref(about);
+    const dialog = ref(false);
 
     const cancel = () => {
-      dialog.value = false; // Closes dialog
+      dialog.value = false;
+      input.value = about;
     };
 
-    const edit = () => {
-      dialog.value = false; // Closes dialog
-      emit('edit-about', {
+    const edit = async () => {
+      dialog.value = false;
+      await editUserProfile(uid.value, {
         about: input.value,
       });
     };
 
     return {
       dialog,
+      input,
       cancel,
       edit,
-      input,
     };
   },
 });

@@ -17,10 +17,10 @@ import { defineComponent } from '@vue/composition-api';
 export default defineComponent({
   name: 'UserStatusCard',
   setup() {
-    const { name, role } = useProfile();
+    const { profile, role } = useProfile();
 
     return {
-      name,
+      name: profile.value?.name,
       role,
     };
   },

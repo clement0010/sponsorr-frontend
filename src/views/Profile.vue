@@ -1,8 +1,10 @@
 <template>
   <BasePage>
     <Spinner v-if="loading && !error" />
-    <p v-if="error">Error loading profile</p>
-    <ProfileLayout v-if="!loading && !error && profile" @edit="edit" />
+    <p v-if="error">
+      Error loading profile
+    </p>
+    <ProfileLayout v-if="!loading && !error" :is-owner="isOwner" :profile="profile" />
   </BasePage>
 </template>
 
@@ -13,8 +15,9 @@ import Spinner from '@/components/BuildingElements/Spinner.vue';
 
 import useAuth from '@/composable/authComposition';
 import useProfile from '@/composable/profileComposition';
+import useVisitProfile from '@/composable/visitProfileComposition';
 
-import { defineComponent } from '@vue/composition-api';
+import { computed, defineComponent } from '@vue/composition-api';
 
 export default defineComponent({
   name: 'Profile',
@@ -23,25 +26,26 @@ export default defineComponent({
     Spinner,
     ProfileLayout,
   },
-  setup(_, { emit }) {
-    const { editUserProfile, loading, error, profile } = useProfile();
+  setup(_, { root }) {
     const { uid } = useAuth();
+    const isOwner = computed(() => root.$route.params.id === uid.value);
 
-    const edit = async (payload: Record<string, unknown>) => {
-      try {
-        await editUserProfile(uid.value, payload);
-        emit('success', 'Successfully edited!');
-      } catch (err) {
-        emit('alert', 'Failed to edit!');
-        console.error(err);
-      }
-    };
+    if (isOwner.value) {
+      const { loading, error, profile } = useProfile();
+      return {
+        loading,
+        error,
+        profile,
+        isOwner,
+      };
+    }
 
+    const { loading, error, profile } = useVisitProfile();
     return {
-      profile,
       loading,
       error,
-      edit,
+      profile,
+      isOwner,
     };
   },
 });

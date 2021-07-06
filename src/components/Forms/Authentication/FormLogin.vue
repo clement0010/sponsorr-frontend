@@ -59,7 +59,7 @@
       </v-card-subtitle>
     </v-card>
 
-    <Spinner :loading="authLoading" />
+    <Spinner v-if="authLoading" />
   </v-container>
 </template>
 

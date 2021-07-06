@@ -35,37 +35,46 @@
 </template>
 
 <script lang="ts">
+import useAuth from '@/composable/authComposition';
 import useProfile from '@/composable/profileComposition';
 
 import { computed, defineComponent, ref } from '@vue/composition-api';
 
 export default defineComponent({
   name: 'EditProfileKeywordsButton',
-  setup(props, { emit }) {
-    const { keywords } = useProfile();
+  props: {
+    keywords: {
+      type: Array as () => string[],
+      default: () => [],
+    },
+  },
+  setup(props) {
+    const { uid } = useAuth();
+    const { editUserProfile } = useProfile();
+    const { keywords } = props;
 
     const dialog = ref(false);
 
-    const input = ref(keywords.value);
+    const input = ref(keywords);
 
     const duplicate = computed(
       () =>
-        (keywords.value || [])
+        (keywords || [])
           .map((keyword) => (input.value || []).includes(keyword))
           .reduce((accumulator, currentValue) => accumulator && currentValue, true) &&
         (input.value || [])
-          .map((keyword) => (keywords.value || []).includes(keyword))
+          .map((keyword) => (keywords || []).includes(keyword))
           .reduce((accumulator, currentValue) => accumulator && currentValue, true),
     );
 
     const cancel = () => {
-      dialog.value = false; // Closes dialog
-      input.value = keywords.value; // Reset
+      dialog.value = false;
+      input.value = keywords;
     };
 
-    const edit = () => {
-      dialog.value = false; // Closes dialog
-      emit('edit-keywords', {
+    const edit = async () => {
+      dialog.value = false;
+      await editUserProfile(uid.value, {
         keywords: input.value,
       });
     };

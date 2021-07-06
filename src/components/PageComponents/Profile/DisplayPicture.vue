@@ -16,9 +16,10 @@
       </template>
     </v-hover>
     <EditDisplayPicture
+      v-if="isOwner"
       :dialog="dialog"
+      :display-picture="displayPicture"
       @toggle="toggleDialog"
-      @edit-display-picture="(payload) => $emit('edit', payload)"
     />
   </v-container>
 </template>
@@ -26,7 +27,6 @@
 <script lang="ts">
 import EditDisplayPicture from '@/components/UserActions/EditDisplayPicture.vue';
 
-import useProfile from '@/composable/profileComposition';
 import { defineComponent, ref } from '@vue/composition-api';
 
 export default defineComponent({
@@ -34,9 +34,17 @@ export default defineComponent({
   components: {
     EditDisplayPicture,
   },
+  props: {
+    isOwner: {
+      type: Boolean,
+      required: true,
+    },
+    displayPicture: {
+      type: String,
+      default: '',
+    },
+  },
   setup() {
-    const { displayPicture } = useProfile();
-
     const dialog = ref(false);
 
     const toggleDialog = () => {
@@ -44,7 +52,6 @@ export default defineComponent({
     };
 
     return {
-      displayPicture,
       dialog,
       toggleDialog,
     };

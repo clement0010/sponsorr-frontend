@@ -2,7 +2,12 @@
   <v-card color="transparent" flat>
     <v-card-title class="text-h4 black--text">
       Contact
-      <EditContact @edit-contact="(payload) => $emit('edit', payload)" />
+      <EditContact
+        v-if="isOwner"
+        :location="location"
+        :phone-number="phoneNumber"
+        :website-url="websiteUrl"
+      />
     </v-card-title>
     <v-list color="transparent">
       <v-list-item>
@@ -45,23 +50,39 @@
 <script lang="ts">
 import EditContact from '@/components/UserActions/EditContact.vue';
 
-import useProfile from '@/composable/profileComposition';
+import { Contact } from '@/types';
 
-import { defineComponent } from '@vue/composition-api';
+import { computed, defineComponent, toRefs } from '@vue/composition-api';
 
 export default defineComponent({
   name: 'ProfileContact',
   components: {
     EditContact,
   },
-  setup() {
-    const { phoneNumber, email, location, websiteUrl } = useProfile();
+  props: {
+    isOwner: {
+      type: Boolean,
+      required: true,
+    },
+    email: {
+      type: String,
+      required: true,
+    },
+    phoneNumber: {
+      type: String,
+      required: true,
+    },
+    contact: {
+      type: Object as () => Contact,
+      required: true,
+    },
+  },
+  setup(props) {
+    const { contact } = toRefs(props);
 
     return {
-      phoneNumber,
-      email,
-      location,
-      websiteUrl,
+      location: computed(() => contact.value.location),
+      websiteUrl: computed(() => contact.value.websiteUrl),
     };
   },
 });

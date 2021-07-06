@@ -1,5 +1,5 @@
 <template>
-  <div v-if="loading" class="text-center">
+  <div class="text-center">
     <v-overlay>
       <v-progress-circular indeterminate size="64" />
     </v-overlay>
@@ -11,11 +11,5 @@ import { defineComponent } from '@vue/composition-api';
 
 export default defineComponent({
   name: 'Spinner',
-  props: {
-    loading: {
-      type: Boolean,
-      default: false,
-    },
-  },
 });
 </script>
