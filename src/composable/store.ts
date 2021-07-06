@@ -1,9 +1,9 @@
 import Vue from 'vue';
-import VueComposistionApi, { ref } from '@vue/composition-api';
+import VueCompositionApi, { ref } from '@vue/composition-api';
 
 import { FirebaseUser, Profile, Role } from '@/types';
 
-Vue.use(VueComposistionApi);
+Vue.use(VueCompositionApi);
 
 export const userProfile = ref<Profile>();
 export const role = ref<Role>();
