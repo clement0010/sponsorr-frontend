@@ -1,7 +1,7 @@
 import { ref, onMounted, computed } from '@vue/composition-api';
 
 import {
-  changeUserMatchStatusFromDb,
+  updateUserMatchStatusFromDb,
   getAllMatchedEventFromDb,
   getMatchesByEventId,
   parseUserEventId,
@@ -131,7 +131,7 @@ export default function useMatch() {
     userRole: Role | undefined,
   ) => {
     try {
-      await changeUserMatchStatusFromDb(eventId, userId, status, userRole);
+      await updateUserMatchStatusFromDb(eventId, userId, status, userRole);
       if (status === 'accepted') {
         success('Match accepted!');
       }

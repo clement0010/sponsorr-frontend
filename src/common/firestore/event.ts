@@ -35,7 +35,7 @@ export const deleteEventFromDb = async (eventId: string): Promise<void> => {
   await db.events.doc(eventId).delete();
 };
 
-export const changeUserMatchStatusFromDb = async (
+export const updateUserMatchStatusFromDb = async (
   eventId: string,
   userId: string,
   status: MatchStatus,
@@ -43,9 +43,13 @@ export const changeUserMatchStatusFromDb = async (
 ): Promise<void> => {
   const match = await db.matches.doc(parseUserEventId(userId, eventId));
   if (role === 'EventOrganiser') {
-    await match.update({ organiserStatus: status });
+    await match.update({
+      organiserStatus: status,
+    });
   }
   if (role === 'Sponsor') {
-    await match.update({ sponsorStatus: status });
+    await match.update({
+      sponsorStatus: status,
+    });
   }
 };

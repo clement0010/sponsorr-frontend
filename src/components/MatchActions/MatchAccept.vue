@@ -9,7 +9,7 @@ import useMatch from '@/composable/matchComposition';
 import useProfile from '@/composable/profileComposition';
 
 import { Match } from '@/types';
-import { defineComponent } from '@vue/composition-api';
+import { defineComponent, toRefs } from '@vue/composition-api';
 
 export default defineComponent({
   name: 'MatchAccept',
@@ -20,12 +20,18 @@ export default defineComponent({
     },
   },
   setup(props) {
-    const { match } = props;
+    const { match } = toRefs(props);
     const { updateUserMatchStatus } = useMatch();
     const { role } = useProfile();
 
     const accept = async () => {
-      await updateUserMatchStatus(match.eventId, match.userId, 'accepted', role.value);
+      await updateUserMatchStatus(match.value.eventId, match.value.userId, 'accepted', role.value);
+      if (role.value === 'Sponsor') {
+        match.value.sponsorStatus = 'accepted';
+      }
+      if (role.value === 'EventOrganiser') {
+        match.value.organiserStatus = 'accepted';
+      }
     };
 
     return {
