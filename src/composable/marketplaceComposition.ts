@@ -7,6 +7,7 @@ import useSnackbar from './snackbarComposition';
 // eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types
 export default function useMarketplace() {
   const { success, alert } = useSnackbar();
+
   const loading = ref(false);
   const error = ref(false);
   const events = ref<SponsorEventDbItems>([]);

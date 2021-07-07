@@ -106,8 +106,8 @@ export default function useEvent() {
 
   return {
     event: computed(() => event.value),
-    loading,
-    error,
+    loading: computed(() => loading.value),
+    error: computed(() => error.value),
 
     createEvent,
     fetchUserEvent,
