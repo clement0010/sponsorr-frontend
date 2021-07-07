@@ -1,8 +1,9 @@
-import useProfile from '@/composable/profileComposition';
-import { Match, Matches, MatchStatus, Message, Role, SponsorEvent } from '@/types';
+import { Match, Matches, MatchStatus, Message, Profile, Role, SponsorEvent } from '@/types';
+import { ref } from '@vue/composition-api';
 import { UpdateData } from '../type';
 import { getEventFromDb } from './event';
 import { db } from './utils';
+import { getUserProfileFromDb } from './profile';
 
 // eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types
 export const getAllMatchedEventFromDb = async (
@@ -56,7 +57,6 @@ export const getMatchesByEventId = async (
   const dbMatches = await db.matches.where('eventId', '==', userEventId).get();
   const matches: Matches = [];
   const filteredMatches = dbMatches?.docs.filter((doc) => doc.exists) || [];
-  const { fetchUserProfile, profile } = useProfile();
 
   // eslint-disable-next-line no-restricted-syntax
   for (const match of filteredMatches) {
@@ -65,10 +65,10 @@ export const getMatchesByEventId = async (
       event: userEvent,
       ...match.data(),
     };
+    const visitProfile = ref<Profile>();
     // eslint-disable-next-line no-await-in-loop
-    await fetchUserProfile(normalisedMatch.userId);
-    const name = { name: profile.value?.name };
-    Object.assign(normalisedMatch, name);
+    visitProfile.value = await getUserProfileFromDb(normalisedMatch.userId);
+    Object.assign(normalisedMatch, { name: visitProfile.value?.name });
     matches.push(normalisedMatch);
   }
 
