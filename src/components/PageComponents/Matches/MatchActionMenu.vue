@@ -8,10 +8,10 @@
 
     <v-list>
       <v-list-item>
-        <MatchAccept :match="match" @acceptMatch="(payload) => $emit('acceptMatch', payload)" />
+        <MatchAccept :match="match" />
       </v-list-item>
       <v-list-item>
-        <MatchReject :match="match" @rejectMatch="(payload) => $emit('rejectMatch', payload)" />
+        <MatchReject :match="match" />
       </v-list-item>
       <v-list-item>
         <EventView :event-id="match.eventId" />

@@ -14,11 +14,7 @@
         </template>
 
         <template #[`item.actions`]="{ item }">
-          <MatchActionMenu
-            :match="item"
-            @acceptMatch="(payload) => $emit('acceptMatch', payload)"
-            @rejectMatch="(payload) => $emit('rejectMatch', payload)"
-          />
+          <MatchActionMenu :match="item" />
         </template>
       </v-data-table>
     </v-card-text>

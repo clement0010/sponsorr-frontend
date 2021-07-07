@@ -16,10 +16,10 @@
         <MatchView :messages="match.messages" />
       </v-list-item>
       <v-list-item v-if="match.organiserStatus === 'pending'">
-        <MatchAccept :match="match" @acceptMatch="(payload) => $emit('acceptMatch', payload)" />
+        <MatchAccept :match="match" />
       </v-list-item>
       <v-list-item v-if="match.organiserStatus === 'pending'">
-        <MatchReject :match="match" @rejectMatch="(payload) => $emit('rejectMatch', payload)" />
+        <MatchReject :match="match" />
       </v-list-item>
     </v-list>
   </v-menu>
