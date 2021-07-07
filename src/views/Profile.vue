@@ -17,7 +17,7 @@ import useAuth from '@/composable/authComposition';
 import useProfile from '@/composable/profileComposition';
 import useVisitProfile from '@/composable/visitProfileComposition';
 
-import { computed, defineComponent } from '@vue/composition-api';
+import { computed, defineComponent, onBeforeMount } from '@vue/composition-api';
 
 export default defineComponent({
   name: 'Profile',
@@ -28,7 +28,8 @@ export default defineComponent({
   },
   setup(_, { root }) {
     const { uid } = useAuth();
-    const isOwner = computed(() => root.$route.params.id === uid.value);
+    const profileId = root.$route.params.id;
+    const isOwner = computed(() => profileId === uid.value);
 
     if (isOwner.value) {
       const { loading, error, profile } = useProfile();
@@ -40,7 +41,12 @@ export default defineComponent({
       };
     }
 
-    const { loading, error, profile } = useVisitProfile();
+    const { loading, error, profile, fetchUserProfile } = useVisitProfile();
+
+    onBeforeMount(async () => {
+      await fetchUserProfile(profileId);
+    });
+
     return {
       loading,
       error,

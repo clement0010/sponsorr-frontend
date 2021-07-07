@@ -1,6 +1,6 @@
 <template>
   <v-container>
-    <v-hover>
+    <v-hover :disabled="!isOwner">
       <template #default="{ hover }">
         <v-avatar size="200">
           <v-img v-if="!displayPicture" src="@/assets/icon-profile.svg" />

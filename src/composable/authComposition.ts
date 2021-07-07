@@ -46,6 +46,8 @@ export default function useAuth() {
       .then(() => {
         authLoading.value = false;
         authenticated.value = false;
+        uid.value = '';
+        userInfo.value = undefined;
       })
       .catch((err) => {
         console.error(err);

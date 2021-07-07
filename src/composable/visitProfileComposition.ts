@@ -4,7 +4,7 @@ import { computed, ref } from '@vue/composition-api';
 
 // eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types
 export default function useVisitProfile() {
-  const loading = ref(true);
+  const loading = ref(false);
   const error = ref(false);
 
   const visitProfile = ref<Profile>();
@@ -32,5 +32,6 @@ export default function useVisitProfile() {
     error: computed(() => error.value),
 
     profile: computed(() => visitProfile.value),
+    role: computed(() => visitProfile.value?.role),
   };
 }
