@@ -5,9 +5,12 @@ import { draftsCategory, matchedCategory, publishedCategory } from '@/common/das
 import { EventGroup } from '@/types/enum';
 import { deleteEventFromDb } from '@/common';
 import { uid } from './store';
+import useSnackbar from './snackbarComposition';
 
 // eslint-disable-next-line
 export default function useDashboard() {
+  const { success, alert } = useSnackbar();
+
   const loading = ref(true);
 
   const eventCategories = ref<EventCategory[]>([
@@ -101,6 +104,7 @@ export default function useDashboard() {
         );
         publishedCategory.contents.push(eventItem);
         await updateEventStatusToDb(eventId, EventGroup.Published, true);
+        success('Event published');
       }
 
       if (!published) {
@@ -109,9 +113,11 @@ export default function useDashboard() {
         );
         draftsCategory.contents.push(eventItem);
         await updateEventStatusToDb(eventId, EventGroup.Draft, false);
+        success('Event unpublished');
       }
     } catch (err) {
       console.error(err);
+      alert('There was an issue');
       throw new Error(err);
     } finally {
       loading.value = false;

@@ -31,7 +31,7 @@ export default defineComponent({
     BasePage,
     DashboardLayout,
   },
-  setup(_, { emit }) {
+  setup() {
     const {
       eventCategories,
       fetchEvents,
@@ -40,15 +40,8 @@ export default defineComponent({
       updateEventStatus,
     } = useDashboard();
 
-    const publishEvent = (payload: SponsorEventDbItem, published: boolean) => {
-      if (published) {
-        updateEventStatus(payload, true);
-        emit('success', 'Event published');
-      }
-      if (!published) {
-        updateEventStatus(payload, false);
-        emit('success', 'Event unpublished');
-      }
+    const publishEvent = async (payload: SponsorEventDbItem, published: boolean) => {
+      await updateEventStatus(payload, published);
     };
 
     const fetchMoreEvents = async (eventCategory: EventCategory) => {

@@ -17,7 +17,6 @@ import BasePage from '@/layouts/BasePage.vue';
 import MatchesLayout from '@/layouts/MatchesLayout.vue';
 
 import { Match } from '@/types';
-import { updateEventStatusToDb } from '@/common';
 
 export default defineComponent({
   name: 'Matches',
@@ -25,33 +24,15 @@ export default defineComponent({
     BasePage,
     MatchesLayout,
   },
-  setup(_, { emit }) {
-    const {
-      matchCategories,
-      loading,
-      fetchMatches,
-      updateMatchStatus,
-      updateUserMatchStatus,
-    } = useMatch();
+  setup() {
+    const { matchCategories, loading, fetchMatches, updateUserMatchStatus } = useMatch();
 
     const accept = async (payload: Match) => {
-      try {
-        await updateUserMatchStatus(payload.eventId, payload.userId, 'accepted', 'Sponsor');
-        await updateEventStatusToDb(payload.eventId, 'matched', true);
-        emit('success', 'Match accepted');
-      } catch (err) {
-        emit('alert', 'Process failed');
-      }
+      await updateUserMatchStatus(payload.eventId, payload.userId, 'accepted', 'Sponsor');
     };
 
     const reject = async (payload: Match) => {
-      try {
-        await updateUserMatchStatus(payload.eventId, payload.userId, 'rejected', 'Sponsor');
-        await updateMatchStatus(payload, 'rejected');
-        emit('success', 'Match rejected');
-      } catch (err) {
-        emit('alert', 'Process failed');
-      }
+      await updateUserMatchStatus(payload.eventId, payload.userId, 'rejected', 'Sponsor');
     };
 
     return {
