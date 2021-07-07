@@ -1,39 +1,33 @@
 <template>
   <BasePage>
-    <Spinner :loading="loading && !error" />
+    <Spinner v-if="loading && !error && !event" />
     <p v-if="error">Error loading event</p>
     <EventLayout
-      v-if="role && !(error || loading)"
+      v-if="!loading && !error && event"
       :event="event"
-      :matches="matches"
       :is-owner="isOwner"
       :role="role"
-      :profile="profile"
       :event-id="eventId"
-      :loading="loading"
+      :name="name"
       @deleteEvent="remove"
       @publishEvent="publish"
       @edit="edit"
-      @apply="sendApplication"
-      @acceptMatch="accept"
-      @rejectMatch="reject"
     />
   </BasePage>
 </template>
 
 <script lang="ts">
-import { computed, defineComponent, Ref, ref, watch } from '@vue/composition-api';
-import { Match, Role, SponsorEvent } from '@/types';
-
 import BasePage from '@/layouts/BasePage.vue';
 import EventLayout from '@/layouts/EventLayout.vue';
 import Spinner from '@/components/BuildingElements/Spinner.vue';
+
+import useAuth from '@/composable/authComposition';
 import useEvent from '@/composable/eventComposition';
 import useProfile from '@/composable/profileComposition';
-import useMarketplace from '@/composable/marketplaceComposition';
-import { generateUnixTime } from '@/common';
-import useMatch from '@/composable/matchComposition';
-import { authenticated, uid } from '@/composable/store';
+import useVisitProfile from '@/composable/visitProfileComposition';
+
+import { SponsorEvent } from '@/types';
+import { computed, defineComponent, onBeforeMount } from '@vue/composition-api';
 
 export default defineComponent({
   name: 'Event',
@@ -43,32 +37,40 @@ export default defineComponent({
     EventLayout,
   },
   setup(_, { root, emit }) {
+    const { uid } = useAuth();
     const {
       event,
-      loading,
-      error,
+      loading: eventLoad,
+      error: eventError,
       fetchUserEvent,
       deleteEvent,
       editEvent,
       updateEventStatus,
     } = useEvent();
-    const { profile, fetchUserProfile } = useProfile();
-    const { applyEvent } = useMarketplace();
-    const { updateMatchStatus, updateUserMatchStatus, matches, fetchMatchesByEventId } = useMatch();
-
-    const isOwner = computed(() => event.value?.userId === uid.value);
-    const role: Ref<Role | undefined> = ref();
+    const { profile, role } = useProfile();
+    const {
+      profile: eventOwnerProfile,
+      fetchUserProfile,
+      loading: profileLoad,
+      error: profileError,
+    } = useVisitProfile();
 
     const eventId = root.$route.params.id;
 
-    const edit = async (payload: Record<string, unknown>) => {
-      try {
-        await editEvent(eventId, payload);
-        emit('success', 'Successfully edited!');
-      } catch (err) {
-        emit('alert', 'Failed to edit!');
-        console.error(err);
+    const isOwner = computed(() => event.value?.userId === uid.value);
+    const loading = computed(() => eventLoad.value || profileLoad.value);
+    const error = computed(() => eventError.value || profileError.value);
+
+    onBeforeMount(async () => {
+      await fetchUserEvent(eventId);
+      console.log(event.value?.userId === uid.value);
+      if (!isOwner.value) {
+        await fetchUserProfile(event.value?.userId || '');
       }
+    });
+
+    const edit = async (payload: Record<string, unknown>) => {
+      await editEvent(eventId, payload);
     };
 
     const publish = async (payload: SponsorEvent) => {
@@ -91,58 +93,23 @@ export default defineComponent({
       }
     };
 
-    const sendApplication = async (payload: string) => {
-      try {
-        emit('success', 'Sending application');
-        await applyEvent(eventId, uid.value, [{ message: payload, timestamp: generateUnixTime() }]);
-        await updateEventStatus(eventId, 'matched', true);
-        await editEvent(eventId, { matches: (event.value?.matches || 0) + 1 });
-        emit('success', 'Application sent');
-      } catch (err) {
-        emit('alert', 'Send application failed');
-      }
-    };
-
-    const accept = async (payload: Match) => {
-      try {
-        await updateUserMatchStatus(payload.eventId, payload.userId, 'accepted');
-        await updateMatchStatus(payload, 'accepted');
-        emit('success', 'Match accepted');
-        console.log(matches);
-      } catch (err) {
-        emit('alert', 'Process failed');
-      }
-    };
-
-    const reject = async (payload: Match) => {
-      try {
-        await updateUserMatchStatus(payload.eventId, payload.userId, 'rejected');
-        await updateMatchStatus(payload, 'rejected');
-        emit('success', 'Match rejected');
-        console.log(matches);
-      } catch (err) {
-        emit('alert', 'Process failed');
-      }
-    };
-
-    watch(authenticated, async () => {
-      if (authenticated.value) {
-        loading.value = true;
-        await fetchUserProfile(uid.value);
-        await fetchUserEvent(eventId);
-        await fetchMatchesByEventId(eventId);
-        role.value = profile.value?.role;
-        loading.value = false;
-        if (!isOwner.value && !error.value) {
-          await editEvent(eventId, { clicks: (event.value?.clicks || 0) + 1 });
-        }
-        console.log(matches);
-      }
-    });
+    if (isOwner.value) {
+      return {
+        event,
+        loading,
+        error,
+        publish,
+        edit,
+        remove,
+        isOwner,
+        role,
+        name: computed(() => profile.value?.name),
+        eventId,
+      };
+    }
 
     return {
       event,
-      matches: computed(() => matches.value),
       loading,
       error,
       publish,
@@ -150,11 +117,8 @@ export default defineComponent({
       remove,
       isOwner,
       role,
-      sendApplication,
-      profile,
+      name: computed(() => eventOwnerProfile.value?.name),
       eventId,
-      accept,
-      reject,
     };
   },
 });

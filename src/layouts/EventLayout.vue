@@ -3,45 +3,40 @@
     <v-row justify="center">
       <v-card class="my-10 pa-5" width="1320" rounded="xl">
         <EventPicture
-          :picture="event.picture"
+          :picture="picture"
           :is-owner="isOwner"
           @edit="(payload) => $emit('edit', payload)"
         />
         <EventTitle
-          :title="event.title"
+          :title="title"
           :is-owner="isOwner"
           @edit="(payload) => $emit('edit', payload)"
         />
-        <EventOrganiser v-if="!loading" :user="profile.name" />
+        <EventOrganiser :user="name" />
         <EventDescription
-          :description="event.description"
+          :description="description"
           :is-owner="isOwner"
           @edit="(payload) => $emit('edit', payload)"
         />
         <EventDetails
-          :venue="event.venue"
-          :event-size="event.eventSize"
-          :time-start="event.date.start"
-          :time-end="event.date.end"
+          :venue="venue"
+          :event-size="eventSize"
+          :time-start="timeStart"
+          :time-end="timeEnd"
           :is-owner="isOwner"
           @edit="(payload) => $emit('edit', payload)"
         />
         <EventKeywords
-          :keywords="event.keywords"
+          :keywords="keywords"
           :is-owner="isOwner"
           @edit="(payload) => $emit('edit', payload)"
         />
         <EventDocuments
-          :documents="event.documents"
+          :documents="documents"
           :is-owner="isOwner"
           @edit="(payload) => $emit('edit', payload)"
         />
-        <EventMatchesTable
-          v-if="isOwner"
-          :matches="matches"
-          @acceptMatch="(payload) => $emit('acceptMatch', payload)"
-          @rejectMatch="(payload) => $emit('rejectMatch', payload)"
-        />
+        <EventMatchesTable v-if="isOwner" :event="event" :event-id="eventId" />
         <v-card-text class="text-right">
           <EventUnpublish
             v-if="event.matches < 1 && event.published && isOwner"
@@ -59,7 +54,7 @@
             :title="event.title"
             @deleteEvent="(payload) => $emit('deleteEvent', payload)"
           />
-          <EventApply v-if="role === 'Sponsor'" @apply="(input) => $emit('apply', input)" />
+          <EventApply v-if="role === 'Sponsor'" :event-id="eventId" />
         </v-card-text>
       </v-card>
     </v-row>
@@ -67,8 +62,8 @@
 </template>
 
 <script lang="ts">
-import { defineComponent } from '@vue/composition-api';
-import { Matches, Profile, Role, SponsorEvent } from '@/types';
+import { computed, defineComponent, toRefs } from '@vue/composition-api';
+import { Role, SponsorEvent } from '@/types';
 import { generateDate } from '@/common/utils';
 
 import EventApply from '@/components/EventActions/EventApply.vue';
@@ -108,10 +103,7 @@ export default defineComponent({
       type: String,
       required: true,
     },
-    matches: {
-      type: Array as () => Matches,
-      required: true,
-    },
+
     isOwner: {
       type: Boolean,
       required: true,
@@ -120,17 +112,25 @@ export default defineComponent({
       type: String as () => Role,
       required: true,
     },
-    profile: {
-      type: Object as () => Profile,
-      required: true,
-    },
-    loading: {
-      type: Boolean,
-      required: true,
+    name: {
+      type: String,
+      default: '',
     },
   },
-  setup() {
+  setup(props) {
+    const { event } = toRefs(props);
+
     return {
+      picture: computed(() => event.value.picture),
+      title: computed(() => event.value.title),
+      venue: computed(() => event.value.venue),
+      description: computed(() => event.value.description),
+      eventSize: computed(() => event.value.eventSize),
+      timeStart: computed(() => event.value.date.start),
+      timeEnd: computed(() => event.value.date.end),
+      keywords: computed(() => event.value.keywords),
+      documents: computed(() => event.value.documents),
+
       generateDate,
     };
   },
