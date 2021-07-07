@@ -20,10 +20,11 @@ export default function useProfile() {
       }
       role.value = userProfile.value.role;
       error.value = false;
-      loading.value = false;
     } catch (err) {
       console.error(err);
       error.value = true;
+    } finally {
+      loading.value = false;
     }
   };
 

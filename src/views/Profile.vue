@@ -1,10 +1,10 @@
 <template>
   <BasePage>
-    <Spinner v-if="loading && !error" />
+    <Spinner v-if="loading && !error && !profile" />
     <p v-if="error">
       Error loading profile
     </p>
-    <ProfileLayout v-if="!loading && !error" :is-owner="isOwner" :profile="profile" />
+    <ProfileLayout v-if="!loading && !error && profile" :is-owner="isOwner" :profile="profile" />
   </BasePage>
 </template>
 
