@@ -21,11 +21,10 @@ export default defineComponent({
   },
   setup(props) {
     const { match } = props;
-    const { updateMatchStatus, updateUserMatchStatus } = useMatch();
+    const { updateUserMatchStatus } = useMatch();
     const { role } = useProfile();
 
     const accept = async () => {
-      await updateMatchStatus(match, 'accepted');
       await updateUserMatchStatus(match.eventId, match.userId, 'accepted', role.value);
     };
 
