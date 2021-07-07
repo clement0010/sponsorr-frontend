@@ -1,21 +1,24 @@
-import { ref, onMounted } from '@vue/composition-api';
+import { ref, onMounted, computed } from '@vue/composition-api';
 
 import {
   changeUserMatchStatusFromDb,
   getAllMatchedEventFromDb,
-  getEventFromDb,
   getMatchesByEventId,
   parseUserEventId,
   updateMatchedEventStatusFromDb,
 } from '@/common';
 import { pendingCategory, rejectedCategory, acceptedCategory } from '@/common/matchesConfig';
-import { Match, MatchCategory, Matches, MatchStatus, Message, Role } from '@/types';
+import { Match, MatchCategory, Matches, MatchStatus, Message, Role, SponsorEvent } from '@/types';
 import { MatchGroup } from '@/types/enum';
 import { uid, role } from '@/composable/store';
+import useSnackbar from './snackbarComposition';
 
 // eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types
 export default function useMatch() {
+  const { success, alert } = useSnackbar();
+
   const loading = ref(true);
+  const error = ref(false);
 
   const storedRole = ref<Role>();
   const id = ref<string>('');
@@ -77,10 +80,17 @@ export default function useMatch() {
     }
   };
 
-  const fetchMatchesByEventId = async (eventId: string) => {
-    const userEvent = await getEventFromDb(eventId);
-    const eventMatches = await getMatchesByEventId(eventId, userEvent);
-    matches.value = eventMatches;
+  const fetchMatchesByEventId = async (eventId: string, userEvent: SponsorEvent | undefined) => {
+    try {
+      error.value = false;
+      loading.value = true;
+      const eventMatches = await getMatchesByEventId(eventId, userEvent);
+      matches.value = eventMatches;
+    } catch (err) {
+      error.value = true;
+    } finally {
+      loading.value = false;
+    }
   };
 
   const updateMatchStatus = async (
@@ -112,7 +122,6 @@ export default function useMatch() {
       }
       loading.value = false;
     }
-    await fetchMatchesByEventId(eventId);
   };
 
   const updateUserMatchStatus = async (
@@ -121,18 +130,31 @@ export default function useMatch() {
     status: MatchStatus,
     userRole: Role | undefined,
   ) => {
-    await changeUserMatchStatusFromDb(eventId, userId, status, userRole);
+    try {
+      await changeUserMatchStatusFromDb(eventId, userId, status, userRole);
+      if (status === 'accepted') {
+        success('Match accepted!');
+      }
+      if (status === 'rejected') {
+        success('Match rejected');
+      }
+    } catch (err) {
+      alert('There was an issue');
+    }
   };
 
   return {
-    loading,
-    matchCategories,
-
     initialise,
     fetchMatches,
     fetchMatchesByEventId,
     updateMatchStatus,
     updateUserMatchStatus,
-    matches,
+
+    loading: computed(() => loading.value),
+    error: computed(() => error.value),
+
+    matches: computed(() => matches.value),
+
+    matchCategories,
   };
 }

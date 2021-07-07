@@ -4,9 +4,13 @@
       Matches
     </v-card-title>
     <v-card-text>
-      <v-data-table class="elevation-3" :headers="headers" :items="matches">
+      <v-data-table class="elevation-3" :headers="headers" :items="matches" :loading="loading">
         <template #no-data>
           No matches yet
+        </template>
+
+        <template #loading>
+          Loading matches...
         </template>
 
         <template #[`item.actions`]="{ item }">
@@ -22,10 +26,11 @@
 </template>
 
 <script lang="ts">
-import { Matches } from '@/types';
-import { defineComponent } from '@vue/composition-api';
+import { defineComponent, onBeforeMount } from '@vue/composition-api';
 
 import MatchActionMenu from '@/components/MatchActions/MatchActionMenu.vue';
+import useMatch from '@/composable/matchComposition';
+import { SponsorEvent } from '@/types';
 
 export default defineComponent({
   name: 'EventMatchesTable',
@@ -33,12 +38,23 @@ export default defineComponent({
     MatchActionMenu,
   },
   props: {
-    matches: {
-      type: Array as () => Matches,
+    eventId: {
+      type: String,
+      required: true,
+    },
+    event: {
+      type: Object as () => SponsorEvent,
       required: true,
     },
   },
-  setup() {
+  setup(props) {
+    const { eventId, event } = props;
+    const { matches, loading, error, fetchMatchesByEventId } = useMatch();
+
+    onBeforeMount(async () => {
+      await fetchMatchesByEventId(eventId, event);
+    });
+
     const headers = [
       {
         text: 'Sponsor',
@@ -58,6 +74,9 @@ export default defineComponent({
 
     return {
       headers,
+      matches,
+      loading,
+      error,
     };
   },
 });
