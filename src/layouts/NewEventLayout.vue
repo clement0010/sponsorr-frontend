@@ -14,21 +14,16 @@
 
         <v-stepper-items>
           <v-stepper-content step="1">
-            <FormNewEventEssentials @next="steps++" @cancel="redirect" />
+            <FormNewEventEssentials @next="steps++" />
           </v-stepper-content>
           <v-stepper-content step="2">
-            <FormNewEventAbout @next="steps++" @back="steps--" @cancel="redirect" />
+            <FormNewEventAbout @next="steps++" @back="steps--" />
           </v-stepper-content>
           <v-stepper-content step="3">
-            <FormNewEventRequests @next="steps++" @back="steps--" @cancel="redirect" />
+            <FormNewEventRequests @next="steps++" @back="steps--" />
           </v-stepper-content>
           <v-stepper-content step="4">
-            <FormNewEventDocuments
-              @back="steps--"
-              @create="redirect"
-              @cancel="redirect"
-              @loading="$emit('loading')"
-            />
+            <FormNewEventDocuments @back="steps--" />
           </v-stepper-content>
         </v-stepper-items>
       </v-stepper>

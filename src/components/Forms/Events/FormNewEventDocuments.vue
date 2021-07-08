@@ -17,7 +17,7 @@
         outlined
         placeholder="Accepted file formats: .pdf"
         show-size
-        :rules="[fileUploadSizeRule, requireInputRule]"
+        :rules="[fileUploadSizeRule]"
         @change="uploadFile"
       />
 
@@ -30,18 +30,14 @@
         counter
         chips
         show-size
-        :rules="[fileUploadSizeRuleSingle, requireInputRule]"
+        :rules="[fileUploadSizeRuleSingle]"
         @change="uploadPicture"
       />
 
       <v-card-actions>
         <NewEventCancel @cancel="(message) => $emit('cancel', message)" />
         <v-btn @click="back"> Back </v-btn>
-        <NewEventCreate
-          :valid="!valid"
-          @create="$emit('create', 'Event created successfully')"
-          @loading="$emit('loading')"
-        />
+        <NewEventCreate :valid="valid" />
       </v-card-actions>
     </v-form>
   </v-card>
@@ -76,13 +72,16 @@ export default defineComponent({
     const pictureUrl = ref('');
 
     const persist = async () => {
-      const localData = JSON.parse(localStorage.getItem('data') || '');
+      const cached = JSON.parse(localStorage.getItem('data') || 'null');
       const data = {
         documents: fileUrl.value,
         picture: pictureUrl.value,
       };
-      Object.assign(localData, data);
-      localStorage.setItem('data', JSON.stringify(localData));
+      const stored = {
+        ...cached,
+        ...data,
+      };
+      localStorage.setItem('data', JSON.stringify(stored));
     };
 
     const back = () => {

@@ -86,14 +86,15 @@ export default defineComponent({
   },
   setup(_, { emit }) {
     const valid = ref(false);
+    const storage = JSON.parse(localStorage.getItem('data') || '{}');
 
     const eventData = reactive({
-      description: '',
-      participants: 0,
-      budgetMin: 0,
-      budgetMax: 0,
-      demographic: [],
-      keywords: [],
+      description: storage.description || '',
+      participants: storage.eventSize || 0,
+      budgetMin: storage.budget?.minimum || 0,
+      budgetMax: storage.budget?.maximum || 0,
+      demographic: storage.demographic || [],
+      keywords: storage.keywords || [],
     });
 
     const demographic = [
@@ -122,7 +123,7 @@ export default defineComponent({
     };
 
     const persist = () => {
-      const localData = JSON.parse(localStorage.getItem('data') || '');
+      const cached = JSON.parse(localStorage.getItem('data') || 'null');
       const data = {
         description: eventData.description,
         eventSize: eventData.participants,
@@ -133,9 +134,11 @@ export default defineComponent({
         demographic: eventData.demographic,
         keywords: eventData.keywords,
       };
-      Object.assign(localData, data);
-
-      localStorage.setItem('data', JSON.stringify(localData));
+      const stored = {
+        ...cached,
+        ...data,
+      };
+      localStorage.setItem('data', JSON.stringify(stored));
     };
 
     const navigate = (direction: string) => {

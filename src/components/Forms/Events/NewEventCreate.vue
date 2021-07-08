@@ -18,7 +18,7 @@ export default defineComponent({
       require: true,
     },
   },
-  setup(_, { emit }) {
+  setup(_, { root }) {
     const { createEvent } = useEvent();
 
     const disable = ref(false);
@@ -53,11 +53,10 @@ export default defineComponent({
         userId: uid.value,
       };
       console.log(newEvent);
-      emit('loading');
       await createEvent(newEvent);
       localStorage.clear();
-      emit('create');
       disable.value = false;
+      root.$router.push({ name: 'Dashboard' });
     };
 
     return { create, disable };

@@ -22,9 +22,12 @@ export default function useEvent() {
   const createEvent = async (newEvent: SponsorEvent): Promise<void> => {
     try {
       loading.value = true;
+      success('Creating event...');
       await createEventToDb(newEvent);
+      success('Event created successfully!');
     } catch (err) {
       console.error(err);
+      alert('Error creating event');
       throw new Error(err);
     } finally {
       loading.value = false;
