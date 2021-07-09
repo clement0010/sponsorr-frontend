@@ -28,6 +28,17 @@
           </v-list-item>
         </router-link>
 
+        <router-link :to="{ name: 'Analytics' }">
+          <v-list-item>
+            <v-list-item-icon>
+              <v-icon>mdi-chart-line-variant</v-icon>
+            </v-list-item-icon>
+            <v-list-item-content>
+              Analytics
+            </v-list-item-content>
+          </v-list-item>
+        </router-link>
+
         <router-link v-if="role === 'Sponsor'" :to="{ name: 'Matches' }">
           <v-list-item>
             <v-list-item-icon>
@@ -115,11 +126,14 @@ export default defineComponent({
           case 'Dashboard':
             selected.value = 1;
             break;
-          case 'Marketplace':
+          case 'Analytics':
             selected.value = 2;
             break;
-          case 'Settings':
+          case 'Marketplace':
             selected.value = 3;
+            break;
+          case 'Settings':
+            selected.value = 4;
             break;
           default:
             selected.value = -1;
@@ -134,11 +148,14 @@ export default defineComponent({
           case 'Matches':
             selected.value = 1;
             break;
-          case 'Marketplace':
+          case 'Analytics':
             selected.value = 2;
             break;
-          case 'Settings':
+          case 'Marketplace':
             selected.value = 3;
+            break;
+          case 'Settings':
+            selected.value = 4;
             break;
           default:
             selected.value = -1;

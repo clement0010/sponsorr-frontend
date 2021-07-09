@@ -84,6 +84,13 @@ const routes: Array<RouteConfig> = [
     beforeEnter: authGuard,
   },
   {
+    path: '/analytics',
+    name: 'Analytics',
+    component: () => import(/* webpackChunkName: "analytics" */ '@/views/Analytics.vue'),
+    meta: { requiresAuth: true, authorize: [Role.Organiser, Role.Sponsor] },
+    beforeEnter: authGuard,
+  },
+  {
     path: '/playground',
     name: 'Playground',
     component: () => import(/* webpackChunkName: "playground" */ '@/views/Playground.vue'),
