@@ -66,7 +66,7 @@
       >
       </v-combobox>
       <v-card-actions>
-        <NewEventCancel @cancel="(message) => $emit('cancel', message)" />
+        <NewEventCancel />
         <v-btn @click="navigate('back')"> Back </v-btn>
         <v-btn :disabled="!valid" class="success" @click="navigate('next')"> Next </v-btn>
       </v-card-actions>

@@ -10,16 +10,21 @@
           </v-col>
         </v-row>
 
-        <v-card-title>
-          Matching Service
-        </v-card-title>
-        <v-row>
-          <v-col cols="auto">
-            <v-card-text>
-              <SubscriptionToggle />
-            </v-card-text>
-          </v-col>
-        </v-row>
+        <div v-if="role === 'Sponsor'">
+          <v-card-title>
+            Matching Service
+          </v-card-title>
+          <v-row>
+            <v-col cols="auto">
+              <v-card-text>
+                <FormSubscribeMatching v-if="!subscribed" />
+                <v-btn v-else class="error" @click="unsubscribe">
+                  Unsubscribe from Matching Service
+                </v-btn>
+              </v-card-text>
+            </v-col>
+          </v-row>
+        </div>
 
         <v-card-title>
           Account
@@ -29,7 +34,7 @@
             <v-list color="transparent">
               <v-list-item-group>
                 <v-list-item>
-                  <ChangePassword />
+                  <FormChangePassword />
                 </v-list-item>
 
                 <v-list-item @click="userSignout">
@@ -45,23 +50,31 @@
 </template>
 
 <script lang="ts">
-import ChangePassword from '@/components/PageComponents/Settings/ChangePassword.vue';
-import SubscriptionToggle from '@/components/PageComponents/Settings/SubscriptionToggle.vue';
+import FormChangePassword from '@/components/Forms/Authentication/FormChangePassword.vue';
+import FormSubscribeMatching from '@/components/Forms/Subscription/FormSubscribeMatching.vue';
 
 import useAuth from '@/composable/authComposition';
 import useProfile from '@/composable/profileComposition';
 
-import { defineComponent } from '@vue/composition-api';
+import { defineComponent, ref } from '@vue/composition-api';
 
 export default defineComponent({
   name: 'SettingsLayout',
   components: {
-    ChangePassword,
-    SubscriptionToggle,
+    FormChangePassword,
+    FormSubscribeMatching,
   },
   setup(_, { root }) {
     const { signout } = useAuth();
-    const { clearProfile } = useProfile();
+    const { clearProfile, role } = useProfile();
+
+    // TODO: query status
+    const subscribed = ref(false);
+
+    // TODO: unsubscribe logic
+    const unsubscribe = () => {
+      console.log('unsubscribed!');
+    };
 
     const userSignout = async () => {
       await signout();
@@ -73,6 +86,9 @@ export default defineComponent({
 
     return {
       userSignout,
+      role,
+      subscribed,
+      unsubscribe,
     };
   },
 });
