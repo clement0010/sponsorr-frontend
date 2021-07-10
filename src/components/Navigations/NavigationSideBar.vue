@@ -64,7 +64,7 @@
         <v-divider />
 
         <v-list>
-          <router-link :to="{ name: 'Settings' }">
+          <router-link v-if="role === 'Sponsor'" :to="{ name: 'Settings' }">
             <v-list-item>
               <v-list-item-icon>
                 <v-icon>mdi-cog</v-icon>
@@ -131,9 +131,6 @@ export default defineComponent({
             break;
           case 'Marketplace':
             selected.value = 3;
-            break;
-          case 'Settings':
-            selected.value = 4;
             break;
           default:
             selected.value = -1;

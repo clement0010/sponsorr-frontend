@@ -10,21 +10,19 @@
           </v-col>
         </v-row>
 
-        <div v-if="role === 'Sponsor'">
-          <v-card-title>
-            Matching Service
-          </v-card-title>
-          <v-row>
-            <v-col cols="auto">
-              <v-card-text>
-                <FormSubscribeMatching v-if="!subscribed" />
-                <v-btn v-else class="error" @click="unsubscribe">
-                  Unsubscribe from Matching Service
-                </v-btn>
-              </v-card-text>
-            </v-col>
-          </v-row>
-        </div>
+        <v-card-title>
+          Matching Service
+        </v-card-title>
+        <v-row>
+          <v-col cols="auto">
+            <v-card-text>
+              <FormSubscribeMatching v-if="!subscribed" />
+              <v-btn v-else class="error" @click="unsubscribe">
+                Unsubscribe from Matching Service
+              </v-btn>
+            </v-card-text>
+          </v-col>
+        </v-row>
 
         <v-card-title>
           Account
@@ -66,7 +64,7 @@ export default defineComponent({
   },
   setup(_, { root }) {
     const { signout } = useAuth();
-    const { clearProfile, role } = useProfile();
+    const { clearProfile } = useProfile();
 
     // TODO: query status
     const subscribed = ref(false);
@@ -86,7 +84,6 @@ export default defineComponent({
 
     return {
       userSignout,
-      role,
       subscribed,
       unsubscribe,
     };

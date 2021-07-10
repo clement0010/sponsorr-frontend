@@ -56,9 +56,8 @@ const routes: Array<RouteConfig> = [
     path: '/settings',
     name: 'Settings',
     component: () => import(/* webpackChunkName: "settings" */ '@/views/Settings.vue'),
-    // To be enabled
-    // meta: { requiresAuth: true },
-    // beforeEnter: authGuard,
+    meta: { requiresAuth: true, authorize: [Role.Sponsor] },
+    beforeEnter: authGuard,
   },
   {
     path: '/new-event',
