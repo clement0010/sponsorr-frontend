@@ -142,15 +142,25 @@ export default defineComponent({
   },
   setup(_, { emit }) {
     const valid = ref(false);
+    const storage = JSON.parse(localStorage.getItem('data') || 'null');
 
-    const eventData = reactive({
-      title: '',
-      dateStart: '',
-      dateEnd: '',
-      timeStart: '',
-      timeEnd: '',
-      venue: '',
-    });
+    const eventData = storage
+      ? reactive({
+          title: storage.title,
+          dateStart: generateDate(storage.date.start, 'YYYY-MM-DD'),
+          dateEnd: generateDate(storage.date.end, 'YYYY-MM-DD'),
+          timeStart: generateDate(storage.date.start, 'HH:mm'),
+          timeEnd: generateDate(storage.date.end, 'HH:mm'),
+          venue: storage.venue,
+        })
+      : reactive({
+          title: '',
+          dateStart: '',
+          dateEnd: '',
+          timeStart: '',
+          timeEnd: '',
+          venue: '',
+        });
 
     const today = generateDate(undefined, 'YYYY-MM-DD');
     const oneDayEvent = computed(() => eventData.dateStart === eventData.dateEnd);
@@ -165,6 +175,7 @@ export default defineComponent({
     const displayTimeEnd = computed(() => parseTime(eventData.timeEnd));
 
     const persist = () => {
+      const cached = JSON.parse(localStorage.getItem('data') || 'null');
       const data = {
         title: eventData.title,
         date: {
@@ -173,8 +184,14 @@ export default defineComponent({
         },
         venue: eventData.venue,
       };
-      console.log(generateUnixTime(`${eventData.dateStart} ${eventData.timeStart}`));
-      console.log(generateUnixTime(`${eventData.dateEnd} ${eventData.timeEnd}`));
+      if (cached) {
+        const stored = {
+          ...cached,
+          ...data,
+        };
+        localStorage.setItem('data', JSON.stringify(stored));
+        return;
+      }
       localStorage.setItem('data', JSON.stringify(data));
     };
 

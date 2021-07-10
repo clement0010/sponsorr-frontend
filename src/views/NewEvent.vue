@@ -1,14 +1,6 @@
 <template>
   <BasePage>
-    <NewEventLayout
-      @loading="$emit('success', 'Creating event...')"
-      @redirect="
-        (message) => {
-          $emit('success', message);
-          $router.push({ name: 'Dashboard' });
-        }
-      "
-    />
+    <NewEventLayout />
   </BasePage>
 </template>
 

@@ -3,7 +3,7 @@
     <v-card-title> {{ headline }} </v-card-title>
     <v-row v-if="searchResult">
       <v-col v-for="(result, index) in searchResult" :key="index">
-        <EventCard :event="result" :authenticated="authenticated" />
+        <EventCard :event="result" />
       </v-col>
     </v-row>
   </v-container>
@@ -27,10 +27,6 @@ export default defineComponent({
     searchResult: {
       type: Array as () => Sponsor[] | SponsorEventDbItems,
       default: () => [],
-    },
-    authenticated: {
-      type: Boolean,
-      required: true,
     },
   },
   setup(props) {

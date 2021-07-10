@@ -1,10 +1,10 @@
 <template>
   <v-container>
-    <v-hover>
+    <v-hover :disabled="!isOwner">
       <template #default="{ hover }">
         <v-avatar size="200">
-          <v-img v-if="!urlPic" src="@/assets/icon-profile.svg" />
-          <v-img v-else :src="urlPic" />
+          <v-img v-if="!displayPicture" src="@/assets/icon-profile.svg" />
+          <v-img v-else :src="displayPicture" />
           <v-fade-transition>
             <v-overlay v-if="hover" absolute color="#036358">
               <v-btn icon @click="toggleDialog">
@@ -16,18 +16,18 @@
       </template>
     </v-hover>
     <EditDisplayPicture
-      :url-pic="urlPic"
+      v-if="isOwner"
       :dialog="dialog"
+      :display-picture="displayPicture"
       @toggle="toggleDialog"
-      @edit-display-picture="(payload) => $emit('edit', payload)"
     />
   </v-container>
 </template>
 
 <script lang="ts">
-import { defineComponent, ref } from '@vue/composition-api';
-
 import EditDisplayPicture from '@/components/UserActions/EditDisplayPicture.vue';
+
+import { defineComponent, ref } from '@vue/composition-api';
 
 export default defineComponent({
   name: 'ProfileDisplayPicture',
@@ -35,16 +35,22 @@ export default defineComponent({
     EditDisplayPicture,
   },
   props: {
-    urlPic: {
-      type: String,
+    isOwner: {
+      type: Boolean,
       required: true,
+    },
+    displayPicture: {
+      type: String,
+      default: '',
     },
   },
   setup() {
     const dialog = ref(false);
+
     const toggleDialog = () => {
       dialog.value = !dialog.value;
     };
+
     return {
       dialog,
       toggleDialog,

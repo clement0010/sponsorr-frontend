@@ -31,17 +31,17 @@
         </v-row>
       </v-container>
     </v-app-bar>
-    <NavigationSideBar v-if="!loading && authenticated" :id="id" :drawer="drawer" />
+    <NavigationSideBar v-if="!loading && authenticated" :drawer="drawer" />
   </v-container>
 </template>
 
 <script lang="ts">
-import { defineComponent, ref } from '@vue/composition-api';
-import useAuth from '@/composable/authComposition';
-
 import AuthenticationButton from '@/components/Authentication/AuthenticationButton.vue';
 import LogoSponsorr from '@/components/BuildingElements/LogoSponsorr.vue';
-import NavigationSideBar from './NavigationSideBar.vue';
+import NavigationSideBar from '@/components/Navigations/NavigationSideBar.vue';
+import { authenticated, authLoading } from '@/composable/store';
+
+import { defineComponent, ref } from '@vue/composition-api';
 
 export default defineComponent({
   name: 'NavigationBarWeb',
@@ -50,21 +50,17 @@ export default defineComponent({
     LogoSponsorr,
     NavigationSideBar,
   },
-  setup(_, { root }) {
-    const isHome = () => root.$route.name === 'Home' || root.$route.name === 'Playground';
+  setup() {
     const drawer = ref(false);
-    const { authenticated, uid, loading } = useAuth();
 
     const toggleSideBar = () => {
       drawer.value = !drawer.value;
     };
 
     return {
-      isHome,
       authenticated,
-      id: uid,
       drawer,
-      loading,
+      loading: authLoading,
       toggleSideBar,
     };
   },

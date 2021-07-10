@@ -78,8 +78,9 @@ export default defineComponent({
   setup(_, { emit }) {
     const dialog = ref(false);
     const valid = ref(false);
+    const storage = JSON.parse(localStorage.getItem('data') || '{}');
 
-    const eventData = ref<SponsorRequest[]>([]);
+    const eventData = ref<SponsorRequest[]>(storage.requests || []);
 
     const noRequests = computed(() => eventData.value.length < 1);
 
@@ -93,12 +94,15 @@ export default defineComponent({
     };
 
     const persist = () => {
-      const localData = JSON.parse(localStorage.getItem('data') || '');
+      const cached = JSON.parse(localStorage.getItem('data') || 'null');
       const data = {
         requests: eventData.value,
       };
-      Object.assign(localData, data);
-      localStorage.setItem('data', JSON.stringify(localData));
+      const stored = {
+        ...cached,
+        ...data,
+      };
+      localStorage.setItem('data', JSON.stringify(stored));
     };
 
     const navigate = (direction: string) => {

@@ -105,6 +105,8 @@ export interface Match {
   userId: string;
   eventId: string;
   status: MatchStatus;
+  organiserStatus: MatchStatus;
+  sponsorStatus: MatchStatus;
   event: SponsorEvent;
   messages?: Messages;
 }

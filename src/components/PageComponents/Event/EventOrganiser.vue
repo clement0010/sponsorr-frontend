@@ -14,7 +14,7 @@ export default defineComponent({
   props: {
     user: {
       type: String,
-      default: 'The Foo Bar Society',
+      required: true,
     },
   },
 });

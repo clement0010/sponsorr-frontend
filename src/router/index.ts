@@ -55,7 +55,7 @@ const routes: Array<RouteConfig> = [
   {
     path: '/settings',
     name: 'Settings',
-    component: () => import(/* webpackChunkName: "settings" */ '@/views/404.vue'),
+    component: () => import(/* webpackChunkName: "settings" */ '@/views/Settings.vue'),
     // To be enabled
     // meta: { requiresAuth: true },
     // beforeEnter: authGuard,
@@ -80,6 +80,13 @@ const routes: Array<RouteConfig> = [
     name: 'Event',
     component: () => import(/* webpackChunkName: "event" */ '@/views/Event.vue'),
     // To be enabled
+    meta: { requiresAuth: true, authorize: [Role.Organiser, Role.Sponsor] },
+    beforeEnter: authGuard,
+  },
+  {
+    path: '/analytics',
+    name: 'Analytics',
+    component: () => import(/* webpackChunkName: "analytics" */ '@/views/Analytics.vue'),
     meta: { requiresAuth: true, authorize: [Role.Organiser, Role.Sponsor] },
     beforeEnter: authGuard,
   },

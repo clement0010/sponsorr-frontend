@@ -108,6 +108,7 @@ import { defineComponent, reactive } from '@vue/composition-api';
 import useAuth from '@/composable/authComposition';
 import { Sponsor } from '@/types';
 import Spinner from '@/components/BuildingElements/Spinner.vue';
+import { authLoading } from '@/composable/store';
 import LogoSponsorr from '../../BuildingElements/LogoSponsorr.vue';
 
 export default defineComponent({
@@ -116,7 +117,7 @@ export default defineComponent({
   setup(_, { root, emit }) {
     const logoWidth = 250;
 
-    const { error, signup, loading } = useAuth();
+    const { error, signup } = useAuth();
 
     const configuration = reactive({
       valid: true,
@@ -184,7 +185,7 @@ export default defineComponent({
 
       // Sign up
       error,
-      loading,
+      loading: authLoading,
 
       authenticateUser,
     };

@@ -23,8 +23,11 @@
           </template>
 
           <template #[`item.actions`]="{ item }">
-            <MatchAccept :match="item" @acceptMatch="(payload) => $emit('acceptMatch', payload)" />
-            <MatchReject :match="item" @rejectMatch="(payload) => $emit('rejectMatch', payload)" />
+            <MatchActionMenu
+              :match="item"
+              @acceptMatch="(payload) => $emit('acceptMatch', payload)"
+              @rejectMatch="(payload) => $emit('rejectMatch', payload)"
+            />
           </template>
 
           <template #[`item.event.date`]="{ item }">
@@ -45,14 +48,13 @@
 import { MatchCategory } from '@/types';
 import { defineComponent, ref } from '@vue/composition-api';
 import { generateDateRangeFromUnixTimeRange } from '@/common/utils';
-import MatchAccept from '@/components/MatchActions/MatchAccept.vue';
-import MatchReject from '@/components/MatchActions/MatchReject.vue';
+
+import MatchActionMenu from '@/components/PageComponents/Matches/MatchActionMenu.vue';
 
 export default defineComponent({
   name: 'MatchesTable',
   components: {
-    MatchAccept,
-    MatchReject,
+    MatchActionMenu,
   },
   props: {
     matchCategories: {

@@ -1,5 +1,6 @@
-import { SponsorEvent } from '@/types';
+import { MatchStatus, Role, SponsorEvent } from '@/types';
 import { UpdateData } from '../type';
+import { parseUserEventId } from '../utils';
 import { db } from './utils';
 
 /**
@@ -32,4 +33,23 @@ export const updateEventFromDb = async (
 
 export const deleteEventFromDb = async (eventId: string): Promise<void> => {
   await db.events.doc(eventId).delete();
+};
+
+export const updateUserMatchStatusFromDb = async (
+  eventId: string,
+  userId: string,
+  status: MatchStatus,
+  role: Role | undefined,
+): Promise<void> => {
+  const match = await db.matches.doc(parseUserEventId(userId, eventId));
+  if (role === 'EventOrganiser') {
+    await match.update({
+      organiserStatus: status,
+    });
+  }
+  if (role === 'Sponsor') {
+    await match.update({
+      sponsorStatus: status,
+    });
+  }
 };

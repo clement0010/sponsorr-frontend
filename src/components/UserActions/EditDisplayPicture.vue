@@ -8,18 +8,8 @@
         </v-card-text>
         <v-card-actions>
           <v-spacer />
-          <v-btn class="error" rounded text @click="toggle"> Cancel </v-btn>
-          <v-btn
-            class="success"
-            rounded
-            text
-            @click="
-              {
-                edit();
-                toggle();
-              }
-            "
-          >
+          <v-btn class="error" rounded text @click="cancel"> Cancel </v-btn>
+          <v-btn class="success" rounded text @click="edit">
             Save
           </v-btn>
         </v-card-actions>
@@ -29,40 +19,49 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, ref } from '@vue/composition-api';
+import useAuth from '@/composable/authComposition';
+import useProfile from '@/composable/profileComposition';
+
 import { validURLRule } from '@/common/validation';
+
+import { defineComponent, ref } from '@vue/composition-api';
 
 export default defineComponent({
   name: 'EditDisplayPicture',
   props: {
-    urlPic: {
-      type: String,
-      default: () => '',
-    },
     dialog: {
       type: Boolean,
       default: false,
     },
+    displayPicture: {
+      type: String,
+      required: true,
+    },
   },
   setup(props, { emit }) {
-    const input = ref(props.urlPic);
+    const { uid } = useAuth();
+    const { editUserProfile } = useProfile();
+    const { displayPicture } = props;
 
-    const toggle = () => {
+    const input = ref(displayPicture);
+
+    const cancel = () => {
       emit('toggle');
-      input.value = props.urlPic;
+      input.value = displayPicture;
     };
 
-    const edit = () => {
-      emit('edit-display-picture', {
+    const edit = async () => {
+      emit('toggle');
+      await editUserProfile(uid.value, {
         displayPicture: input.value,
       });
     };
 
     return {
-      edit,
-      toggle,
       input,
       validURLRule,
+      edit,
+      cancel,
     };
   },
 });

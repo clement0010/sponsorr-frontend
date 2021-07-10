@@ -1,32 +1,33 @@
 <template>
   <BasePage>
-    <Spinner :loading="loading && !error" />
+    <Spinner v-if="loading && !error && !event" />
     <p v-if="error">Error loading event</p>
     <EventLayout
-      v-if="role && !(error || loading)"
+      v-if="!loading && !error && event"
       :event="event"
       :is-owner="isOwner"
       :role="role"
+      :event-id="eventId"
+      :name="name"
       @deleteEvent="remove"
       @publishEvent="publish"
       @edit="edit"
-      @apply="sendApplication"
     />
   </BasePage>
 </template>
 
 <script lang="ts">
-import { computed, defineComponent, Ref, ref, watch } from '@vue/composition-api';
-import { Role, SponsorEvent } from '@/types';
-
 import BasePage from '@/layouts/BasePage.vue';
 import EventLayout from '@/layouts/EventLayout.vue';
 import Spinner from '@/components/BuildingElements/Spinner.vue';
+
+import useAuth from '@/composable/authComposition';
 import useEvent from '@/composable/eventComposition';
 import useProfile from '@/composable/profileComposition';
-import useAuth from '@/composable/authComposition';
-import useMarketplace from '@/composable/marketplaceComposition';
-import { generateUnixTime } from '@/common';
+import useVisitProfile from '@/composable/visitProfileComposition';
+
+import { SponsorEvent } from '@/types';
+import { computed, defineComponent, onBeforeMount } from '@vue/composition-api';
 
 export default defineComponent({
   name: 'Event',
@@ -36,42 +37,44 @@ export default defineComponent({
     EventLayout,
   },
   setup(_, { root, emit }) {
+    const { uid } = useAuth();
     const {
       event,
-      loading,
-      error,
+      loading: eventLoad,
+      error: eventError,
       fetchUserEvent,
       deleteEvent,
       editEvent,
       updateEventStatus,
     } = useEvent();
-    const { profile, fetchUserProfile } = useProfile();
-    const { uid, authenticated } = useAuth();
-    const { applyEvent } = useMarketplace();
-
-    const isOwner = computed(() => event.value?.userId === uid.value);
-    const role: Ref<Role | undefined> = ref();
+    const { profile, role } = useProfile();
+    const {
+      profile: eventOwnerProfile,
+      fetchUserProfile,
+      loading: profileLoad,
+      error: profileError,
+    } = useVisitProfile();
 
     const eventId = root.$route.params.id;
 
-    const edit = async (payload: Record<string, unknown>) => {
-      try {
-        await editEvent(eventId, payload);
-        emit('success', 'Successfully edited!');
-      } catch (err) {
-        emit('alert', 'Failed to edit!');
-        console.error(err);
+    const isOwner = computed(() => event.value?.userId === uid.value);
+    const loading = computed(() => eventLoad.value || profileLoad.value);
+    const error = computed(() => eventError.value || profileError.value);
+
+    onBeforeMount(async () => {
+      await fetchUserEvent(eventId);
+      console.log(event.value?.userId === uid.value);
+      if (!isOwner.value) {
+        await fetchUserProfile(event.value?.userId || '');
       }
+    });
+
+    const edit = async (payload: Record<string, unknown>) => {
+      await editEvent(eventId, payload);
     };
 
     const publish = async (payload: SponsorEvent) => {
-      const message = payload.status === 'published' ? 'Event published' : 'Event unpublished';
-      try {
-        await updateEventStatus(eventId, payload.status, payload.published);
-        emit('success', message);
-      } catch (err) {
-        emit('alert', 'Process failed');
-      }
+      await updateEventStatus(eventId, payload.status, payload.published);
     };
 
     const remove = async (payload: string) => {
@@ -84,29 +87,20 @@ export default defineComponent({
       }
     };
 
-    // TODO: Send logic
-    const sendApplication = async (payload: string) => {
-      try {
-        emit('success', 'Sending application');
-        await applyEvent(eventId, uid.value, [{ message: payload, timestamp: generateUnixTime() }]);
-        emit('success', 'Application sent');
-      } catch (err) {
-        emit('alert', 'Send application failed');
-      }
-    };
-
-    watch(authenticated, async () => {
-      if (authenticated.value) {
-        loading.value = true;
-        await fetchUserProfile(uid.value);
-        await fetchUserEvent(eventId);
-        role.value = profile.value?.role;
-        loading.value = false;
-        if (!isOwner.value && !error.value) {
-          await editEvent(eventId, { clicks: (event.value?.clicks || 0) + 1 });
-        }
-      }
-    });
+    if (isOwner.value) {
+      return {
+        event,
+        loading,
+        error,
+        publish,
+        edit,
+        remove,
+        isOwner,
+        role,
+        name: computed(() => profile.value?.name),
+        eventId,
+      };
+    }
 
     return {
       event,
@@ -117,7 +111,8 @@ export default defineComponent({
       remove,
       isOwner,
       role,
-      sendApplication,
+      name: computed(() => eventOwnerProfile.value?.name),
+      eventId,
     };
   },
 });

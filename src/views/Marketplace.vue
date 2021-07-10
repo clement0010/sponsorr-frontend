@@ -7,7 +7,6 @@
       :loading="loading"
       :search-result="events"
       :input="userInput"
-      :authenticated="authenticated"
       @search="search"
       @search-criteria="searchCriteria"
     />
@@ -15,12 +14,11 @@
 </template>
 
 <script lang="ts">
-import { computed, defineComponent, onMounted, Ref, ref } from '@vue/composition-api';
+import { computed, defineComponent, ref } from '@vue/composition-api';
 import { Sponsor, SponsorEventDbItems } from '@/types';
 import useMarketplace from '@/composable/marketplaceComposition';
 import BasePage from '@/layouts/BasePage.vue';
 import MarketplaceLayout from '@/layouts/MarketplaceLayout.vue';
-import useAuth from '@/composable/authComposition';
 import Spinner from '@/components/BuildingElements/Spinner.vue';
 
 export default defineComponent({
@@ -35,20 +33,14 @@ export default defineComponent({
       loading,
       error: marketplaceError,
       searchEvent,
-      initialise,
       filteredEvents: events,
     } = useMarketplace();
-    const { authenticated } = useAuth();
 
     const userInput = ref('');
     const criteria = ref('');
     const error = computed(() => marketplaceError.value);
 
-    onMounted(async () => {
-      await initialise();
-    });
-
-    const searchResult: Ref<Sponsor[] | SponsorEventDbItems | undefined> = ref([]);
+    const searchResult = ref<Sponsor[] | SponsorEventDbItems>([]);
 
     const search = async (input: string) => {
       if (!criteria.value) {
@@ -80,7 +72,6 @@ export default defineComponent({
       error,
       searchCriteria,
       events,
-      authenticated,
     };
   },
 });

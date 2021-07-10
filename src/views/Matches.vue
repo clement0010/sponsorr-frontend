@@ -11,12 +11,10 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, onMounted, watch } from '@vue/composition-api';
+import { defineComponent } from '@vue/composition-api';
 import useMatch from '@/composable/matchComposition';
 import BasePage from '@/layouts/BasePage.vue';
 import MatchesLayout from '@/layouts/MatchesLayout.vue';
-import useAuth from '@/composable/authComposition';
-import useProfile from '@/composable/profileComposition';
 
 import { Match } from '@/types';
 
@@ -26,35 +24,15 @@ export default defineComponent({
     BasePage,
     MatchesLayout,
   },
-  setup(_, { emit }) {
-    const { matchCategories, initialise, loading, fetchMatches, updateMatchStatus } = useMatch();
-    const { uid, loading: authLoad } = useAuth();
-    const { getRole } = useProfile();
-
-    onMounted(() => {
-      watch(authLoad, async () => {
-        const resultRole = await getRole(uid.value);
-        if (!resultRole) return;
-        await initialise(uid.value, resultRole);
-      });
-    });
+  setup() {
+    const { matchCategories, loading, fetchMatches, updateUserMatchStatus } = useMatch();
 
     const accept = async (payload: Match) => {
-      try {
-        await updateMatchStatus(payload, 'accepted');
-        emit('success', 'Match accepted');
-      } catch (err) {
-        emit('alert', 'Process failed');
-      }
+      await updateUserMatchStatus(payload.eventId, payload.userId, 'accepted', 'Sponsor');
     };
 
     const reject = async (payload: Match) => {
-      try {
-        await updateMatchStatus(payload, 'rejected');
-        emit('success', 'Match rejected');
-      } catch (err) {
-        emit('alert', 'Process failed');
-      }
+      await updateUserMatchStatus(payload.eventId, payload.userId, 'rejected', 'Sponsor');
     };
 
     return {

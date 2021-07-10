@@ -26,6 +26,8 @@
 </template>
 
 <script lang="ts">
+import useAuth from '@/composable/authComposition';
+import useProfile from '@/composable/profileComposition';
 import { defineComponent, ref } from '@vue/composition-api';
 
 export default defineComponent({
@@ -33,29 +35,34 @@ export default defineComponent({
   props: {
     about: {
       type: String,
-      default: 'Fill in your bio!',
+      required: true,
     },
   },
-  setup(props, { emit }) {
-    const input = ref(props.about);
-    const dialog = ref(false); // Dialog is closed by default
+  setup(props) {
+    const { uid } = useAuth();
+    const { editUserProfile } = useProfile();
+    const { about } = props;
+
+    const input = ref(about);
+    const dialog = ref(false);
 
     const cancel = () => {
-      dialog.value = false; // Closes dialog
+      dialog.value = false;
+      input.value = about;
     };
 
-    const edit = () => {
-      dialog.value = false; // Closes dialog
-      emit('edit-about', {
+    const edit = async () => {
+      dialog.value = false;
+      await editUserProfile(uid.value, {
         about: input.value,
       });
     };
 
     return {
       dialog,
+      input,
       cancel,
       edit,
-      input,
     };
   },
 });

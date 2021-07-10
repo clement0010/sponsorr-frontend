@@ -3,17 +3,18 @@
     <v-card-title class="text-h4 black--text">
       Contact
       <EditContact
-        :contact="contact"
+        v-if="isOwner"
+        :location="location"
         :phone-number="phoneNumber"
-        @edit-contact="(payload) => $emit('edit', payload)"
+        :website-url="websiteUrl"
       />
     </v-card-title>
     <v-list color="transparent">
       <v-list-item>
         <v-icon color="black"> mdi-link </v-icon>
         <v-card-text>
-          <a class="pa-2" :href="contact.websiteUrl">
-            {{ contact.websiteUrl }}
+          <a class="pa-2" :href="websiteUrl">
+            {{ websiteUrl }}
           </a>
         </v-card-text>
       </v-list-item>
@@ -21,8 +22,8 @@
       <v-list-item>
         <v-icon color="black"> mdi-map-marker </v-icon>
         <v-card-text>
-          <a class="pa-2" :href="contact.location">
-            {{ contact.location }}
+          <a class="pa-2" :href="location">
+            {{ location }}
           </a>
         </v-card-text>
       </v-list-item>
@@ -47,9 +48,11 @@
 </template>
 
 <script lang="ts">
-import { defineComponent } from '@vue/composition-api';
-import { Contact } from '@/types';
 import EditContact from '@/components/UserActions/EditContact.vue';
+
+import { Contact } from '@/types';
+
+import { computed, defineComponent, toRefs } from '@vue/composition-api';
 
 export default defineComponent({
   name: 'ProfileContact',
@@ -57,26 +60,30 @@ export default defineComponent({
     EditContact,
   },
   props: {
-    contact: {
-      type: Object as () => Contact,
+    isOwner: {
+      type: Boolean,
       required: true,
-      default(): Contact {
-        return {
-          location: 'Empty...',
-          websiteUrl: 'Empty...',
-        };
-      },
-    },
-    phoneNumber: {
-      type: String,
-      required: true,
-      default: '65 89097488',
     },
     email: {
       type: String,
       required: true,
-      default: 'test@gmail.com',
     },
+    phoneNumber: {
+      type: String,
+      required: true,
+    },
+    contact: {
+      type: Object as () => Contact,
+      required: true,
+    },
+  },
+  setup(props) {
+    const { contact } = toRefs(props);
+
+    return {
+      location: computed(() => contact.value.location),
+      websiteUrl: computed(() => contact.value.websiteUrl),
+    };
   },
 });
 </script>

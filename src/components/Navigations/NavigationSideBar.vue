@@ -1,9 +1,10 @@
 <template>
   <v-navigation-drawer :value="drawer" temporary absolute>
-    <p v-if="!profile"></p>
-    <UserStatusCard v-else :role="profile.role" :username="profile.name" />
+    <UserStatusCard />
+
     <v-divider />
-    <v-list v-if="profile" nav>
+
+    <v-list v-if="id" nav>
       <v-list-item-group v-model="selected" color="primary" mandatory>
         <router-link :to="{ name: 'Profile', params: { id } }">
           <v-list-item>
@@ -16,7 +17,7 @@
           </v-list-item>
         </router-link>
 
-        <router-link v-if="profile.role === 'EventOrganiser'" :to="{ name: 'Dashboard' }">
+        <router-link v-if="role === 'EventOrganiser'" :to="{ name: 'Dashboard' }">
           <v-list-item>
             <v-list-item-icon>
               <v-icon>mdi-view-dashboard</v-icon>
@@ -27,7 +28,18 @@
           </v-list-item>
         </router-link>
 
-        <router-link v-if="profile.role === 'Sponsor'" :to="{ name: 'Matches' }">
+        <router-link :to="{ name: 'Analytics' }">
+          <v-list-item>
+            <v-list-item-icon>
+              <v-icon>mdi-chart-line-variant</v-icon>
+            </v-list-item-icon>
+            <v-list-item-content>
+              Analytics
+            </v-list-item-content>
+          </v-list-item>
+        </router-link>
+
+        <router-link v-if="role === 'Sponsor'" :to="{ name: 'Matches' }">
           <v-list-item>
             <v-list-item-icon>
               <v-icon>mdi-account-supervisor-circle-outline</v-icon>
@@ -79,9 +91,10 @@
 
 <script lang="ts">
 import useAuth from '@/composable/authComposition';
-import { ref, defineComponent, watch } from '@vue/composition-api';
+import { ref, defineComponent, onMounted } from '@vue/composition-api';
 import UserStatusCard from '@/components/BuildingElements/UserStatusCard.vue';
 import useProfile from '@/composable/profileComposition';
+import { authenticated, uid } from '@/composable/store';
 
 export default defineComponent({
   name: 'NavigationSideBar',
@@ -93,21 +106,19 @@ export default defineComponent({
       type: Boolean,
       default: false,
     },
-    id: {
-      type: String,
-      required: true,
-    },
   },
   setup(_, { root }) {
-    const { signout, uid, authenticated, loading } = useAuth();
-    const { profile, fetchUserProfile } = useProfile();
+    const { signout } = useAuth();
+    const { clearProfile, role } = useProfile();
+
     const selected = ref(0);
 
-    watch(authenticated, async () => {
-      if (authenticated) {
-        await fetchUserProfile(uid.value);
+    onMounted(() => {
+      if (!authenticated.value) {
+        return;
       }
-      if (profile.value?.role === 'EventOrganiser') {
+
+      if (role.value === 'EventOrganiser') {
         switch (root.$route.name) {
           case 'Profile':
             selected.value = 0;
@@ -115,15 +126,21 @@ export default defineComponent({
           case 'Dashboard':
             selected.value = 1;
             break;
-          case 'Marketplace':
+          case 'Analytics':
             selected.value = 2;
+            break;
+          case 'Marketplace':
+            selected.value = 3;
+            break;
+          case 'Settings':
+            selected.value = 4;
             break;
           default:
             selected.value = -1;
             break;
         }
       }
-      if (profile.value?.role === 'Sponsor') {
+      if (role.value === 'Sponsor') {
         switch (root.$route.name) {
           case 'Profile':
             selected.value = 0;
@@ -131,8 +148,14 @@ export default defineComponent({
           case 'Matches':
             selected.value = 1;
             break;
-          case 'Marketplace':
+          case 'Analytics':
             selected.value = 2;
+            break;
+          case 'Marketplace':
+            selected.value = 3;
+            break;
+          case 'Settings':
+            selected.value = 4;
             break;
           default:
             selected.value = -1;
@@ -141,19 +164,19 @@ export default defineComponent({
       }
     });
 
-    const userSignout = () => {
-      signout();
+    const userSignout = async () => {
+      await signout();
       root.$router.push({
         name: 'Home',
       });
+      clearProfile();
     };
 
     return {
       selected,
       userSignout,
-      authenticated,
-      loading,
-      profile,
+      role,
+      id: uid,
     };
   },
 });

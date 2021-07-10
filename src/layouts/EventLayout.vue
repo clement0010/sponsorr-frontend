@@ -3,39 +3,40 @@
     <v-row justify="center">
       <v-card class="my-10 pa-5" width="1320" rounded="xl">
         <EventPicture
-          :picture="event.picture"
+          :picture="picture"
           :is-owner="isOwner"
           @edit="(payload) => $emit('edit', payload)"
         />
         <EventTitle
-          :title="event.title"
+          :title="title"
           :is-owner="isOwner"
           @edit="(payload) => $emit('edit', payload)"
         />
-        <EventOrganiser v-if="!loading" :user="profile.name" />
+        <EventOrganiser :user="name" />
         <EventDescription
-          :description="event.description"
+          :description="description"
           :is-owner="isOwner"
           @edit="(payload) => $emit('edit', payload)"
         />
         <EventDetails
-          :venue="event.venue"
-          :event-size="event.eventSize"
-          :time-start="event.date.start"
-          :time-end="event.date.end"
+          :venue="venue"
+          :event-size="eventSize"
+          :time-start="timeStart"
+          :time-end="timeEnd"
           :is-owner="isOwner"
           @edit="(payload) => $emit('edit', payload)"
         />
         <EventKeywords
-          :keywords="event.keywords"
+          :keywords="keywords"
           :is-owner="isOwner"
           @edit="(payload) => $emit('edit', payload)"
         />
         <EventDocuments
-          :documents="event.documents"
+          :documents="documents"
           :is-owner="isOwner"
           @edit="(payload) => $emit('edit', payload)"
         />
+        <EventMatchesTable v-if="isOwner" :event="event" :event-id="eventId" />
         <v-card-text class="text-right">
           <EventUnpublish
             v-if="event.matches < 1 && event.published && isOwner"
@@ -53,7 +54,7 @@
             :title="event.title"
             @deleteEvent="(payload) => $emit('deleteEvent', payload)"
           />
-          <EventApply v-if="role === 'Sponsor'" @apply="(input) => $emit('apply', input)" />
+          <EventApply v-if="role === 'Sponsor'" :event-id="eventId" />
         </v-card-text>
       </v-card>
     </v-row>
@@ -61,22 +62,22 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, onMounted } from '@vue/composition-api';
+import { computed, defineComponent, toRefs } from '@vue/composition-api';
 import { Role, SponsorEvent } from '@/types';
 import { generateDate } from '@/common/utils';
 
-import EventTitle from '@/components/PageComponents/Event/EventTitle.vue';
-import EventOrganiser from '@/components/PageComponents/Event/EventOrganiser.vue';
-import EventDescription from '@/components/PageComponents/Event/EventDescription.vue';
+import EventApply from '@/components/EventActions/EventApply.vue';
 import EventDetails from '@/components/PageComponents/Event/EventDetails.vue';
-import EventKeywords from '@/components/PageComponents/Event/EventKeywords.vue';
-import EventDocuments from '@/components/PageComponents/Event/EventDocuments.vue';
 import EventDelete from '@/components/EventActions/EventDelete.vue';
+import EventDescription from '@/components/PageComponents/Event/EventDescription.vue';
+import EventDocuments from '@/components/PageComponents/Event/EventDocuments.vue';
+import EventKeywords from '@/components/PageComponents/Event/EventKeywords.vue';
+import EventTitle from '@/components/PageComponents/Event/EventTitle.vue';
+import EventMatchesTable from '@/components/PageComponents/Event/EventMatchesTable.vue';
+import EventOrganiser from '@/components/PageComponents/Event/EventOrganiser.vue';
+import EventPicture from '@/components/PageComponents/Event/EventPicture.vue';
 import EventPublish from '@/components/EventActions/EventPublish.vue';
 import EventUnpublish from '@/components/EventActions/EventUnpublish.vue';
-import EventApply from '@/components/EventActions/EventApply.vue';
-import EventPicture from '@/components/PageComponents/Event/EventPicture.vue';
-import useProfile from '@/composable/profileComposition';
 
 export default defineComponent({
   components: {
@@ -91,12 +92,18 @@ export default defineComponent({
     EventUnpublish,
     EventPicture,
     EventApply,
+    EventMatchesTable,
   },
   props: {
     event: {
       type: Object as () => SponsorEvent,
       required: true,
     },
+    eventId: {
+      type: String,
+      required: true,
+    },
+
     isOwner: {
       type: Boolean,
       required: true,
@@ -105,21 +112,26 @@ export default defineComponent({
       type: String as () => Role,
       required: true,
     },
+    name: {
+      type: String,
+      default: '',
+    },
   },
-  setup(props, { root }) {
-    const eventId = root.$route.params.id;
-    const { event } = props;
-    const { fetchUserProfile, profile, loading } = useProfile();
-
-    onMounted(async () => {
-      await fetchUserProfile(event.userId);
-    });
+  setup(props) {
+    const { event } = toRefs(props);
 
     return {
+      picture: computed(() => event.value.picture),
+      title: computed(() => event.value.title),
+      venue: computed(() => event.value.venue),
+      description: computed(() => event.value.description),
+      eventSize: computed(() => event.value.eventSize),
+      timeStart: computed(() => event.value.date.start),
+      timeEnd: computed(() => event.value.date.end),
+      keywords: computed(() => event.value.keywords),
+      documents: computed(() => event.value.documents),
+
       generateDate,
-      eventId,
-      profile,
-      loading,
     };
   },
 });
