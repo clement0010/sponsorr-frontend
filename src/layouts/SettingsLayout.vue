@@ -24,7 +24,7 @@
           </v-col>
         </v-row>
 
-        <v-card-title>
+        <!-- <v-card-title>
           Account
         </v-card-title>
         <v-row>
@@ -41,14 +41,14 @@
               </v-list-item-group>
             </v-list>
           </v-col>
-        </v-row>
+        </v-row> -->
       </v-card>
     </v-row>
   </v-container>
 </template>
 
 <script lang="ts">
-import FormChangePassword from '@/components/Forms/Authentication/FormChangePassword.vue';
+// import FormChangePassword from '@/components/Forms/Authentication/FormChangePassword.vue';
 import FormSubscribeMatching from '@/components/Forms/Subscription/FormSubscribeMatching.vue';
 
 import useAuth from '@/composable/authComposition';
@@ -59,7 +59,7 @@ import { defineComponent, ref } from '@vue/composition-api';
 export default defineComponent({
   name: 'SettingsLayout',
   components: {
-    FormChangePassword,
+    // FormChangePassword,
     FormSubscribeMatching,
   },
   setup(_, { root }) {
