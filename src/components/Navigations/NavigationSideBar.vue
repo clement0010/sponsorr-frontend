@@ -28,17 +28,6 @@
           </v-list-item>
         </router-link>
 
-        <router-link :to="{ name: 'Analytics' }">
-          <v-list-item>
-            <v-list-item-icon>
-              <v-icon>mdi-chart-line-variant</v-icon>
-            </v-list-item-icon>
-            <v-list-item-content>
-              Analytics
-            </v-list-item-content>
-          </v-list-item>
-        </router-link>
-
         <router-link v-if="role === 'Sponsor'" :to="{ name: 'Matches' }">
           <v-list-item>
             <v-list-item-icon>
@@ -46,6 +35,17 @@
             </v-list-item-icon>
             <v-list-item-content>
               Matches
+            </v-list-item-content>
+          </v-list-item>
+        </router-link>
+
+        <router-link :to="{ name: 'Analytics' }">
+          <v-list-item>
+            <v-list-item-icon>
+              <v-icon>mdi-chart-line-variant</v-icon>
+            </v-list-item-icon>
+            <v-list-item-content>
+              Analytics
             </v-list-item-content>
           </v-list-item>
         </router-link>
