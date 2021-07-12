@@ -46,7 +46,17 @@ export default defineComponent({
         title: {
           display: true,
           text: role.value === 'EventOrganiser' ? 'Events Summary' : 'Matches Summary',
-          size: '200px',
+          font: {
+            size: 20,
+          },
+        },
+      },
+      scales: {
+        y: {
+          min: 0,
+          ticks: {
+            stepSize: 1,
+          },
         },
       },
     });
