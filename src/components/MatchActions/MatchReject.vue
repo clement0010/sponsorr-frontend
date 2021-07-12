@@ -32,6 +32,7 @@ export default defineComponent({
       if (role.value === 'EventOrganiser') {
         match.value.organiserStatus = 'rejected';
       }
+      match.value.status = 'rejected';
     };
 
     return {
