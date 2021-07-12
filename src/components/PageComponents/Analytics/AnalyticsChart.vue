@@ -40,6 +40,9 @@ export default defineComponent({
     const options = ref({
       responsive: true,
       plugins: {
+        legend: {
+          display: false,
+        },
         title: {
           display: true,
           text: role.value === 'EventOrganiser' ? 'Events Summary' : 'Matches Summary',
