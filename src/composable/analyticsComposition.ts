@@ -9,7 +9,7 @@ import useSnackbar from './snackbarComposition';
 export default function useAnalytics() {
   const { alert } = useSnackbar();
 
-  const data = ref<number[]>([]);
+  const barData = ref<number[]>([]);
 
   const summarizeEvents = (events: SponsorEvents, value: string) => {
     return events
@@ -36,15 +36,15 @@ export default function useAnalytics() {
     try {
       if (userRole === 'EventOrganiser') {
         const events = await getUserEventFromDb(userId);
-        data.value.push(summarizeEvents(events, 'clicks'));
-        data.value.push(summarizeEvents(events, 'views'));
-        data.value.push(summarizeEvents(events, 'matches'));
+        barData.value.push(summarizeEvents(events, 'clicks'));
+        barData.value.push(summarizeEvents(events, 'views'));
+        barData.value.push(summarizeEvents(events, 'matches'));
       }
       if (userRole === 'Sponsor') {
         const matches = await getAllMatchedEventFromDb(userId);
-        data.value.push(summarizeMatches(matches, 'accepted'));
-        data.value.push(summarizeMatches(matches, 'pending'));
-        data.value.push(summarizeMatches(matches, 'rejected'));
+        barData.value.push(summarizeMatches(matches, 'accepted'));
+        barData.value.push(summarizeMatches(matches, 'pending'));
+        barData.value.push(summarizeMatches(matches, 'rejected'));
       }
     } catch (err) {
       console.error(err);
@@ -57,7 +57,7 @@ export default function useAnalytics() {
   });
 
   return {
-    data: computed(() => data.value),
+    barData: computed(() => barData.value),
     role: computed(() => role.value),
   };
 }

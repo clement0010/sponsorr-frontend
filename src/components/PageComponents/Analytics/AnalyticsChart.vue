@@ -1,6 +1,6 @@
 <template>
   <v-card :width="500">
-    <BarChart :data="testData" :options="options" />
+    <BarChart :data="barChartData" :options="options" />
   </v-card>
 </template>
 
@@ -13,15 +13,15 @@ export default defineComponent({
   name: 'AnalyticsChart',
   components: { BarChart },
   setup() {
-    const { data, role } = useAnalytics();
+    const { barData, role } = useAnalytics();
 
-    const testData = computed(() =>
+    const barChartData = computed(() =>
       role.value === 'EventOrganiser'
         ? {
             labels: ['Clicks', 'Views', 'Matches'],
             datasets: [
               {
-                data: data.value,
+                data: barData.value,
                 backgroundColor: ['#77CEFF', '#0079AF', '#123E6B', '#97B0C4', '#A5C8ED'],
               },
             ],
@@ -30,7 +30,7 @@ export default defineComponent({
             labels: ['Accepted', 'Pending', 'Rejected'],
             datasets: [
               {
-                data: data.value,
+                data: barData.value,
                 backgroundColor: ['#77CEFF', '#0079AF', '#123E6B', '#97B0C4', '#A5C8ED'],
               },
             ],
@@ -61,7 +61,10 @@ export default defineComponent({
       },
     });
 
-    return { testData, options };
+    return {
+      barChartData,
+      options,
+    };
   },
 });
 </script>
