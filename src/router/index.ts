@@ -48,8 +48,7 @@ const routes: Array<RouteConfig> = [
     path: '/marketplace',
     name: 'Marketplace',
     component: () => import(/* webpackChunkName: "marketplace" */ '@/views/Marketplace.vue'),
-    meta: { requiresAuth: true },
-    // To be enabled
+    meta: { requiresAuth: true, authorize: [Role.Sponsor] },
     beforeEnter: authGuard,
   },
   {
@@ -86,7 +85,7 @@ const routes: Array<RouteConfig> = [
     path: '/analytics',
     name: 'Analytics',
     component: () => import(/* webpackChunkName: "analytics" */ '@/views/Analytics.vue'),
-    meta: { requiresAuth: true, authorize: [Role.Organiser, Role.Sponsor] },
+    meta: { requiresAuth: true },
     beforeEnter: authGuard,
   },
   {

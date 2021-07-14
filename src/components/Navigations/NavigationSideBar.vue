@@ -50,7 +50,7 @@
           </v-list-item>
         </router-link>
 
-        <router-link :to="{ name: 'Marketplace' }">
+        <router-link v-if="role === 'Sponsor'" :to="{ name: 'Marketplace' }">
           <v-list-item>
             <v-list-item-icon>
               <v-icon>mdi-shopping</v-icon>
@@ -128,9 +128,6 @@ export default defineComponent({
             break;
           case 'Analytics':
             selected.value = 2;
-            break;
-          case 'Marketplace':
-            selected.value = 3;
             break;
           default:
             selected.value = -1;
