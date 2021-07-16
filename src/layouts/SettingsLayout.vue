@@ -10,23 +10,21 @@
           </v-col>
         </v-row>
 
-        <div v-if="role === 'Sponsor'">
-          <v-card-title>
-            Matching Service
-          </v-card-title>
-          <v-row>
-            <v-col cols="auto">
-              <v-card-text>
-                <FormSubscribeMatching v-if="!subscribed" />
-                <v-btn v-else class="error" @click="unsubscribe">
-                  Unsubscribe from Matching Service
-                </v-btn>
-              </v-card-text>
-            </v-col>
-          </v-row>
-        </div>
-
         <v-card-title>
+          Matching Service
+        </v-card-title>
+        <v-row>
+          <v-col cols="auto">
+            <v-card-text>
+              <FormSubscribeMatching v-if="!subscribed" />
+              <v-btn v-else class="error" @click="unsubscribe">
+                Unsubscribe from Matching Service
+              </v-btn>
+            </v-card-text>
+          </v-col>
+        </v-row>
+
+        <!-- <v-card-title>
           Account
         </v-card-title>
         <v-row>
@@ -43,14 +41,14 @@
               </v-list-item-group>
             </v-list>
           </v-col>
-        </v-row>
+        </v-row> -->
       </v-card>
     </v-row>
   </v-container>
 </template>
 
 <script lang="ts">
-import FormChangePassword from '@/components/Forms/Authentication/FormChangePassword.vue';
+// import FormChangePassword from '@/components/Forms/Authentication/FormChangePassword.vue';
 import FormSubscribeMatching from '@/components/Forms/Subscription/FormSubscribeMatching.vue';
 
 import useAuth from '@/composable/authComposition';
@@ -61,12 +59,12 @@ import { defineComponent, ref } from '@vue/composition-api';
 export default defineComponent({
   name: 'SettingsLayout',
   components: {
-    FormChangePassword,
+    // FormChangePassword,
     FormSubscribeMatching,
   },
   setup(_, { root }) {
     const { signout } = useAuth();
-    const { clearProfile, role } = useProfile();
+    const { clearProfile } = useProfile();
 
     // TODO: query status
     const subscribed = ref(false);
@@ -86,7 +84,6 @@ export default defineComponent({
 
     return {
       userSignout,
-      role,
       subscribed,
       unsubscribe,
     };

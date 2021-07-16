@@ -39,9 +39,7 @@
         </v-list>
 
         <div v-else>
-          <p v-if="!profile"></p>
-
-          <UserStatusCard v-else />
+          <UserStatusCard />
           <v-divider />
           <v-list nav>
             <v-list-item-group v-model="selected" color="primary" mandatory>
@@ -122,6 +120,7 @@
                     Sign Out
                   </v-list-item-content>
                 </v-list-item>
+                <HelpDialog :color="'black'" />
               </v-list>
             </v-list-item-group>
           </v-list>
@@ -133,6 +132,7 @@
 
 <script lang="ts">
 import AuthenticationButton from '@/components/Authentication/AuthenticationButton.vue';
+import HelpDialog from '@/components/Navigations/HelpDialog.vue';
 import LogoSponsorr from '@/components/BuildingElements/LogoSponsorr.vue';
 import UserStatusCard from '@/components/BuildingElements/UserStatusCard.vue';
 
@@ -146,6 +146,7 @@ export default defineComponent({
   name: 'NavigationDropdown',
   components: {
     AuthenticationButton,
+    HelpDialog,
     LogoSponsorr,
     UserStatusCard,
   },

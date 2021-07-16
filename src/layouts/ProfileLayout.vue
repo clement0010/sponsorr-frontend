@@ -1,7 +1,7 @@
 <template>
   <v-container class="secondary" fluid>
     <v-row justify="center">
-      <v-card max-width="1320px" color="transparent" class="my-16" flat>
+      <v-card width="1320px" color="transparent" class="my-16" flat>
         <v-row align="center" justify="center">
           <v-col align="center" justify="center" cols="auto">
             <DisplayPicture :is-owner="isOwner" :display-picture="displayPicture" />

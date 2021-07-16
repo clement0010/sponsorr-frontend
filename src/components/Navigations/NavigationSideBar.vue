@@ -28,17 +28,6 @@
           </v-list-item>
         </router-link>
 
-        <router-link :to="{ name: 'Analytics' }">
-          <v-list-item>
-            <v-list-item-icon>
-              <v-icon>mdi-chart-line-variant</v-icon>
-            </v-list-item-icon>
-            <v-list-item-content>
-              Analytics
-            </v-list-item-content>
-          </v-list-item>
-        </router-link>
-
         <router-link v-if="role === 'Sponsor'" :to="{ name: 'Matches' }">
           <v-list-item>
             <v-list-item-icon>
@@ -50,7 +39,18 @@
           </v-list-item>
         </router-link>
 
-        <router-link :to="{ name: 'Marketplace' }">
+        <router-link :to="{ name: 'Analytics' }">
+          <v-list-item>
+            <v-list-item-icon>
+              <v-icon>mdi-chart-line-variant</v-icon>
+            </v-list-item-icon>
+            <v-list-item-content>
+              Analytics
+            </v-list-item-content>
+          </v-list-item>
+        </router-link>
+
+        <router-link v-if="role === 'Sponsor'" :to="{ name: 'Marketplace' }">
           <v-list-item>
             <v-list-item-icon>
               <v-icon>mdi-shopping</v-icon>
@@ -64,7 +64,7 @@
         <v-divider />
 
         <v-list>
-          <router-link :to="{ name: 'Settings' }">
+          <router-link v-if="role === 'Sponsor'" :to="{ name: 'Settings' }">
             <v-list-item>
               <v-list-item-icon>
                 <v-icon>mdi-cog</v-icon>
@@ -128,12 +128,6 @@ export default defineComponent({
             break;
           case 'Analytics':
             selected.value = 2;
-            break;
-          case 'Marketplace':
-            selected.value = 3;
-            break;
-          case 'Settings':
-            selected.value = 4;
             break;
           default:
             selected.value = -1;

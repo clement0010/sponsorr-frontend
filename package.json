@@ -17,11 +17,13 @@
   "dependencies": {
     "@vue/composition-api": "^1.0.0-rc.8",
     "axios": "^0.21.1",
+    "chart.js": "^3.4.1",
     "core-js": "^3.6.5",
     "dayjs": "^1.10.5",
     "firebase": "^8.6.1",
     "fuse.js": "^6.4.6",
     "vue": "^2.6.11",
+    "vue-chart-3": "^0.3.7",
     "vue-router": "^3.2.0",
     "vue-tel-input-vuetify": "^1.2.16",
     "vuetify": "^2.4.0"

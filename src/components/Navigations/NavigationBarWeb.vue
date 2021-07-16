@@ -28,6 +28,9 @@
             </router-link>
             <AuthenticationButton />
           </v-col>
+          <v-col v-else cols="auto">
+            <HelpDialog />
+          </v-col>
         </v-row>
       </v-container>
     </v-app-bar>
@@ -37,6 +40,7 @@
 
 <script lang="ts">
 import AuthenticationButton from '@/components/Authentication/AuthenticationButton.vue';
+import HelpDialog from '@/components/Navigations/HelpDialog.vue';
 import LogoSponsorr from '@/components/BuildingElements/LogoSponsorr.vue';
 import NavigationSideBar from '@/components/Navigations/NavigationSideBar.vue';
 import { authenticated, authLoading } from '@/composable/store';
@@ -47,6 +51,7 @@ export default defineComponent({
   name: 'NavigationBarWeb',
   components: {
     AuthenticationButton,
+    HelpDialog,
     LogoSponsorr,
     NavigationSideBar,
   },
