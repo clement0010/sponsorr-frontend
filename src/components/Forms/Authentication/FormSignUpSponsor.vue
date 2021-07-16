@@ -1,5 +1,6 @@
 <template>
   <v-container>
+    <Spinner v-if="loading" />
     <v-row justify="center">
       <v-col cols="auto">
         <router-link to="/">
@@ -97,8 +98,6 @@
         </v-card-subtitle>
       </v-row>
     </v-card>
-
-    <Spinner :loading="loading" />
   </v-container>
 </template>
 
