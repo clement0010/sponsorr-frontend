@@ -5,6 +5,7 @@
         <v-avatar size="200">
           <v-img v-if="!displayPicture" src="@/assets/icon-profile.svg" />
           <v-img v-else :src="displayPicture" />
+
           <v-fade-transition>
             <v-overlay v-if="hover" absolute color="#036358">
               <v-btn icon @click="toggleDialog">
@@ -15,12 +16,7 @@
         </v-avatar>
       </template>
     </v-hover>
-    <EditDisplayPicture
-      v-if="isOwner"
-      :dialog="dialog"
-      :display-picture="displayPicture"
-      @toggle="toggleDialog"
-    />
+    <EditDisplayPicture v-if="isOwner" :dialog="dialog" @toggle="toggleDialog" />
   </v-container>
 </template>
 
