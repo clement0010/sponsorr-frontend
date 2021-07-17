@@ -1,7 +1,6 @@
 import Vue from 'vue';
 
 import useProfile from '@/composable/profileComposition';
-import useSnackbar from '@/composable/snackbarComposition';
 
 import { authenticated, authLoading, uid, userInfo } from '@/composable/store';
 import { auth } from '@/common/firebase';
@@ -35,16 +34,12 @@ auth.onAuthStateChanged(async (user) => {
 
 // eslint-disable-next-line
 export default function useAuth() {
-  const { alert, success } = useSnackbar();
-
   const error = ref(false);
 
   const signout = async () => {
-    authLoading.value = true;
     auth
       .signOut()
       .then(() => {
-        authLoading.value = false;
         authenticated.value = false;
         uid.value = '';
         userInfo.value = undefined;
@@ -53,7 +48,6 @@ export default function useAuth() {
         console.error(err);
         error.value = true;
       });
-    success('Signed out!');
   };
 
   const login = async (email: string, password: string): Promise<string | undefined> => {
@@ -62,21 +56,19 @@ export default function useAuth() {
       const { user } = await auth.signInWithEmailAndPassword(email, password);
 
       authenticated.value = true;
-      authLoading.value = false;
       error.value = false;
 
       if (!user) {
         console.log('Login Error');
       }
-      success('Logged in!');
       return user?.uid;
     } catch (err) {
       console.error(err);
       error.value = true;
       authenticated.value = false;
-      authLoading.value = false;
-      alert('Login error');
       return err;
+    } finally {
+      authLoading.value = false;
     }
   };
 
@@ -103,8 +95,9 @@ export default function useAuth() {
       console.error(err);
       error.value = true;
       authenticated.value = false;
-      authLoading.value = false;
       throw err;
+    } finally {
+      authLoading.value = false;
     }
   };
 

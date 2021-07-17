@@ -2,17 +2,20 @@ import { NavigationGuardNext, Route } from 'vue-router';
 import { watch } from '@vue/composition-api';
 import useProfile from '@/composable/profileComposition';
 import { authenticated, authLoading, uid } from '@/composable/store';
+import useSnackbar from '@/composable/snackbarComposition';
 
 const authGuard = (to: Route, from: Route, next: NavigationGuardNext): void => {
   const { role } = useProfile();
+  const { alert } = useSnackbar();
 
   const redirect = () => {
     if (authLoading.value) return;
 
-    if (to.matched.some((record) => record.meta.requiresAuth)) {
+    if (to.meta.requiresAuth) {
       if (!authenticated.value) {
+        alert('You are not logged in!');
         return next({
-          path: '/',
+          path: '/login',
         });
       }
       const { authorize } = to.meta;
@@ -48,7 +51,9 @@ const authGuard = (to: Route, from: Route, next: NavigationGuardNext): void => {
 
     return next();
   };
-  watch(authLoading, () => redirect());
+  watch(authLoading, () => {
+    redirect();
+  });
 
   return redirect();
 };

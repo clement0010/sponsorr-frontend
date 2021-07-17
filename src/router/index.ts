@@ -3,7 +3,6 @@ import Home from '@/views/Home.vue';
 import Vue from 'vue';
 import VueRouter, { RouteConfig } from 'vue-router';
 import authGuard from './authGuard';
-import unAuthGuard from './unAuthGuard';
 
 Vue.use(VueRouter);
 
@@ -18,14 +17,14 @@ const routes: Array<RouteConfig> = [
     name: 'SignUp',
     component: () => import(/* webpackChunkName: "signup" */ '@/views/SignUp.vue'),
     meta: { requiresAuth: false },
-    beforeEnter: unAuthGuard,
+    beforeEnter: authGuard,
   },
   {
     path: '/login',
     name: 'Login',
     component: () => import(/* webpackChunkName: "login" */ '@/views/Login.vue'),
     meta: { requiresAuth: false },
-    beforeEnter: unAuthGuard,
+    beforeEnter: authGuard,
   },
   {
     path: '/recover-account',
