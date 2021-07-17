@@ -1,5 +1,5 @@
 <template>
-  <v-dialog :value="dialog" width="500">
+  <v-dialog :value="dialog" width="500" persistent>
     <v-form>
       <v-card>
         <v-card-title>
