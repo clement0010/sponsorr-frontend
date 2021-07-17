@@ -21,13 +21,6 @@
         />
 
         <v-text-field
-          v-model="user.uen"
-          outlined
-          hint="Optional, for verification purposes (what is it?)"
-          label="UEN"
-        />
-
-        <v-text-field
           v-model="user.email"
           outlined
           required
@@ -130,7 +123,6 @@ export default defineComponent({
       password: '',
       confirmedPassword: '',
       phoneNumber: '',
-      uen: '',
     });
 
     const validatePassword = (password: string) =>
@@ -152,7 +144,6 @@ export default defineComponent({
         name: user.name,
         email: user.email,
         phoneNumber: user.phoneNumber,
-        uen: user.uen,
       };
       try {
         const uid: string = await signup(email, password, userMetadata);

@@ -13,7 +13,6 @@ export interface User {
   email: string;
   name: string;
   phoneNumber: string;
-  uen?: string;
 }
 
 export interface Profile extends User {
