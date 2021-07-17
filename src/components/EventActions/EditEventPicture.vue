@@ -44,13 +44,14 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, ref } from '@vue/composition-api';
-import { fileUploadSizeRuleSingle } from '@/common/validation';
 import useAuth from '@/composable/authComposition';
+
+import { fileUploadSizeRuleSingle } from '@/common/validation';
 import { uploadFileToStorage } from '@/common';
+import { defineComponent, ref } from '@vue/composition-api';
 
 export default defineComponent({
-  name: 'EditEventPictureButton',
+  name: 'EditEventPicture',
   props: {
     dialog: {
       type: Boolean,
@@ -58,8 +59,9 @@ export default defineComponent({
     },
   },
   setup(_, { emit }) {
-    const eventPicture = ref<File>();
     const { uid } = useAuth();
+
+    const eventPicture = ref<File>();
 
     const uploadPicture = async () => {
       const url = await uploadFileToStorage(uid.value, eventPicture.value);
@@ -78,6 +80,7 @@ export default defineComponent({
       emit('edit-picture', {
         picture: await uploadPicture(),
       });
+      eventPicture.value = undefined;
     };
 
     return {

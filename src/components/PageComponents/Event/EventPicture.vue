@@ -26,8 +26,9 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, ref } from '@vue/composition-api';
 import EditEventPicture from '@/components/EventActions/EditEventPicture.vue';
+
+import { defineComponent, ref } from '@vue/composition-api';
 
 export default defineComponent({
   name: 'EventPicture',
@@ -46,9 +47,11 @@ export default defineComponent({
   },
   setup() {
     const dialog = ref(false);
+
     const toggleDialog = () => {
       dialog.value = !dialog.value;
     };
+
     return {
       dialog,
       toggleDialog,

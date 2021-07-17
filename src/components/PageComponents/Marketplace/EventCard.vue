@@ -1,5 +1,5 @@
 <template>
-  <v-card max-width="400">
+  <v-card width="400">
     <v-card-title>
       {{ event.title }}
     </v-card-title>
@@ -26,6 +26,7 @@
 <script lang="ts">
 import AuthenticationPrompt from '@/components/Authentication/AuthenticationPrompt.vue';
 import EventView from '@/components/EventActions/EventView.vue';
+
 import { authenticated } from '@/composable/store';
 import { SponsorEventDbItem } from '@/types';
 import { defineComponent } from '@vue/composition-api';

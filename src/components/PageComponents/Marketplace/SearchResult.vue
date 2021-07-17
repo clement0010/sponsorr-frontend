@@ -2,7 +2,7 @@
   <v-container fluid>
     <v-card-title> {{ headline }} </v-card-title>
     <v-row v-if="searchResult">
-      <v-col v-for="(result, index) in searchResult" :key="index">
+      <v-col v-for="(result, index) in searchResult" :key="index" cols="3">
         <EventCard :event="result" />
       </v-col>
     </v-row>
@@ -10,9 +10,10 @@
 </template>
 
 <script lang="ts">
+import EventCard from '@/components/PageComponents/Marketplace/EventCard.vue';
+
 import { Sponsor, SponsorEventDbItems } from '@/types';
 import { computed, defineComponent, toRefs } from '@vue/composition-api';
-import EventCard from '@/components/PageComponents/Marketplace/EventCard.vue';
 
 export default defineComponent({
   name: 'SearchResult',
@@ -33,9 +34,9 @@ export default defineComponent({
     const { searchResult, input } = toRefs(props);
 
     const headline = computed(() => {
-      // if (!input) {
-      //   return 'All Result:';
-      // }
+      if (!input.value) {
+        return 'All Results:';
+      }
 
       const numResults = searchResult.value.length;
       if (numResults === 0) {
