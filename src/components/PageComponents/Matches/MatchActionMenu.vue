@@ -7,10 +7,10 @@
     </template>
 
     <v-list>
-      <v-list-item>
+      <v-list-item v-if="match.sponsorStatus === 'pending'">
         <MatchAccept :match="match" />
       </v-list-item>
-      <v-list-item>
+      <v-list-item v-if="match.sponsorStatus === 'pending'">
         <MatchReject :match="match" />
       </v-list-item>
       <v-list-item>
@@ -24,6 +24,7 @@
 import EventView from '@/components/EventActions/EventView.vue';
 import MatchAccept from '@/components/MatchActions/MatchAccept.vue';
 import MatchReject from '@/components/MatchActions/MatchReject.vue';
+
 import { Match } from '@/types';
 import { defineComponent } from '@vue/composition-api';
 

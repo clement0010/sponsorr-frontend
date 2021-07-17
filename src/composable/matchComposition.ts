@@ -8,7 +8,7 @@ import {
   updateMatchedEventStatusFromDb,
 } from '@/common';
 import { pendingCategory, rejectedCategory, acceptedCategory } from '@/common/matchesConfig';
-import { Match, MatchCategory, Matches, MatchStatus, Message, Role, SponsorEvent } from '@/types';
+import { Match, MatchCategory, Matches, MatchStatus, Role, SponsorEvent } from '@/types';
 import { MatchGroup } from '@/types/enum';
 import { uid, role } from '@/composable/store';
 import useSnackbar from './snackbarComposition';
@@ -19,9 +19,6 @@ export default function useMatch() {
 
   const loading = ref(true);
   const error = ref(false);
-
-  const storedRole = ref<Role>();
-  const id = ref<string>('');
 
   const matches = ref<Matches>();
 
@@ -64,11 +61,7 @@ export default function useMatch() {
         loading.value = true;
         const matchRef = matchCategory;
 
-        matchRef.contents = await getAllMatchedEventFromDb(
-          id.value,
-          storedRole.value,
-          matchRef.name,
-        );
+        matchRef.contents = await getAllMatchedEventFromDb(uid.value, role.value, matchRef.name);
 
         matchRef.loaded = true;
       }
@@ -93,52 +86,70 @@ export default function useMatch() {
     }
   };
 
-  const updateMatchStatus = async (
-    eventItem: Match,
-    matchCategory: MatchStatus,
-    message?: Message,
-  ): Promise<void> => {
-    const { eventId, userId } = eventItem;
-    const userEventId = parseUserEventId(userId, eventId);
-    try {
-      await updateMatchedEventStatusFromDb(userEventId, matchCategory, message);
-    } catch (err) {
-      console.error(err);
-      throw new Error(err);
-    } finally {
-      pendingCategory.contents = pendingCategory.contents.filter(
-        (event) => event.eventId !== eventId,
-      );
-      switch (matchCategory) {
-        case MatchGroup.Accepted:
-          acceptedCategory.contents.push(eventItem);
-          break;
-        case MatchGroup.Rejected:
-          rejectedCategory.contents.push(eventItem);
-          break;
+  // const updateMatchStatus = async (
+  //   eventItem: Match,
+  //   matchCategory: MatchStatus,
+  //   message?: Message,
+  // ): Promise<void> => {
+  //   const { eventId, userId } = eventItem;
+  //   const userEventId = parseUserEventId(userId, eventId);
+  //   try {
+  //     await updateMatchedEventStatusFromDb(userEventId, matchCategory, message);
+  //   } catch (err) {
+  //     console.error(err);
+  //     throw new Error(err);
+  //   } finally {
+  //     pendingCategory.contents = pendingCategory.contents.filter(
+  //       (event) => event.eventId !== eventId,
+  //     );
+  //     switch (matchCategory) {
+  //       case MatchGroup.Accepted:
+  //         acceptedCategory.contents.push(eventItem);
+  //         break;
+  //       case MatchGroup.Rejected:
+  //         rejectedCategory.contents.push(eventItem);
+  //         break;
 
-        default:
-          break;
-      }
-      loading.value = false;
-    }
-  };
+  //       default:
+  //         break;
+  //     }
+  //     loading.value = false;
+  //   }
+  // };
 
   const updateUserMatchStatus = async (
-    eventId: string,
-    userId: string,
+    match: Match,
     status: MatchStatus,
     userRole: Role | undefined,
   ) => {
     try {
-      await updateUserMatchStatusFromDb(eventId, userId, status, userRole);
-      if (status === 'accepted') {
-        success('Match accepted!');
+      await updateUserMatchStatusFromDb(match.eventId, match.userId, status, userRole);
+      pendingCategory.contents = pendingCategory.contents.filter(
+        (event) => event.eventId !== match.eventId,
+      );
+
+      const userEventId = parseUserEventId(match.userId, match.eventId);
+      if (userRole === 'Sponsor') {
+        if (match.organiserStatus === 'accepted' && status === 'accepted') {
+          await updateMatchedEventStatusFromDb(userEventId, 'accepted');
+          success('Match accepted!');
+          acceptedCategory.contents.push(match);
+        }
+      }
+      if (userRole === 'EventOrganiser') {
+        if (match.sponsorStatus === 'accepted' && status === 'accepted') {
+          await updateMatchedEventStatusFromDb(userEventId, 'accepted');
+          success('Match accepted!');
+        }
       }
       if (status === 'rejected') {
-        success('Match rejected');
+        await updateMatchedEventStatusFromDb(userEventId, 'rejected');
+        success('Match rejected!');
+        rejectedCategory.contents.push(match);
       }
+      return;
     } catch (err) {
+      console.error(err);
       alert('There was an issue');
     }
   };
@@ -147,7 +158,7 @@ export default function useMatch() {
     initialise,
     fetchMatches,
     fetchMatchesByEventId,
-    updateMatchStatus,
+    // updateMatchStatus,
     updateUserMatchStatus,
 
     loading: computed(() => loading.value),
@@ -155,6 +166,6 @@ export default function useMatch() {
 
     matches: computed(() => matches.value),
 
-    matchCategories,
+    matchCategories: computed(() => matchCategories.value),
   };
 }

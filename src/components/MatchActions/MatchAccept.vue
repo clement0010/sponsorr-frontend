@@ -25,12 +25,18 @@ export default defineComponent({
     const { role } = useProfile();
 
     const accept = async () => {
-      await updateUserMatchStatus(match.value.eventId, match.value.userId, 'accepted', role.value);
+      await updateUserMatchStatus(match.value, 'accepted', role.value);
       if (role.value === 'Sponsor') {
         match.value.sponsorStatus = 'accepted';
+        if (match.value.organiserStatus === 'accepted') {
+          match.value.status = 'accepted';
+        }
       }
       if (role.value === 'EventOrganiser') {
         match.value.organiserStatus = 'accepted';
+        if (match.value.sponsorStatus === 'accepted') {
+          match.value.status = 'accepted';
+        }
       }
     };
 
