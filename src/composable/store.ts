@@ -10,7 +10,7 @@ export const userProfile = ref<Profile>();
 export const role = ref<Role>();
 
 // Authentication
-export const authLoading = ref(false);
+export const authLoading = ref(true);
 export const authenticated = ref(false);
 
 export const uid = ref('');
