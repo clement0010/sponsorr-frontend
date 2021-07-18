@@ -1,7 +1,7 @@
 <template>
   <BasePage>
     <Spinner v-if="loading && !error && !event" />
-    <p v-if="error">Error loading event</p>
+    <EventNotFound v-if="error" />
     <EventLayout
       v-if="!loading && !error && event"
       :event="event"
@@ -19,6 +19,7 @@
 <script lang="ts">
 import BasePage from '@/layouts/BasePage.vue';
 import EventLayout from '@/layouts/EventLayout.vue';
+import EventNotFound from '@/layouts/EventNotFound.vue';
 import Spinner from '@/components/BuildingElements/Spinner.vue';
 
 import useAuth from '@/composable/authComposition';
@@ -35,6 +36,7 @@ export default defineComponent({
     Spinner,
     BasePage,
     EventLayout,
+    EventNotFound,
   },
   setup(_, { root, emit }) {
     const { uid } = useAuth();

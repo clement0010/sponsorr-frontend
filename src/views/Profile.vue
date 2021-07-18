@@ -1,9 +1,7 @@
 <template>
   <BasePage>
     <Spinner v-if="loading && !error && !profile" />
-    <p v-if="error">
-      Error loading profile
-    </p>
+    <ProfileNotFound v-if="error" />
     <ProfileLayout v-if="!loading && !error && profile" :is-owner="isOwner" :profile="profile" />
   </BasePage>
 </template>
@@ -11,6 +9,7 @@
 <script lang="ts">
 import BasePage from '@/layouts/BasePage.vue';
 import ProfileLayout from '@/layouts/ProfileLayout.vue';
+import ProfileNotFound from '@/layouts/ProfileNotFound.vue';
 import Spinner from '@/components/BuildingElements/Spinner.vue';
 
 import useAuth from '@/composable/authComposition';
@@ -25,6 +24,7 @@ export default defineComponent({
     BasePage,
     Spinner,
     ProfileLayout,
+    ProfileNotFound,
   },
   setup(_, { root }) {
     const { uid } = useAuth();
