@@ -67,7 +67,7 @@ export default defineComponent({
     const { uid } = useAuth();
 
     const eventData = ref<File[]>([]);
-    const fileUrl = ref('');
+    const fileUrl = ref<string[]>([]);
     const eventPicture = ref<File>();
     const pictureUrl = ref('');
 
@@ -103,6 +103,7 @@ export default defineComponent({
         };
         Object.assign(localData, data);
         localStorage.setItem('data', JSON.stringify(localData));
+        fileUrl.value.push(url);
       } catch (error) {
         console.error(error);
       }
@@ -122,6 +123,7 @@ export default defineComponent({
         };
         Object.assign(localData, data);
         localStorage.setItem('data', JSON.stringify(localData));
+        pictureUrl.value = url;
       } catch (error) {
         console.error(error);
       }
