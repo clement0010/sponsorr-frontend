@@ -6,7 +6,15 @@
     <v-card-subtitle>
       {{ event.venue }}
     </v-card-subtitle>
-    <v-img class="align-end" height="200px" :src="event.picture" />
+    <v-img v-if="event.picture" class="align-end" height="200px" :src="event.picture" />
+    <v-img
+      v-else
+      class="align-end"
+      height="200px"
+      :src="
+        'https://firebasestorage.googleapis.com/v0/b/sponsorr-dev.appspot.com/o/public_assets%2Fimage-placeholder.svg?alt=media&token=076e81e1-858d-4e5f-9937-a7e247baf838'
+      "
+    />
     <v-card-text class="text-truncate">
       {{ event.description }}
     </v-card-text>
