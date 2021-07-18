@@ -86,37 +86,6 @@ export default function useMatch() {
     }
   };
 
-  // const updateMatchStatus = async (
-  //   eventItem: Match,
-  //   matchCategory: MatchStatus,
-  //   message?: Message,
-  // ): Promise<void> => {
-  //   const { eventId, userId } = eventItem;
-  //   const userEventId = parseUserEventId(userId, eventId);
-  //   try {
-  //     await updateMatchedEventStatusFromDb(userEventId, matchCategory, message);
-  //   } catch (err) {
-  //     console.error(err);
-  //     throw new Error(err);
-  //   } finally {
-  //     pendingCategory.contents = pendingCategory.contents.filter(
-  //       (event) => event.eventId !== eventId,
-  //     );
-  //     switch (matchCategory) {
-  //       case MatchGroup.Accepted:
-  //         acceptedCategory.contents.push(eventItem);
-  //         break;
-  //       case MatchGroup.Rejected:
-  //         rejectedCategory.contents.push(eventItem);
-  //         break;
-
-  //       default:
-  //         break;
-  //     }
-  //     loading.value = false;
-  //   }
-  // };
-
   const updateUserMatchStatus = async (
     match: Match,
     status: MatchStatus,
@@ -124,23 +93,24 @@ export default function useMatch() {
   ) => {
     try {
       await updateUserMatchStatusFromDb(match.eventId, match.userId, status, userRole);
-      pendingCategory.contents = pendingCategory.contents.filter(
-        (event) => event.eventId !== match.eventId,
-      );
 
       const userEventId = parseUserEventId(match.userId, match.eventId);
       if (userRole === 'Sponsor') {
         if (match.organiserStatus === 'accepted' && status === 'accepted') {
           await updateMatchedEventStatusFromDb(userEventId, 'accepted');
-          success('Match accepted!');
+          pendingCategory.contents = pendingCategory.contents.filter(
+            (event) => event.eventId !== match.eventId,
+          );
           acceptedCategory.contents.push(match);
         }
       }
       if (userRole === 'EventOrganiser') {
         if (match.sponsorStatus === 'accepted' && status === 'accepted') {
           await updateMatchedEventStatusFromDb(userEventId, 'accepted');
-          success('Match accepted!');
         }
+      }
+      if (status === 'accepted') {
+        success('Match accepted!');
       }
       if (status === 'rejected') {
         await updateMatchedEventStatusFromDb(userEventId, 'rejected');
@@ -158,7 +128,6 @@ export default function useMatch() {
     initialise,
     fetchMatches,
     fetchMatchesByEventId,
-    // updateMatchStatus,
     updateUserMatchStatus,
 
     loading: computed(() => loading.value),
