@@ -22,6 +22,7 @@ export interface Profile extends User {
   keywords: string[];
   displayPicture: string;
   role: Role;
+  subscribed: boolean;
 }
 
 export interface EventOrganiser extends Profile {
