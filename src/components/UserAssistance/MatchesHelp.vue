@@ -15,33 +15,37 @@
 
     <v-card>
       <v-card-title>
-        Dashboard
+        My Matches
       </v-card-title>
       <v-card-text>
-        The events you own are sorted into 3 categories:
+        Your matches are sorted into 3 categories:
       </v-card-text>
       <v-card-text>
         <strong>
-          Published:
+          Pending:
         </strong>
         <br />
-        These events are published to the marketplace but have yet to obtain a match. You can freely
-        delete or unpublish these events.
+        These matches are either
+        <br />
+        1. assigned to you by our algorithm,
+        <br />
+        2. generated from the events you applied for,
+        <br />
+        and either the sponsor (you) or the event organiser, or both has yet to accept the match.
       </v-card-text>
       <v-card-text>
         <strong>
-          Matched:
+          Rejected:
         </strong>
         <br />
-        These events are matched with a sponsor. You cannot delete or unpublish these events
-        anymore.
+        These matches have been rejected by you or the event organiser.
       </v-card-text>
       <v-card-text>
         <strong>
-          Drafts:
+          Accepted:
         </strong>
         <br />
-        These events are not published. You can freely publish or delete these events.
+        These matches have been accepted by both you and the event organiser.
       </v-card-text>
     </v-card>
   </v-dialog>
@@ -51,6 +55,6 @@
 import { defineComponent } from '@vue/composition-api';
 
 export default defineComponent({
-  name: 'DashboardHelp',
+  name: 'MatchesHelp',
 });
 </script>
