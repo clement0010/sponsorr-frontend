@@ -115,6 +115,9 @@ export default function useMatch() {
       if (status === 'rejected') {
         await updateMatchedEventStatusFromDb(userEventId, 'rejected');
         success('Match rejected!');
+        pendingCategory.contents = pendingCategory.contents.filter(
+          (event) => event.eventId !== match.eventId,
+        );
         rejectedCategory.contents.push(match);
       }
       return;
