@@ -39,12 +39,12 @@
         <EventMatchesTable v-if="isOwner" :event="event" :event-id="eventId" />
         <v-card-text class="text-right">
           <EventUnpublish
-            v-if="event.matches < 1 && event.published && isOwner"
+            v-if="event.matches < 1 && event.status === 'published' && isOwner"
             :event="event"
             @publishEvent="$emit('publishEvent', { status: 'draft', published: false })"
           />
           <EventPublish
-            v-if="!event.published && isOwner"
+            v-if="event.status === 'draft' && isOwner"
             :event="event"
             @publishEvent="$emit('publishEvent', { status: 'published', published: true })"
           />
@@ -103,7 +103,6 @@ export default defineComponent({
       type: String,
       required: true,
     },
-
     isOwner: {
       type: Boolean,
       required: true,

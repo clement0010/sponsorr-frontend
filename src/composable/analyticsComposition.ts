@@ -17,8 +17,6 @@ export default function useAnalytics() {
         switch (value) {
           case 'clicks':
             return event.clicks;
-          case 'views':
-            return event.views;
           case 'matches':
             return event.matches;
           default:
