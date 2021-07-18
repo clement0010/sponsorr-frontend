@@ -1,12 +1,14 @@
 <template>
-  <v-dialog v-model="dialog">
+  <v-dialog v-model="dialog" persistent>
     <template #activator="{ on, attrs }">
       <v-btn v-bind="attrs" v-on="on">Add Request</v-btn>
     </template>
 
     <v-form v-model="valid">
       <v-card>
-        <v-card-title>New Request</v-card-title>
+        <v-card-title>
+          New Request
+        </v-card-title>
 
         <v-card-text>
           <v-text-field
@@ -31,8 +33,12 @@
           />
 
           <v-card-actions>
-            <v-btn @click="cancel">Cancel</v-btn>
-            <v-btn @click="save">Save</v-btn>
+            <v-btn class="warning" text @click="cancel">
+              Cancel
+            </v-btn>
+            <v-btn class="success" :disabled="!valid" text @click="save">
+              Save
+            </v-btn>
           </v-card-actions>
         </v-card-text>
       </v-card>
@@ -42,8 +48,8 @@
 
 <script lang="ts">
 import { SponsorRequest } from '@/types';
-import { defineComponent, reactive, ref } from '@vue/composition-api';
 import { requireInputRule, nonNegativeIntegerRule } from '@/common/validation';
+import { defineComponent, reactive, ref } from '@vue/composition-api';
 
 export default defineComponent({
   name: 'NewRequestCreateButton',

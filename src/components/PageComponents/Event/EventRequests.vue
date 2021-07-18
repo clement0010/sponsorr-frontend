@@ -2,11 +2,16 @@
   <div>
     <v-card-title class="text-h4">
       Requests
+      <v-spacer />
+      <NewRequestCreate v-if="isOwner" @save="(request) => addRequest(request)" />
     </v-card-title>
     <v-list elevation="2" class="mx-4">
       <v-list-item v-if="requests.length === 0">
         <v-list-item-title class="font-italic">
-          No requests for this event yet. Click "Add Request" to start.
+          No requests for this event yet.
+          <span v-if="isOwner">
+            Click "Add Request" to start.
+          </span>
         </v-list-item-title>
       </v-list-item>
 
@@ -42,8 +47,10 @@
                   @edit-request="(updatedRequest) => edit(updatedRequest, index)"
                 />
               </v-list-item-action>
-              <v-list-item-action v-if="requests.length > 1">
-                <v-icon @click="deleteRequest(request)">mdi-close</v-icon>
+              <v-list-item-action>
+                <v-icon @click="deleteRequest(index)">
+                  mdi-close
+                </v-icon>
               </v-list-item-action>
             </v-col>
           </v-row>
@@ -55,6 +62,8 @@
 
 <script lang="ts">
 import EditEventRequests from '@/components/EventActions/EditEventRequests.vue';
+import NewRequestCreate from '@/components/Forms/Requests/NewRequestCreate.vue';
+
 import { SponsorRequest } from '@/types';
 import { defineComponent, toRefs } from '@vue/composition-api';
 
@@ -62,6 +71,7 @@ export default defineComponent({
   name: 'EventRequests',
   components: {
     EditEventRequests,
+    NewRequestCreate,
   },
   props: {
     isOwner: {
@@ -76,15 +86,28 @@ export default defineComponent({
   setup(props, { emit }) {
     const { requests } = toRefs(props);
 
-    const deleteRequest = (request: SponsorRequest) => {
-      requests.value.splice(requests.value.indexOf(request), 1);
+    const deleteRequest = (index: number) => {
+      requests.value.splice(index, 1);
       emit('edit', {
         requests: requests.value,
       });
     };
 
     const edit = (updatedRequest: SponsorRequest, index: number) => {
-      requests.value.splice(index, 1, updatedRequest);
+      const data: SponsorRequest = {
+        ...updatedRequest,
+      };
+      requests.value.splice(index, 1, data);
+      emit('edit', {
+        requests: requests.value,
+      });
+    };
+
+    const addRequest = (request: SponsorRequest) => {
+      const data: SponsorRequest = {
+        ...request,
+      };
+      requests.value.push(data);
       emit('edit', {
         requests: requests.value,
       });
@@ -92,6 +115,7 @@ export default defineComponent({
 
     return {
       deleteRequest,
+      addRequest,
       edit,
     };
   },
