@@ -1,7 +1,10 @@
 <template>
   <BasePage>
     <v-container fluid class="ma-0 pa-0">
-      <v-img src="@/assets/image-404.jpeg" height="100vh">
+      <v-img
+        src="https://firebasestorage.googleapis.com/v0/b/sponsorr-dev.appspot.com/o/public_assets%2Fimage-404.jpeg?alt=media&token=72a658a0-39ed-4493-a775-525806728b17"
+        height="100vh"
+      >
         <v-row align="center" justify="center">
           <v-col>
             <v-card flat color="transparent">
