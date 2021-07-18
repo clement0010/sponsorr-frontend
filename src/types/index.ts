@@ -43,6 +43,12 @@ interface EventDate {
   end: number;
 }
 
+export interface SponsorRequest {
+  itemName: string;
+  description: string;
+  valueInSGD: string;
+}
+
 export interface SponsorEvent {
   budget: Budget;
   clicks: number;
@@ -60,6 +66,7 @@ export interface SponsorEvent {
   title: string;
   userId: string;
   venue: string;
+  requests: SponsorRequest[];
 }
 
 export interface SponsorEventDbItem extends SponsorEvent {
@@ -83,12 +90,6 @@ export interface EventCategory {
   headers: Header[];
   contents: SponsorEventDbItems;
   fallback: string;
-}
-
-export interface SponsorRequest {
-  itemName: string;
-  description: string;
-  valueInSGD: string;
 }
 
 export type MatchStatus = 'pending' | 'rejected' | 'accepted';

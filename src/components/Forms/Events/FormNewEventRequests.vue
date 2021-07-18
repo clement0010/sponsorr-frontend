@@ -56,7 +56,7 @@
     <v-card-actions>
       <NewEventCancel @cancel="(message) => $emit('cancel', message)" />
       <v-btn @click="navigate('back')"> Back </v-btn>
-      <v-btn :disabled="noRequests" @click="navigate('next')"> Next </v-btn>
+      <v-btn :disabled="noRequests" class="success" @click="navigate('next')"> Next </v-btn>
     </v-card-actions>
   </v-card>
 </template>

@@ -50,6 +50,7 @@ export default defineComponent({
         status: 'published',
         eventSize: data.eventSize,
         userId: uid.value,
+        requests: data.requests,
       };
       console.log(newEvent);
       await createEvent(newEvent);

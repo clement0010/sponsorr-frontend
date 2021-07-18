@@ -36,6 +36,11 @@
           :is-owner="isOwner"
           @edit="(payload) => $emit('edit', payload)"
         />
+        <EventRequests
+          :requests="event.requests"
+          :is-owner="isOwner"
+          @edit="(payload) => $emit('edit', payload)"
+        />
         <EventMatchesTable v-if="isOwner" :event="event" :event-id="eventId" />
         <v-card-text class="text-right">
           <EventUnpublish
@@ -77,6 +82,7 @@ import EventMatchesTable from '@/components/PageComponents/Event/EventMatchesTab
 import EventOrganiser from '@/components/PageComponents/Event/EventOrganiser.vue';
 import EventPicture from '@/components/PageComponents/Event/EventPicture.vue';
 import EventPublish from '@/components/EventActions/EventPublish.vue';
+import EventRequests from '@/components/PageComponents/Event/EventRequests.vue';
 import EventUnpublish from '@/components/EventActions/EventUnpublish.vue';
 
 export default defineComponent({
@@ -92,6 +98,7 @@ export default defineComponent({
     EventUnpublish,
     EventPicture,
     EventApply,
+    EventRequests,
     EventMatchesTable,
   },
   props: {
