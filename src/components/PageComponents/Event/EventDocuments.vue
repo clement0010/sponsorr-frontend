@@ -5,8 +5,17 @@
       <EditEventDocuments v-if="isOwner" @edit-documents="(payload) => $emit('edit', payload)" />
     </v-card-title>
     <v-card-text>
-      <v-icon>mdi-file</v-icon>
-      <a :href="documents">Link to document</a>
+      <span v-if="documents.length === 0">
+        No uploaded documents
+      </span>
+      <div v-for="(document, index) in documents" v-else :key="index">
+        <v-icon>
+          mdi-file
+        </v-icon>
+        <a :href="document">
+          Link to document
+        </a>
+      </div>
     </v-card-text>
   </div>
 </template>
@@ -22,8 +31,8 @@ export default defineComponent({
   },
   props: {
     documents: {
-      type: String,
-      required: true,
+      type: Array as () => string[],
+      default: () => [],
     },
     isOwner: {
       type: Boolean,

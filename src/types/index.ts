@@ -56,7 +56,7 @@ export interface SponsorEvent {
   date: EventDate;
   demographic: string[];
   description: string;
-  documents: string;
+  documents: string[];
   eventSize: number;
   keywords: string[];
   matches: number;
