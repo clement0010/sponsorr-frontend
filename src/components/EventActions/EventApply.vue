@@ -36,9 +36,9 @@
 <script lang="ts">
 import { defineComponent, ref } from '@vue/composition-api';
 import { requireInputRule } from '@/common/validation';
-import useMarketplace from '@/composable/marketplaceComposition';
 import { generateUnixTime } from '@/common';
 import useAuth from '@/composable/authComposition';
+import useEvent from '@/composable/eventComposition';
 
 export default defineComponent({
   name: 'ApplyEventButton',
@@ -50,7 +50,7 @@ export default defineComponent({
   },
   setup(props) {
     const { uid } = useAuth();
-    const { applyEvent } = useMarketplace();
+    const { applyEvent } = useEvent();
     const { eventId } = props;
 
     const dialog = ref(false);

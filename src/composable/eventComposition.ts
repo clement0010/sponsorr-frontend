@@ -7,8 +7,9 @@ import {
   getEventFromDb,
   updateEventFromDb,
 } from '@/common';
-import { EventStatus, SponsorEvent } from '@/types';
+import { EventStatus, Messages, SponsorEvent } from '@/types';
 import { computed, ref } from '@vue/composition-api';
+import { applyEventToDb } from '@/common/firestore/marketplace';
 
 // eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types
 export default function useEvent() {
@@ -107,6 +108,20 @@ export default function useEvent() {
     }
   };
 
+  const applyEvent = async (
+    eventId: string,
+    userId: string,
+    messages?: Messages,
+  ): Promise<void> => {
+    try {
+      await applyEventToDb(eventId, userId, messages);
+      success('Application sent!');
+    } catch (err) {
+      error.value = true;
+      alert('Something went wrong!');
+    }
+  };
+
   return {
     event: computed(() => event.value),
     loading: computed(() => loading.value),
@@ -117,5 +132,6 @@ export default function useEvent() {
     updateEventStatus,
     editEvent,
     deleteEvent,
+    applyEvent,
   };
 }
