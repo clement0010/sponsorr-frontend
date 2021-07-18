@@ -13,7 +13,7 @@ export interface User {
   email: string;
   name: string;
   phoneNumber: string;
-  uen?: string;
+  verified: boolean;
 }
 
 export interface Profile extends User {
@@ -22,6 +22,7 @@ export interface Profile extends User {
   keywords: string[];
   displayPicture: string;
   role: Role;
+  subscribed: boolean;
 }
 
 export interface EventOrganiser extends Profile {
@@ -43,6 +44,12 @@ interface EventDate {
   end: number;
 }
 
+export interface SponsorRequest {
+  itemName: string;
+  description: string;
+  valueInSGD: string;
+}
+
 export interface SponsorEvent {
   budget: Budget;
   clicks: number;
@@ -50,7 +57,7 @@ export interface SponsorEvent {
   date: EventDate;
   demographic: string[];
   description: string;
-  documents: string;
+  documents: string[];
   eventSize: number;
   keywords: string[];
   matches: number;
@@ -60,7 +67,7 @@ export interface SponsorEvent {
   title: string;
   userId: string;
   venue: string;
-  views: number;
+  requests: SponsorRequest[];
 }
 
 export interface SponsorEventDbItem extends SponsorEvent {
@@ -84,12 +91,6 @@ export interface EventCategory {
   headers: Header[];
   contents: SponsorEventDbItems;
   fallback: string;
-}
-
-export interface SponsorRequest {
-  itemName: string;
-  description: string;
-  valueInSGD: string;
 }
 
 export type MatchStatus = 'pending' | 'rejected' | 'accepted';

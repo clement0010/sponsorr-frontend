@@ -30,7 +30,7 @@ export default defineComponent({
       const newEvent: SponsorEvent = {
         title: data.title,
         description: data.description,
-        documents: data.documents,
+        documents: data.documents || [],
         keywords: data.keywords,
         venue: data.venue,
         budget: {
@@ -46,11 +46,11 @@ export default defineComponent({
         published: true,
         matches: 0,
         clicks: 0,
-        views: 0,
-        picture: data.picture,
+        picture: data.picture || '',
         status: 'published',
         eventSize: data.eventSize,
         userId: uid.value,
+        requests: data.requests,
       };
       console.log(newEvent);
       await createEvent(newEvent);

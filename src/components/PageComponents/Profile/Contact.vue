@@ -13,7 +13,7 @@
       <v-list-item>
         <v-icon color="black"> mdi-link </v-icon>
         <v-card-text>
-          <a class="pa-2" :href="websiteUrl">
+          <a class="pa-2" :href="'//' + websiteUrl" target="_blank">
             {{ websiteUrl }}
           </a>
         </v-card-text>
@@ -22,7 +22,7 @@
       <v-list-item>
         <v-icon color="black"> mdi-map-marker </v-icon>
         <v-card-text>
-          <a class="pa-2" :href="location">
+          <a class="pa-2" :href="'//' + location" target="_blank">
             {{ location }}
           </a>
         </v-card-text>

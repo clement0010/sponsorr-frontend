@@ -125,13 +125,17 @@
 </template>
 
 <script lang="ts">
-import { generateDate } from '@/common';
+import useAuth from '@/composable/authComposition';
+import useProfile from '@/composable/profileComposition';
+import { generateDate, generateUnixTime } from '@/common';
 import { requireInputRule, nonNegativeIntegerRule } from '@/common/validation';
 import { computed, defineComponent, reactive, ref } from '@vue/composition-api';
 
 export default defineComponent({
   name: 'FormSubscribeMatching',
   setup() {
+    const { uid } = useAuth();
+    const { editUserProfile } = useProfile();
     const dialog = ref(false);
     const valid = ref(false);
 
@@ -187,7 +191,17 @@ export default defineComponent({
 
     const subscribe = async () => {
       dialog.value = false;
-      // AWAIT FIREBASE
+      await editUserProfile(uid.value, {
+        subscription: {
+          dateStart: generateUnixTime(input.dateStart),
+          dateEnd: generateUnixTime(input.dateEnd),
+          budgetMax: input.budgetMax,
+          budgetMin: input.budgetMin,
+          eventSize: input.eventSize,
+          demographic: input.demographic,
+        },
+        subscribed: true,
+      });
       input.dateStart = '';
       input.dateEnd = '';
       input.budgetMax = 0;
@@ -218,3 +232,11 @@ export default defineComponent({
   },
 });
 </script>
+
+<style scoped>
+::v-deep input::-webkit-outer-spin-button,
+::v-deep input::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+</style>

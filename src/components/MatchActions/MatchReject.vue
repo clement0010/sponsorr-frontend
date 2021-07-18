@@ -25,7 +25,7 @@ export default defineComponent({
     const { role } = useProfile();
 
     const reject = async () => {
-      await updateUserMatchStatus(match.value.eventId, match.value.userId, 'rejected', role.value);
+      await updateUserMatchStatus(match.value, 'rejected', role.value);
       if (role.value === 'Sponsor') {
         match.value.sponsorStatus = 'rejected';
       }

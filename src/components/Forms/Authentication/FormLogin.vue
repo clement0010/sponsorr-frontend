@@ -67,6 +67,7 @@
 import { requireInputRule, validEmailRule } from '@/common/validation';
 import { defineComponent, reactive } from '@vue/composition-api';
 
+import useSnackbar from '@/composable/snackbarComposition';
 import useAuth from '@/composable/authComposition';
 
 import AuthenticationButton from '@/components/Authentication/AuthenticationButton.vue';
@@ -77,7 +78,7 @@ import LogoSponsorr from '../../BuildingElements/LogoSponsorr.vue';
 export default defineComponent({
   name: 'FormLogin',
   components: { LogoSponsorr, AuthenticationButton, Spinner },
-  setup(_, { root, emit }) {
+  setup() {
     const logoWidth = 250;
 
     const configuration = reactive({
@@ -86,6 +87,7 @@ export default defineComponent({
     });
 
     const { login, error, userInfo } = useAuth();
+    const { alert, success } = useSnackbar();
 
     const user = reactive({
       email: '',
@@ -102,18 +104,13 @@ export default defineComponent({
 
         if (!uid) {
           console.log('Wrong credentials!');
-          emit('alert', 'Authentication Error: Incorrect password or email.');
+          alert('Authentication Error: Incorrect password or email.');
           user.email = '';
           user.password = '';
           return;
         }
 
-        emit('success', 'Logged in!');
-
-        root.$router.push({
-          name: 'Profile',
-          params: { id: uid },
-        });
+        success('Logged in!');
       } catch (err) {
         console.error(err);
       }

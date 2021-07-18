@@ -1,7 +1,11 @@
 <template>
-  <v-dialog v-model="dialog">
+  <v-dialog v-model="dialog" width="500">
     <template #activator="{ on, attrs }">
-      <v-icon v-bind="attrs" v-on="on">mdi-pencil</v-icon>
+      <v-btn icon v-bind="attrs" v-on="on">
+        <v-icon>
+          mdi-pencil
+        </v-icon>
+      </v-btn>
     </template>
 
     <v-form v-model="valid">
@@ -10,20 +14,20 @@
 
         <v-card-text>
           <v-text-field
-            v-model="requestData.itemName"
+            v-model="input.itemName"
             label="Item"
             :rules="[requireInputRule]"
             outlined
           />
           <v-textarea
-            v-model="requestData.description"
+            v-model="input.description"
             label="Description"
             :rules="[requireInputRule]"
             outlined
             hint="Elaborate on your request here"
           />
           <v-text-field
-            v-model="requestData.valueInSGD"
+            v-model="input.valueInSGD"
             label="Value in SGD"
             :rules="[requireInputRule, nonNegativeIntegerRule]"
             outlined
@@ -41,50 +45,47 @@
 </template>
 
 <script lang="ts">
+import { requireInputRule, nonNegativeIntegerRule } from '@/common/validation';
 import { SponsorRequest } from '@/types';
 import { defineComponent, ref } from '@vue/composition-api';
-import { requireInputRule, nonNegativeIntegerRule } from '@/common/validation';
 
 export default defineComponent({
-  name: 'NewRequestEditButton',
+  name: 'EditEventRequests',
   props: {
-    sponsorRequest: {
+    request: {
       type: Object as () => SponsorRequest,
       required: true,
     },
   },
-  setup(props) {
+  setup(props, { emit }) {
+    const { request } = props;
+
     const dialog = ref(false);
     const valid = ref(false);
 
-    const { sponsorRequest } = props;
-
-    const requestData = ref<SponsorRequest>({
-      ...sponsorRequest,
+    const input = ref<SponsorRequest>({
+      ...request,
     });
-
-    const resetRequestData = (): void => {
-      requestData.value = { ...sponsorRequest };
-    };
-
-    const save = () => {
-      sponsorRequest.itemName = requestData.value.itemName;
-      sponsorRequest.description = requestData.value.description;
-      sponsorRequest.valueInSGD = requestData.value.valueInSGD;
-      dialog.value = false;
-    };
 
     const cancel = () => {
       dialog.value = false;
-      resetRequestData();
+      input.value = {
+        ...request,
+      };
+    };
+
+    const save = () => {
+      dialog.value = false;
+      emit('edit-request', input.value);
     };
 
     return {
       dialog,
       valid,
-      requestData,
+      input,
       cancel,
       save,
+
       requireInputRule,
       nonNegativeIntegerRule,
     };

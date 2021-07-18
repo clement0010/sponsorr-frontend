@@ -23,32 +23,12 @@
             </v-card-text>
           </v-col>
         </v-row>
-
-        <!-- <v-card-title>
-          Account
-        </v-card-title>
-        <v-row>
-          <v-col cols="auto">
-            <v-list color="transparent">
-              <v-list-item-group>
-                <v-list-item>
-                  <FormChangePassword />
-                </v-list-item>
-
-                <v-list-item @click="userSignout">
-                  Sign out
-                </v-list-item>
-              </v-list-item-group>
-            </v-list>
-          </v-col>
-        </v-row> -->
       </v-card>
     </v-row>
   </v-container>
 </template>
 
 <script lang="ts">
-// import FormChangePassword from '@/components/Forms/Authentication/FormChangePassword.vue';
 import FormSubscribeMatching from '@/components/Forms/Subscription/FormSubscribeMatching.vue';
 
 import useAuth from '@/composable/authComposition';
@@ -59,31 +39,23 @@ import { defineComponent, ref } from '@vue/composition-api';
 export default defineComponent({
   name: 'SettingsLayout',
   components: {
-    // FormChangePassword,
     FormSubscribeMatching,
   },
-  setup(_, { root }) {
-    const { signout } = useAuth();
-    const { clearProfile } = useProfile();
+  setup() {
+    const { uid } = useAuth();
+    const { profile, editUserProfile } = useProfile();
 
-    // TODO: query status
-    const subscribed = ref(false);
+    const subscribed = ref(profile.value?.subscribed);
 
-    // TODO: unsubscribe logic
-    const unsubscribe = () => {
+    const unsubscribe = async () => {
       console.log('unsubscribed!');
-    };
-
-    const userSignout = async () => {
-      await signout();
-      root.$router.push({
-        name: 'Home',
+      await editUserProfile(uid.value, {
+        subscribed: false,
       });
-      clearProfile();
+      subscribed.value = false;
     };
 
     return {
-      userSignout,
       subscribed,
       unsubscribe,
     };

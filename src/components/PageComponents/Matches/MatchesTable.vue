@@ -23,11 +23,7 @@
           </template>
 
           <template #[`item.actions`]="{ item }">
-            <MatchActionMenu
-              :match="item"
-              @acceptMatch="(payload) => $emit('acceptMatch', payload)"
-              @rejectMatch="(payload) => $emit('rejectMatch', payload)"
-            />
+            <MatchActionMenu :match="item" />
           </template>
 
           <template #[`item.event.date`]="{ item }">

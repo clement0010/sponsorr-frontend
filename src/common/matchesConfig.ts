@@ -44,6 +44,12 @@ export const acceptedCategory: MatchCategory = {
       text: 'Venue',
       value: 'event.venue',
     },
+    {
+      text: 'Actions',
+      value: 'actions',
+      sortable: false,
+      align: 'center',
+    },
   ],
   contents: [],
   fallback: 'No accepted matches',

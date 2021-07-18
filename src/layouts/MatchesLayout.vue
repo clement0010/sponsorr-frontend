@@ -3,7 +3,10 @@
     <v-container class="content">
       <v-row align="center">
         <v-col cols="auto">
-          <v-card-title class="text-h2"> My Matches </v-card-title>
+          <v-card-title class="text-h2">
+            My Matches
+            <MatchesHelp />
+          </v-card-title>
         </v-col>
       </v-row>
       <v-row justify="center">
@@ -11,8 +14,6 @@
           :match-categories="matchCategories"
           :loading="loading"
           @fetchMatches="(matchCategory) => $emit('fetchMatches', matchCategory)"
-          @acceptMatch="(payload) => $emit('acceptMatch', payload)"
-          @rejectMatch="(payload) => $emit('rejectMatch', payload)"
         />
       </v-row>
     </v-container>
@@ -20,13 +21,16 @@
 </template>
 
 <script lang="ts">
-import { defineComponent } from '@vue/composition-api';
+import MatchesHelp from '@/components/UserAssistance/MatchesHelp.vue';
 import MatchesTable from '@/components/PageComponents/Matches/MatchesTable.vue';
+
 import { MatchCategory } from '@/types';
+import { defineComponent } from '@vue/composition-api';
 
 export default defineComponent({
   name: 'MatchesLayout',
   components: {
+    MatchesHelp,
     MatchesTable,
   },
   props: {

@@ -8,16 +8,16 @@
 
     <v-form v-model="valid">
       <v-file-input
-        v-model="eventData"
-        :value="eventData"
+        v-model="eventFiles"
+        :value="eventFiles"
         accept=".pdf"
         chips
+        clearable
         counter
-        multiple
         outlined
         placeholder="Accepted file formats: .pdf"
         show-size
-        :rules="[fileUploadSizeRule]"
+        :rules="[fileUploadSizeRuleSingle]"
         @change="uploadFile"
       />
 
@@ -29,6 +29,7 @@
         accept=".jpg,.png"
         counter
         chips
+        clearable
         show-size
         :rules="[fileUploadSizeRuleSingle]"
         @change="uploadPicture"
@@ -66,15 +67,16 @@ export default defineComponent({
     const valid = ref(false);
     const { uid } = useAuth();
 
-    const eventData = ref<File[]>([]);
-    const fileUrl = ref('');
+    const eventFiles = ref<File>();
+    const fileUrls = ref<string[]>([]);
+
     const eventPicture = ref<File>();
     const pictureUrl = ref('');
 
     const persist = async () => {
       const cached = JSON.parse(localStorage.getItem('data') || 'null');
       const data = {
-        documents: fileUrl.value,
+        documents: fileUrls.value,
         picture: pictureUrl.value,
       };
       const stored = {
@@ -91,9 +93,9 @@ export default defineComponent({
 
     const uploadFile = async () => {
       try {
-        const url = await uploadFileToStorage(uid.value, eventData.value[0]);
+        const url = await uploadFileToStorage(uid.value, eventFiles.value);
         if (!url) {
-          console.log('File uploads unsuccessful');
+          console.log('File upload unsuccessful');
           return;
         }
         console.log(url);
@@ -103,6 +105,7 @@ export default defineComponent({
         };
         Object.assign(localData, data);
         localStorage.setItem('data', JSON.stringify(localData));
+        fileUrls.value.push(url);
       } catch (error) {
         console.error(error);
       }
@@ -122,6 +125,7 @@ export default defineComponent({
         };
         Object.assign(localData, data);
         localStorage.setItem('data', JSON.stringify(localData));
+        pictureUrl.value = url;
       } catch (error) {
         console.error(error);
       }
@@ -137,7 +141,7 @@ export default defineComponent({
       requireInputRule,
 
       // Payload
-      eventData,
+      eventFiles,
       eventPicture,
 
       // Navigation

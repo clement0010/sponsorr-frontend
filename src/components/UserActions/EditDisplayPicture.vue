@@ -1,18 +1,33 @@
 <template>
-  <v-dialog :value="dialog" width="500">
+  <v-dialog :value="dialog" width="500" persistent>
     <v-form>
       <v-card>
-        <v-card-title> Edit Display Picture </v-card-title>
+        <v-card-title>
+          Edit Display Picture
+        </v-card-title>
+
         <v-card-text>
-          <v-text-field v-model="input" label="Enter Image URL" outlined :rules="[validURLRule]" />
+          <v-file-input
+            v-model="userPicture"
+            :value="userPicture"
+            outlined
+            placeholder="Accepted file formats: .jpg, .png"
+            accept=".jpg,.png"
+            counter
+            chips
+            show-size
+            :rules="[fileUploadSizeRuleSingle]"
+          />
         </v-card-text>
-        <v-card-actions>
-          <v-spacer />
-          <v-btn class="error" rounded text @click="cancel"> Cancel </v-btn>
-          <v-btn class="success" rounded text @click="edit">
+
+        <v-card-text class="text-right">
+          <v-btn class="error" rounded text @click="toggle">
+            Cancel
+          </v-btn>
+          <v-btn class="success" rounded :disabled="!userPicture" text @click="edit">
             Save
           </v-btn>
-        </v-card-actions>
+        </v-card-text>
       </v-card>
     </v-form>
   </v-dialog>
@@ -22,9 +37,10 @@
 import useAuth from '@/composable/authComposition';
 import useProfile from '@/composable/profileComposition';
 
-import { validURLRule } from '@/common/validation';
+import { fileUploadSizeRuleSingle } from '@/common/validation';
 
 import { defineComponent, ref } from '@vue/composition-api';
+import { uploadFileToStorage } from '@/common';
 
 export default defineComponent({
   name: 'EditDisplayPicture',
@@ -33,35 +49,39 @@ export default defineComponent({
       type: Boolean,
       default: false,
     },
-    displayPicture: {
-      type: String,
-      required: true,
-    },
   },
-  setup(props, { emit }) {
+  setup(_, { emit }) {
     const { uid } = useAuth();
     const { editUserProfile } = useProfile();
-    const { displayPicture } = props;
 
-    const input = ref(displayPicture);
+    const userPicture = ref<File>();
 
-    const cancel = () => {
+    const uploadPicture = async () => {
+      const url = await uploadFileToStorage(uid.value, userPicture.value);
+      if (!url) {
+        console.log('Picture upload unsuccessful');
+      }
+      return url;
+    };
+
+    const toggle = () => {
       emit('toggle');
-      input.value = displayPicture;
+      userPicture.value = undefined;
     };
 
     const edit = async () => {
-      emit('toggle');
       await editUserProfile(uid.value, {
-        displayPicture: input.value,
+        displayPicture: await uploadPicture(),
       });
+      userPicture.value = undefined;
+      emit('toggle');
     };
 
     return {
-      input,
-      validURLRule,
+      userPicture,
+      fileUploadSizeRuleSingle,
       edit,
-      cancel,
+      toggle,
     };
   },
 });

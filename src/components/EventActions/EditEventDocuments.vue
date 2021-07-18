@@ -1,5 +1,5 @@
 <template>
-  <v-dialog v-model="dialog" width="500">
+  <v-dialog v-model="dialog" width="500" persistent>
     <template #activator="{ on, attrs }">
       <v-btn icon v-bind="attrs" v-on="on">
         <v-icon>mdi-pencil</v-icon>
@@ -23,13 +23,19 @@
         />
       </v-card-text>
 
-      <v-card-text class="text-right">
-        <v-btn class="error" rounded @click="cancel">
-          Cancel
-        </v-btn>
-        <v-btn class="success" rounded :disabled="!file" @click="edit">
-          Save
-        </v-btn>
+      <v-card-text>
+        <v-row>
+          <v-btn rounded :disabled="!file" @click="clear">
+            Clear
+          </v-btn>
+          <v-spacer />
+          <v-btn class="error" rounded @click="cancel">
+            Cancel
+          </v-btn>
+          <v-btn class="success" rounded :disabled="!file" @click="edit">
+            Save
+          </v-btn>
+        </v-row>
       </v-card-text>
     </v-card>
   </v-dialog>
@@ -65,8 +71,17 @@ export default defineComponent({
 
     const edit = async () => {
       emit('edit-documents', {
-        documents: await uploadDocument(),
+        documents: [await uploadDocument()],
       });
+      file.value = undefined;
+      dialog.value = false;
+    };
+
+    const clear = async () => {
+      emit('edit-documents', {
+        documents: [],
+      });
+      file.value = undefined;
       dialog.value = false;
     };
 
@@ -76,6 +91,7 @@ export default defineComponent({
       fileUploadSizeRuleSingle,
       cancel,
       edit,
+      clear,
     };
   },
 });

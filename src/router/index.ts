@@ -16,11 +16,15 @@ const routes: Array<RouteConfig> = [
     path: '/:role/signup',
     name: 'SignUp',
     component: () => import(/* webpackChunkName: "signup" */ '@/views/SignUp.vue'),
+    meta: { requiresAuth: false },
+    beforeEnter: authGuard,
   },
   {
     path: '/login',
     name: 'Login',
     component: () => import(/* webpackChunkName: "login" */ '@/views/Login.vue'),
+    meta: { requiresAuth: false },
+    beforeEnter: authGuard,
   },
   {
     path: '/recover-account',

@@ -3,7 +3,10 @@
     <v-container class="content">
       <v-row align="center">
         <v-col cols="auto">
-          <v-card-title class="text-h2"> Dashboard </v-card-title>
+          <v-card-title class="text-h2">
+            Dashboard
+            <DashboardHelp />
+          </v-card-title>
         </v-col>
         <v-spacer />
         <v-col cols="auto">
@@ -25,6 +28,7 @@
 </template>
 
 <script lang="ts">
+import DashboardHelp from '@/components/UserAssistance/DashboardHelp.vue';
 import EventCreate from '@/components/EventActions/EventCreate.vue';
 import EventTable from '@/components/PageComponents/Dashboard/EventTable.vue';
 import { EventCategory } from '@/types';
@@ -33,6 +37,7 @@ import { defineComponent } from '@vue/composition-api';
 export default defineComponent({
   name: 'DashboardLayout',
   components: {
+    DashboardHelp,
     EventCreate,
     EventTable,
   },

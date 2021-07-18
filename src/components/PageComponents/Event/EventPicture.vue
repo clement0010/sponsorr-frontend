@@ -4,7 +4,11 @@
       <template #default="{ hover }">
         <v-card class="mx-auto">
           <v-img v-if="picture" :src="picture" height="150" />
-          <v-img v-else src="@/assets/image-placeholder.svg" height="150" />
+          <v-img
+            v-else
+            src="https://firebasestorage.googleapis.com/v0/b/sponsorr-dev.appspot.com/o/public_assets%2Fimage-placeholder.svg?alt=media&token=076e81e1-858d-4e5f-9937-a7e247baf838"
+            height="150"
+          />
 
           <v-fade-transition>
             <v-overlay v-if="hover" absolute color="#036358">
@@ -26,8 +30,9 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, ref } from '@vue/composition-api';
 import EditEventPicture from '@/components/EventActions/EditEventPicture.vue';
+
+import { defineComponent, ref } from '@vue/composition-api';
 
 export default defineComponent({
   name: 'EventPicture',
@@ -46,9 +51,11 @@ export default defineComponent({
   },
   setup() {
     const dialog = ref(false);
+
     const toggleDialog = () => {
       dialog.value = !dialog.value;
     };
+
     return {
       dialog,
       toggleDialog,

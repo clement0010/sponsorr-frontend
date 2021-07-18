@@ -18,13 +18,13 @@ export const publishedCategory: EventCategory = {
       value: 'venue',
     },
     {
-      text: 'Views',
-      value: 'views',
+      text: 'Clicks',
+      value: 'clicks',
       align: 'center',
     },
     {
-      text: 'Clicks',
-      value: 'clicks',
+      text: 'Matches',
+      value: 'matches',
       align: 'center',
     },
     {
@@ -81,11 +81,7 @@ export const matchedCategory: EventCategory = {
       text: 'Venue',
       value: 'venue',
     },
-    {
-      text: 'Views',
-      value: 'views',
-      align: 'center',
-    },
+
     {
       text: 'Clicks',
       value: 'clicks',

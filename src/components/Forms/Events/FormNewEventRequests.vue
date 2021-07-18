@@ -1,7 +1,11 @@
 <template>
   <v-card>
-    <v-card-title> Sponsorship Requests </v-card-title>
-    <v-card-subtitle> Tell us what you need for your event to work! </v-card-subtitle>
+    <v-card-title>
+      Sponsorship Requests
+    </v-card-title>
+    <v-card-subtitle>
+      Tell us what you need for your event to work!
+    </v-card-subtitle>
 
     <v-card flat>
       <v-card-text v-if="noRequests">
@@ -56,17 +60,18 @@
     <v-card-actions>
       <NewEventCancel @cancel="(message) => $emit('cancel', message)" />
       <v-btn @click="navigate('back')"> Back </v-btn>
-      <v-btn :disabled="noRequests" @click="navigate('next')"> Next </v-btn>
+      <v-btn :disabled="noRequests" class="success" @click="navigate('next')"> Next </v-btn>
     </v-card-actions>
   </v-card>
 </template>
 
 <script lang="ts">
-import { computed, defineComponent, ref } from '@vue/composition-api';
-import { SponsorRequest } from '@/types';
 import NewEventCancel from '@/components/Forms/Events/NewEventCancel.vue';
 import NewRequestCreate from '@/components/Forms/Requests/NewRequestCreate.vue';
 import NewRequestEdit from '@/components/Forms/Requests/NewRequestEdit.vue';
+
+import { SponsorRequest } from '@/types';
+import { computed, defineComponent, ref } from '@vue/composition-api';
 
 export default defineComponent({
   name: 'FormNewEventRequests',
@@ -89,7 +94,9 @@ export default defineComponent({
     };
 
     const save = (requestData: SponsorRequest) => {
-      const data: SponsorRequest = { ...requestData };
+      const data: SponsorRequest = {
+        ...requestData,
+      };
       eventData.value.push(data);
     };
 
