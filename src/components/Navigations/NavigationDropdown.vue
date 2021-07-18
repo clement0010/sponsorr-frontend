@@ -132,7 +132,7 @@
 
 <script lang="ts">
 import AuthenticationButton from '@/components/Authentication/AuthenticationButton.vue';
-import HelpDialog from '@/components/Navigations/HelpDialog.vue';
+import HelpDialog from '@/components/UserAssistance/HelpDialog.vue';
 import LogoSponsorr from '@/components/BuildingElements/LogoSponsorr.vue';
 import UserStatusCard from '@/components/BuildingElements/UserStatusCard.vue';
 
