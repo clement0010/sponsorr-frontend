@@ -2,7 +2,7 @@
   <v-container fluid>
     <v-card-title> {{ headline }} </v-card-title>
     <v-row v-if="searchResult">
-      <v-col v-for="(result, index) in searchResult" :key="index" lg="3" md="6">
+      <v-col v-for="(result, index) in searchResult" :key="index" lg="3" md="4" sm="6">
         <EventCard :event="result" />
       </v-col>
     </v-row>
