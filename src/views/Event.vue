@@ -28,7 +28,7 @@ import useProfile from '@/composable/profileComposition';
 import useVisitProfile from '@/composable/visitProfileComposition';
 
 import { SponsorEvent } from '@/types';
-import { computed, defineComponent, onBeforeMount } from '@vue/composition-api';
+import { computed, defineComponent, onBeforeMount, onMounted } from '@vue/composition-api';
 
 export default defineComponent({
   name: 'Event',
@@ -103,6 +103,11 @@ export default defineComponent({
         eventId,
       };
     }
+    onMounted(async () => {
+      await editEvent(eventId, {
+        clicks: (event.value?.clicks || 0) + 1,
+      });
+    });
 
     return {
       event,
