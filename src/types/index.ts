@@ -60,7 +60,6 @@ export interface SponsorEvent {
   title: string;
   userId: string;
   venue: string;
-  views: number;
 }
 
 export interface SponsorEventDbItem extends SponsorEvent {

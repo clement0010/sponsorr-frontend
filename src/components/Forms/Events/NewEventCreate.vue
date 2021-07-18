@@ -46,7 +46,6 @@ export default defineComponent({
         published: true,
         matches: 0,
         clicks: 0,
-        views: 0,
         picture: data.picture,
         status: 'published',
         eventSize: data.eventSize,
