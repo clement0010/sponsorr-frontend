@@ -1,4 +1,4 @@
-import { fuzzySearchArray, updateEventStatusToDb } from '@/common';
+import { fuzzySearchArray } from '@/common';
 import { applyEventToDb, getEventsFromDb } from '@/common/firestore/marketplace';
 import { Messages, SponsorEventDbItems } from '@/types';
 import { ref, computed, onMounted } from '@vue/composition-api';
@@ -41,7 +41,6 @@ export default function useMarketplace() {
   ): Promise<void> => {
     try {
       await applyEventToDb(eventId, userId, messages);
-      await updateEventStatusToDb(eventId, 'matched');
       success('Application sent!');
     } catch (err) {
       error.value = true;
