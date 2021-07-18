@@ -18,7 +18,7 @@ export default defineComponent({
     const barChartData = computed(() =>
       role.value === 'EventOrganiser'
         ? {
-            labels: ['Clicks', 'Views', 'Matches'],
+            labels: ['Clicks', 'Matches'],
             datasets: [
               {
                 data: barData.value,

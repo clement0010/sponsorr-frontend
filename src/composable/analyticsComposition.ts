@@ -35,7 +35,6 @@ export default function useAnalytics() {
       if (userRole === 'EventOrganiser') {
         const events = await getUserEventFromDb(userId);
         barData.value.push(summarizeEvents(events, 'clicks'));
-        barData.value.push(summarizeEvents(events, 'views'));
         barData.value.push(summarizeEvents(events, 'matches'));
       }
       if (userRole === 'Sponsor') {
