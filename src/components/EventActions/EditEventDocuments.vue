@@ -65,7 +65,7 @@ export default defineComponent({
 
     const edit = async () => {
       emit('edit-documents', {
-        documents: await uploadDocument(),
+        documents: [await uploadDocument()],
       });
       dialog.value = false;
     };
