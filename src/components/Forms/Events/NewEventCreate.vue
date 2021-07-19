@@ -14,7 +14,6 @@ export default defineComponent({
   props: {
     valid: {
       type: Boolean,
-      default: true,
       require: true,
     },
   },

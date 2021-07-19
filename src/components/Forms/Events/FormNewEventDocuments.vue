@@ -93,6 +93,7 @@ export default defineComponent({
 
     const uploadFile = async () => {
       try {
+        valid.value = false;
         const url = await uploadFileToStorage(uid.value, eventFiles.value);
         if (!url) {
           console.log('File upload unsuccessful');
@@ -101,11 +102,12 @@ export default defineComponent({
         console.log(url);
         const localData = JSON.parse(localStorage.getItem('data') || '');
         const data = {
-          documents: url,
+          documents: [url],
         };
         Object.assign(localData, data);
         localStorage.setItem('data', JSON.stringify(localData));
-        fileUrls.value.push(url);
+        fileUrls.value[0] = url;
+        valid.value = true;
       } catch (error) {
         console.error(error);
       }
