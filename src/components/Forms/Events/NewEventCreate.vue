@@ -14,7 +14,6 @@ export default defineComponent({
   props: {
     valid: {
       type: Boolean,
-      default: true,
       require: true,
     },
   },
@@ -46,6 +45,7 @@ export default defineComponent({
         published: true,
         matches: 0,
         clicks: 0,
+        pairs: 0,
         picture: data.picture || '',
         status: 'published',
         eventSize: data.eventSize,

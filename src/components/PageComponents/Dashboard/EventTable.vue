@@ -45,11 +45,12 @@
 </template>
 
 <script lang="ts">
+import EventActionMenu from '@/components/PageComponents/Dashboard/EventActionMenu.vue';
+
 import { EventCategory } from '@/types';
 import { EventGroup } from '@/types/enum';
 import { defineComponent, ref } from '@vue/composition-api';
 import { generateDateRangeFromUnixTimeRange } from '@/common/utils';
-import EventActionMenu from './EventActionMenu.vue';
 
 export default defineComponent({
   name: 'EventTable',
