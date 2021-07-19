@@ -28,6 +28,11 @@ export const publishedCategory: EventCategory = {
       align: 'center',
     },
     {
+      text: 'Pairs',
+      value: 'pairs',
+      align: 'center',
+    },
+    {
       text: 'Actions',
       value: 'actions',
       sortable: false,
@@ -90,6 +95,11 @@ export const matchedCategory: EventCategory = {
     {
       text: 'Matches',
       value: 'matches',
+      align: 'center',
+    },
+    {
+      text: 'Pairs',
+      value: 'pairs',
       align: 'center',
     },
     {

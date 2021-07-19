@@ -44,7 +44,7 @@
         <EventMatchesTable v-if="isOwner" :event="event" :event-id="eventId" />
         <v-card-text class="text-right">
           <EventUnpublish
-            v-if="event.matches < 1 && event.status === 'published' && isOwner"
+            v-if="event.pairs < 1 && event.status === 'published' && isOwner"
             :event="event"
             @publishEvent="$emit('publishEvent', { status: 'draft', published: false })"
           />
@@ -54,7 +54,7 @@
             @publishEvent="$emit('publishEvent', { status: 'published', published: true })"
           />
           <EventDelete
-            v-if="event.matches < 1 && isOwner"
+            v-if="event.pairs < 1 && isOwner"
             :event-id="eventId"
             :title="event.title"
             @deleteEvent="(payload) => $emit('deleteEvent', payload)"

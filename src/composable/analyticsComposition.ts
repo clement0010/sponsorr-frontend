@@ -17,6 +17,8 @@ export default function useAnalytics() {
         switch (value) {
           case 'clicks':
             return event.clicks;
+          case 'pairs':
+            return event.pairs;
           case 'matches':
             return event.matches;
           default:
@@ -35,6 +37,7 @@ export default function useAnalytics() {
       if (userRole === 'EventOrganiser') {
         const events = await getUserEventFromDb(userId);
         barData.value.push(summarizeEvents(events, 'clicks'));
+        barData.value.push(summarizeEvents(events, 'pairs'));
         barData.value.push(summarizeEvents(events, 'matches'));
       }
       if (userRole === 'Sponsor') {

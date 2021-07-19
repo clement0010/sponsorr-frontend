@@ -61,6 +61,7 @@ export interface SponsorEvent {
   eventSize: number;
   keywords: string[];
   matches: number;
+  pairs: number;
   picture: string;
   published: boolean;
   status: EventStatus;
