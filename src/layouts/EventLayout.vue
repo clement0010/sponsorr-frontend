@@ -13,35 +13,50 @@
           @edit="(payload) => $emit('edit', payload)"
         />
         <EventOrganiser :user="name" />
-        <EventDescription
-          :description="description"
-          :is-owner="isOwner"
-          @edit="(payload) => $emit('edit', payload)"
-        />
-        <EventDetails
-          :venue="venue"
-          :event-size="eventSize"
-          :time-start="timeStart"
-          :time-end="timeEnd"
-          :is-owner="isOwner"
-          @edit="(payload) => $emit('edit', payload)"
-        />
-        <EventKeywords
-          :keywords="keywords"
-          :is-owner="isOwner"
-          @edit="(payload) => $emit('edit', payload)"
-        />
-        <EventDocuments
-          :documents="documents"
-          :is-owner="isOwner"
-          @edit="(payload) => $emit('edit', payload)"
-        />
-        <EventRequests
-          :requests="event.requests"
-          :is-owner="isOwner"
-          @edit="(payload) => $emit('edit', payload)"
-        />
-        <EventMatchesTable v-if="isOwner" :event="event" :event-id="eventId" />
+        <v-tabs v-model="tabs">
+          <v-tab>
+            Details
+          </v-tab>
+          <v-tab>
+            Matches
+          </v-tab>
+        </v-tabs>
+        <v-tabs-items v-model="tabs">
+          <v-tab-item :value="0">
+            <EventDescription
+              :description="description"
+              :is-owner="isOwner"
+              @edit="(payload) => $emit('edit', payload)"
+            />
+            <EventDetails
+              :venue="venue"
+              :event-size="eventSize"
+              :time-start="timeStart"
+              :time-end="timeEnd"
+              :is-owner="isOwner"
+              @edit="(payload) => $emit('edit', payload)"
+            />
+            <EventKeywords
+              :keywords="keywords"
+              :is-owner="isOwner"
+              @edit="(payload) => $emit('edit', payload)"
+            />
+            <EventDocuments
+              :documents="documents"
+              :is-owner="isOwner"
+              @edit="(payload) => $emit('edit', payload)"
+            />
+            <EventRequests
+              :requests="event.requests"
+              :is-owner="isOwner"
+              @edit="(payload) => $emit('edit', payload)"
+            />
+          </v-tab-item>
+          <v-tab-item :value="1">
+            <EventMatchesTable v-if="isOwner" :event="event" :event-id="eventId" />
+          </v-tab-item>
+        </v-tabs-items>
+        <v-divider />
         <v-card-text class="text-right">
           <EventUnpublish
             v-if="event.pairs < 1 && event.status === 'published' && isOwner"
@@ -67,10 +82,6 @@
 </template>
 
 <script lang="ts">
-import { computed, defineComponent, toRefs } from '@vue/composition-api';
-import { Role, SponsorEvent } from '@/types';
-import { generateDate } from '@/common/utils';
-
 import EventApply from '@/components/EventActions/EventApply.vue';
 import EventDetails from '@/components/PageComponents/Event/EventDetails.vue';
 import EventDelete from '@/components/EventActions/EventDelete.vue';
@@ -84,6 +95,10 @@ import EventPicture from '@/components/PageComponents/Event/EventPicture.vue';
 import EventPublish from '@/components/EventActions/EventPublish.vue';
 import EventRequests from '@/components/PageComponents/Event/EventRequests.vue';
 import EventUnpublish from '@/components/EventActions/EventUnpublish.vue';
+
+import { computed, defineComponent, ref, toRefs } from '@vue/composition-api';
+import { Role, SponsorEvent } from '@/types';
+import { generateDate } from '@/common/utils';
 
 export default defineComponent({
   components: {
@@ -126,6 +141,8 @@ export default defineComponent({
   setup(props) {
     const { event } = toRefs(props);
 
+    const tabs = ref(0);
+
     return {
       picture: computed(() => event.value.picture),
       title: computed(() => event.value.title),
@@ -138,6 +155,7 @@ export default defineComponent({
       documents: computed(() => event.value.documents),
 
       generateDate,
+      tabs,
     };
   },
 });

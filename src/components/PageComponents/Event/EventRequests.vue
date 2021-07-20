@@ -5,7 +5,7 @@
       <v-spacer />
       <NewRequestCreate v-if="isOwner" @save="(request) => addRequest(request)" />
     </v-card-title>
-    <v-list elevation="2" class="mx-4">
+    <v-list elevation="2" class="mx-4 mb-4">
       <v-list-item v-if="requests.length === 0">
         <v-list-item-title class="font-italic">
           No requests for this event yet.
