@@ -1,6 +1,6 @@
 <template>
   <v-card color="transparent" flat>
-    <v-card-title class="text-h4 black--text">
+    <v-card-title class="text-sm-h4 black--text">
       Contact
       <EditContact
         v-if="isOwner"

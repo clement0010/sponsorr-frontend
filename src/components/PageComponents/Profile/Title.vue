@@ -1,6 +1,6 @@
 <template>
   <v-card color="transparent" flat>
-    <v-card-title class="black--text text-h3">
+    <v-card-title class="black--text text-md-h3 text-sm-h4 text-center text-sm-left">
       {{ name }}
     </v-card-title>
   </v-card>
