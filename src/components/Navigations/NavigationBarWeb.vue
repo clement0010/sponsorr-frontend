@@ -28,8 +28,12 @@
             </router-link>
             <AuthenticationButton />
           </v-col>
-          <v-col v-else cols="auto">
+
+          <v-col v-if="authenticated" cols="auto">
             <HelpDialog />
+          </v-col>
+          <v-col v-if="authenticated" cols="auto">
+            <UserInitialsAvatar />
           </v-col>
         </v-row>
       </v-container>
@@ -43,8 +47,9 @@ import AuthenticationButton from '@/components/Authentication/AuthenticationButt
 import HelpDialog from '@/components/UserAssistance/HelpDialog.vue';
 import LogoSponsorr from '@/components/BuildingElements/LogoSponsorr.vue';
 import NavigationSideBar from '@/components/Navigations/NavigationSideBar.vue';
-import { authenticated, authLoading } from '@/composable/store';
+import UserInitialsAvatar from '@/components/BuildingElements/UserInitialsAvatar.vue';
 
+import { authenticated, authLoading } from '@/composable/store';
 import { defineComponent, ref } from '@vue/composition-api';
 
 export default defineComponent({
@@ -54,6 +59,7 @@ export default defineComponent({
     HelpDialog,
     LogoSponsorr,
     NavigationSideBar,
+    UserInitialsAvatar,
   },
   setup() {
     const drawer = ref(false);
