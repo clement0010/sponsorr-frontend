@@ -13,7 +13,6 @@ export interface User {
   email: string;
   name: string;
   phoneNumber: string;
-  verified: boolean;
 }
 
 export interface Profile extends User {

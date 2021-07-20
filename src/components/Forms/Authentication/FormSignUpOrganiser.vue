@@ -149,7 +149,6 @@ export default defineComponent({
         name: user.name,
         email: user.email,
         phoneNumber: user.phoneNumber,
-        verified: false,
         subscribed: false,
       };
       try {
