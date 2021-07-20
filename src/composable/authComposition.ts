@@ -2,7 +2,7 @@ import Vue from 'vue';
 
 import useProfile from '@/composable/profileComposition';
 
-import { authenticated, authLoading, uid, userInfo } from '@/composable/store';
+import { authenticated, authLoading, emailVerified, uid, userInfo } from '@/composable/store';
 import { auth } from '@/common/firebase';
 import { EventOrganiser, Sponsor } from '@/types';
 import { createUserProfileToDb } from '@/common/firestore/profile';
@@ -25,6 +25,7 @@ auth.onAuthStateChanged(async (user) => {
     await fetchUserProfile(uid.value);
     console.log('Auth State:', user);
     authenticated.value = true;
+    emailVerified.value = user.emailVerified;
   } catch (err) {
     console.error(err);
   } finally {
