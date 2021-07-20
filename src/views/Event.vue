@@ -89,20 +89,6 @@ export default defineComponent({
       }
     };
 
-    if (isOwner.value) {
-      return {
-        event,
-        loading,
-        error,
-        publish,
-        edit,
-        remove,
-        isOwner,
-        role,
-        name: computed(() => profile.value?.name),
-        eventId,
-      };
-    }
     onMounted(async () => {
       await editEvent(eventId, {
         clicks: (event.value?.clicks || 0) + 1,
@@ -118,7 +104,9 @@ export default defineComponent({
       remove,
       isOwner,
       role,
-      name: computed(() => eventOwnerProfile.value?.name),
+      name: computed(() => {
+        return isOwner.value ? profile.value?.name : eventOwnerProfile.value?.name;
+      }),
       eventId,
     };
   },
