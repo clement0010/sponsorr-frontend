@@ -90,9 +90,11 @@ export default defineComponent({
     };
 
     onMounted(async () => {
-      await editEvent(eventId, {
-        clicks: (event.value?.clicks || 0) + 1,
-      });
+      if (!isOwner.value) {
+        await editEvent(eventId, {
+          clicks: (event.value?.clicks || 0) + 1,
+        });
+      }
     });
 
     return {
