@@ -1,9 +1,7 @@
 <template>
-  <v-navigation-drawer :value="drawer" temporary absolute>
-    <UserStatusCard />
-
+  <v-navigation-drawer permanent absolute :mini-variant.sync="mini">
+    <UserStatusCard @toggleSideBar="toggleSideBar" />
     <v-divider />
-
     <v-list v-if="id" nav>
       <v-list-item-group v-model="selected" color="primary" mandatory>
         <router-link :to="{ name: 'Profile', params: { id } }">
@@ -101,17 +99,12 @@ export default defineComponent({
   components: {
     UserStatusCard,
   },
-  props: {
-    drawer: {
-      type: Boolean,
-      default: false,
-    },
-  },
   setup(_, { root }) {
     const { signout } = useAuth();
     const { clearProfile, role } = useProfile();
 
     const selected = ref(0);
+    const mini = ref(false);
 
     onMounted(() => {
       if (!authenticated.value) {
@@ -158,6 +151,10 @@ export default defineComponent({
       }
     });
 
+    const toggleSideBar = () => {
+      mini.value = !mini.value;
+    };
+
     const userSignout = async () => {
       await signout();
       root.$router.push({
@@ -171,6 +168,8 @@ export default defineComponent({
       userSignout,
       role,
       id: uid,
+      toggleSideBar,
+      mini,
     };
   },
 });

@@ -1,12 +1,19 @@
 <template>
-  <v-card flat>
-    <v-card-title v-if="name">
-      {{ name.toUpperCase() }}
-    </v-card-title>
-    <v-card-subtitle>
-      {{ role === 'EventOrganiser' ? 'Event Organiser' : 'Sponsor' }}
-    </v-card-subtitle>
-  </v-card>
+  <v-list-item>
+    <v-list-item-content>
+      <v-list-item-title>
+        <strong>
+          {{ name.toUpperCase() }}
+        </strong>
+        <v-btn icon class="ml-10" @click.stop="$emit('toggleSideBar')">
+          <v-icon>mdi-chevron-left</v-icon>
+        </v-btn>
+      </v-list-item-title>
+      <v-list-item-subtitle>
+        {{ role }}
+      </v-list-item-subtitle>
+    </v-list-item-content>
+  </v-list-item>
 </template>
 
 <script lang="ts">
