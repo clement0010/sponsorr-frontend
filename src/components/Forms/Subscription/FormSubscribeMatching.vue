@@ -15,58 +15,6 @@
       </v-card-subtitle>
       <v-card-text>
         <v-form v-model="valid">
-          <v-row>
-            <v-col>
-              <v-menu
-                :close-on-content-click="false"
-                :nudge-right="40"
-                transition="scale-transition"
-                offset-y
-                min-width="auto"
-              >
-                <template #activator="{ on, attrs }">
-                  <v-text-field
-                    v-model="displayDateStart"
-                    label="Start Date"
-                    append-icon="mdi-calendar"
-                    readonly
-                    v-bind="attrs"
-                    outlined
-                    hint="Select a date or a range of dates"
-                    :rules="[requireInputRule]"
-                    v-on="on"
-                  />
-                </template>
-                <v-date-picker v-model="input.dateStart" :min="today" :max="input.dateEnd" />
-              </v-menu>
-            </v-col>
-
-            <v-col>
-              <v-menu
-                :close-on-content-click="false"
-                :nudge-right="40"
-                transition="scale-transition"
-                offset-y
-                min-width="auto"
-              >
-                <template #activator="{ on, attrs }">
-                  <v-text-field
-                    v-model="displayDateEnd"
-                    label="End Date"
-                    append-icon="mdi-calendar"
-                    readonly
-                    v-bind="attrs"
-                    outlined
-                    hint="Select a date or a range of dates"
-                    :rules="[requireInputRule]"
-                    v-on="on"
-                  />
-                </template>
-                <v-date-picker v-model="input.dateEnd" :min="input.dateStart || today" />
-              </v-menu>
-            </v-col>
-          </v-row>
-
           <v-text-field
             v-model.number="input.eventSize"
             outlined
@@ -127,21 +75,18 @@
 <script lang="ts">
 import useAuth from '@/composable/authComposition';
 import useProfile from '@/composable/profileComposition';
-import { generateDate, generateUnixTime } from '@/common';
 import { requireInputRule, nonNegativeIntegerRule } from '@/common/validation';
-import { computed, defineComponent, reactive, ref } from '@vue/composition-api';
+import { defineComponent, reactive, ref } from '@vue/composition-api';
 
 export default defineComponent({
   name: 'FormSubscribeMatching',
-  setup() {
+  setup(_, { emit }) {
     const { uid } = useAuth();
     const { editUserProfile } = useProfile();
     const dialog = ref(false);
     const valid = ref(false);
 
     const input = reactive({
-      dateStart: '',
-      dateEnd: '',
       budgetMax: 0,
       budgetMin: 0,
       eventSize: 0,
@@ -156,12 +101,6 @@ export default defineComponent({
       'Teens',
       'Children',
     ];
-
-    const today = generateDate(undefined, 'YYYY-MM-DD');
-    const oneDayEvent = computed(() => input.dateStart === input.dateEnd);
-
-    const displayDateStart = computed(() => (input.dateStart ? generateDate(input.dateStart) : ''));
-    const displayDateEnd = computed(() => (input.dateEnd ? generateDate(input.dateEnd) : ''));
 
     const maxBudgetRule = (budget: number) => {
       if (!input.budgetMin) {
@@ -181,8 +120,6 @@ export default defineComponent({
 
     const cancel = () => {
       dialog.value = false;
-      input.dateStart = '';
-      input.dateEnd = '';
       input.budgetMax = 0;
       input.budgetMin = 0;
       input.eventSize = 0;
@@ -193,8 +130,6 @@ export default defineComponent({
       dialog.value = false;
       await editUserProfile(uid.value, {
         subscription: {
-          dateStart: generateUnixTime(input.dateStart),
-          dateEnd: generateUnixTime(input.dateEnd),
           budgetMax: input.budgetMax,
           budgetMin: input.budgetMin,
           eventSize: input.eventSize,
@@ -202,12 +137,11 @@ export default defineComponent({
         },
         subscribed: true,
       });
-      input.dateStart = '';
-      input.dateEnd = '';
       input.budgetMax = 0;
       input.budgetMin = 0;
       input.eventSize = 0;
       input.demographic = [];
+      emit('subscribe');
     };
 
     return {
@@ -223,11 +157,6 @@ export default defineComponent({
       requireInputRule,
       nonNegativeIntegerRule,
       vselectRule,
-
-      today,
-      oneDayEvent,
-      displayDateStart,
-      displayDateEnd,
     };
   },
 });

@@ -16,7 +16,7 @@
         <v-row>
           <v-col cols="auto">
             <v-card-text>
-              <FormSubscribeMatching v-if="!subscribed" />
+              <FormSubscribeMatching v-if="!subscribed" @subscribe="subscribe" />
               <v-btn v-else class="error" @click="unsubscribe">
                 Unsubscribe from Matching Service
               </v-btn>
@@ -34,7 +34,7 @@ import FormSubscribeMatching from '@/components/Forms/Subscription/FormSubscribe
 import useAuth from '@/composable/authComposition';
 import useProfile from '@/composable/profileComposition';
 
-import { defineComponent, ref } from '@vue/composition-api';
+import { computed, defineComponent, ref } from '@vue/composition-api';
 
 export default defineComponent({
   name: 'SettingsLayout',
@@ -55,9 +55,14 @@ export default defineComponent({
       subscribed.value = false;
     };
 
+    const subscribe = () => {
+      subscribed.value = true;
+    };
+
     return {
-      subscribed,
+      subscribed: computed(() => subscribed.value),
       unsubscribe,
+      subscribe,
     };
   },
 });
