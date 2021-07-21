@@ -18,7 +18,7 @@
         />
       </v-col>
       <v-col v-if="isOwner" cols="auto">
-        <v-btn @click="subscribeToggle">
+        <v-btn :class="{ success: !subscribed }" @click="subscribeToggle">
           {{ subscribed ? 'Disable Matching' : 'Enable Matching' }}
         </v-btn>
       </v-col>
@@ -81,9 +81,8 @@ export default defineComponent({
     const { matches, subscribed } = toRefs(props);
 
     const subscribeToggle = () => {
-      subscribed.value = !subscribed.value;
       emit('edit', {
-        subscribed: subscribed.value,
+        subscribed: !subscribed.value,
       });
     };
 

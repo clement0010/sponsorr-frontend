@@ -1,6 +1,8 @@
 import Fuse from 'fuse.js';
 import dayjs from 'dayjs';
 import customParseFormat from 'dayjs/plugin/customParseFormat';
+import { HelperText, Match } from '@/types';
+import { MatchGroup } from '@/types/enum';
 
 dayjs.extend(customParseFormat);
 
@@ -79,4 +81,48 @@ export const fuzzySearchArray = <T>(
 ): Fuse.FuseResult<T>[] => {
   const fuse = new Fuse(list, options);
   return fuse.search(inputs);
+};
+
+export const parseMatchStatus = (match: Match): HelperText => {
+  const { sponsorStatus, organiserStatus, status } = match;
+
+  switch (status) {
+    case MatchGroup.Pending:
+      // eslint-disable-next-line no-case-declarations
+      const result = {
+        message: 'Pending',
+        tooltipMessage: '',
+      };
+      if (sponsorStatus === MatchGroup.Pending && organiserStatus === MatchGroup.Pending) {
+        result.tooltipMessage = 'Waiting for organiser and sponsor to respond!';
+      }
+
+      if (sponsorStatus === MatchGroup.Accepted && organiserStatus === MatchGroup.Pending) {
+        result.tooltipMessage = 'Waiting for organiser respond!';
+      }
+
+      if (sponsorStatus === MatchGroup.Pending && organiserStatus === MatchGroup.Accepted) {
+        result.tooltipMessage = 'Waiting for sponsor respond!';
+      }
+
+      return result;
+
+    case MatchGroup.Accepted:
+      return {
+        message: 'Accepted',
+        tooltipMessage: 'All good to go!',
+      };
+
+    case MatchGroup.Rejected:
+      return {
+        message: 'Rejected',
+        tooltipMessage: 'Awww! We hope you find a good match soon!',
+      };
+
+    default:
+      return {
+        message: 'Pending',
+        tooltipMessage: 'Waiting for organiser and sponsor to respond!',
+      };
+  }
 };

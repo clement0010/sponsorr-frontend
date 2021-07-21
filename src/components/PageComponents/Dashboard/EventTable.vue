@@ -1,7 +1,7 @@
 <template>
   <v-container fluid>
-    <v-tabs v-model="tab" class="elevation-3" grow>
-      <v-tabs-slider color="blue" />
+    <v-tabs v-model="tab" class="elevation-5 rounded-t-lg" grow>
+      <v-tabs-slider color="accent1" />
       <v-tab
         v-for="eventCategory in eventCategories"
         :key="eventCategory.name"
@@ -11,7 +11,7 @@
       </v-tab>
     </v-tabs>
 
-    <v-tabs-items v-model="tab">
+    <v-tabs-items v-model="tab" class="elevation-5 rounded-b-lg">
       <v-tab-item v-for="eventCategory in eventCategories" :key="eventCategory.name">
         <v-data-table
           :headers="eventCategory.headers"

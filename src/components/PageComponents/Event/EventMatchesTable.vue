@@ -13,6 +13,25 @@
           Loading matches...
         </template>
 
+        <template #[`item.status`]="{ item }">
+          {{ parseMatchStatus(item).message }}
+          <v-tooltip top>
+            <template #activator="{ on, attrs }">
+              <v-btn icon v-bind="attrs" class="zoom" v-on="on">
+                <v-icon v-if="item.status === 'accepted'" color="green" small
+                  >mdi-checkbox-marked-circle-outline</v-icon
+                >
+                <v-icon v-if="item.status === 'pending'" small color="yellow"
+                  >mdi-dots-horizontal-circle-outline</v-icon
+                >
+                <v-icon v-if="item.status === 'rejected'" small color="red"
+                  >mdi-close-circle-outline</v-icon
+                >
+              </v-btn>
+            </template>
+            <span>{{ parseMatchStatus(item).tooltipMessage }}</span>
+          </v-tooltip>
+        </template>
         <template #[`item.actions`]="{ item }">
           <MatchActionMenu :match="item" />
         </template>
@@ -26,6 +45,7 @@ import { defineComponent } from '@vue/composition-api';
 
 import MatchActionMenu from '@/components/MatchActions/MatchActionMenu.vue';
 import { Matches, SponsorEvent } from '@/types';
+import { parseMatchStatus } from '@/common/utils';
 
 export default defineComponent({
   name: 'EventMatchesTable',
@@ -74,7 +94,18 @@ export default defineComponent({
 
     return {
       headers,
+      parseMatchStatus,
     };
   },
 });
 </script>
+
+<style scoped>
+.zoom {
+  transition: transform 0.2s; /* Animation */
+}
+
+.zoom:hover {
+  transform: scale(2);
+}
+</style>

@@ -3,7 +3,7 @@
     <v-card-title> {{ headline }} </v-card-title>
     <v-row v-if="searchResult">
       <v-col v-for="(result, index) in searchResult" :key="index" lg="3" md="4" sm="6">
-        <EventCard :event="result" />
+        <EventCard :event="result" class="zoom" />
       </v-col>
     </v-row>
   </v-container>
@@ -54,3 +54,13 @@ export default defineComponent({
   },
 });
 </script>
+
+<style scoped>
+.zoom {
+  transition: transform 0.3s; /* Animation */
+}
+
+.zoom:hover {
+  transform: scale(1.05);
+}
+</style>

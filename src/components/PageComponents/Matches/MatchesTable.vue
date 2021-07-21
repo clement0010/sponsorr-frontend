@@ -1,6 +1,6 @@
 <template>
   <v-container fluid>
-    <v-tabs v-model="tab" class="elevation-3" grow>
+    <v-tabs v-model="tab" class="elevation-5 rounded-t-lg" grow>
       <v-tabs-slider color="blue" />
       <v-tab
         v-for="matchCategory in matchCategories"
@@ -10,7 +10,7 @@
         {{ matchCategory.name }}
       </v-tab>
     </v-tabs>
-    <v-tabs-items v-model="tab">
+    <v-tabs-items v-model="tab" class="elevation-5 rounded-b-lg">
       <v-tab-item v-for="matchCategory in matchCategories" :key="matchCategory.name">
         <v-data-table
           :headers="matchCategory.headers"

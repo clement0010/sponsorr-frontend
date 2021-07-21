@@ -123,3 +123,8 @@ export interface MatchCategory {
   contents: Match[];
   fallback: string;
 }
+
+export interface HelperText {
+  message: string;
+  tooltipMessage: string;
+}
