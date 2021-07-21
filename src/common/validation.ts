@@ -42,3 +42,7 @@ const passwordStrengthRule = (password: string) =>
 || 'Password must contain at least lowercase letter, one number,
 a special character and one uppercase letter';
 */
+
+export const maximumMonetaryValue = (num: number): boolean | string => {
+  return num < 1000000000 || 'Must be smaller than 1,000,000,000';
+};
