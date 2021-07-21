@@ -8,7 +8,7 @@
     </v-row>
     <v-divider />
     <v-list v-if="id" nav>
-      <v-list-item-group v-model="selected" color="primary">
+      <v-list-item-group :value="selected" color="primary">
         <router-link :to="{ name: 'Profile', params: { id } }">
           <v-list-item>
             <v-list-item-icon>
@@ -104,12 +104,14 @@
 </template>
 
 <script lang="ts">
-import useAuth from '@/composable/authComposition';
-import { ref, defineComponent, onMounted } from '@vue/composition-api';
+import UserInitialsAvatar from '@/components/BuildingElements/UserInitialsAvatar.vue';
 import UserStatusCard from '@/components/BuildingElements/UserStatusCard.vue';
+
+import useAuth from '@/composable/authComposition';
 import useProfile from '@/composable/profileComposition';
-import { authenticated, uid } from '@/composable/store';
-import UserInitialsAvatar from '../BuildingElements/UserInitialsAvatar.vue';
+
+import { uid } from '@/composable/store';
+import { ref, defineComponent, computed } from '@vue/composition-api';
 
 export default defineComponent({
   name: 'NavigationSideBar',
@@ -121,62 +123,47 @@ export default defineComponent({
     const { signout } = useAuth();
     const { clearProfile, role } = useProfile();
 
-    const selected = ref<number>();
     const mini = ref(true);
+    const routeName = computed(() => root.$route.name);
 
-    onMounted(() => {
-      if (!authenticated.value) {
-        return;
-      }
+    const selected = computed(() => {
       if (role.value === 'EventOrganiser') {
-        switch (root.$route.name) {
+        switch (routeName.value) {
           case 'Profile':
             if (uid.value === root.$route.params.id) {
-              selected.value = 0;
-              break;
+              return 0;
             }
-            selected.value = undefined;
-            break;
+            return undefined;
           case 'Dashboard':
-            selected.value = 1;
-            break;
+            return 1;
           case 'EventMatches':
-            selected.value = 2;
-            break;
+            return 2;
           case 'Analytics':
-            selected.value = 3;
-            break;
+            return 3;
           default:
-            selected.value = undefined;
-            break;
+            return undefined;
         }
       }
       if (role.value === 'Sponsor') {
-        switch (root.$route.name) {
+        switch (routeName.value) {
           case 'Profile':
             if (uid.value === root.$route.params.id) {
-              selected.value = 0;
-              break;
+              return 0;
             }
-            selected.value = undefined;
-            break;
+            return undefined;
           case 'Marketplace':
-            selected.value = 1;
-            break;
+            return 1;
           case 'Matches':
-            selected.value = 2;
-            break;
+            return 2;
           case 'Analytics':
-            selected.value = 3;
-            break;
+            return 3;
           case 'Settings':
-            selected.value = 4;
-            break;
+            return 4;
           default:
-            selected.value = undefined;
-            break;
+            return undefined;
         }
       }
+      return undefined;
     });
 
     const userSignout = async () => {
