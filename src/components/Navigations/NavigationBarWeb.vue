@@ -1,45 +1,41 @@
 <template>
-  <v-container fluid class="pa-0">
-    <v-app-bar class="primary" flat app hide-on-scroll>
-      <v-container fill-height class="py-0">
-        <v-row align="center" justify="center" class="py-0">
-          <v-col cols="auto" class="py-0">
-            <v-app-bar-title>
-              <router-link to="/">
-                <LogoSponsorr :width="175" />
-              </router-link>
-            </v-app-bar-title>
-          </v-col>
-
-          <v-spacer />
-
-          <v-col v-if="!authenticated" cols="auto">
-            <router-link :to="{ name: 'Login' }">
-              <v-btn class="text-lowercase font-weight-regular white--text" rounded text>
-                Login
-              </v-btn>
+  <v-app-bar class="primary" flat app hide-on-scroll clipped-left>
+    <v-container fill-height class="py-0">
+      <v-row align="center" justify="center" class="py-0">
+        <v-col cols="auto" class="py-0">
+          <v-app-bar-title>
+            <router-link to="/">
+              <LogoSponsorr :width="175" />
             </router-link>
-            <AuthenticationButton />
-          </v-col>
+          </v-app-bar-title>
+        </v-col>
 
-          <v-col v-if="authenticated" cols="auto">
-            <HelpDialog />
-          </v-col>
-          <v-col v-if="authenticated" cols="auto">
-            <UserInitialsAvatar />
-          </v-col>
-        </v-row>
-      </v-container>
-    </v-app-bar>
-    <NavigationSideBar v-if="!loading && authenticated" />
-  </v-container>
+        <v-spacer />
+
+        <v-col v-if="!authenticated" cols="auto">
+          <router-link :to="{ name: 'Login' }">
+            <v-btn class="text-lowercase font-weight-regular white--text" rounded text>
+              Login
+            </v-btn>
+          </router-link>
+          <AuthenticationButton />
+        </v-col>
+
+        <v-col v-if="authenticated" cols="auto">
+          <HelpDialog />
+        </v-col>
+        <v-col v-if="authenticated" cols="auto">
+          <UserInitialsAvatar />
+        </v-col>
+      </v-row>
+    </v-container>
+  </v-app-bar>
 </template>
 
 <script lang="ts">
 import AuthenticationButton from '@/components/Authentication/AuthenticationButton.vue';
 import HelpDialog from '@/components/UserAssistance/HelpDialog.vue';
 import LogoSponsorr from '@/components/BuildingElements/LogoSponsorr.vue';
-import NavigationSideBar from '@/components/Navigations/NavigationSideBar.vue';
 import UserInitialsAvatar from '@/components/BuildingElements/UserInitialsAvatar.vue';
 
 import { authenticated, authLoading } from '@/composable/store';
@@ -51,7 +47,6 @@ export default defineComponent({
     AuthenticationButton,
     HelpDialog,
     LogoSponsorr,
-    NavigationSideBar,
     UserInitialsAvatar,
   },
   setup() {

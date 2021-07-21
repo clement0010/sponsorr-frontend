@@ -1,6 +1,11 @@
 <template>
-  <v-navigation-drawer permanent absolute :mini-variant.sync="mini">
-    <UserStatusCard @toggleSideBar="toggleSideBar" />
+  <v-navigation-drawer permanent :mini-variant.sync="mini" app clipped @click="mini = !mini">
+    <UserStatusCard v-if="!mini" @toggleSideBar="mini = !mini" />
+    <v-row v-else justify="center" class="py-2">
+      <v-col cols="auto">
+        <UserInitialsAvatar :disabled="true" @click.stop="mini = !mini" />
+      </v-col>
+    </v-row>
     <v-divider />
     <v-list v-if="id" nav>
       <v-list-item-group v-model="selected" color="primary">
@@ -104,24 +109,25 @@ import { ref, defineComponent, onMounted } from '@vue/composition-api';
 import UserStatusCard from '@/components/BuildingElements/UserStatusCard.vue';
 import useProfile from '@/composable/profileComposition';
 import { authenticated, uid } from '@/composable/store';
+import UserInitialsAvatar from '../BuildingElements/UserInitialsAvatar.vue';
 
 export default defineComponent({
   name: 'NavigationSideBar',
   components: {
     UserStatusCard,
+    UserInitialsAvatar,
   },
   setup(_, { root }) {
     const { signout } = useAuth();
     const { clearProfile, role } = useProfile();
 
-    const selected = ref();
+    const selected = ref<number>();
     const mini = ref(true);
 
     onMounted(() => {
       if (!authenticated.value) {
         return;
       }
-
       if (role.value === 'EventOrganiser') {
         switch (root.$route.name) {
           case 'Profile':
@@ -141,6 +147,7 @@ export default defineComponent({
             selected.value = 3;
             break;
           default:
+            selected.value = undefined;
             break;
         }
       }
@@ -166,14 +173,11 @@ export default defineComponent({
             selected.value = 4;
             break;
           default:
+            selected.value = undefined;
             break;
         }
       }
     });
-
-    const toggleSideBar = () => {
-      mini.value = !mini.value;
-    };
 
     const userSignout = async () => {
       await signout();
@@ -188,7 +192,6 @@ export default defineComponent({
       userSignout,
       role,
       id: uid,
-      toggleSideBar,
       mini,
     };
   },

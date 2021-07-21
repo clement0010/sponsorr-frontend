@@ -39,7 +39,7 @@
         </v-list>
 
         <div v-else>
-          <UserStatusCard />
+          <UserStatusCard :mobile="true" />
           <v-divider />
           <v-list nav>
             <v-list-item-group v-model="selected" color="primary" mandatory>
@@ -87,17 +87,6 @@
                 </v-list-item>
               </router-link>
 
-              <router-link :to="{ name: 'Analytics' }">
-                <v-list-item>
-                  <v-list-item-icon>
-                    <v-icon>mdi-chart-line-variant</v-icon>
-                  </v-list-item-icon>
-                  <v-list-item-content>
-                    Analytics
-                  </v-list-item-content>
-                </v-list-item>
-              </router-link>
-
               <router-link v-if="role === 'Sponsor'" :to="{ name: 'Matches' }">
                 <v-list-item>
                   <v-list-item-icon>
@@ -105,6 +94,17 @@
                   </v-list-item-icon>
                   <v-list-item-content>
                     Matches
+                  </v-list-item-content>
+                </v-list-item>
+              </router-link>
+
+              <router-link :to="{ name: 'Analytics' }">
+                <v-list-item>
+                  <v-list-item-icon>
+                    <v-icon>mdi-chart-line-variant</v-icon>
+                  </v-list-item-icon>
+                  <v-list-item-content>
+                    Analytics
                   </v-list-item-content>
                 </v-list-item>
               </router-link>
@@ -131,7 +131,9 @@
                     Sign Out
                   </v-list-item-content>
                 </v-list-item>
-                <HelpDialog :color="'black'" />
+                <v-list-item class="justify-center">
+                  <HelpDialog :color="'black'" />
+                </v-list-item>
               </v-list>
             </v-list-item-group>
           </v-list>
@@ -151,7 +153,7 @@ import useAuth from '@/composable/authComposition';
 import useProfile from '@/composable/profileComposition';
 
 import { authenticated, uid } from '@/composable/store';
-import { defineComponent, onMounted, ref } from '@vue/composition-api';
+import { defineComponent, onMounted, ref, watch } from '@vue/composition-api';
 
 export default defineComponent({
   name: 'NavigationDropdown',
@@ -165,13 +167,12 @@ export default defineComponent({
     const { signout } = useAuth();
     const { clearProfile, role } = useProfile();
     const dialog = ref(false);
-    const selected = ref();
+    const selected = ref<number>();
 
     onMounted(() => {
       if (!authenticated.value) {
         return;
       }
-
       if (role.value === 'EventOrganiser') {
         switch (root.$route.name) {
           case 'Profile':
@@ -216,7 +217,6 @@ export default defineComponent({
             selected.value = 4;
             break;
           default:
-            selected.value = -1;
             break;
         }
       }
@@ -240,7 +240,7 @@ export default defineComponent({
       id: uid,
       userSignout,
       toggleDialog,
-      selected,
+      selected: watch(selected, () => selected.value),
       role,
     };
   },

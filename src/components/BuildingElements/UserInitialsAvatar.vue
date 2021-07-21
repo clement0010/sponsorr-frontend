@@ -1,7 +1,7 @@
 <template>
   <v-menu rounded offset-y>
     <template #activator="{ on }">
-      <v-btn icon v-on="on">
+      <v-btn icon :disabled="disabled" v-on="on">
         <v-avatar color="#4E5018" size="40">
           <span class="white--text">
             {{ initials }}
@@ -29,6 +29,12 @@ import { computed, defineComponent } from '@vue/composition-api';
 
 export default defineComponent({
   name: 'UserInitialsAvatar',
+  props: {
+    disabled: {
+      type: Boolean,
+      default: false,
+    },
+  },
   setup() {
     return {
       initials: computed(() =>
