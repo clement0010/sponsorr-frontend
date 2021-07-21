@@ -103,7 +103,7 @@ export default defineComponent({
     const { signout } = useAuth();
     const { clearProfile, role } = useProfile();
 
-    const selected = ref(0);
+    const selected = ref();
     const mini = ref(true);
 
     onMounted(() => {
@@ -123,7 +123,6 @@ export default defineComponent({
             selected.value = 2;
             break;
           default:
-            selected.value = -1;
             break;
         }
       }
@@ -145,7 +144,6 @@ export default defineComponent({
             selected.value = 4;
             break;
           default:
-            selected.value = -1;
             break;
         }
       }
