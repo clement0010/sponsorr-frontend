@@ -5,6 +5,7 @@
       <EditEventKeywords
         v-if="isOwner"
         :keywords="keywords"
+        :status="status"
         @edit-keywords="(payload) => $emit('edit', payload)"
       />
     </v-card-title>
@@ -19,8 +20,10 @@
 </template>
 
 <script lang="ts">
-import { defineComponent } from '@vue/composition-api';
 import EditEventKeywords from '@/components/EventActions/EditEventKeywords.vue';
+
+import { defineComponent } from '@vue/composition-api';
+import { EventGroup } from '@/types/enum';
 
 export default defineComponent({
   name: 'EventKeywords',
@@ -44,6 +47,10 @@ export default defineComponent({
     },
     isOwner: {
       type: Boolean,
+      required: true,
+    },
+    status: {
+      type: Object as () => EventGroup,
       required: true,
     },
   },

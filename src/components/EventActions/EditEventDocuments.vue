@@ -1,7 +1,7 @@
 <template>
   <v-dialog v-model="dialog" width="500" persistent>
     <template #activator="{ on, attrs }">
-      <v-btn icon v-bind="attrs" v-on="on">
+      <v-btn icon v-bind="attrs" :disabled="status !== 'draft'" v-on="on">
         <v-icon>mdi-pencil</v-icon>
       </v-btn>
     </template>
@@ -46,9 +46,16 @@ import { defineComponent, ref } from '@vue/composition-api';
 import { fileUploadSizeRuleSingle } from '@/common/validation';
 import { uploadFileToStorage } from '@/common';
 import useAuth from '@/composable/authComposition';
+import { EventGroup } from '@/types/enum';
 
 export default defineComponent({
   name: 'EditEventDocumentButton',
+  props: {
+    status: {
+      type: Object as () => EventGroup,
+      required: true,
+    },
+  },
   setup(_, { emit }) {
     const dialog = ref(false);
     const file = ref<File>();

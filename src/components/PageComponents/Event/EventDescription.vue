@@ -5,6 +5,7 @@
       <EditEventDescription
         v-if="isOwner"
         :description="description"
+        :status="status"
         @edit-description="(payload) => $emit('edit', payload)"
       />
     </v-card-title>
@@ -15,8 +16,10 @@
 </template>
 
 <script lang="ts">
-import { defineComponent } from '@vue/composition-api';
 import EditEventDescription from '@/components/EventActions/EditEventDescription.vue';
+
+import { defineComponent } from '@vue/composition-api';
+import { EventGroup } from '@/types/enum';
 
 export default defineComponent({
   name: 'EventDescription',
@@ -36,6 +39,10 @@ export default defineComponent({
     },
     isOwner: {
       type: Boolean,
+      required: true,
+    },
+    status: {
+      type: Object as () => EventGroup,
       required: true,
     },
   },

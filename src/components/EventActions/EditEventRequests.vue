@@ -1,7 +1,7 @@
 <template>
   <v-dialog v-model="dialog" width="500">
     <template #activator="{ on, attrs }">
-      <v-btn icon v-bind="attrs" v-on="on">
+      <v-btn icon v-bind="attrs" :disabled="status !== 'draft'" v-on="on">
         <v-icon>
           mdi-pencil
         </v-icon>
@@ -47,6 +47,7 @@
 <script lang="ts">
 import { requireInputRule, nonNegativeIntegerRule } from '@/common/validation';
 import { SponsorRequest } from '@/types';
+import { EventGroup } from '@/types/enum';
 import { defineComponent, ref } from '@vue/composition-api';
 
 export default defineComponent({
@@ -54,6 +55,10 @@ export default defineComponent({
   props: {
     request: {
       type: Object as () => SponsorRequest,
+      required: true,
+    },
+    status: {
+      type: Object as () => EventGroup,
       required: true,
     },
   },

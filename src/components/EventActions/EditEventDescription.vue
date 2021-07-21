@@ -1,7 +1,7 @@
 <template>
   <v-dialog v-model="dialog" width="500" persistent>
     <template #activator="{ on, attrs }">
-      <v-btn icon v-bind="attrs" v-on="on">
+      <v-btn icon v-bind="attrs" :disabled="status !== 'draft'" v-on="on">
         <v-icon>mdi-pencil</v-icon>
       </v-btn>
     </template>
@@ -42,12 +42,17 @@
 <script lang="ts">
 import { computed, defineComponent, ref } from '@vue/composition-api';
 import { requireInputRule } from '@/common/validation';
+import { EventGroup } from '@/types/enum';
 
 export default defineComponent({
   name: 'EditEventDescriptionButton',
   props: {
     description: {
       type: String,
+      required: true,
+    },
+    status: {
+      type: Object as () => EventGroup,
       required: true,
     },
   },

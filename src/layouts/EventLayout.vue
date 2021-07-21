@@ -5,10 +5,12 @@
         <EventPicture
           :picture="picture"
           :is-owner="isOwner"
+          :status="status"
           @edit="(payload) => $emit('edit', payload)"
         />
         <EventTitle
           :title="title"
+          :status="status"
           :is-owner="isOwner"
           @edit="(payload) => $emit('edit', payload)"
         />
@@ -18,7 +20,9 @@
           :owner-id="ownerId"
           :matches="matches"
           :subscribed="subscribed"
+          :event="event"
           @edit="(payload) => $emit('edit', payload)"
+          @publishEvent="(payload) => $emit('publishEvent', payload)"
         />
         <v-tabs v-model="tabs">
           <v-tab>
@@ -33,6 +37,7 @@
             <EventDescription
               :description="description"
               :is-owner="isOwner"
+              :status="status"
               @edit="(payload) => $emit('edit', payload)"
             />
             <EventDetails
@@ -41,21 +46,25 @@
               :time-start="timeStart"
               :time-end="timeEnd"
               :is-owner="isOwner"
+              :status="status"
               @edit="(payload) => $emit('edit', payload)"
             />
             <EventKeywords
               :keywords="keywords"
               :is-owner="isOwner"
+              :status="status"
               @edit="(payload) => $emit('edit', payload)"
             />
             <EventDocuments
               :documents="documents"
               :is-owner="isOwner"
+              :status="status"
               @edit="(payload) => $emit('edit', payload)"
             />
             <EventRequests
               :requests="event.requests"
               :is-owner="isOwner"
+              :status="status"
               @edit="(payload) => $emit('edit', payload)"
             />
           </v-tab-item>
@@ -71,18 +80,9 @@
         </v-tabs-items>
         <v-divider />
         <v-card-text class="text-right">
-          <EventUnpublish
-            v-if="event.pairs < 1 && event.status === 'published' && isOwner"
-            :event="event"
-            @publishEvent="$emit('publishEvent', { status: 'draft', published: false })"
-          />
-          <EventPublish
-            v-if="event.status === 'draft' && isOwner"
-            :event="event"
-            @publishEvent="$emit('publishEvent', { status: 'published', published: true })"
-          />
           <EventDelete
             v-if="event.pairs < 1 && isOwner"
+            :status="status"
             :event-id="eventId"
             :title="event.title"
             @deleteEvent="(payload) => $emit('deleteEvent', payload)"
@@ -109,9 +109,7 @@ import EventTitle from '@/components/PageComponents/Event/EventTitle.vue';
 import EventMatchesTable from '@/components/PageComponents/Event/EventMatchesTable.vue';
 import EventOrganiser from '@/components/PageComponents/Event/EventOrganiser.vue';
 import EventPicture from '@/components/PageComponents/Event/EventPicture.vue';
-import EventPublish from '@/components/EventActions/EventPublish.vue';
 import EventRequests from '@/components/PageComponents/Event/EventRequests.vue';
-import EventUnpublish from '@/components/EventActions/EventUnpublish.vue';
 
 import { computed, defineComponent, ref, toRefs } from '@vue/composition-api';
 import { Matches, Role, SponsorEvent } from '@/types';
@@ -126,8 +124,6 @@ export default defineComponent({
     EventKeywords,
     EventDocuments,
     EventDelete,
-    EventPublish,
-    EventUnpublish,
     EventPicture,
     EventApply,
     EventRequests,
@@ -176,6 +172,7 @@ export default defineComponent({
       documents: computed(() => event.value.documents),
       ownerId: computed(() => event.value.userId),
       subscribed: computed(() => event.value.subscribed),
+      status: computed(() => event.value.status),
       generateDate,
       tabs,
     };

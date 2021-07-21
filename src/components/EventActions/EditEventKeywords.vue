@@ -1,7 +1,7 @@
 <template>
   <v-dialog v-model="dialog" width="500" persistent>
     <template #activator="{ on, attrs }">
-      <v-btn icon v-bind="attrs" v-on="on">
+      <v-btn icon v-bind="attrs" :disabled="status !== 'draft'" v-on="on">
         <v-icon>mdi-pencil</v-icon>
       </v-btn>
     </template>
@@ -35,6 +35,7 @@
 </template>
 
 <script lang="ts">
+import { EventGroup } from '@/types/enum';
 import { computed, defineComponent, ref } from '@vue/composition-api';
 
 export default defineComponent({
@@ -42,6 +43,10 @@ export default defineComponent({
   props: {
     keywords: {
       type: Array as () => string[],
+      required: true,
+    },
+    status: {
+      type: Object as () => EventGroup,
       required: true,
     },
   },

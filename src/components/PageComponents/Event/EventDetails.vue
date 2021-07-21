@@ -10,6 +10,7 @@
         :time-end="editEnd"
         :event-size="eventSize"
         :venue="venue"
+        :status="status"
         @edit-event-details="(payload) => $emit('edit', payload)"
       />
     </v-card-title>
@@ -50,9 +51,11 @@
 </template>
 
 <script lang="ts">
+import EditEventDetails from '@/components/EventActions/EditEventDetails.vue';
+
 import { computed, defineComponent } from '@vue/composition-api';
 import { generateDate } from '@/common/utils';
-import EditEventDetails from '@/components/EventActions/EditEventDetails.vue';
+import { EventGroup } from '@/types/enum';
 
 export default defineComponent({
   name: 'EventDetails',
@@ -79,6 +82,10 @@ export default defineComponent({
     eventSize: {
       type: Number,
       default: 0,
+    },
+    status: {
+      type: Object as () => EventGroup,
+      required: true,
     },
   },
   setup(props) {

@@ -5,6 +5,7 @@
       <EditEventTitle
         v-if="isOwner"
         :title="title"
+        :status="status"
         @edit-title="(payload) => $emit('edit', payload)"
       />
     </v-card-title>
@@ -12,8 +13,10 @@
 </template>
 
 <script lang="ts">
-import { defineComponent } from '@vue/composition-api';
 import EditEventTitle from '@/components/EventActions/EditEventTitle.vue';
+import { EventGroup } from '@/types/enum';
+
+import { defineComponent } from '@vue/composition-api';
 
 export default defineComponent({
   name: 'EventTitle',
@@ -28,6 +31,10 @@ export default defineComponent({
     title: {
       type: String,
       default: 'Some Default Event',
+    },
+    status: {
+      type: Object as () => EventGroup,
+      required: true,
     },
   },
 });

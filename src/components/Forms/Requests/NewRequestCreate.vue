@@ -1,7 +1,7 @@
 <template>
   <v-dialog v-model="dialog" persistent>
     <template #activator="{ on, attrs }">
-      <v-btn v-bind="attrs" v-on="on">Add Request</v-btn>
+      <v-btn v-bind="attrs" :disabled="status !== 'draft'" v-on="on">Add Request</v-btn>
     </template>
 
     <v-form v-model="valid">
@@ -50,9 +50,18 @@
 import { SponsorRequest } from '@/types';
 import { requireInputRule, nonNegativeIntegerRule } from '@/common/validation';
 import { defineComponent, reactive, ref } from '@vue/composition-api';
+import { EventGroup } from '@/types/enum';
 
 export default defineComponent({
   name: 'NewRequestCreateButton',
+  props: {
+    status: {
+      type: Object as () => EventGroup,
+      default: () => {
+        'draft';
+      },
+    },
+  },
   setup(_, { emit }) {
     const valid = ref(false);
     const dialog = ref(false);

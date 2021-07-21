@@ -7,6 +7,16 @@
         </v-card-subtitle>
       </v-col>
       <v-spacer />
+      <v-col v-if="isOwner && event.pairs < 1" cols="auto">
+        <EventUnpublish
+          v-if="event.status === 'published'"
+          @publishEvent="$emit('publishEvent', { status: 'draft', published: false })"
+        />
+        <EventPublish
+          v-if="event.status === 'draft'"
+          @publishEvent="$emit('publishEvent', { status: 'published', published: true })"
+        />
+      </v-col>
       <v-col v-if="isOwner" cols="auto">
         <v-btn @click="subscribeToggle">
           {{ subscribed ? 'Disable Matching' : 'Enable Matching' }}
@@ -27,15 +37,19 @@
 </template>
 
 <script lang="ts">
+import EventPublish from '@/components/EventActions/EventPublish.vue';
+import EventUnpublish from '@/components/EventActions/EventUnpublish.vue';
 import MatchView from '@/components/MatchActions/MatchView.vue';
 
-import { Matches } from '@/types';
+import { Matches, SponsorEvent } from '@/types';
 import { computed, defineComponent, toRefs } from '@vue/composition-api';
 
 export default defineComponent({
   name: 'EventOrganiser',
   components: {
     MatchView,
+    EventPublish,
+    EventUnpublish,
   },
   props: {
     user: {
@@ -56,6 +70,10 @@ export default defineComponent({
     },
     subscribed: {
       type: Boolean,
+      required: true,
+    },
+    event: {
+      type: Object as () => SponsorEvent,
       required: true,
     },
   },

@@ -12,7 +12,7 @@
 
           <v-fade-transition>
             <v-overlay v-if="hover" absolute color="#036358">
-              <v-btn icon @click="toggleDialog">
+              <v-btn icon :disabled="status !== 'draft'" @click="toggleDialog">
                 <v-icon>mdi-pencil</v-icon>
               </v-btn>
             </v-overlay>
@@ -31,6 +31,7 @@
 
 <script lang="ts">
 import EditEventPicture from '@/components/EventActions/EditEventPicture.vue';
+import { EventGroup } from '@/types/enum';
 
 import { defineComponent, ref } from '@vue/composition-api';
 
@@ -47,6 +48,10 @@ export default defineComponent({
     picture: {
       type: String,
       default: '',
+    },
+    status: {
+      type: Object as () => EventGroup,
+      required: true,
     },
   },
   setup() {
