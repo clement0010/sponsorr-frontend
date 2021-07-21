@@ -1,7 +1,7 @@
 <template>
   <v-app>
     <v-main class="primary">
-      <router-view />
+      <router-view :key="$route.fullPath" />
       <Snackbar />
     </v-main>
   </v-app>

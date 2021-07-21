@@ -114,7 +114,11 @@ export default defineComponent({
       if (role.value === 'EventOrganiser') {
         switch (root.$route.name) {
           case 'Profile':
-            selected.value = 0;
+            if (uid.value === root.$route.params.id) {
+              selected.value = 0;
+              break;
+            }
+            selected.value = undefined;
             break;
           case 'Dashboard':
             selected.value = 1;
@@ -129,7 +133,11 @@ export default defineComponent({
       if (role.value === 'Sponsor') {
         switch (root.$route.name) {
           case 'Profile':
-            selected.value = 0;
+            if (uid.value === root.$route.params.id) {
+              selected.value = 0;
+              break;
+            }
+            selected.value = undefined;
             break;
           case 'Marketplace':
             selected.value = 1;
