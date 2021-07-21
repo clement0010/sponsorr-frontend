@@ -25,7 +25,7 @@ export const pendingCategory: MatchCategory = {
     },
   ],
   contents: [],
-  fallback: 'No pending matches to review',
+  fallback: 'No pending matches to review; apply for an event from the marketplace to get started!',
 };
 
 export const acceptedCategory: MatchCategory = {
