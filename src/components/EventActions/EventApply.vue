@@ -1,7 +1,7 @@
 <template>
   <v-dialog v-model="dialog" width="500">
     <template #activator="{ on, attrs }">
-      <v-btn v-bind="attrs" class="success" v-on="on">
+      <v-btn v-bind="attrs" class="success" :disabled="applied || disabled" v-on="on">
         Apply
       </v-btn>
     </template>
@@ -47,6 +47,10 @@ export default defineComponent({
       type: String,
       required: true,
     },
+    disabled: {
+      type: Boolean,
+      default: false,
+    },
   },
   setup(props) {
     const { uid } = useAuth();
@@ -55,6 +59,7 @@ export default defineComponent({
 
     const dialog = ref(false);
     const valid = ref(false);
+    const applied = ref(false);
 
     const input = ref('');
 
@@ -69,12 +74,14 @@ export default defineComponent({
         { message: input.value, timestamp: generateUnixTime() },
       ]);
       input.value = '';
+      applied.value = true;
     };
 
     return {
       // Config
       dialog,
       valid,
+      applied,
 
       // Data
       input,
