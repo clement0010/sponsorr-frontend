@@ -4,6 +4,7 @@ import {
   updateUserMatchStatusFromDb,
   getAllMatchedEventFromDb,
   getMatchesByEventId,
+  getMatchesByOrganiserId,
   parseUserEventId,
   updateMatchedEventStatusFromDb,
 } from '@/common';
@@ -86,6 +87,19 @@ export default function useMatch() {
     }
   };
 
+  const fetchMatchesByOrganiserId = async (organiserId: string) => {
+    try {
+      error.value = false;
+      loading.value = true;
+      const eventMatches = await getMatchesByOrganiserId(organiserId);
+      matches.value = eventMatches;
+    } catch (err) {
+      error.value = true;
+    } finally {
+      loading.value = false;
+    }
+  };
+
   const updateUserMatchStatus = async (
     match: Match,
     status: MatchStatus,
@@ -131,6 +145,7 @@ export default function useMatch() {
     initialise,
     fetchMatches,
     fetchMatchesByEventId,
+    fetchMatchesByOrganiserId,
     updateUserMatchStatus,
 
     loading: computed(() => loading.value),

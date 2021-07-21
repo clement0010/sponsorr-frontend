@@ -75,6 +75,29 @@ export const getMatchesByEventId = async (
   return matches;
 };
 
+export const getMatchesByOrganiserId = async (organiserId: string): Promise<Matches> => {
+  const dbMatches = await db.matches.where('organiserId', '==', organiserId).get();
+  const matches: Matches = [];
+  const filteredMatches = dbMatches?.docs.filter((doc) => doc.exists) || [];
+  // eslint-disable-next-line no-restricted-syntax
+  for (const match of filteredMatches) {
+    const sponsorProfile = ref<Profile>();
+    const visitEvent = ref<SponsorEvent>();
+    // eslint-disable-next-line no-await-in-loop
+    sponsorProfile.value = await getUserProfileFromDb(match.data().userId);
+    // eslint-disable-next-line no-await-in-loop
+    visitEvent.value = await getEventFromDb(match.data().eventId);
+    const normalisedMatch: Match = {
+      event: visitEvent.value,
+      ...match.data(),
+    };
+    Object.assign(normalisedMatch, { sponsor: sponsorProfile.value?.name });
+    Object.assign(normalisedMatch, { title: visitEvent.value?.title });
+    matches.push(normalisedMatch);
+  }
+  return matches;
+};
+
 export const updateMatchedEventStatusFromDb = async (
   userEventId: string,
   status: MatchStatus,

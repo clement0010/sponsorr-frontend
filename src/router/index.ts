@@ -76,6 +76,13 @@ const routes: Array<RouteConfig> = [
     beforeEnter: authGuard,
   },
   {
+    path: '/event-matches',
+    name: 'EventMatches',
+    component: () => import(/* webpackChunkName: "evennt-matches" */ '@/views/EventMatches.vue'),
+    meta: { requiresAuth: true, authorise: [Role.Organiser] },
+    beforeEnter: authGuard,
+  },
+  {
     path: '/event/:id',
     name: 'Event',
     component: () => import(/* webpackChunkName: "event" */ '@/views/Event.vue'),

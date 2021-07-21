@@ -109,7 +109,7 @@ export interface Match {
   status: MatchStatus;
   organiserStatus: MatchStatus;
   sponsorStatus: MatchStatus;
-  event: SponsorEvent;
+  event: SponsorEvent | undefined;
   messages?: Messages;
   organiserId: string;
 }

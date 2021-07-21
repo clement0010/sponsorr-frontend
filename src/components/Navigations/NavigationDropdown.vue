@@ -76,6 +76,17 @@
                 </v-list-item>
               </router-link>
 
+              <router-link v-if="role === 'EventOrganiser'" :to="{ name: 'EventMatches' }">
+                <v-list-item>
+                  <v-list-item-icon>
+                    <v-icon>mdi-account-supervisor-circle-outline</v-icon>
+                  </v-list-item-icon>
+                  <v-list-item-content>
+                    Event Matches
+                  </v-list-item-content>
+                </v-list-item>
+              </router-link>
+
               <router-link :to="{ name: 'Analytics' }">
                 <v-list-item>
                   <v-list-item-icon>
@@ -173,11 +184,13 @@ export default defineComponent({
           case 'Dashboard':
             selected.value = 1;
             break;
-          case 'Analytics':
+          case 'EventMatches':
             selected.value = 2;
             break;
+          case 'Analytics':
+            selected.value = 3;
+            break;
           default:
-            selected.value = -1;
             break;
         }
       }
