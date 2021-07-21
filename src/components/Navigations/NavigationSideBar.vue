@@ -3,7 +3,7 @@
     <UserStatusCard @toggleSideBar="toggleSideBar" />
     <v-divider />
     <v-list v-if="id" nav>
-      <v-list-item-group v-model="selected" color="primary" mandatory>
+      <v-list-item-group v-model="selected" color="primary">
         <router-link :to="{ name: 'Profile', params: { id } }">
           <v-list-item>
             <v-list-item-icon>
@@ -104,7 +104,7 @@ export default defineComponent({
     const { clearProfile, role } = useProfile();
 
     const selected = ref(0);
-    const mini = ref(false);
+    const mini = ref(true);
 
     onMounted(() => {
       if (!authenticated.value) {

@@ -31,7 +31,7 @@
         </v-row>
       </v-container>
     </v-app-bar>
-    <NavigationSideBar v-if="!loading && authenticated" :drawer="drawer" />
+    <NavigationSideBar v-if="!loading && authenticated" />
   </v-container>
 </template>
 
@@ -43,7 +43,7 @@ import NavigationSideBar from '@/components/Navigations/NavigationSideBar.vue';
 import UserInitialsAvatar from '@/components/BuildingElements/UserInitialsAvatar.vue';
 
 import { authenticated, authLoading } from '@/composable/store';
-import { defineComponent, ref } from '@vue/composition-api';
+import { defineComponent } from '@vue/composition-api';
 
 export default defineComponent({
   name: 'NavigationBarWeb',
@@ -55,17 +55,9 @@ export default defineComponent({
     UserInitialsAvatar,
   },
   setup() {
-    const drawer = ref(false);
-
-    const toggleSideBar = () => {
-      drawer.value = !drawer.value;
-    };
-
     return {
       authenticated,
-      drawer,
       loading: authLoading,
-      toggleSideBar,
     };
   },
 });
