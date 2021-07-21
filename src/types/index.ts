@@ -106,12 +106,12 @@ export type Messages = Message[];
 export interface Match {
   userId: string;
   eventId: string;
+  organiserId: string;
   status: MatchStatus;
   organiserStatus: MatchStatus;
   sponsorStatus: MatchStatus;
-  event: SponsorEvent | undefined;
+  event?: SponsorEvent | undefined;
   messages?: Messages;
-  organiserId: string;
 }
 
 export type Matches = Match[];
