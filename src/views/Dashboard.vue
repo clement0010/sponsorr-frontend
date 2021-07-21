@@ -5,8 +5,8 @@
       :loading="loading"
       @fetchEvents="fetchMoreEvents"
       @deleteEvent="
-        (payload) => {
-          deleteEvent(payload.eventId, payload.eventStatus);
+        (eventId) => {
+          deleteEvent(eventId);
           $emit('success', 'Event deleted');
         }
       "

@@ -29,8 +29,7 @@
 </template>
 
 <script lang="ts">
-import { EventGroup } from '@/types/enum';
-import { defineComponent, ref } from '@vue/composition-api';
+import { defineComponent, ref, toRefs } from '@vue/composition-api';
 
 export default defineComponent({
   name: 'DeleteEventButton',
@@ -44,18 +43,19 @@ export default defineComponent({
       required: true,
     },
     status: {
-      type: Object as () => EventGroup,
+      type: String,
       required: true,
     },
   },
   setup(props, { emit }) {
     const dialog = ref(false);
 
-    const { eventId } = props;
+    const { eventId } = toRefs(props);
 
     const deleteEvent = (): void => {
       dialog.value = false;
-      emit('deleteEvent', eventId);
+
+      emit('deleteEvent', eventId.value);
     };
 
     const cancel = () => {

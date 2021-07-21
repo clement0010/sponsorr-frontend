@@ -42,7 +42,7 @@ export default defineComponent({
       required: true,
     },
     matches: {
-      type: Object as () => Matches,
+      type: Array as () => Matches,
       required: true,
     },
     loading: {

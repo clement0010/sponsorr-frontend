@@ -35,7 +35,6 @@
 </template>
 
 <script lang="ts">
-import { EventGroup } from '@/types/enum';
 import { computed, defineComponent, ref } from '@vue/composition-api';
 
 export default defineComponent({
@@ -46,7 +45,7 @@ export default defineComponent({
       required: true,
     },
     status: {
-      type: Object as () => EventGroup,
+      type: String,
       required: true,
     },
   },

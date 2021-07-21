@@ -47,7 +47,6 @@
 <script lang="ts">
 import { requireInputRule, nonNegativeIntegerRule } from '@/common/validation';
 import { SponsorRequest } from '@/types';
-import { EventGroup } from '@/types/enum';
 import { defineComponent, ref } from '@vue/composition-api';
 
 export default defineComponent({
@@ -58,7 +57,7 @@ export default defineComponent({
       required: true,
     },
     status: {
-      type: Object as () => EventGroup,
+      type: String,
       required: true,
     },
   },

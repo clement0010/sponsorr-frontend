@@ -69,13 +69,7 @@
             />
           </v-tab-item>
           <v-tab-item v-if="isOwner" :value="1">
-            <EventMatchesTable
-              :event="event"
-              :event-id="eventId"
-              :error="error"
-              :loading="loading"
-              :matches="matches"
-            />
+            <EventMatchesTable :event="event" :event-id="eventId" :matches="matches" />
           </v-tab-item>
         </v-tabs-items>
         <v-divider />

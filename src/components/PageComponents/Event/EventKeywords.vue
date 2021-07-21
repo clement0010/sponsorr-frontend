@@ -23,7 +23,6 @@
 import EditEventKeywords from '@/components/EventActions/EditEventKeywords.vue';
 
 import { defineComponent } from '@vue/composition-api';
-import { EventGroup } from '@/types/enum';
 
 export default defineComponent({
   name: 'EventKeywords',
@@ -50,7 +49,7 @@ export default defineComponent({
       required: true,
     },
     status: {
-      type: Object as () => EventGroup,
+      type: String,
       required: true,
     },
   },

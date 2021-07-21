@@ -46,13 +46,12 @@ import { defineComponent, ref } from '@vue/composition-api';
 import { fileUploadSizeRuleSingle } from '@/common/validation';
 import { uploadFileToStorage } from '@/common';
 import useAuth from '@/composable/authComposition';
-import { EventGroup } from '@/types/enum';
 
 export default defineComponent({
   name: 'EditEventDocumentButton',
   props: {
     status: {
-      type: Object as () => EventGroup,
+      type: String,
       required: true,
     },
   },

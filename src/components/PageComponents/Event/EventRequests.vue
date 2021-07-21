@@ -66,7 +66,6 @@ import EditEventRequests from '@/components/EventActions/EditEventRequests.vue';
 import NewRequestCreate from '@/components/Forms/Requests/NewRequestCreate.vue';
 
 import { SponsorRequest } from '@/types';
-import { EventGroup } from '@/types/enum';
 import { defineComponent, toRefs } from '@vue/composition-api';
 
 export default defineComponent({
@@ -85,7 +84,7 @@ export default defineComponent({
       default: () => [],
     },
     status: {
-      type: Object as () => EventGroup,
+      type: String,
       required: true,
     },
   },

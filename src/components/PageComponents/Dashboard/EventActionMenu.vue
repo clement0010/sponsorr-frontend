@@ -8,22 +8,17 @@
 
     <v-list>
       <v-list-item v-if="eventCategory.name === EventGroup.Draft">
-        <EventPublish :event="event" @publishEvent="(payload) => $emit('publishEvent', payload)" />
+        <EventPublish @publishEvent="$emit('publishEvent', event)" />
       </v-list-item>
       <v-list-item v-if="eventCategory.name === EventGroup.Published">
-        <EventUnpublish
-          :event="event"
-          @publishEvent="(payload) => $emit('unpublishEvent', payload)"
-        />
+        <EventUnpublish @publishEvent="$emit('unpublishEvent', event)" />
       </v-list-item>
       <v-list-item v-if="eventCategory.name !== EventGroup.Matched">
         <EventDelete
           :event-id="event.eventId"
           :title="event.title"
-          @deleteEvent="
-            (payload) =>
-              $emit('deleteEvent', Object.assign(payload, { eventStatus: eventCategory.name }))
-          "
+          :status="event.status"
+          @deleteEvent="(payload) => $emit('deleteEvent', payload)"
         />
       </v-list-item>
       <v-list-item>

@@ -31,7 +31,6 @@
 
 <script lang="ts">
 import EditEventPicture from '@/components/EventActions/EditEventPicture.vue';
-import { EventGroup } from '@/types/enum';
 
 import { defineComponent, ref } from '@vue/composition-api';
 
@@ -50,7 +49,7 @@ export default defineComponent({
       default: '',
     },
     status: {
-      type: Object as () => EventGroup,
+      type: String,
       required: true,
     },
   },

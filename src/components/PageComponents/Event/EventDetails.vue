@@ -55,7 +55,6 @@ import EditEventDetails from '@/components/EventActions/EditEventDetails.vue';
 
 import { computed, defineComponent } from '@vue/composition-api';
 import { generateDate } from '@/common/utils';
-import { EventGroup } from '@/types/enum';
 
 export default defineComponent({
   name: 'EventDetails',
@@ -84,7 +83,7 @@ export default defineComponent({
       default: 0,
     },
     status: {
-      type: Object as () => EventGroup,
+      type: String,
       required: true,
     },
   },

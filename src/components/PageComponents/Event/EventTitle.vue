@@ -14,7 +14,6 @@
 
 <script lang="ts">
 import EditEventTitle from '@/components/EventActions/EditEventTitle.vue';
-import { EventGroup } from '@/types/enum';
 
 import { defineComponent } from '@vue/composition-api';
 
@@ -33,7 +32,7 @@ export default defineComponent({
       default: 'Some Default Event',
     },
     status: {
-      type: Object as () => EventGroup,
+      type: String,
       required: true,
     },
   },

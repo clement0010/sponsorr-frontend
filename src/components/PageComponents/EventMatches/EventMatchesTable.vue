@@ -59,7 +59,7 @@ export default defineComponent({
 
     return {
       headers,
-      matches: computed(() => matches.value),
+      matches,
       loading: computed(() => loading.value),
     };
   },

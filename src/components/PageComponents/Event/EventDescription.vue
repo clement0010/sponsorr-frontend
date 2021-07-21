@@ -19,7 +19,6 @@
 import EditEventDescription from '@/components/EventActions/EditEventDescription.vue';
 
 import { defineComponent } from '@vue/composition-api';
-import { EventGroup } from '@/types/enum';
 
 export default defineComponent({
   name: 'EventDescription',
@@ -42,7 +41,7 @@ export default defineComponent({
       required: true,
     },
     status: {
-      type: Object as () => EventGroup,
+      type: String,
       required: true,
     },
   },

@@ -1,4 +1,4 @@
-import { EventCategory, EventStatus, SponsorEventDbItem } from '@/types/index';
+import { EventCategory, SponsorEventDbItem } from '@/types/index';
 import { computed, ref, onMounted } from '@vue/composition-api';
 import { getUserEventByStatusFromDb, updateEventStatusToDb } from '@/common/firestore/dashboard';
 import { draftsCategory, matchedCategory, publishedCategory } from '@/common/dashboardConfig';
@@ -56,7 +56,7 @@ export default function useDashboard() {
     }
   };
 
-  const deleteEvent = async (eventId: string, eventStatus: EventStatus): Promise<void> => {
+  const deleteEvent = async (eventId: string): Promise<void> => {
     try {
       loading.value = true;
       await deleteEventFromDb(eventId);
@@ -64,28 +64,10 @@ export default function useDashboard() {
       console.error(err);
       throw new Error(err);
     } finally {
-      console.log(eventStatus);
-      switch (eventStatus) {
-        case EventGroup.Matched:
-          matchedCategory.contents = matchedCategory.contents.filter(
-            (event) => event.eventId !== eventId,
-          );
-          break;
+      draftsCategory.contents = draftsCategory.contents.filter(
+        (event) => event.eventId !== eventId,
+      );
 
-        case EventGroup.Draft:
-          draftsCategory.contents = draftsCategory.contents.filter(
-            (event) => event.eventId !== eventId,
-          );
-          break;
-
-        case EventGroup.Published:
-          publishedCategory.contents = publishedCategory.contents.filter(
-            (event) => event.eventId !== eventId,
-          );
-          break;
-        default:
-          break;
-      }
       loading.value = false;
     }
   };
@@ -102,7 +84,10 @@ export default function useDashboard() {
         draftsCategory.contents = draftsCategory.contents.filter(
           (event) => event.eventId !== eventId,
         );
-        publishedCategory.contents.push(eventItem);
+        publishedCategory.contents.push({
+          ...eventItem,
+          status: EventGroup.Published,
+        });
         await updateEventStatusToDb(eventId, EventGroup.Published, true);
         success('Event published');
       }
@@ -111,7 +96,10 @@ export default function useDashboard() {
         publishedCategory.contents = publishedCategory.contents.filter(
           (event) => event.eventId !== eventId,
         );
-        draftsCategory.contents.push(eventItem);
+        draftsCategory.contents.push({
+          ...eventItem,
+          status: EventGroup.Draft,
+        });
         await updateEventStatusToDb(eventId, EventGroup.Draft, false);
         success('Event unpublished');
       }

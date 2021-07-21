@@ -28,7 +28,6 @@
 import EditEventDocuments from '@/components/EventActions/EditEventDocuments.vue';
 
 import { defineComponent } from '@vue/composition-api';
-import { EventGroup } from '@/types/enum';
 
 export default defineComponent({
   name: 'EventDocuments',
@@ -45,7 +44,7 @@ export default defineComponent({
       required: true,
     },
     status: {
-      type: Object as () => EventGroup,
+      type: String,
       required: true,
     },
   },

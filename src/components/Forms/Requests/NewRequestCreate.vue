@@ -50,13 +50,12 @@
 import { SponsorRequest } from '@/types';
 import { requireInputRule, nonNegativeIntegerRule } from '@/common/validation';
 import { defineComponent, reactive, ref } from '@vue/composition-api';
-import { EventGroup } from '@/types/enum';
 
 export default defineComponent({
   name: 'NewRequestCreateButton',
   props: {
     status: {
-      type: Object as () => EventGroup,
+      type: String,
       default: () => {
         'draft';
       },

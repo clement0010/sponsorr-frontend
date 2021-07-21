@@ -133,7 +133,6 @@
 import { computed, defineComponent, ref } from '@vue/composition-api';
 import { requireInputRule } from '@/common/validation';
 import { generateDate, generateUnixTime, parseTime } from '@/common/utils';
-import { EventGroup } from '@/types/enum';
 
 export default defineComponent({
   name: 'EditEventDescriptionButton',
@@ -163,7 +162,7 @@ export default defineComponent({
       required: true,
     },
     status: {
-      type: Object as () => EventGroup,
+      type: String,
       required: true,
     },
   },
