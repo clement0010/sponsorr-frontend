@@ -12,12 +12,12 @@
           :is-owner="isOwner"
           @edit="(payload) => $emit('edit', payload)"
         />
-        <EventOrganiser :user="name" />
+        <EventOrganiser :user="name" :is-owner="isOwner" :owner-id="ownerId" />
         <v-tabs v-model="tabs">
           <v-tab>
             Details
           </v-tab>
-          <v-tab>
+          <v-tab v-if="isOwner">
             Matches
           </v-tab>
         </v-tabs>
@@ -52,8 +52,8 @@
               @edit="(payload) => $emit('edit', payload)"
             />
           </v-tab-item>
-          <v-tab-item :value="1">
-            <EventMatchesTable v-if="isOwner" :event="event" :event-id="eventId" />
+          <v-tab-item v-if="isOwner" :value="1">
+            <EventMatchesTable :event="event" :event-id="eventId" />
           </v-tab-item>
         </v-tabs-items>
         <v-divider />
@@ -153,6 +153,7 @@ export default defineComponent({
       timeEnd: computed(() => event.value.date.end),
       keywords: computed(() => event.value.keywords),
       documents: computed(() => event.value.documents),
+      ownerId: computed(() => event.value.userId),
 
       generateDate,
       tabs,
