@@ -54,6 +54,17 @@
                 </v-list-item>
               </router-link>
 
+              <router-link v-if="role === 'Sponsor'" :to="{ name: 'Marketplace' }">
+                <v-list-item>
+                  <v-list-item-icon>
+                    <v-icon>mdi-shopping</v-icon>
+                  </v-list-item-icon>
+                  <v-list-item-content>
+                    Marketplace
+                  </v-list-item-content>
+                </v-list-item>
+              </router-link>
+
               <router-link v-if="role === 'EventOrganiser'" :to="{ name: 'Dashboard' }">
                 <v-list-item>
                   <v-list-item-icon>
@@ -83,17 +94,6 @@
                   </v-list-item-icon>
                   <v-list-item-content>
                     Matches
-                  </v-list-item-content>
-                </v-list-item>
-              </router-link>
-
-              <router-link v-if="role === 'Sponsor'" :to="{ name: 'Marketplace' }">
-                <v-list-item>
-                  <v-list-item-icon>
-                    <v-icon>mdi-shopping</v-icon>
-                  </v-list-item-icon>
-                  <v-list-item-content>
-                    Marketplace
                   </v-list-item-content>
                 </v-list-item>
               </router-link>
@@ -182,13 +182,13 @@ export default defineComponent({
           case 'Profile':
             selected.value = 0;
             break;
-          case 'Matches':
+          case 'Marketplace':
             selected.value = 1;
             break;
-          case 'Analytics':
+          case 'Matches':
             selected.value = 2;
             break;
-          case 'Marketplace':
+          case 'Analytics':
             selected.value = 3;
             break;
           case 'Settings':
