@@ -29,6 +29,7 @@ export type UpdateData<T extends object> = Partial<
   export interface MatchedJunction {
     userId: string;
     eventId: string;
+    organiserId: string;
     status: MatchStatus;
     messages: Messages;
     organiserStatus: MatchStatus;

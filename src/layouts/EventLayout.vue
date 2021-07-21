@@ -90,6 +90,7 @@
           <EventApply
             v-if="role === 'Sponsor'"
             :event-id="eventId"
+            :owner-id="ownerId"
             :disabled="matches.length > 0"
           />
         </v-card-text>

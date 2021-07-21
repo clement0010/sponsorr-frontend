@@ -111,6 +111,7 @@ export interface Match {
   sponsorStatus: MatchStatus;
   event: SponsorEvent;
   messages?: Messages;
+  organiserId: string;
 }
 
 export type Matches = Match[];

@@ -111,10 +111,11 @@ export default function useEvent() {
   const applyEvent = async (
     eventId: string,
     userId: string,
+    organiserId: string,
     messages?: Messages,
   ): Promise<void> => {
     try {
-      await applyEventToDb(eventId, userId, messages);
+      await applyEventToDb(eventId, userId, organiserId, messages);
       success('Application sent!');
     } catch (err) {
       error.value = true;

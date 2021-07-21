@@ -34,6 +34,7 @@ export const getEventsFromDb = async (keywords?: string): Promise<SponsorEventDb
 export const applyEventToDb = async (
   eventId: string,
   userId: string,
+  organiserId: string,
   messages?: Messages,
 ): Promise<void> => {
   const matchMessages = messages || [
@@ -46,6 +47,7 @@ export const applyEventToDb = async (
   await db.matches.doc(parseUserEventId(userId, eventId)).set({
     eventId,
     userId,
+    organiserId,
     messages: matchMessages,
     status: 'pending',
     organiserStatus: 'pending',

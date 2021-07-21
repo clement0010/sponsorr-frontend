@@ -51,11 +51,15 @@ export default defineComponent({
       type: Boolean,
       default: false,
     },
+    ownerId: {
+      type: String,
+      required: true,
+    },
   },
   setup(props) {
     const { uid } = useAuth();
     const { applyEvent } = useEvent();
-    const { eventId } = props;
+    const { eventId, ownerId } = props;
 
     const dialog = ref(false);
     const valid = ref(false);
@@ -70,7 +74,7 @@ export default defineComponent({
 
     const send = async () => {
       dialog.value = false;
-      await applyEvent(eventId, uid.value, [
+      await applyEvent(eventId, uid.value, ownerId, [
         { message: input.value, timestamp: generateUnixTime() },
       ]);
       input.value = '';
