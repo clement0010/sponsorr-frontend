@@ -51,6 +51,7 @@ export default defineComponent({
         eventSize: data.eventSize,
         userId: uid.value,
         requests: data.requests,
+        subscribed: false,
       };
       console.log(newEvent);
       await createEvent(newEvent);

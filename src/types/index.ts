@@ -68,6 +68,7 @@ export interface SponsorEvent {
   userId: string;
   venue: string;
   requests: SponsorRequest[];
+  subscribed: boolean;
 }
 
 export interface SponsorEventDbItem extends SponsorEvent {

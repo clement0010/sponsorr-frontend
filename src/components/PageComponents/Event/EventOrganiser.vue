@@ -7,6 +7,11 @@
         </v-card-subtitle>
       </v-col>
       <v-spacer />
+      <v-col v-if="isOwner" cols="auto">
+        <v-btn @click="subscribeToggle">
+          {{ subscribed ? 'Disable Matching' : 'Enable Matching' }}
+        </v-btn>
+      </v-col>
       <v-col v-if="!isOwner" cols="auto">
         <router-link :to="{ name: 'Profile', params: { id: ownerId } }">
           <v-btn>
@@ -49,11 +54,24 @@ export default defineComponent({
       type: Array as () => Matches,
       required: true,
     },
+    subscribed: {
+      type: Boolean,
+      required: true,
+    },
   },
-  setup(props) {
-    const { matches } = toRefs(props);
+  setup(props, { emit }) {
+    const { matches, subscribed } = toRefs(props);
+
+    const subscribeToggle = () => {
+      subscribed.value = !subscribed.value;
+      emit('edit', {
+        subscribed: subscribed.value,
+      });
+    };
+
     return {
       match: computed(() => (matches.value.length === 0 ? {} : matches.value[0])),
+      subscribeToggle,
     };
   },
 });

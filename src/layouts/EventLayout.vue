@@ -12,7 +12,14 @@
           :is-owner="isOwner"
           @edit="(payload) => $emit('edit', payload)"
         />
-        <EventOrganiser :user="name" :is-owner="isOwner" :owner-id="ownerId" :matches="matches" />
+        <EventOrganiser
+          :user="name"
+          :is-owner="isOwner"
+          :owner-id="ownerId"
+          :matches="matches"
+          :subscribed="subscribed"
+          @edit="(payload) => $emit('edit', payload)"
+        />
         <v-tabs v-model="tabs">
           <v-tab>
             Details
@@ -168,6 +175,7 @@ export default defineComponent({
       keywords: computed(() => event.value.keywords),
       documents: computed(() => event.value.documents),
       ownerId: computed(() => event.value.userId),
+      subscribed: computed(() => event.value.subscribed),
       generateDate,
       tabs,
     };
