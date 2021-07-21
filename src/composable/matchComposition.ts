@@ -7,6 +7,7 @@ import {
   getMatchesByOrganiserId,
   parseUserEventId,
   updateMatchedEventStatusFromDb,
+  sponsorGetMatchOffer,
 } from '@/common';
 import { pendingCategory, rejectedCategory, acceptedCategory } from '@/common/matchesConfig';
 import { Match, MatchCategory, Matches, MatchStatus, Role, SponsorEvent } from '@/types';
@@ -32,9 +33,6 @@ export default function useMatch() {
   const initialise = async (): Promise<void> => {
     try {
       loading.value = true;
-      // uid is sponsor id
-      console.log(uid);
-
       if (!role.value) return;
 
       pendingCategory.contents = await getAllMatchedEventFromDb(
@@ -80,6 +78,20 @@ export default function useMatch() {
       loading.value = true;
       const eventMatches = await getMatchesByEventId(eventId, userEvent);
       matches.value = eventMatches;
+    } catch (err) {
+      error.value = true;
+    } finally {
+      loading.value = false;
+    }
+  };
+
+  const fetchMatchOffer = async (eventId: string): Promise<void> => {
+    try {
+      error.value = false;
+      loading.value = true;
+      const eventMatches = await sponsorGetMatchOffer(parseUserEventId(uid.value, eventId));
+
+      matches.value = [eventMatches];
     } catch (err) {
       error.value = true;
     } finally {
@@ -147,6 +159,7 @@ export default function useMatch() {
     fetchMatchesByEventId,
     fetchMatchesByOrganiserId,
     updateUserMatchStatus,
+    fetchMatchOffer,
 
     loading: computed(() => loading.value),
     error: computed(() => error.value),

@@ -50,11 +50,16 @@ export const getAllMatchedEventFromDb = async (
   return matchedEvents;
 };
 
+export const sponsorGetMatchOffer = async (userEventId: string): Promise<Match> => {
+  const dbMatches = await db.matches.doc(userEventId).get();
+  return dbMatches.data() as Match;
+};
+
 export const getMatchesByEventId = async (
-  userEventId: string,
+  eventId: string,
   userEvent: SponsorEvent | undefined,
 ): Promise<Matches> => {
-  const dbMatches = await db.matches.where('eventId', '==', userEventId).get();
+  const dbMatches = await db.matches.where('eventId', '==', eventId).get();
   const matches: Matches = [];
   const filteredMatches = dbMatches?.docs.filter((doc) => doc.exists) || [];
 
@@ -62,7 +67,6 @@ export const getMatchesByEventId = async (
   for (const match of filteredMatches) {
     if (!userEvent) break;
     const normalisedMatch: Match = {
-      event: userEvent,
       ...match.data(),
     };
     const visitProfile = ref<Profile>();

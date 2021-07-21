@@ -13,6 +13,7 @@
       @deleteEvent="remove"
       @publishEvent="publish"
       @edit="edit"
+      @refetch="refetch"
     />
   </BasePage>
 </template>
@@ -58,7 +59,13 @@ export default defineComponent({
       loading: profileLoad,
       error: profileError,
     } = useVisitProfile();
-    const { fetchMatchesByEventId, matches, loading: matchLoad, error: matchError } = useMatch();
+    const {
+      fetchMatchesByEventId,
+      fetchMatchOffer,
+      matches,
+      loading: matchLoad,
+      error: matchError,
+    } = useMatch();
 
     const eventId = root.$route.params.id;
 
@@ -71,6 +78,8 @@ export default defineComponent({
       console.log(event.value?.userId === uid.value);
       if (!isOwner.value) {
         await fetchUserProfile(event.value?.userId || '');
+        await fetchMatchOffer(eventId);
+        return;
       }
       await fetchMatchesByEventId(eventId, event.value);
     });
@@ -93,6 +102,13 @@ export default defineComponent({
       }
     };
 
+    /**
+     * This is only applicable for sponsor to refetch after applying
+     */
+    const refetch = async () => {
+      await fetchMatchOffer(eventId);
+    };
+
     onMounted(async () => {
       if (!isOwner.value) {
         await editEvent(eventId, {
@@ -113,12 +129,9 @@ export default defineComponent({
       name: computed(() => {
         return isOwner.value ? profile.value?.name : eventOwnerProfile.value?.name;
       }),
-      matches: computed(() => {
-        return isOwner.value
-          ? matches.value
-          : matches.value?.filter((match) => match.userId === uid.value);
-      }),
+      matches,
       eventId,
+      refetch,
     };
   },
 });

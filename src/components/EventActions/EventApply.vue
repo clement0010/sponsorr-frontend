@@ -56,7 +56,7 @@ export default defineComponent({
       required: true,
     },
   },
-  setup(props) {
+  setup(props, { emit }) {
     const { uid } = useAuth();
     const { applyEvent } = useEvent();
     const { eventId, ownerId } = props;
@@ -77,6 +77,7 @@ export default defineComponent({
       await applyEvent(eventId, uid.value, ownerId, [
         { message: input.value, timestamp: generateUnixTime() },
       ]);
+      emit('refetch');
       input.value = '';
       applied.value = true;
     };

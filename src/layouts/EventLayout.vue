@@ -86,6 +86,7 @@
             :event-id="eventId"
             :owner-id="ownerId"
             :disabled="matches.length > 0"
+            @refetch="$emit('refetch')"
           />
         </v-card-text>
       </v-card>
