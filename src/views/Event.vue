@@ -1,14 +1,15 @@
 <template>
   <BasePage>
-    <Spinner v-if="loading && !error && !event" />
+    <Spinner v-if="loading && !error && !event && !matches" />
     <EventNotFound v-if="error" />
     <EventLayout
-      v-if="!loading && !error && event"
+      v-if="!loading && !error && event && matches"
       :event="event"
       :is-owner="isOwner"
       :role="role"
       :event-id="eventId"
       :name="name"
+      :matches="matches"
       @deleteEvent="remove"
       @publishEvent="publish"
       @edit="edit"
@@ -29,6 +30,7 @@ import useVisitProfile from '@/composable/visitProfileComposition';
 
 import { SponsorEvent } from '@/types';
 import { computed, defineComponent, onBeforeMount, onMounted } from '@vue/composition-api';
+import useMatch from '@/composable/matchComposition';
 
 export default defineComponent({
   name: 'Event',
@@ -56,12 +58,13 @@ export default defineComponent({
       loading: profileLoad,
       error: profileError,
     } = useVisitProfile();
+    const { fetchMatchesByEventId, matches, loading: matchLoad, error: matchError } = useMatch();
 
     const eventId = root.$route.params.id;
 
     const isOwner = computed(() => event.value?.userId === uid.value);
-    const loading = computed(() => eventLoad.value || profileLoad.value);
-    const error = computed(() => eventError.value || profileError.value);
+    const loading = computed(() => eventLoad.value || profileLoad.value || matchLoad.value);
+    const error = computed(() => eventError.value || profileError.value || matchError.value);
 
     onBeforeMount(async () => {
       await fetchUserEvent(eventId);
@@ -69,6 +72,7 @@ export default defineComponent({
       if (!isOwner.value) {
         await fetchUserProfile(event.value?.userId || '');
       }
+      await fetchMatchesByEventId(eventId, event.value);
     });
 
     const edit = async (payload: Record<string, unknown>) => {
@@ -108,6 +112,11 @@ export default defineComponent({
       role,
       name: computed(() => {
         return isOwner.value ? profile.value?.name : eventOwnerProfile.value?.name;
+      }),
+      matches: computed(() => {
+        return isOwner.value
+          ? matches.value
+          : matches.value?.filter((match) => match.userId === uid.value);
       }),
       eventId,
     };

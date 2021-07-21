@@ -1,7 +1,7 @@
 <template>
   <v-container class="secondary" fluid>
     <v-row justify="center">
-      <v-card class="my-10 pa-5" width="1320" rounded="xl">
+      <v-card class="my-10 pa-5" width="1320" rounded="md">
         <EventPicture
           :picture="picture"
           :is-owner="isOwner"
@@ -12,7 +12,7 @@
           :is-owner="isOwner"
           @edit="(payload) => $emit('edit', payload)"
         />
-        <EventOrganiser :user="name" :is-owner="isOwner" :owner-id="ownerId" />
+        <EventOrganiser :user="name" :is-owner="isOwner" :owner-id="ownerId" :matches="matches" />
         <v-tabs v-model="tabs">
           <v-tab>
             Details
@@ -53,7 +53,13 @@
             />
           </v-tab-item>
           <v-tab-item v-if="isOwner" :value="1">
-            <EventMatchesTable :event="event" :event-id="eventId" />
+            <EventMatchesTable
+              :event="event"
+              :event-id="eventId"
+              :error="error"
+              :loading="loading"
+              :matches="matches"
+            />
           </v-tab-item>
         </v-tabs-items>
         <v-divider />
@@ -74,7 +80,11 @@
             :title="event.title"
             @deleteEvent="(payload) => $emit('deleteEvent', payload)"
           />
-          <EventApply v-if="role === 'Sponsor'" :event-id="eventId" />
+          <EventApply
+            v-if="role === 'Sponsor'"
+            :event-id="eventId"
+            :disabled="matches.length > 0"
+          />
         </v-card-text>
       </v-card>
     </v-row>
@@ -97,7 +107,7 @@ import EventRequests from '@/components/PageComponents/Event/EventRequests.vue';
 import EventUnpublish from '@/components/EventActions/EventUnpublish.vue';
 
 import { computed, defineComponent, ref, toRefs } from '@vue/composition-api';
-import { Role, SponsorEvent } from '@/types';
+import { Matches, Role, SponsorEvent } from '@/types';
 import { generateDate } from '@/common/utils';
 
 export default defineComponent({
@@ -137,6 +147,10 @@ export default defineComponent({
       type: String,
       default: '',
     },
+    matches: {
+      type: Array as () => Matches,
+      default: () => [],
+    },
   },
   setup(props) {
     const { event } = toRefs(props);
@@ -154,7 +168,6 @@ export default defineComponent({
       keywords: computed(() => event.value.keywords),
       documents: computed(() => event.value.documents),
       ownerId: computed(() => event.value.userId),
-
       generateDate,
       tabs,
     };

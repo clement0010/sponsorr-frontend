@@ -22,11 +22,10 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, onBeforeMount } from '@vue/composition-api';
+import { defineComponent } from '@vue/composition-api';
 
 import MatchActionMenu from '@/components/MatchActions/MatchActionMenu.vue';
-import useMatch from '@/composable/matchComposition';
-import { SponsorEvent } from '@/types';
+import { Matches, SponsorEvent } from '@/types';
 
 export default defineComponent({
   name: 'EventMatchesTable',
@@ -42,15 +41,20 @@ export default defineComponent({
       type: Object as () => SponsorEvent,
       required: true,
     },
+    matches: {
+      type: Object as () => Matches,
+      required: true,
+    },
+    loading: {
+      type: Boolean,
+      default: false,
+    },
+    error: {
+      type: Boolean,
+      default: false,
+    },
   },
-  setup(props) {
-    const { eventId, event } = props;
-    const { matches, loading, error, fetchMatchesByEventId } = useMatch();
-
-    onBeforeMount(async () => {
-      await fetchMatchesByEventId(eventId, event);
-    });
-
+  setup() {
     const headers = [
       {
         text: 'Sponsor',
@@ -70,9 +74,6 @@ export default defineComponent({
 
     return {
       headers,
-      matches,
-      loading,
-      error,
     };
   },
 });

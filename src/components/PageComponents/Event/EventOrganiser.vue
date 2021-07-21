@@ -14,20 +14,24 @@
           </v-btn>
         </router-link>
       </v-col>
-      <v-col v-if="!isOwner" cols="auto">
-        <v-btn>
-          View My Offers
-        </v-btn>
+      <v-col v-if="!isOwner && matches.length > 0" cols="auto">
+        <MatchView :messages="match.messages" :is-owner="isOwner" />
       </v-col>
     </v-row>
   </div>
 </template>
 
 <script lang="ts">
-import { defineComponent } from '@vue/composition-api';
+import MatchView from '@/components/MatchActions/MatchView.vue';
+
+import { Matches } from '@/types';
+import { computed, defineComponent, toRefs } from '@vue/composition-api';
 
 export default defineComponent({
   name: 'EventOrganiser',
+  components: {
+    MatchView,
+  },
   props: {
     user: {
       type: String,
@@ -41,6 +45,16 @@ export default defineComponent({
       type: String,
       default: '',
     },
+    matches: {
+      type: Array as () => Matches,
+      required: true,
+    },
+  },
+  setup(props) {
+    const { matches } = toRefs(props);
+    return {
+      match: computed(() => (matches.value.length === 0 ? {} : matches.value[0])),
+    };
   },
 });
 </script>
