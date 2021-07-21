@@ -28,7 +28,7 @@
             type="number"
             label="Budget (minimum)"
             hint="All currency in Singapore Dollars"
-            :rules="[requireInputRule, nonNegativeIntegerRule, minBudgetRule]"
+            :rules="[requireInputRule, nonNegativeIntegerRule, minBudgetRule, maximumMonetaryValue]"
           />
         </v-col>
         <v-col>
@@ -39,7 +39,7 @@
             type="number"
             label="Budget (maximum)"
             hint="All currency in Singapore Dollars"
-            :rules="[requireInputRule, nonNegativeIntegerRule, maxBudgetRule]"
+            :rules="[requireInputRule, nonNegativeIntegerRule, maxBudgetRule, maximumMonetaryValue]"
           />
         </v-col>
       </v-row>
@@ -76,7 +76,11 @@
 
 <script lang="ts">
 import { defineComponent, reactive, ref } from '@vue/composition-api';
-import { requireInputRule, nonNegativeIntegerRule } from '@/common/validation';
+import {
+  requireInputRule,
+  nonNegativeIntegerRule,
+  maximumMonetaryValue,
+} from '@/common/validation';
 import NewEventCancel from './NewEventCancel.vue';
 
 export default defineComponent({
@@ -161,6 +165,7 @@ export default defineComponent({
       maxBudgetRule,
       minBudgetRule,
       vselectRule,
+      maximumMonetaryValue,
 
       // Payload
       eventData,
