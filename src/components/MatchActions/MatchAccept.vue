@@ -1,7 +1,9 @@
 <template>
-  <v-btn class="success" @click="accept">
-    Accept
-  </v-btn>
+  <div>
+    <v-btn class="success" @click="accept">
+      Accept
+    </v-btn>
+  </div>
 </template>
 
 <script lang="ts">
@@ -19,7 +21,7 @@ export default defineComponent({
       required: true,
     },
   },
-  setup(props) {
+  setup(props, { emit }) {
     const { match } = toRefs(props);
     const { updateUserMatchStatus } = useMatch();
     const { role } = useProfile();
@@ -38,6 +40,7 @@ export default defineComponent({
           match.value.status = 'accepted';
         }
       }
+      emit('accept-match');
     };
 
     return {
