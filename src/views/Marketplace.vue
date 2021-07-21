@@ -20,6 +20,7 @@ import useMarketplace from '@/composable/marketplaceComposition';
 import BasePage from '@/layouts/BasePage.vue';
 import MarketplaceLayout from '@/layouts/MarketplaceLayout.vue';
 import Spinner from '@/components/BuildingElements/Spinner.vue';
+import useSnackbar from '@/composable/snackbarComposition';
 
 export default defineComponent({
   name: 'Marketplace',
@@ -28,7 +29,7 @@ export default defineComponent({
     MarketplaceLayout,
     Spinner,
   },
-  setup(_, { emit }) {
+  setup() {
     const {
       loading,
       error: marketplaceError,
@@ -36,25 +37,27 @@ export default defineComponent({
       filteredEvents: events,
     } = useMarketplace();
 
+    const { alert, success } = useSnackbar();
+
     const userInput = ref('');
-    const criteria = ref('');
+    const criteria = ref('Title');
     const error = computed(() => marketplaceError.value);
 
     const searchResult = ref<Sponsor[] | SponsorEventDbItems>([]);
 
     const search = async (input: string) => {
-      if (!criteria.value) {
-        emit('alert', 'Please input criteria');
-        return;
-      }
+      try {
+        if (!criteria.value) {
+          alert('Please input criteria');
+          return;
+        }
 
-      if (criteria.value === 'budget') {
-        emit('alert', 'Not ready yet. To be extended');
-        return;
+        userInput.value = input;
+        await searchEvent(input, criteria.value);
+        success('Successfully searched');
+      } catch (err) {
+        alert('Something went wrong!');
       }
-
-      userInput.value = input;
-      await searchEvent(input, criteria.value);
     };
 
     const searchCriteria = (input: string) => {

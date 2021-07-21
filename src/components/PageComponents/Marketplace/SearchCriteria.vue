@@ -9,9 +9,9 @@ export default defineComponent({
   name: 'SearchCriteria',
 
   setup(_, { emit }) {
-    const criteria = computed(() => ['title', 'budget', 'keywords']);
+    const criteria = computed(() => ['Title', 'Budget', 'Keywords']);
 
-    const input = ref('');
+    const input = ref('Title');
 
     watch(input, () => emit('search-criteria', input.value));
 

@@ -40,10 +40,10 @@ export default defineComponent({
 
       const numResults = searchResult.value.length;
       if (numResults === 0) {
-        return `No results for "${input.value}"`;
+        return `No results for ${input.value}`;
       }
       if (numResults > 1) {
-        return `${numResults} results for "${input.value}"`;
+        return `${numResults} results for ${input.value}`;
       }
       return `${numResults} result for "${input.value}"`;
     });

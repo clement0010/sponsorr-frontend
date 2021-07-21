@@ -16,7 +16,7 @@
         <v-icon>
           mdi-file
         </v-icon>
-        <a :href="document">
+        <a :href="document" target="_blank">
           Link to document
         </a>
       </div>

@@ -50,9 +50,9 @@ export const getAllMatchedEventFromDb = async (
   return matchedEvents;
 };
 
-export const sponsorGetMatchOffer = async (userEventId: string): Promise<Match> => {
+export const sponsorGetMatchOffer = async (userEventId: string): Promise<Match | undefined> => {
   const dbMatches = await db.matches.doc(userEventId).get();
-  return dbMatches.data() as Match;
+  return dbMatches.data();
 };
 
 export const getMatchesByEventId = async (

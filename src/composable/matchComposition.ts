@@ -22,7 +22,7 @@ export default function useMatch() {
   const loading = ref(true);
   const error = ref(false);
 
-  const matches = ref<Matches>();
+  const matches = ref<Matches>([]);
 
   const matchCategories = ref<MatchCategory[]>([
     pendingCategory,
@@ -90,6 +90,10 @@ export default function useMatch() {
       error.value = false;
       loading.value = true;
       const eventMatches = await sponsorGetMatchOffer(parseUserEventId(uid.value, eventId));
+
+      if (!eventMatches) {
+        return;
+      }
 
       matches.value = [eventMatches];
     } catch (err) {
