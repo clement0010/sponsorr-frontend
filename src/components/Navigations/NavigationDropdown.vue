@@ -122,7 +122,7 @@
                     </v-list-item-content>
                   </v-list-item>
                 </router-link>
-
+                <HelpDialog />
                 <v-list-item @click="userSignout">
                   <v-list-item-icon>
                     <v-icon>mdi-exit-to-app</v-icon>
@@ -130,9 +130,6 @@
                   <v-list-item-content>
                     Sign Out
                   </v-list-item-content>
-                </v-list-item>
-                <v-list-item class="justify-center">
-                  <HelpDialog :color="'black'" />
                 </v-list-item>
               </v-list>
             </v-list-item-group>
