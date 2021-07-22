@@ -68,7 +68,6 @@
           @click:append="showConfirmPassword = !showConfirmPassword"
         />
 
-        <v-card-text v-if="error"> There's an issue signing up. </v-card-text>
         <v-row justify="center">
           <v-card-actions>
             <v-btn
@@ -95,6 +94,12 @@
 </template>
 
 <script lang="ts">
+import LogoSponsorr from '@/components/BuildingElements/LogoSponsorr.vue';
+import Spinner from '@/components/BuildingElements/Spinner.vue';
+
+import useAuth from '@/composable/authComposition';
+import useSnackBar from '@/composable/snackbarComposition';
+
 import {
   requireInputRule,
   validEmailRule,
@@ -102,19 +107,17 @@ import {
   numericsOnlyRule,
 } from '@/common/validation';
 import { defineComponent, reactive } from '@vue/composition-api';
-import useAuth from '@/composable/authComposition';
 import { EventOrganiser } from '@/types';
-import Spinner from '@/components/BuildingElements/Spinner.vue';
 import { authLoading } from '@/composable/store';
-import LogoSponsorr from '../../BuildingElements/LogoSponsorr.vue';
 
 export default defineComponent({
   name: 'FormSignUpOrganiser',
   components: { LogoSponsorr, Spinner },
-  setup(_, { root, emit }) {
+  setup(_, { root }) {
     const logoWidth = 250;
 
-    const { error, signup } = useAuth();
+    const { signup } = useAuth();
+    const { success, alert } = useSnackBar();
 
     const configuration = reactive({
       valid: true,
@@ -153,16 +156,13 @@ export default defineComponent({
       };
       try {
         const uid: string = await signup(email, password, userMetadata);
-
-        emit('success', 'Signed up successfully!');
-
         root.$router.push({
           name: 'Profile',
           params: { id: uid },
         });
+        success('Sign up successful!');
       } catch (err) {
-        emit('alert', 'Signed up failed!');
-
+        alert(`Sign up failed! ${err}`);
         console.error(err);
       }
     };
@@ -181,7 +181,6 @@ export default defineComponent({
       numericsOnlyRule,
 
       // Sign up
-      error,
       loading: authLoading,
 
       // Routing

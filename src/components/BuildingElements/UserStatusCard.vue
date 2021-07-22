@@ -45,7 +45,7 @@ export default defineComponent({
     const { profile, role } = useProfile();
 
     return {
-      name: computed(() => profile.value?.name),
+      name: computed(() => profile.value?.name || ''),
       role,
     };
   },
