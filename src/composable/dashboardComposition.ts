@@ -1,4 +1,4 @@
-import { EventCategory, SponsorEventDbItem } from '@/types/index';
+import { EventCategory, EventStatus, SponsorEventDbItem } from '@/types/index';
 import { computed, ref, onMounted } from '@vue/composition-api';
 import { getUserEventByStatusFromDb, updateEventStatusToDb } from '@/common/firestore/dashboard';
 import { draftsCategory, matchedCategory, publishedCategory } from '@/common/dashboardConfig';
@@ -48,6 +48,23 @@ export default function useDashboard() {
 
         categoryRef.loaded = true;
       }
+    } catch (err) {
+      console.error(err);
+      throw new Error(err);
+    } finally {
+      loading.value = false;
+    }
+  };
+
+  const fetchEventsByStatus = async (id: string, status: EventStatus): Promise<void> => {
+    try {
+      loading.value = true;
+      eventCategories.value.forEach(async (category) => {
+        if (category.name === status) {
+          const categoryRef = category;
+          categoryRef.contents = await getUserEventByStatusFromDb(id, status);
+        }
+      });
     } catch (err) {
       console.error(err);
       throw new Error(err);
@@ -120,5 +137,6 @@ export default function useDashboard() {
     fetchEvents,
     updateEventStatus,
     deleteEvent,
+    fetchEventsByStatus,
   };
 }

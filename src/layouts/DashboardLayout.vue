@@ -21,6 +21,7 @@
           @deleteEvent="(payload) => $emit('deleteEvent', payload)"
           @publishEvent="(payload) => $emit('publishEvent', payload)"
           @unpublishEvent="(payload) => $emit('unpublishEvent', payload)"
+          @refetch="$emit('refetch')"
         />
       </v-row>
     </v-container>
@@ -31,6 +32,7 @@
 import DashboardHelp from '@/components/UserAssistance/DashboardHelp.vue';
 import EventCreate from '@/components/EventActions/EventCreate.vue';
 import EventTable from '@/components/PageComponents/Dashboard/EventTable.vue';
+
 import { EventCategory } from '@/types';
 import { defineComponent } from '@vue/composition-api';
 

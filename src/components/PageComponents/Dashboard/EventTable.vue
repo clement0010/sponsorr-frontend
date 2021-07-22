@@ -10,7 +10,36 @@
         {{ eventCategory.name }}
       </v-tab>
     </v-tabs>
-
+    <v-toolbar>
+      <v-col>
+        <v-text-field
+          v-model="search"
+          prepend-inner-icon="mdi-magnify"
+          label="Search"
+          single-line
+          hide-details
+          dense
+          :solo-inverted="!solo"
+          :solo="solo"
+          @focus="solo = !solo"
+          @blur="solo = !solo"
+        />
+      </v-col>
+      <v-col cols="auto">
+        <v-tooltip bottom>
+          <template #activator="{ on }">
+            <v-btn icon small v-on="on" @click="$emit('refetch')">
+              <v-icon>
+                mdi-refresh
+              </v-icon>
+            </v-btn>
+          </template>
+          <span>
+            Refresh
+          </span>
+        </v-tooltip>
+      </v-col>
+    </v-toolbar>
     <v-tabs-items v-model="tab" class="elevation-5 rounded-b-lg">
       <v-tab-item v-for="eventCategory in eventCategories" :key="eventCategory.name">
         <v-data-table
@@ -18,6 +47,7 @@
           :items="eventCategory.contents"
           :loading="loading"
           :loading-text="'Loading your events...'"
+          :search="search"
         >
           <template #no-data>
             {{ eventCategory.fallback }}
@@ -70,11 +100,15 @@ export default defineComponent({
   setup() {
     // Tab switching
     const tab = ref(null);
+    const search = ref('');
+    const solo = ref(false);
 
     return {
       tab,
+      search,
       generateDateRangeFromUnixTimeRange,
       EventGroup,
+      solo,
     };
   },
 });
