@@ -20,13 +20,14 @@
           <v-row align="center">
             <v-col>
               <v-list-item-content>
-                <span>
+                <v-list-item-title class="text-wrap">
                   <strong>
                     Item:
                   </strong>
                   {{ request.itemName }}
-                </span>
-                <v-list-item-title>
+                </v-list-item-title>
+
+                <v-list-item-title class="text-wrap">
                   <strong>
                     Description:
                   </strong>
@@ -36,7 +37,7 @@
                   <strong>
                     Value:
                   </strong>
-                  SGD {{ request.valueInSGD }}
+                  {{ currencyFormatter.format(request.valueInSGD) }}
                 </v-list-item-subtitle>
               </v-list-item-content>
             </v-col>
@@ -65,6 +66,7 @@
 import EditEventRequests from '@/components/EventActions/EditEventRequests.vue';
 import NewRequestCreate from '@/components/Forms/Requests/NewRequestCreate.vue';
 
+import { currencyFormatter } from '@/common/utils';
 import { SponsorRequest } from '@/types';
 import { defineComponent, toRefs } from '@vue/composition-api';
 
@@ -122,7 +124,18 @@ export default defineComponent({
       deleteRequest,
       addRequest,
       edit,
+      currencyFormatter,
     };
   },
 });
 </script>
+
+<style scoped>
+.pre-formatted {
+  white-space: pre-line; /* collapse WS, preserve LB */
+}
+
+.v-list-item-title {
+  word-break: normal; /* maybe !important  */
+}
+</style>
