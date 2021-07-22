@@ -14,7 +14,7 @@
           <SearchBar :loading="loading" @search="(input) => $emit('search', input)" />
         </v-col>
       </v-row>
-      <v-row justify="center">
+      <v-row justify="center" align="center">
         <SearchResult :input="input" :search-result="searchResult" />
       </v-row>
     </v-container>

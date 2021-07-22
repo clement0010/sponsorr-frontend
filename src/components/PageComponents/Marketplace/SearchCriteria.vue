@@ -1,5 +1,16 @@
 <template>
-  <v-select v-model="input" :items="criteria" solo rounded clearable label="Search events by: " />
+  <v-select
+    v-model="input"
+    :items="criteria"
+    solo
+    rounded
+    outlined
+    dense
+    clearable
+    hide-details
+    flat
+    label="Search events by: "
+  />
 </template>
 
 <script lang="ts">

@@ -32,9 +32,6 @@ export const fileUploadSizeRuleSingle = (file: File | undefined): boolean | stri
 export const nonNegativeIntegerRule = (num: number): boolean | string =>
   (num >= 0 && Number.isInteger(+num)) || 'Must be a non-negative whole number';
 
-// export const validatePassword = (password: string, repeatedPassword: string): boolean | string =>
-//   // eslint-disable-next-line
-//   password === repeatedPassword || 'Password do not match';
 /*
 const passwordStrengthRule = (password: string) =>
 /(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{6,}/.test(password)
