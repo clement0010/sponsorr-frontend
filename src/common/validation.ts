@@ -13,9 +13,8 @@ export const passwordLengthRule = (password: string): boolean | string =>
   (password && password.length >= 8) || 'Password must have at least 8 characters';
 
 export const validURLRule = (url: string): boolean | string =>
-  /((([A-Za-z]{3,9}:(?:\/\/)?)(?:[-;:&=\\+\\$,\w]+@)?[A-Za-z0-9.-]+|(?:www.|[-;:&=\\+\\$,\w]+@)[A-Za-z0-9.-]+)((?:\/[\\+~%\\/.\w-_]*)?\??(?:[-\\+=&;%@.\w_]*)#?(?:[\w]*))?)/.test(
-    url,
-  ) || 'URL must be valid';
+  /[-a-zA-Z0-9@:%._+~#=]{1,256}\.[a-zA-Z0-9()]{1,6}\b([-a-zA-Z0-9()@:%_+.~#?&//=]*)/.test(url) ||
+  'URL must be valid';
 
 export const fileUploadSizeRule = (files: File[]): boolean | string =>
   files
