@@ -1,6 +1,6 @@
 <template>
   <div>
-    <v-card-title class="text-h2 text-wrap">
+    <v-card-title class="text-sm-h3 text-h4 text-wrap">
       {{ title }}
       <EditEventTitle
         v-if="isOwner"
