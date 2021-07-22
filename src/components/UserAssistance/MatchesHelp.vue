@@ -3,7 +3,7 @@
     <template #activator="{ on: dialog, attrs }">
       <v-tooltip bottom>
         <template #activator="{ on: tooltip }">
-          <v-icon :color="'white'" v-bind="attrs" class="mx-4" v-on="{ ...dialog, ...tooltip }">
+          <v-icon v-bind="attrs" class="mx-4" v-on="{ ...dialog, ...tooltip }">
             mdi-help-circle-outline
           </v-icon>
         </template>
