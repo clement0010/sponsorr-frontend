@@ -49,24 +49,36 @@
           :loading-text="'Loading your events...'"
           :search="search"
         >
+          <template #body="{ items }">
+            <tbody is="transition-group" name="list">
+              <tr v-for="item in items" :key="item.title" class="item-row text-center">
+                <td>{{ item.title }}</td>
+                <td>
+                  {{
+                    generateDateRangeFromUnixTimeRange(
+                      [item.date.start, item.date.end],
+                      'DD MMM YYYY',
+                    )
+                  }}
+                </td>
+                <td>{{ item.venue }}</td>
+                <td v-if="tab !== 2">{{ item.clicks }}</td>
+                <td v-if="tab !== 2">{{ item.matches }}</td>
+                <td>
+                  <EventActionMenu
+                    :event-category="eventCategory"
+                    :event="item"
+                    @unpublishEvent="(payload) => $emit('unpublishEvent', payload)"
+                    @publishEvent="(payload) => $emit('publishEvent', payload)"
+                    @deleteEvent="(payload) => $emit('deleteEvent', payload)"
+                  />
+                </td>
+              </tr>
+            </tbody>
+          </template>
+
           <template #no-data>
             {{ eventCategory.fallback }}
-          </template>
-
-          <template #[`item.actions`]="{ item }">
-            <EventActionMenu
-              :event-category="eventCategory"
-              :event="item"
-              @unpublishEvent="(payload) => $emit('unpublishEvent', payload)"
-              @publishEvent="(payload) => $emit('publishEvent', payload)"
-              @deleteEvent="(payload) => $emit('deleteEvent', payload)"
-            />
-          </template>
-
-          <template #[`item.date`]="{ item }">
-            {{
-              generateDateRangeFromUnixTimeRange([item.date.start, item.date.end], 'DD MMM YYYY')
-            }}
           </template>
         </v-data-table>
       </v-tab-item>
@@ -113,3 +125,21 @@ export default defineComponent({
   },
 });
 </script>
+
+<style scoped>
+.list-enter-active,
+.list-leave-active {
+  transition: all 0.8s;
+}
+.list-enter,
+.list-leave-to {
+  opacity: 0;
+  transform: translateY(100%);
+}
+.list-move {
+  transition: transform 0.6s;
+}
+.item-row {
+  display: table-row;
+}
+</style>
