@@ -14,3 +14,9 @@ export enum Role {
   Sponsor = 'Sponsor',
   Organiser = 'EventOrganiser',
 }
+
+export enum EventAnalytics {
+  Click = 'clicks',
+  Pair = 'pairs',
+  Match = 'matches',
+}

@@ -128,3 +128,15 @@ export interface HelperText {
   message: string;
   tooltipMessage: string;
 }
+
+export interface EventSummary {
+  clicks: number;
+  pairs: number;
+  matches: number;
+}
+
+export interface MatchSummary {
+  accepted: number;
+  pending: number;
+  rejected: number;
+}

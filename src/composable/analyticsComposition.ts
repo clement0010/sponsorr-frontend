@@ -1,63 +1,89 @@
+import { ChartOptions } from 'chart.js';
+import { onMounted, ref, computed } from '@vue/composition-api';
+
 import { getAllMatchedEventFromDb } from '@/common/firestore/matches';
 import { getUserEventFromDb } from '@/common/firestore/dashboard';
-import { SponsorEvents, Role, Matches, MatchStatus } from '@/types';
-import { onMounted, ref, computed } from '@vue/composition-api';
+import { SponsorEvents, Role, Matches } from '@/types';
+import { summarizeEvents, summarizeMatches } from '@/common';
 import { uid, role } from './store';
 import useSnackbar from './snackbarComposition';
+
+export const barChartConfig: ChartOptions = {
+  responsive: true,
+  plugins: {
+    legend: {
+      display: false,
+    },
+    title: {
+      display: true,
+      text: role.value === 'EventOrganiser' ? 'Events Summary' : 'Matches Summary',
+      font: {
+        size: 20,
+      },
+    },
+  },
+  scales: {
+    y: {
+      min: 0,
+      ticks: {
+        stepSize: 5,
+      },
+    },
+  },
+};
 
 // eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types
 export default function useAnalytics() {
   const { alert } = useSnackbar();
 
+  const events = ref<SponsorEvents>([]);
+  const matches = ref<Matches>([]);
   const barData = ref<number[]>([]);
-
-  const summarizeEvents = (events: SponsorEvents, value: string) => {
-    return events
-      .map((event) => {
-        switch (value) {
-          case 'clicks':
-            return event.clicks;
-          case 'pairs':
-            return event.pairs;
-          case 'matches':
-            return event.matches;
-          default:
-            return 0;
-        }
-      })
-      .reduce((accum, curr) => accum + curr);
-  };
-
-  const summarizeMatches = (matches: Matches, value: MatchStatus) => {
-    return matches.filter((match) => match.status === value).length;
-  };
 
   const initialise = async (userId: string, userRole: Role | undefined) => {
     try {
       if (userRole === 'EventOrganiser') {
-        const events = await getUserEventFromDb(userId);
-        barData.value.push(summarizeEvents(events, 'clicks'));
-        barData.value.push(summarizeEvents(events, 'pairs'));
-        barData.value.push(summarizeEvents(events, 'matches'));
+        events.value = await getUserEventFromDb(userId);
+        const { clicks, pairs, matches: matchCount } = summarizeEvents(events.value);
+        barData.value = [clicks, pairs, matchCount];
       }
       if (userRole === 'Sponsor') {
-        const matches = await getAllMatchedEventFromDb(userId);
-        barData.value.push(summarizeMatches(matches, 'accepted'));
-        barData.value.push(summarizeMatches(matches, 'pending'));
-        barData.value.push(summarizeMatches(matches, 'rejected'));
+        matches.value = await getAllMatchedEventFromDb(userId);
+        const { accepted, rejected, pending } = summarizeMatches(matches.value);
+        barData.value = [accepted, rejected, pending];
       }
     } catch (err) {
       console.error(err);
-      alert('There was an issue.');
+      alert('There was an issue. Try again later?');
     }
   };
+  const barChartData = computed(() =>
+    role.value === 'EventOrganiser'
+      ? {
+          labels: ['Clicks', 'Pairs', 'Matches'],
+          datasets: [
+            {
+              data: barData.value,
+              backgroundColor: ['#77CEFF', '#0079AF', '#123E6B'],
+            },
+          ],
+        }
+      : {
+          labels: ['Accepted', 'Pending', 'Rejected'],
+          datasets: [
+            {
+              data: [1, 2, 3],
+              backgroundColor: ['#77CEFF', '#0079AF', '#123E6B'],
+            },
+          ],
+        },
+  );
 
   onMounted(async () => {
     await initialise(uid.value, role.value);
   });
 
   return {
-    barData: computed(() => barData.value),
-    role: computed(() => role.value),
+    barChartData,
   };
 }

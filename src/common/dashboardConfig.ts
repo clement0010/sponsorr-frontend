@@ -1,28 +1,38 @@
 import { EventCategory } from '@/types';
 import { EventGroup } from '@/types/enum';
 
+const baseHeader = [
+  {
+    text: 'Event Title',
+    value: 'title',
+    sortable: false,
+    align: 'center',
+  },
+  {
+    text: 'Date',
+    value: 'date',
+    sortable: false,
+    align: 'center',
+  },
+  {
+    text: 'Venue',
+    value: 'venue',
+    sortable: false,
+    align: 'center',
+  },
+  {
+    text: 'Actions',
+    value: 'actions',
+    sortable: false,
+    align: 'center',
+  },
+];
+
 export const publishedCategory: EventCategory = {
   name: EventGroup.Published,
   loaded: false,
   headers: [
-    {
-      text: 'Event Title',
-      value: 'title',
-      sortable: false,
-      align: 'center',
-    },
-    {
-      text: 'Date',
-      value: 'date',
-      sortable: false,
-      align: 'center',
-    },
-    {
-      text: 'Venue',
-      value: 'venue',
-      sortable: false,
-      align: 'center',
-    },
+    ...baseHeader,
     {
       text: 'Clicks',
       value: 'clicks',
@@ -31,12 +41,6 @@ export const publishedCategory: EventCategory = {
     {
       text: 'Matches',
       value: 'matches',
-      align: 'center',
-    },
-    {
-      text: 'Actions',
-      value: 'actions',
-      sortable: false,
       align: 'center',
     },
   ],
@@ -47,26 +51,7 @@ export const publishedCategory: EventCategory = {
 export const draftsCategory: EventCategory = {
   name: EventGroup.Draft,
   loaded: false,
-  headers: [
-    {
-      text: 'Event Title',
-      value: 'title',
-    },
-    {
-      text: 'Date',
-      value: 'date',
-    },
-    {
-      text: 'Venue',
-      value: 'venue',
-    },
-    {
-      text: 'Actions',
-      value: 'actions',
-      sortable: false,
-      align: 'center',
-    },
-  ],
+  headers: baseHeader,
   contents: [],
   fallback: 'Nothing in drafts',
 };
@@ -75,19 +60,7 @@ export const matchedCategory: EventCategory = {
   name: EventGroup.Matched,
   loaded: false,
   headers: [
-    {
-      text: 'Event Title',
-      value: 'title',
-    },
-    {
-      text: 'Date',
-      value: 'date',
-    },
-    {
-      text: 'Venue',
-      value: 'venue',
-    },
-
+    ...baseHeader,
     {
       text: 'Clicks',
       value: 'clicks',
@@ -96,12 +69,6 @@ export const matchedCategory: EventCategory = {
     {
       text: 'Matches',
       value: 'matches',
-      align: 'center',
-    },
-    {
-      text: 'Actions',
-      value: 'actions',
-      sortable: false,
       align: 'center',
     },
   ],

@@ -1,8 +1,16 @@
 import Fuse from 'fuse.js';
 import dayjs from 'dayjs';
 import customParseFormat from 'dayjs/plugin/customParseFormat';
-import { HelperText, Match } from '@/types';
-import { MatchGroup } from '@/types/enum';
+import {
+  EventSummary,
+  HelperText,
+  Match,
+  Matches,
+  MatchStatus,
+  MatchSummary,
+  SponsorEvents,
+} from '@/types';
+import { EventAnalytics, MatchGroup } from '@/types/enum';
 
 dayjs.extend(customParseFormat);
 
@@ -131,3 +139,40 @@ export const currencyFormatter = new Intl.NumberFormat('en-US', {
   style: 'currency',
   currency: 'SGD',
 });
+
+export const getEventAnalyticsData = (events: SponsorEvents, value: EventAnalytics): number => {
+  return events
+    .map((event) => {
+      switch (value) {
+        case EventAnalytics.Click:
+          return event.clicks;
+        case EventAnalytics.Pair:
+          return event.pairs;
+        case EventAnalytics.Match:
+          return event.matches;
+        default:
+          return 0;
+      }
+    })
+    .reduce((accum, curr) => accum + curr);
+};
+
+export const summarizeEvents = (events: SponsorEvents): EventSummary => {
+  return {
+    clicks: getEventAnalyticsData(events, EventAnalytics.Click),
+    pairs: getEventAnalyticsData(events, EventAnalytics.Pair),
+    matches: getEventAnalyticsData(events, EventAnalytics.Match),
+  };
+};
+
+export const getMatchAnalyticData = (matches: Matches, value: MatchStatus): number => {
+  return matches.filter((match) => match.status === value).length;
+};
+
+export const summarizeMatches = (matches: Matches): MatchSummary => {
+  return {
+    accepted: getMatchAnalyticData(matches, MatchGroup.Accepted),
+    rejected: getMatchAnalyticData(matches, MatchGroup.Rejected),
+    pending: getMatchAnalyticData(matches, MatchGroup.Pending),
+  };
+};
