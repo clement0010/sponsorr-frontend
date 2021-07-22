@@ -47,7 +47,7 @@
           <UserStatusCard :mobile="true" />
           <v-divider />
           <v-list nav>
-            <v-list-item-group v-model="selected" color="primary" mandatory>
+            <v-list-item-group :value="selected" color="primary">
               <router-link :to="{ name: 'Profile', params: { id } }">
                 <v-list-item>
                   <v-list-item-icon>
@@ -233,7 +233,7 @@ export default defineComponent({
       id: uid,
       userSignout,
       toggleDialog,
-      selected: watch(selected, () => selected.value),
+      selected,
       role,
     };
   },
