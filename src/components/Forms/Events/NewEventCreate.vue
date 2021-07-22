@@ -42,7 +42,6 @@ export default defineComponent({
         },
         demographic: data.demographic,
         createdAt: generateUnixTime(),
-        published: true,
         matches: 0,
         clicks: 0,
         pairs: 0,

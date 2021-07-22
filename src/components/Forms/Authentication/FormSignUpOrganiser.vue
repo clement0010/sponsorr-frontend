@@ -152,7 +152,6 @@ export default defineComponent({
         name: user.name,
         email: user.email,
         phoneNumber: user.phoneNumber,
-        subscribed: false,
       };
       try {
         const uid: string = await signup(email, password, userMetadata);

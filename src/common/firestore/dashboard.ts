@@ -50,14 +50,14 @@ export const getUserEventByStatusFromDb = async (
 export const updateEventStatusToDb = async (
   eventId: string,
   status: EventStatus,
-  published?: boolean,
+  subscribed?: boolean,
 ): Promise<void> => {
   const updateData: UpdateData<SponsorEvent> = {
     status,
   };
 
-  if (!published) {
-    updateData.published = published;
+  if (!subscribed) {
+    updateData.subscribed = subscribed;
   }
 
   await db.events.doc(eventId).update(updateData);

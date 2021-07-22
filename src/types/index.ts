@@ -9,6 +9,16 @@ export interface Contact {
   websiteUrl: string;
 }
 
+export interface Budget {
+  maximum: number;
+  minimum: number;
+}
+
+interface EventDate {
+  start: number;
+  end: number;
+}
+
 export interface User {
   email: string;
   name: string;
@@ -21,27 +31,25 @@ export interface Profile extends User {
   keywords: string[];
   displayPicture: string;
   role: Role;
-  subscribed: boolean;
 }
 
 export interface EventOrganiser extends Profile {
   role: Role;
 }
+
+export interface Subscription {
+  budget: Budget;
+  eventSize: number;
+  demographic: string[];
+}
+
 export interface Sponsor extends Profile {
   role: Role;
+  subscribed: boolean;
+  subscription: Subscription;
 }
 
 export type EventStatus = 'draft' | 'published' | 'matched';
-
-export interface Budget {
-  maximum: number;
-  minimum: number;
-}
-
-interface EventDate {
-  start: number;
-  end: number;
-}
 
 export interface SponsorRequest {
   itemName: string;
@@ -50,7 +58,7 @@ export interface SponsorRequest {
 }
 
 export interface SponsorEvent {
-  budget: Budget;
+  budget: number;
   clicks: number;
   createdAt: number;
   date: EventDate;
@@ -62,13 +70,12 @@ export interface SponsorEvent {
   matches: number;
   pairs: number;
   picture: string;
-  published: boolean;
+  subscribed: boolean;
   status: EventStatus;
   title: string;
   userId: string;
   venue: string;
   requests: SponsorRequest[];
-  subscribed: boolean;
 }
 
 export interface SponsorEventDbItem extends SponsorEvent {
