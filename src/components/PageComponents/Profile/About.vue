@@ -4,7 +4,7 @@
       About
       <EditAbout v-if="isOwner" :about="about" />
     </v-card-title>
-    <v-card-text class="black--text text-body-1">
+    <v-card-text class="black--text text-body-1 pre-formatted">
       {{ about }}
     </v-card-text>
   </v-card>
@@ -32,3 +32,14 @@ export default defineComponent({
   },
 });
 </script>
+
+<style scoped>
+.pre-formatted {
+  white-space: pre-line; /* collapse WS, preserve LB */
+}
+
+.v-card__text,
+.v-card__title {
+  word-break: normal; /* maybe !important  */
+}
+</style>
