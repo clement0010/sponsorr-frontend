@@ -1,6 +1,11 @@
 <template>
   <v-col cols="auto">
-    <v-dialog v-model="dialog" fullscreen transition="slide-x-reverse-transition">
+    <v-dialog
+      v-model="dialog"
+      fullscreen
+      transition="slide-x-reverse-transition"
+      @click="toggleDialog"
+    >
       <template #activator="{ on, attrs }">
         <v-btn icon v-bind="attrs" v-on="on">
           <v-app-bar-nav-icon class="white--text" />
@@ -150,7 +155,7 @@ import useAuth from '@/composable/authComposition';
 import useProfile from '@/composable/profileComposition';
 
 import { authenticated, uid } from '@/composable/store';
-import { defineComponent, onMounted, ref, watch } from '@vue/composition-api';
+import { computed, defineComponent, ref, watch } from '@vue/composition-api';
 
 export default defineComponent({
   name: 'NavigationDropdown',
@@ -164,59 +169,50 @@ export default defineComponent({
     const { signout } = useAuth();
     const { clearProfile, role } = useProfile();
     const dialog = ref(false);
-    const selected = ref<number>();
+    const routeName = computed(() => root.$route.name);
 
-    onMounted(() => {
-      if (!authenticated.value) {
-        return;
-      }
+    watch(routeName, () => {
+      dialog.value = false;
+    });
+
+    const selected = computed(() => {
       if (role.value === 'EventOrganiser') {
-        switch (root.$route.name) {
+        switch (routeName.value) {
           case 'Profile':
             if (uid.value === root.$route.params.id) {
-              selected.value = 0;
-              break;
+              return 0;
             }
-            selected.value = undefined;
-            break;
+            return undefined;
           case 'Dashboard':
-            selected.value = 1;
-            break;
+            return 1;
           case 'EventMatches':
-            selected.value = 2;
-            break;
+            return 2;
           case 'Analytics':
-            selected.value = 3;
-            break;
+            return 3;
           default:
-            break;
+            return undefined;
         }
       }
       if (role.value === 'Sponsor') {
-        switch (root.$route.name) {
+        switch (routeName.value) {
           case 'Profile':
             if (uid.value === root.$route.params.id) {
-              selected.value = 0;
-              break;
+              return 0;
             }
-            selected.value = undefined;
-            break;
+            return undefined;
           case 'Marketplace':
-            selected.value = 1;
-            break;
+            return 1;
           case 'Matches':
-            selected.value = 2;
-            break;
+            return 2;
           case 'Analytics':
-            selected.value = 3;
-            break;
+            return 3;
           case 'Settings':
-            selected.value = 4;
-            break;
+            return 4;
           default:
-            break;
+            return undefined;
         }
       }
+      return undefined;
     });
 
     const toggleDialog = () => {
