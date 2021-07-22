@@ -1,6 +1,11 @@
 <template>
   <v-container fluid>
-    <v-data-table :headers="headers" :items="matches" :loading="loading">
+    <v-data-table
+      :headers="headers"
+      :items="matches"
+      :loading="loading"
+      class="elevation-5 rounded-lg"
+    >
       <template #no-data>
         No matched events yet
       </template>

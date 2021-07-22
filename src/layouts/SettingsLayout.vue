@@ -1,5 +1,5 @@
 <template>
-  <v-container class="secondary" fluid>
+  <v-container class="secondary content" fluid>
     <v-row justify="center">
       <v-card width="1320px" color="transparent" class="my-16" flat>
         <v-row>
@@ -67,3 +67,10 @@ export default defineComponent({
   },
 });
 </script>
+
+<style scoped>
+.content {
+  max-width: 1320px;
+  min-height: 87vh;
+}
+</style>

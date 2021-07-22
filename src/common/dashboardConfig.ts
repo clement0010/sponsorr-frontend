@@ -8,14 +8,20 @@ export const publishedCategory: EventCategory = {
     {
       text: 'Event Title',
       value: 'title',
+      sortable: false,
+      align: 'center',
     },
     {
       text: 'Date',
       value: 'date',
+      sortable: false,
+      align: 'center',
     },
     {
       text: 'Venue',
       value: 'venue',
+      sortable: false,
+      align: 'center',
     },
     {
       text: 'Clicks',
