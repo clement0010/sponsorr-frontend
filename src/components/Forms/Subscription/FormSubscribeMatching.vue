@@ -130,8 +130,10 @@ export default defineComponent({
       dialog.value = false;
       await editUserProfile(uid.value, {
         subscription: {
-          budgetMax: input.budgetMax,
-          budgetMin: input.budgetMin,
+          budget: {
+            maximum: input.budgetMax,
+            minimum: input.budgetMin,
+          },
           eventSize: input.eventSize,
           demographic: input.demographic,
         },
