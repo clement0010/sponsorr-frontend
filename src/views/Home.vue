@@ -28,11 +28,7 @@
             </v-card>
           </v-col>
           <v-col class="px-0" :lg="6">
-            <v-img
-              contain
-              width="500"
-              src="https://firebasestorage.googleapis.com/v0/b/sponsorr-dev.appspot.com/o/public_assets%2Fimage-introduction.svg?alt=media&token=24b7a84e-ddc7-4c19-9e3f-f500270fca7c"
-            />
+            <v-img contain width="500" src="@/assets/international-youth-day-animate.svg" />
           </v-col>
         </v-row>
       </v-container>
@@ -109,11 +105,7 @@
             </v-card>
           </v-col>
           <v-col class="px-0" :lg="6">
-            <v-img
-              contain
-              width="500"
-              src="https://firebasestorage.googleapis.com/v0/b/sponsorr-dev.appspot.com/o/public_assets%2Fimage-howitworks.svg?alt=media&token=cb4b8809-4734-4893-a2f4-c7d8faed26b1"
-            />
+            <v-img contain width="500" src="@/assets/team-goals-animate.svg" />
           </v-col>
         </v-row>
       </v-container>
@@ -124,11 +116,7 @@
       <v-container id="sponsor" class="content">
         <v-row align="center">
           <v-col class="px-0" :lg="6">
-            <v-img
-              contain
-              width="500"
-              src="https://firebasestorage.googleapis.com/v0/b/sponsorr-dev.appspot.com/o/public_assets%2Fimage-benefits.svg?alt=media&token=3fb70e9a-eb6a-4241-b227-8563e8ffdd0e"
-            />
+            <v-img contain width="500" src="@/assets/business-plan-animate.svg" />
           </v-col>
           <v-col class="px-0" :lg="6">
             <v-card color="transparent" elevation="0">
@@ -215,11 +203,7 @@
             </v-card>
           </v-col>
           <v-col class="px-0" :lg="6">
-            <v-img
-              contain
-              width="500"
-              src="https://firebasestorage.googleapis.com/v0/b/sponsorr-dev.appspot.com/o/public_assets%2Fimage-teams.svg?alt=media&token=139c76f9-3363-41d0-b9e5-28d380240f5e"
-            />
+            <v-img contain width="500" src="@/assets/telework-animate.svg" />
           </v-col>
         </v-row>
       </v-container>
