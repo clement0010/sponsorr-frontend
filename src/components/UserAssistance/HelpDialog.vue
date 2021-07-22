@@ -1,14 +1,16 @@
 <template>
-  <v-dialog width="500" scrollable>
-    <template #activator="{on: dialog, attrs}">
-      <v-tooltip bottom>
-        <template #activator="{on: tooltip}">
-          <v-icon :color="color" v-bind="attrs" v-on="{ ...dialog, ...tooltip }">
+  <v-dialog v-model="dialog" width="500" scrollable>
+    <template #activator="{ on, attrs }">
+      <v-list-item v-bind="attrs" v-on="on">
+        <v-list-item-icon>
+          <v-icon>
             mdi-help-circle-outline
           </v-icon>
-        </template>
-        <span>Get Help</span>
-      </v-tooltip>
+        </v-list-item-icon>
+        <v-list-item-content>
+          Help
+        </v-list-item-content>
+      </v-list-item>
     </template>
 
     <v-card>
@@ -69,18 +71,15 @@
 
 <script lang="ts">
 import { role } from '@/composable/store';
-import { defineComponent } from '@vue/composition-api';
+import { defineComponent, ref } from '@vue/composition-api';
 
 export default defineComponent({
   name: 'HelpDialog',
-  props: {
-    color: {
-      type: String,
-      default: 'white',
-    },
-  },
   setup() {
+    const dialog = ref(false);
+
     return {
+      dialog,
       role,
     };
   },

@@ -20,10 +20,6 @@
           </router-link>
           <AuthenticationButton />
         </v-col>
-
-        <v-col v-if="authenticated" cols="auto">
-          <HelpDialog />
-        </v-col>
         <v-col v-if="authenticated" cols="auto">
           <UserInitialsAvatar />
         </v-col>
@@ -34,7 +30,6 @@
 
 <script lang="ts">
 import AuthenticationButton from '@/components/Authentication/AuthenticationButton.vue';
-import HelpDialog from '@/components/UserAssistance/HelpDialog.vue';
 import LogoSponsorr from '@/components/BuildingElements/LogoSponsorr.vue';
 import UserInitialsAvatar from '@/components/BuildingElements/UserInitialsAvatar.vue';
 
@@ -45,7 +40,6 @@ export default defineComponent({
   name: 'NavigationBarWeb',
   components: {
     AuthenticationButton,
-    HelpDialog,
     LogoSponsorr,
     UserInitialsAvatar,
   },

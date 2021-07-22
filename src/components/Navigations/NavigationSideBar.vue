@@ -88,7 +88,7 @@
               </v-list-item-content>
             </v-list-item>
           </router-link>
-
+          <HelpDialog />
           <v-list-item @click="userSignout">
             <v-list-item-icon>
               <v-icon>mdi-exit-to-app</v-icon>
@@ -104,6 +104,7 @@
 </template>
 
 <script lang="ts">
+import HelpDialog from '@/components/UserAssistance/HelpDialog.vue';
 import UserInitialsAvatar from '@/components/BuildingElements/UserInitialsAvatar.vue';
 import UserStatusCard from '@/components/BuildingElements/UserStatusCard.vue';
 
@@ -116,6 +117,7 @@ import { ref, defineComponent, computed } from '@vue/composition-api';
 export default defineComponent({
   name: 'NavigationSideBar',
   components: {
+    HelpDialog,
     UserStatusCard,
     UserInitialsAvatar,
   },
