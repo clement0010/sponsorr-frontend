@@ -9,7 +9,7 @@
         @edit-description="(payload) => $emit('edit', payload)"
       />
     </v-card-title>
-    <v-card-text class="text-body-1">
+    <v-card-text class="text-body-1 pre-formatted">
       {{ description }}
     </v-card-text>
   </div>
@@ -47,3 +47,14 @@ export default defineComponent({
   },
 });
 </script>
+
+<style scoped>
+.pre-formatted {
+  white-space: pre-line; /* collapse WS, preserve LB */
+}
+
+.v-card__text,
+.v-card__title {
+  word-break: normal; /* maybe !important  */
+}
+</style>
