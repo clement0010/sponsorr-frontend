@@ -126,3 +126,8 @@ export const parseMatchStatus = (match: Match): HelperText => {
       };
   }
 };
+
+export const currencyFormatter = new Intl.NumberFormat('en-US', {
+  style: 'currency',
+  currency: 'SGD',
+});
