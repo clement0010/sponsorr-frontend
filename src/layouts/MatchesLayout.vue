@@ -14,6 +14,7 @@
           :match-categories="matchCategories"
           :loading="loading"
           @fetchMatches="(matchCategory) => $emit('fetchMatches', matchCategory)"
+          @refetch="$emit('refetch')"
         />
       </v-row>
     </v-container>

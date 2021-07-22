@@ -72,6 +72,24 @@ export default function useMatch() {
     }
   };
 
+  // For refetch only
+  const fetchMatchesByStatus = async (status: MatchStatus) => {
+    try {
+      loading.value = true;
+      matchCategories.value.forEach(async (category) => {
+        if (category.name === status) {
+          const categoryRef = category;
+          categoryRef.contents = await getAllMatchedEventFromDb(uid.value, role.value, status);
+        }
+      });
+    } catch (err) {
+      console.error(err);
+      throw new Error(err);
+    } finally {
+      loading.value = false;
+    }
+  };
+
   const fetchMatchesByEventId = async (eventId: string, userEvent: SponsorEvent | undefined) => {
     try {
       error.value = false;
@@ -162,6 +180,7 @@ export default function useMatch() {
     fetchMatches,
     fetchMatchesByEventId,
     fetchMatchesByOrganiserId,
+    fetchMatchesByStatus,
     updateUserMatchStatus,
     fetchMatchOffer,
 

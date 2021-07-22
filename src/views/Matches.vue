@@ -4,6 +4,7 @@
       :match-categories="matchCategories"
       :loading="loading"
       @fetchMatches="fetchMatches"
+      @refetch="refetch"
     />
   </BasePage>
 </template>
@@ -22,12 +23,19 @@ export default defineComponent({
     MatchesLayout,
   },
   setup() {
-    const { matchCategories, loading, fetchMatches } = useMatch();
+    const { matchCategories, loading, fetchMatches, fetchMatchesByStatus } = useMatch();
+
+    const refetch = async () => {
+      await fetchMatchesByStatus('pending');
+      await fetchMatchesByStatus('rejected');
+      await fetchMatchesByStatus('accepted');
+    };
 
     return {
       matchCategories,
       loading,
       fetchMatches,
+      refetch,
     };
   },
 });
