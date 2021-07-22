@@ -26,8 +26,8 @@ export default function useMatch() {
 
   const matchCategories = ref<MatchCategory[]>([
     pendingCategory,
-    rejectedCategory,
     acceptedCategory,
+    rejectedCategory,
   ]);
 
   const initialise = async (): Promise<void> => {
