@@ -1,12 +1,14 @@
 <template>
   <v-card>
-    <v-card-title> Documents </v-card-title>
-    <v-card-subtitle>
-      Upload up to 5MB of supporting documents such as event pitch, proposals, marketing materials
-      etc.
-    </v-card-subtitle>
+    <v-card-title>
+      Documents
+    </v-card-title>
 
     <v-form v-model="valid">
+      <v-card-subtitle>
+        Upload up to 5MB of supporting documents such as event pitch, proposals, marketing materials
+        etc.
+      </v-card-subtitle>
       <v-file-input
         v-model="eventFiles"
         :value="eventFiles"
@@ -20,6 +22,10 @@
         :rules="[fileUploadSizeRuleSingle]"
         @change="uploadFile"
       />
+
+      <v-card-subtitle>
+        Upload your event poster, banner, or art.
+      </v-card-subtitle>
 
       <v-file-input
         v-model="eventPicture"
