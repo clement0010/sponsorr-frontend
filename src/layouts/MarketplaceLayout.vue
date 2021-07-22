@@ -2,12 +2,12 @@
   <v-container fluid class="secondary">
     <v-container class="content">
       <v-row>
-        <v-card-title class="text-h2">
+        <v-card-title class="text-sm-h2 text-h3">
           Marketplace
         </v-card-title>
       </v-row>
-      <v-row justify="center" align="center">
-        <v-col cols="3">
+      <v-row align="center">
+        <v-col cols="auto">
           <SearchCriteria @search-criteria="(criteria) => $emit('search-criteria', criteria)" />
         </v-col>
         <v-col>
