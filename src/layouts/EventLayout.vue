@@ -47,6 +47,7 @@
               :time-end="timeEnd"
               :is-owner="isOwner"
               :status="status"
+              :budget="budget"
               @edit="(payload) => $emit('edit', payload)"
             />
             <EventKeywords
@@ -169,6 +170,7 @@ export default defineComponent({
       ownerId: computed(() => event.value.userId),
       subscribed: computed(() => event.value.subscribed),
       status: computed(() => event.value.status),
+      budget: computed(() => event.value.budget),
       generateDate,
       tabs,
     };

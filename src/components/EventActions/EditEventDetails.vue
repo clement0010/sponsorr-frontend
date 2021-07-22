@@ -116,6 +116,41 @@
             :rules="[requireInputRule]"
             type="number"
           />
+
+          <v-row>
+            <v-col>
+              <v-text-field
+                v-model.number="input.budgetMin"
+                outlined
+                :min="0"
+                type="number"
+                label="Budget (minimum)"
+                hint="All currency in Singapore Dollars"
+                :rules="[
+                  requireInputRule,
+                  nonNegativeIntegerRule,
+                  minBudgetRule,
+                  maximumMonetaryValue,
+                ]"
+              />
+            </v-col>
+            <v-col>
+              <v-text-field
+                v-model.number="input.budgetMax"
+                outlined
+                :min="0"
+                type="number"
+                label="Budget (maximum)"
+                hint="All currency in Singapore Dollars"
+                :rules="[
+                  requireInputRule,
+                  nonNegativeIntegerRule,
+                  maxBudgetRule,
+                  maximumMonetaryValue,
+                ]"
+              />
+            </v-col>
+          </v-row>
         </v-card-text>
 
         <v-card-text class="text-right">
@@ -131,7 +166,11 @@
 
 <script lang="ts">
 import { computed, defineComponent, ref } from '@vue/composition-api';
-import { requireInputRule } from '@/common/validation';
+import {
+  requireInputRule,
+  nonNegativeIntegerRule,
+  maximumMonetaryValue,
+} from '@/common/validation';
 import { generateDate, generateUnixTime, parseTime } from '@/common/utils';
 
 export default defineComponent({
@@ -165,6 +204,14 @@ export default defineComponent({
       type: String,
       required: true,
     },
+    budgetMin: {
+      type: Number,
+      required: true,
+    },
+    budgetMax: {
+      type: Number,
+      required: true,
+    },
   },
   setup(props, { emit }) {
     const dialog = ref(false);
@@ -179,7 +226,9 @@ export default defineComponent({
         input.value.timeStart === props.timeStart &&
         input.value.timeEnd === props.timeEnd &&
         input.value.venue === props.venue &&
-        input.value.eventSize === props.eventSize,
+        input.value.eventSize === props.eventSize &&
+        input.value.budgetMin === props.budgetMin &&
+        input.value.budgetMax === props.budgetMax,
     );
     const today = generateDate(undefined, 'YYYY-MM-DD');
     const oneDayEvent = computed(() => input.value.dateStart === input.value.dateEnd);
@@ -196,6 +245,19 @@ export default defineComponent({
       }
       return undefined;
     });
+
+    const maxBudgetRule = (budget: number) => {
+      if (!input.value.budgetMin) {
+        return true;
+      }
+      return input.value.budgetMin <= budget || 'Enter a higher value';
+    };
+    const minBudgetRule = (budget: number) => {
+      if (!input.value.budgetMax) {
+        return true;
+      }
+      return input.value.budgetMax >= budget || 'Enter a lower value';
+    };
 
     const dateStartDisplay = computed(() => generateDate(input.value.dateStart, 'DD MMM YYYY'));
     const dateEndDisplay = computed(() => generateDate(input.value.dateEnd, 'DD MMM YYYY'));
@@ -218,6 +280,10 @@ export default defineComponent({
           start,
           end,
         },
+        budget: {
+          minimum: input.value.budgetMin,
+          maximum: input.value.budgetMax,
+        },
       });
     };
 
@@ -228,6 +294,10 @@ export default defineComponent({
 
       // Validation
       requireInputRule,
+      nonNegativeIntegerRule,
+      maximumMonetaryValue,
+      minBudgetRule,
+      maxBudgetRule,
       duplicate,
       today,
       minTime,

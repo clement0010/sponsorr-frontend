@@ -11,6 +11,8 @@
         :event-size="eventSize"
         :venue="venue"
         :status="status"
+        :budget-min="budget.minimum"
+        :budget-max="budget.maximum"
         @edit-event-details="(payload) => $emit('edit', payload)"
       />
     </v-card-title>
@@ -47,6 +49,14 @@
         {{ eventSize }}
       </v-list-item-title>
     </v-list-item>
+    <v-list-item>
+      <v-list-item-title>
+        <strong>
+          Budget:
+        </strong>
+        {{ eventBudget }}
+      </v-list-item-title>
+    </v-list-item>
   </div>
 </template>
 
@@ -54,7 +64,8 @@
 import EditEventDetails from '@/components/EventActions/EditEventDetails.vue';
 
 import { computed, defineComponent } from '@vue/composition-api';
-import { generateDate } from '@/common/utils';
+import { generateDate, currencyFormatter } from '@/common/utils';
+import { Budget } from '@/types';
 
 export default defineComponent({
   name: 'EventDetails',
@@ -86,6 +97,10 @@ export default defineComponent({
       type: String,
       required: true,
     },
+    budget: {
+      type: Object as () => Budget,
+      required: true,
+    },
   },
   setup(props) {
     const dateStart = computed(() => generateDate(props.timeStart, 'DD MMM YYYY'));
@@ -106,11 +121,17 @@ export default defineComponent({
 
     const eventTime = computed(() => `${start.value} - ${end.value}`);
 
+    const eventBudget = computed(
+      () => `${currencyFormatter.format(props.budget.minimum)} - 
+      ${currencyFormatter.format(props.budget.maximum)}`,
+    );
+
     return {
       eventDate,
       eventTime,
       start,
       end,
+      eventBudget,
       editDateStart,
       editDateEnd,
       editStart,

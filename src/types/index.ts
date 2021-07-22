@@ -33,7 +33,7 @@ export interface Sponsor extends Profile {
 
 export type EventStatus = 'draft' | 'published' | 'matched';
 
-interface Budget {
+export interface Budget {
   maximum: number;
   minimum: number;
 }
