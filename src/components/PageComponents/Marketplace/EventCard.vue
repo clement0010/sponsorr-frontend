@@ -1,5 +1,5 @@
 <template>
-  <v-card width="400" rounded="xl" elevation="5">
+  <v-card width="400" height="400" rounded="xl" elevation="5">
     <v-card-title>
       {{ event.title }}
     </v-card-title>
