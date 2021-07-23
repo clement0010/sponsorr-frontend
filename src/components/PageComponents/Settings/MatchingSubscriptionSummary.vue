@@ -8,9 +8,7 @@
     </v-card-title>
     <v-card-text>
       Budget:
-      {{
-        `${currencyFormatter.format(budget.minimum)} - ${currencyFormatter.format(budget.maximum)}`
-      }}
+      {{ `${currencyFormatter(budget.minimum)} - ${currencyFormatter(budget.maximum)}` }}
       <br />
       Event size: {{ eventSize }}
       <br />

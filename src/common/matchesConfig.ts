@@ -1,24 +1,30 @@
 import { MatchCategory } from '@/types';
 import { MatchGroup } from '@/types/enum';
 
+const baseHeader = [
+  {
+    text: 'Event',
+    value: 'event.title',
+    sortable: false,
+  },
+  {
+    text: 'Date',
+    value: 'event.date',
+    sortable: false,
+  },
+  {
+    text: 'Venue',
+    value: 'event.venue',
+    sortable: false,
+    align: 'center',
+  },
+];
+
 export const pendingCategory: MatchCategory = {
   name: MatchGroup.Pending,
   loaded: false,
   headers: [
-    {
-      text: 'Event',
-      value: 'event.title',
-    },
-    {
-      text: 'Date',
-      value: 'event.date',
-    },
-    {
-      text: 'Venue',
-      value: 'event.venue',
-      sortable: false,
-      align: 'center',
-    },
+    ...baseHeader,
     {
       text: 'Actions',
       value: 'actions',
@@ -34,18 +40,7 @@ export const acceptedCategory: MatchCategory = {
   name: MatchGroup.Accepted,
   loaded: false,
   headers: [
-    {
-      text: 'Event',
-      value: 'event.title',
-    },
-    {
-      text: 'Date',
-      value: 'event.date',
-    },
-    {
-      text: 'Venue',
-      value: 'event.venue',
-    },
+    ...baseHeader,
     {
       text: 'Actions',
       value: 'actions',
@@ -60,20 +55,7 @@ export const acceptedCategory: MatchCategory = {
 export const rejectedCategory: MatchCategory = {
   name: MatchGroup.Rejected,
   loaded: false,
-  headers: [
-    {
-      text: 'Event',
-      value: 'event.title',
-    },
-    {
-      text: 'Date',
-      value: 'event.date',
-    },
-    {
-      text: 'Venue',
-      value: 'event.venue',
-    },
-  ],
+  headers: baseHeader,
   contents: [],
   fallback: 'No rejected matches',
 };

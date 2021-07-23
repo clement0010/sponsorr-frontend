@@ -50,7 +50,7 @@ export default function useAnalytics() {
       if (userRole === 'Sponsor') {
         matches.value = await getAllMatchedEventFromDb(userId);
         const { accepted, rejected, pending } = summarizeMatches(matches.value);
-        barData.value = [accepted, rejected, pending];
+        barData.value = [pending, accepted, rejected];
       }
     } catch (err) {
       console.error(err);
@@ -69,10 +69,10 @@ export default function useAnalytics() {
           ],
         }
       : {
-          labels: ['Accepted', 'Pending', 'Rejected'],
+          labels: ['Pending', 'Accepted', 'Rejected'],
           datasets: [
             {
-              data: [1, 2, 3],
+              data: barData.value,
               backgroundColor: ['#77CEFF', '#0079AF', '#123E6B'],
             },
           ],
