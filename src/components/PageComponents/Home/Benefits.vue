@@ -5,7 +5,7 @@
     </template>
     <template #right-content>
       <v-card color="transparent" elevation="0">
-        <v-card-title class="text-sm-h3 font-weight-bold fix accent1--text">
+        <v-card-title class="text-lg-h3 text-h4 font-weight-bold fix accent1--text">
           Marketing + CSR
           <br />
           achieved in record time
@@ -91,3 +91,10 @@ export default defineComponent({
   },
 });
 </script>
+
+<style scoped>
+.v-card__text,
+.v-card__title {
+  word-break: normal; /* maybe !important  */
+}
+</style>

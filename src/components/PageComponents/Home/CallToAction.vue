@@ -2,10 +2,10 @@
   <HomeFrameLayout :background="'primary'">
     <template #left-content>
       <v-card color="transparent" elevation="0" class="text">
-        <v-card-title class="text-sm-h3 font-weight-bold fix white--text">
+        <v-card-title class="text-lg-h3 text-h4 font-weight-bold fix white--text">
           Ready?
         </v-card-title>
-        <v-card-title class="text-sm-h3 font-weight-bold fix accent1--text">
+        <v-card-title class="text-lg-h3 text-h4 font-weight-bold fix accent1--text">
           Let's make it happen.
         </v-card-title>
 

@@ -2,7 +2,7 @@
   <HomeFrameLayout :background="'primary'">
     <template #left-content>
       <v-card color="transparent" elevation="0">
-        <v-card-title class="text-sm-h3 font-weight-bold fix white--text">
+        <v-card-title class="text-lg-h3 text-h4 font-weight-bold fix white--text">
           We make event
           <br />
           partnerships happen
@@ -52,5 +52,10 @@ export default defineComponent({
 .enter {
   opacity: 1;
   transform: translateX(0px);
+}
+
+.v-card__text,
+.v-card__title {
+  word-break: normal; /* maybe !important  */
 }
 </style>
