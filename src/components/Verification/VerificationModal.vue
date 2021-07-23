@@ -1,5 +1,5 @@
 <template>
-  <v-overlay :value="emailVerified" absolute>
+  <v-overlay :value="emailVerified || !deactivatedRoutes" absolute>
     <v-card class="white pa-1" max-width="500">
       <v-card-title class="black--text">
         Email Verification Needed
@@ -18,13 +18,21 @@
 
 <script lang="ts">
 import { emailVerified } from '@/composable/store';
-import { defineComponent } from '@vue/composition-api';
+import { computed, defineComponent } from '@vue/composition-api';
 
 export default defineComponent({
   name: 'VerificationModal',
-  setup() {
+  setup(_, { root }) {
+    const deactivatedRoutes = computed(
+      () =>
+        root.$route.name === 'Home' ||
+        root.$route.name === 'SignUp' ||
+        root.$route.name === 'Login',
+    );
+
     return {
       emailVerified,
+      deactivatedRoutes,
     };
   },
 });
