@@ -37,7 +37,7 @@
                   <strong>
                     Value:
                   </strong>
-                  {{ currencyFormatter.format(request.valueInSGD) }}
+                  {{ currencyFormatter(request.valueInSGD) }}
                 </v-list-item-subtitle>
               </v-list-item-content>
             </v-col>

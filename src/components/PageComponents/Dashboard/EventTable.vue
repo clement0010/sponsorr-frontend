@@ -62,8 +62,8 @@
                   }}
                 </td>
                 <td>{{ item.venue }}</td>
+                <td v-if="tab !== 2">{{ currencyFormatter(item.budget) }}</td>
                 <td v-if="tab !== 2">{{ item.clicks }}</td>
-                <td v-if="tab !== 2">{{ item.matches }}</td>
                 <td>
                   <EventActionMenu
                     :event-category="eventCategory"
@@ -92,7 +92,7 @@ import EventActionMenu from '@/components/PageComponents/Dashboard/EventActionMe
 import { EventCategory } from '@/types';
 import { EventGroup } from '@/types/enum';
 import { defineComponent, ref } from '@vue/composition-api';
-import { generateDateRangeFromUnixTimeRange } from '@/common/utils';
+import { currencyFormatter, generateDateRangeFromUnixTimeRange } from '@/common/utils';
 
 export default defineComponent({
   name: 'EventTable',
@@ -114,13 +114,13 @@ export default defineComponent({
     const tab = ref(null);
     const search = ref('');
     const solo = ref(false);
-
     return {
       tab,
       search,
       generateDateRangeFromUnixTimeRange,
       EventGroup,
       solo,
+      currencyFormatter,
     };
   },
 });

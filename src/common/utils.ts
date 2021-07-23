@@ -135,10 +135,13 @@ export const parseMatchStatus = (match: Match): HelperText => {
   }
 };
 
-export const currencyFormatter = new Intl.NumberFormat('en-US', {
-  style: 'currency',
-  currency: 'SGD',
-});
+export const currencyFormatter = (value: number): string => {
+  const formatter = new Intl.NumberFormat('en-US', {
+    style: 'currency',
+    currency: 'SGD',
+  });
+  return formatter.format(value);
+};
 
 export const getEventAnalyticsData = (events: SponsorEvents, value: EventAnalytics): number => {
   return events

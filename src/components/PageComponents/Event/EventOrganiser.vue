@@ -17,7 +17,7 @@
           @publishEvent="$emit('publishEvent', { status: 'published', subscribed: true })"
         />
       </v-col>
-      <v-col v-if="isOwner" cols="auto">
+      <v-col v-if="isOwner && event.status !== 'draft'" cols="auto">
         <v-btn :class="{ success: !subscribed }" @click="subscribeToggle">
           {{ subscribed ? 'Disable Matching' : 'Enable Matching' }}
         </v-btn>

@@ -7,8 +7,6 @@ export const uploadFileToStorage = async (
   if (!file) {
     return;
   }
-  console.log(file);
-
   const fileName = `${Date.now()}_${file.name}`;
 
   const filePath = `${uid}/${fileName}`;

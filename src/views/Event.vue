@@ -75,7 +75,6 @@ export default defineComponent({
 
     onBeforeMount(async () => {
       await fetchUserEvent(eventId);
-      console.log(event.value?.userId === uid.value);
       if (!isOwner.value) {
         await fetchUserProfile(event.value?.userId || '');
         await fetchMatchOffer(eventId);

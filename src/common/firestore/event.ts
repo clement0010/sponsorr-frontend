@@ -9,7 +9,6 @@ import { db } from './utils';
 export const createEventToDb = async (event: SponsorEvent): Promise<string> => {
   const eventDbItem = await db.events.add(event);
 
-  console.log('Successfully created event.', (await eventDbItem.get()).data(), eventDbItem.id);
   return eventDbItem.id;
 };
 

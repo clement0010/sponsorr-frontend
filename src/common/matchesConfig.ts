@@ -16,6 +16,8 @@ export const pendingCategory: MatchCategory = {
     {
       text: 'Venue',
       value: 'event.venue',
+      sortable: false,
+      align: 'center',
     },
     {
       text: 'Actions',

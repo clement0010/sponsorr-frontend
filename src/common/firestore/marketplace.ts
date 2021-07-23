@@ -19,8 +19,6 @@ export const getEventsFromDb = async (keywords?: string): Promise<SponsorEventDb
   const events: SponsorEventDbItems = [];
 
   snapshot?.forEach((doc) => {
-    console.log(doc.id, '=>', doc.data());
-
     const event = {
       ...doc.data(),
       eventId: doc.id,

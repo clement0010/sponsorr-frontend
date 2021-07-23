@@ -28,13 +28,13 @@ export const publishedCategory: EventCategory = {
   headers: [
     ...baseHeader,
     {
-      text: 'Clicks',
-      value: 'clicks',
+      text: 'Budget',
+      value: 'budget',
       align: 'center',
     },
     {
-      text: 'Matches',
-      value: 'matches',
+      text: 'Clicks',
+      value: 'clicks',
       align: 'center',
     },
     {
@@ -51,7 +51,15 @@ export const publishedCategory: EventCategory = {
 export const draftsCategory: EventCategory = {
   name: EventGroup.Draft,
   loaded: false,
-  headers: baseHeader,
+  headers: [
+    ...baseHeader,
+    {
+      text: 'Actions',
+      value: 'actions',
+      sortable: false,
+      align: 'center',
+    },
+  ],
   contents: [],
   fallback: 'Nothing in drafts',
 };
@@ -69,6 +77,12 @@ export const matchedCategory: EventCategory = {
     {
       text: 'Matches',
       value: 'matches',
+      align: 'center',
+    },
+    {
+      text: 'Actions',
+      value: 'actions',
+      sortable: false,
       align: 'center',
     },
   ],

@@ -1,7 +1,7 @@
 <template>
   <v-container class="secondary" fluid>
     <v-row justify="center">
-      <v-card class="my-10 pa-5" width="1320" rounded="md">
+      <v-card class="my-10 pa-5" width="80vw" rounded="lg">
         <EventPicture
           :picture="picture"
           :is-owner="isOwner"
