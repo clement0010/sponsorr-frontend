@@ -1,10 +1,14 @@
 <template>
   <v-app>
-    <NavigationBarWeb
-      v-if="$vuetify.breakpoint.mdAndUp && $route.name !== 'SignUp' && $route.name !== 'Login'"
-    />
-    <NavigationBarMobile v-else-if="$route.name !== 'SignUp' && $route.name !== 'Login'" />
-    <NavigationSideBar v-if="$vuetify.breakpoint.mdAndUp && authenticated && !authLoading" />
+    <transition name="fade">
+      <NavigationBarWeb
+        v-if="$vuetify.breakpoint.mdAndUp && $route.name !== 'SignUp' && $route.name !== 'Login'"
+      />
+      <NavigationBarMobile v-else-if="$route.name !== 'SignUp' && $route.name !== 'Login'" />
+    </transition>
+    <transition name="fade">
+      <NavigationSideBar v-if="$vuetify.breakpoint.mdAndUp && displayCondition" />
+    </transition>
     <v-main class="primary">
       <router-view :key="$route.fullPath" />
       <Snackbar />
@@ -20,7 +24,7 @@ import NavigationBarWeb from '@/components/Navigations/NavigationBarWeb.vue';
 import NavigationSideBar from '@/components/Navigations/NavigationSideBar.vue';
 import Snackbar from '@/components/BuildingElements/Snackbar.vue';
 
-import { authenticated, authLoading } from '@/composable/store';
+import { authenticated, authLoading, emailVerified } from '@/composable/store';
 import { computed, defineComponent } from '@vue/composition-api';
 
 export default defineComponent({
@@ -32,10 +36,20 @@ export default defineComponent({
     NavigationBarMobile,
     Snackbar,
   },
-  setup() {
+  setup(_, { root }) {
+    const displayCondition = computed(() => {
+      if (authLoading.value) return false;
+
+      if (!authenticated.value) return false;
+
+      return emailVerified.value && root.$route.name !== 'Confirmation';
+    });
+
     return {
       authenticated: computed(() => authenticated.value),
       authLoading: computed(() => authLoading.value),
+      emailVerified: computed(() => !emailVerified.value),
+      displayCondition,
     };
   },
 });
@@ -44,5 +58,16 @@ export default defineComponent({
 <style>
 a {
   text-decoration: none;
+}
+</style>
+
+<style scoped>
+.fade-enter-active,
+.fade-leave-active {
+  transition: opacity 1s;
+}
+.fade-enter,
+.fade-leave-to {
+  opacity: 0;
 }
 </style>

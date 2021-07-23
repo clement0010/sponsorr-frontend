@@ -11,15 +11,16 @@
         </v-col>
 
         <v-spacer />
-
-        <v-col v-if="!authenticated" cols="auto">
-          <router-link :to="{ name: 'Login' }">
-            <v-btn class="text-lowercase font-weight-regular white--text" rounded text>
-              Login
-            </v-btn>
-          </router-link>
-          <AuthenticationButton />
-        </v-col>
+        <transition name="fade">
+          <v-col v-if="!authenticated" cols="auto">
+            <router-link :to="{ name: 'Login' }">
+              <v-btn class="text-lowercase font-weight-regular white--text" rounded text>
+                Login
+              </v-btn>
+            </router-link>
+            <AuthenticationButton />
+          </v-col>
+        </transition>
         <v-col v-if="authenticated" cols="auto">
           <UserInitialsAvatar />
         </v-col>
@@ -59,5 +60,14 @@ export default defineComponent({
 
 .container {
   max-width: 1320px;
+}
+
+.fade-enter-active,
+.fade-leave-active {
+  transition: opacity 1s;
+}
+.fade-enter,
+.fade-leave-to {
+  opacity: 0;
 }
 </style>

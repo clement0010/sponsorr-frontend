@@ -17,7 +17,7 @@
         <strong>
           {{ name.toUpperCase() }}
         </strong>
-        <v-btn icon class="ml-10" @click.stop="$emit('toggleSideBar')">
+        <v-btn icon class="m-10" @click.stop="$emit('toggleSideBar')">
           <v-icon>mdi-chevron-left</v-icon>
         </v-btn>
       </v-list-item-title>
@@ -29,7 +29,7 @@
 </template>
 
 <script lang="ts">
-import useProfile from '@/composable/profileComposition';
+import { role, userProfile } from '@/composable/store';
 
 import { computed, defineComponent } from '@vue/composition-api';
 
@@ -42,10 +42,8 @@ export default defineComponent({
     },
   },
   setup() {
-    const { profile, role } = useProfile();
-
     return {
-      name: computed(() => profile.value?.name || ''),
+      name: computed(() => userProfile.value?.name || ''),
       role,
     };
   },

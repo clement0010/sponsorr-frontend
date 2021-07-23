@@ -20,12 +20,6 @@ const baseHeader = [
     sortable: false,
     align: 'center',
   },
-  {
-    text: 'Actions',
-    value: 'actions',
-    sortable: false,
-    align: 'center',
-  },
 ];
 
 export const publishedCategory: EventCategory = {
@@ -41,6 +35,12 @@ export const publishedCategory: EventCategory = {
     {
       text: 'Matches',
       value: 'matches',
+      align: 'center',
+    },
+    {
+      text: 'Actions',
+      value: 'actions',
+      sortable: false,
       align: 'center',
     },
   ],
