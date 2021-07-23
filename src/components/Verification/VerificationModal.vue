@@ -1,5 +1,5 @@
 <template>
-  <v-overlay :value="!emailVerified" absolute>
+  <v-overlay :value="emailVerified" absolute>
     <v-card class="white pa-1" max-width="500">
       <v-card-title class="black--text">
         Email Verification Needed

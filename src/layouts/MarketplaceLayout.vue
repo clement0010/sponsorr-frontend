@@ -1,10 +1,12 @@
 <template>
   <v-container fluid class="secondary">
     <v-container class="content">
-      <v-row>
-        <v-card-title class="text-sm-h2 text-h3">
-          Marketplace
-        </v-card-title>
+      <v-row align="center">
+        <v-col cols="auto">
+          <v-card-title class="text-sm-h2 text-h3">
+            Marketplace
+          </v-card-title>
+        </v-col>
       </v-row>
       <v-row align="center">
         <v-col cols="auto">
