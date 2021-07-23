@@ -95,7 +95,7 @@ const routes: Array<RouteConfig> = [
   {
     path: '/playground',
     name: 'Playground',
-    component: () => import(/* webpackChunkName: "playground" */ '@/views/Playground.vue'),
+    component: () => import(/* webpackChunkName: "playground" */ '@/views/Confirmation.vue'),
   },
   {
     path: '*',
