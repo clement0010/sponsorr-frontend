@@ -22,24 +22,13 @@
         </v-col>
         <v-col>
           <v-text-field
-            v-model.number="eventData.budgetMin"
+            v-model.number="eventData.budget"
             outlined
             :min="0"
             type="number"
-            label="Budget (minimum)"
+            label="Budget"
             hint="All currency in Singapore Dollars"
-            :rules="[requireInputRule, nonNegativeIntegerRule, minBudgetRule, maximumMonetaryValue]"
-          />
-        </v-col>
-        <v-col>
-          <v-text-field
-            v-model.number="eventData.budgetMax"
-            outlined
-            :min="0"
-            type="number"
-            label="Budget (maximum)"
-            hint="All currency in Singapore Dollars"
-            :rules="[requireInputRule, nonNegativeIntegerRule, maxBudgetRule, maximumMonetaryValue]"
+            :rules="[requireInputRule, nonNegativeIntegerRule, maximumMonetaryValue]"
           />
         </v-col>
       </v-row>
@@ -75,13 +64,14 @@
 </template>
 
 <script lang="ts">
+import NewEventCancel from '@/components/Forms/Events/NewEventCancel.vue';
+
 import { defineComponent, reactive, ref } from '@vue/composition-api';
 import {
   requireInputRule,
   nonNegativeIntegerRule,
   maximumMonetaryValue,
 } from '@/common/validation';
-import NewEventCancel from './NewEventCancel.vue';
 
 export default defineComponent({
   name: 'FormNewEventAbout',
@@ -95,8 +85,7 @@ export default defineComponent({
     const eventData = reactive({
       description: storage.description || '',
       participants: storage.eventSize || 0,
-      budgetMin: storage.budget?.minimum || 0,
-      budgetMax: storage.budget?.maximum || 0,
+      budget: storage.budget || 0,
       demographic: storage.demographic || [],
       keywords: storage.keywords || [],
     });
@@ -112,29 +101,12 @@ export default defineComponent({
 
     const vselectRule = (input: string[]) => input.length > 0 || 'Required';
 
-    const maxBudgetRule = (budget: number) => {
-      if (!eventData.budgetMin) {
-        return true;
-      }
-      return eventData.budgetMin <= budget || 'Enter a higher value';
-    };
-
-    const minBudgetRule = (budget: number) => {
-      if (!eventData.budgetMax) {
-        return true;
-      }
-      return eventData.budgetMax >= budget || 'Enter a lower value';
-    };
-
     const persist = () => {
       const cached = JSON.parse(localStorage.getItem('data') || 'null');
       const data = {
         description: eventData.description,
         eventSize: eventData.participants,
-        budget: {
-          maximum: eventData.budgetMax,
-          minimum: eventData.budgetMin,
-        },
+        budget: eventData.budget,
         demographic: eventData.demographic,
         keywords: eventData.keywords,
       };
@@ -162,8 +134,6 @@ export default defineComponent({
       // Input validation
       requireInputRule,
       nonNegativeIntegerRule,
-      maxBudgetRule,
-      minBudgetRule,
       vselectRule,
       maximumMonetaryValue,
 

@@ -89,7 +89,7 @@ export default defineComponent({
     };
 
     const publish = async (payload: SponsorEvent) => {
-      await updateEventStatus(eventId, payload.status, payload.published);
+      await updateEventStatus(eventId, payload.status, payload.subscribed);
     };
 
     const remove = async (payload: string) => {

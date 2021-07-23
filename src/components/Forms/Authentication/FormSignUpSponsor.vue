@@ -152,6 +152,14 @@ export default defineComponent({
         email: user.email,
         phoneNumber: user.phoneNumber,
         subscribed: false,
+        subscription: {
+          budget: {
+            maximum: 0,
+            minimum: 0,
+          },
+          eventSize: 0,
+          demographic: [],
+        },
       };
       try {
         const uid: string = await signup(email, password, userMetadata);

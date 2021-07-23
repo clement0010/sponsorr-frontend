@@ -33,8 +33,9 @@ import FormSubscribeMatching from '@/components/Forms/Subscription/FormSubscribe
 
 import useAuth from '@/composable/authComposition';
 import useProfile from '@/composable/profileComposition';
+import { Sponsor } from '@/types';
 
-import { computed, defineComponent, ref } from '@vue/composition-api';
+import { defineComponent, toRefs } from '@vue/composition-api';
 
 export default defineComponent({
   name: 'SettingsLayout',
@@ -45,7 +46,7 @@ export default defineComponent({
     const { uid } = useAuth();
     const { profile, editUserProfile } = useProfile();
 
-    const subscribed = ref(profile.value?.subscribed);
+    const { subscribed } = toRefs(profile.value as Sponsor);
 
     const unsubscribe = async () => {
       console.log('unsubscribed!');
@@ -60,7 +61,7 @@ export default defineComponent({
     };
 
     return {
-      subscribed: computed(() => subscribed.value),
+      subscribed,
       unsubscribe,
       subscribe,
     };
@@ -70,7 +71,6 @@ export default defineComponent({
 
 <style scoped>
 .content {
-  max-width: 1320px;
-  min-height: 87vh;
+  min-height: 100vh;
 }
 </style>

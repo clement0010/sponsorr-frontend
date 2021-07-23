@@ -30,9 +30,7 @@ export default function useMarketplace() {
 
       if (criteria === 'Budget') {
         filteredEvents.value = events.value.filter((event) => {
-          return (
-            event.budget.minimum <= parseFloat(input) && parseFloat(input) <= event.budget.maximum
-          );
+          return event.budget <= parseFloat(input);
         });
         return;
       }

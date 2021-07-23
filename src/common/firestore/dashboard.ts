@@ -55,8 +55,7 @@ export const updateEventStatusToDb = async (
   const updateData: UpdateData<SponsorEvent> = {
     status,
   };
-
-  if (!subscribed) {
+  if (subscribed !== undefined) {
     updateData.subscribed = subscribed;
   }
 

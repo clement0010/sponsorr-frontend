@@ -10,11 +10,11 @@
       <v-col v-if="isOwner && event.pairs < 1" cols="auto">
         <EventUnpublish
           v-if="event.status === 'published'"
-          @publishEvent="$emit('publishEvent', { status: 'draft', published: false })"
+          @publishEvent="$emit('publishEvent', { status: 'draft', subscribed: false })"
         />
         <EventPublish
           v-if="event.status === 'draft'"
-          @publishEvent="$emit('publishEvent', { status: 'published', published: true })"
+          @publishEvent="$emit('publishEvent', { status: 'published', subscribed: true })"
         />
       </v-col>
       <v-col v-if="isOwner" cols="auto">
