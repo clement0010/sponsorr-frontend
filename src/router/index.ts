@@ -27,11 +27,6 @@ const routes: Array<RouteConfig> = [
     beforeEnter: authGuard,
   },
   {
-    path: '/recover-account',
-    name: 'RecoverAccount',
-    component: () => import(/* webpackChunkName: "recoverAccount" */ '@/views/404.vue'),
-  },
-  {
     path: '/profile/:id',
     name: 'Profile',
     component: () => import(/* webpackChunkName: "profile" */ '@/views/Profile.vue'),
