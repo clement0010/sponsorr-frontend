@@ -8,7 +8,7 @@
         </router-link>
       </v-col>
     </v-row>
-    <v-card class="pa-5">
+    <v-card class="pa-5" width="800">
       <v-card-title> sign up as event organiser </v-card-title>
       <v-form ref="form" v-model="valid">
         <v-text-field

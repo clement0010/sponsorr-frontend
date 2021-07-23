@@ -1,5 +1,6 @@
 <template>
   <v-container>
+    <Spinner v-if="authLoading" />
     <v-row justify="center">
       <v-col cols="auto">
         <router-link to="/">
@@ -7,7 +8,7 @@
         </router-link>
       </v-col>
     </v-row>
-    <v-card class="pa-5">
+    <v-card class="pa-5" width="800">
       <v-card-title> login </v-card-title>
       <v-form ref="form" v-model="valid">
         <v-text-field
@@ -49,31 +50,26 @@
       </v-form>
 
       <v-card-subtitle>
-        <span>
-          <router-link to="/recoverAccount"> forgot password </router-link>
-        </span>
-        <span>| don't have an account with us? </span>
+        <span>don't have an account with us? </span>
         <span>
           <AuthenticationButton :color="'black'" />
         </span>
       </v-card-subtitle>
     </v-card>
-
-    <Spinner v-if="authLoading" />
   </v-container>
 </template>
 
 <script lang="ts">
-import { requireInputRule, validEmailRule } from '@/common/validation';
-import { defineComponent, reactive } from '@vue/composition-api';
-
-import useSnackbar from '@/composable/snackbarComposition';
-import useAuth from '@/composable/authComposition';
-
 import AuthenticationButton from '@/components/Authentication/AuthenticationButton.vue';
+import LogoSponsorr from '@/components/BuildingElements/LogoSponsorr.vue';
 import Spinner from '@/components/BuildingElements/Spinner.vue';
+
+import useAuth from '@/composable/authComposition';
+import useSnackbar from '@/composable/snackbarComposition';
+
+import { requireInputRule, validEmailRule } from '@/common/validation';
 import { authLoading } from '@/composable/store';
-import LogoSponsorr from '../../BuildingElements/LogoSponsorr.vue';
+import { defineComponent, reactive } from '@vue/composition-api';
 
 export default defineComponent({
   name: 'FormLogin',
