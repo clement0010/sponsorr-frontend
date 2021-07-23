@@ -35,3 +35,10 @@ export type UpdateData<T extends object> = Partial<
     sponsorStatus: MatchStatus
     messages: Messages;
   }
+
+  export interface WebhookQueryStringParams {
+    emailAddress: string;
+    id: string;
+    hash: string;
+  }
+  

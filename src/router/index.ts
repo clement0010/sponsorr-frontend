@@ -93,6 +93,11 @@ const routes: Array<RouteConfig> = [
     beforeEnter: authGuard,
   },
   {
+    path: '/confirmation',
+    name: 'Confirmation',
+    component: () => import(/* webpackChunkName: "confirmation" */ '@/views/Confirmation.vue'),
+  },
+  {
     path: '/playground',
     name: 'Playground',
     component: () => import(/* webpackChunkName: "playground" */ '@/views/Confirmation.vue'),
