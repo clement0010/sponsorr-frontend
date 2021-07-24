@@ -7,7 +7,7 @@
 
 <script lang="ts">
 import VerificationModal from '@/components/Verification/VerificationModal.vue';
-import { emailVerified } from '@/composable/store';
+import { authenticated, emailVerified } from '@/composable/store';
 
 import { computed, defineComponent } from '@vue/composition-api';
 
@@ -26,7 +26,7 @@ export default defineComponent({
     const displayCondition = computed(() => {
       if (deactivatedRoutes.value) return false;
 
-      return !emailVerified.value;
+      return authenticated.value && !emailVerified.value;
     });
 
     return {
