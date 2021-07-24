@@ -56,9 +56,7 @@ export default defineComponent({
   props: {
     status: {
       type: String,
-      default: () => {
-        'draft';
-      },
+      default: 'draft',
     },
   },
   setup(_, { emit }) {
