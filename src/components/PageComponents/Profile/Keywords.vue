@@ -6,7 +6,13 @@
     </v-card-title>
     <v-card-text>
       <v-chip-group column>
-        <v-chip v-for="(keyword, index) in keywords" :key="index" disabled>
+        <v-chip
+          v-for="(keyword, index) in keywords"
+          :key="index"
+          color="white"
+          text-color="black"
+          :ripple="false"
+        >
           {{ keyword }}
         </v-chip>
       </v-chip-group>
