@@ -15,12 +15,15 @@
             <td>
               {{ item.sponsor }}
             </td>
-            <td>
-              <v-badge dot :color="statusColor(item.status)" left :offset-y="11" :offset-x="-10">
+            <td class="text-left status">
+              <span>
+                <v-badge dot :color="statusColor(item.status)" :offset-y="-0.5" left class="mx-2" />
                 {{ `${item.status.charAt(0).toUpperCase()}${item.status.slice(1)}` }}
-              </v-badge>
+              </span>
             </td>
-            <td><MatchActionMenu :match="item" /></td>
+            <td>
+              <MatchActionMenu :match="item" />
+            </td>
           </tr>
         </tbody>
       </template>
@@ -105,3 +108,10 @@ export default defineComponent({
   },
 });
 </script>
+
+<style scoped>
+.status {
+  width: 1%;
+  white-space: nowrap;
+}
+</style>
