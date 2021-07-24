@@ -1,5 +1,5 @@
 <template>
-  <v-app-bar class="primary" flat app hide-on-scroll clipped-left>
+  <v-app-bar class="primary" flat app absolute>
     <v-container fill-height class="py-0">
       <v-row align="center" justify="center" class="py-0">
         <v-col cols="auto" class="py-0">
