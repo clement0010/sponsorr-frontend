@@ -101,7 +101,12 @@ import Spinner from '@/components/BuildingElements/Spinner.vue';
 import useAuth from '@/composable/authComposition';
 import useSnackBar from '@/composable/snackbarComposition';
 
-import { requireInputRule, validEmailRule, passwordLengthRule } from '@/common/validation';
+import {
+  requireInputRule,
+  validEmailRule,
+  passwordLengthRule,
+  numericsOnlyRule,
+} from '@/common/validation';
 import { Sponsor } from '@/types';
 import { authLoading } from '@/composable/store';
 import { defineComponent, reactive } from '@vue/composition-api';
@@ -185,6 +190,7 @@ export default defineComponent({
       validEmailRule,
       validatePassword,
       passwordLengthRule,
+      numericsOnlyRule,
 
       // Sign up
       loading: authLoading,
