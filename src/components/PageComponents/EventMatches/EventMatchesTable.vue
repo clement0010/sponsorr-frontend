@@ -6,16 +6,29 @@
       :loading="loading"
       class="elevation-5 rounded-lg"
     >
-      <template #no-data>
-        No matched events yet
-      </template>
-
-      <template #[`item.actions`]="{ item }">
-        <MatchActionMenu :match="item" />
+      <template #body="{ items }">
+        <tbody>
+          <tr v-for="item in items" :key="item.title" class="item-row text-center">
+            <td>
+              {{ item.title }}
+            </td>
+            <td>
+              {{ item.sponsor }}
+            </td>
+            <td>
+              {{ `${item.status.charAt(0).toUpperCase()}${item.status.slice(1)}` }}
+            </td>
+            <td><MatchActionMenu :match="item" /></td>
+          </tr>
+        </tbody>
       </template>
 
       <template #loading>
         Loading...
+      </template>
+
+      <template #no-data>
+        No matched events yet
       </template>
     </v-data-table>
   </v-container>
@@ -41,14 +54,19 @@ export default defineComponent({
       {
         text: 'Event',
         value: 'title',
+        sortable: false,
+        align: 'center',
       },
       {
         text: 'Sponsor',
         value: 'sponsor',
+        sortable: false,
+        align: 'center',
       },
       {
         text: 'Status',
         value: 'status',
+        align: 'center',
       },
       {
         text: 'Actions',
