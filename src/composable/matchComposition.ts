@@ -4,8 +4,10 @@ import {
   updateUserMatchStatusFromDb,
   getAllMatchedEventFromDb,
   getMatchesByEventId,
+  getMatchesByOrganiserId,
   parseUserEventId,
   updateMatchedEventStatusFromDb,
+  sponsorGetMatchOffer,
 } from '@/common';
 import { pendingCategory, rejectedCategory, acceptedCategory } from '@/common/matchesConfig';
 import { Match, MatchCategory, Matches, MatchStatus, Role, SponsorEvent } from '@/types';
@@ -20,20 +22,17 @@ export default function useMatch() {
   const loading = ref(true);
   const error = ref(false);
 
-  const matches = ref<Matches>();
+  const matches = ref<Matches>([]);
 
   const matchCategories = ref<MatchCategory[]>([
     pendingCategory,
-    rejectedCategory,
     acceptedCategory,
+    rejectedCategory,
   ]);
 
   const initialise = async (): Promise<void> => {
     try {
       loading.value = true;
-      // uid is sponsor id
-      console.log(uid);
-
       if (!role.value) return;
 
       pendingCategory.contents = await getAllMatchedEventFromDb(
@@ -73,11 +72,60 @@ export default function useMatch() {
     }
   };
 
+  // For refetch only
+  const fetchMatchesByStatus = async (status: MatchStatus) => {
+    try {
+      loading.value = true;
+      matchCategories.value.forEach(async (category) => {
+        if (category.name === status) {
+          const categoryRef = category;
+          categoryRef.contents = await getAllMatchedEventFromDb(uid.value, role.value, status);
+        }
+      });
+    } catch (err) {
+      console.error(err);
+      throw new Error(err);
+    } finally {
+      loading.value = false;
+    }
+  };
+
   const fetchMatchesByEventId = async (eventId: string, userEvent: SponsorEvent | undefined) => {
     try {
       error.value = false;
       loading.value = true;
       const eventMatches = await getMatchesByEventId(eventId, userEvent);
+      matches.value = eventMatches;
+    } catch (err) {
+      error.value = true;
+    } finally {
+      loading.value = false;
+    }
+  };
+
+  const fetchMatchOffer = async (eventId: string): Promise<void> => {
+    try {
+      error.value = false;
+      loading.value = true;
+      const eventMatches = await sponsorGetMatchOffer(parseUserEventId(uid.value, eventId));
+
+      if (!eventMatches) {
+        return;
+      }
+
+      matches.value = [eventMatches];
+    } catch (err) {
+      error.value = true;
+    } finally {
+      loading.value = false;
+    }
+  };
+
+  const fetchMatchesByOrganiserId = async (organiserId: string) => {
+    try {
+      error.value = false;
+      loading.value = true;
+      const eventMatches = await getMatchesByOrganiserId(organiserId);
       matches.value = eventMatches;
     } catch (err) {
       error.value = true;
@@ -131,7 +179,10 @@ export default function useMatch() {
     initialise,
     fetchMatches,
     fetchMatchesByEventId,
+    fetchMatchesByOrganiserId,
+    fetchMatchesByStatus,
     updateUserMatchStatus,
+    fetchMatchOffer,
 
     loading: computed(() => loading.value),
     error: computed(() => error.value),

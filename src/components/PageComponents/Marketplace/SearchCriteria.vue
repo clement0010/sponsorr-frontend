@@ -1,5 +1,16 @@
 <template>
-  <v-select v-model="input" :items="criteria" solo rounded clearable label="Search events by: " />
+  <v-select
+    v-model="input"
+    :items="criteria"
+    solo
+    rounded
+    outlined
+    dense
+    clearable
+    hide-details
+    flat
+    label="Search events by: "
+  />
 </template>
 
 <script lang="ts">
@@ -9,9 +20,9 @@ export default defineComponent({
   name: 'SearchCriteria',
 
   setup(_, { emit }) {
-    const criteria = computed(() => ['title', 'budget', 'keywords']);
+    const criteria = computed(() => ['Title', 'Budget', 'Keywords']);
 
-    const input = ref('');
+    const input = ref('Title');
 
     watch(input, () => emit('search-criteria', input.value));
 

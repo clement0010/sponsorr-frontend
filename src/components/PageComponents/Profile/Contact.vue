@@ -1,6 +1,6 @@
 <template>
   <v-card color="transparent" flat>
-    <v-card-title class="text-h4 black--text">
+    <v-card-title class="text-sm-h4 black--text">
       Contact
       <EditContact
         v-if="isOwner"
@@ -13,18 +13,30 @@
       <v-list-item>
         <v-icon color="black"> mdi-link </v-icon>
         <v-card-text>
-          <a class="pa-2" :href="'//' + websiteUrl" target="_blank">
+          <a v-if="websiteUrl" class="pa-2" :href="'//' + websiteUrl" target="_blank">
             {{ websiteUrl }}
           </a>
+          <span v-else-if="!isOwner" class="font-italic">
+            Website information not available
+          </span>
+          <span v-else class="font-italic">
+            Add a website link
+          </span>
         </v-card-text>
       </v-list-item>
 
       <v-list-item>
         <v-icon color="black"> mdi-map-marker </v-icon>
         <v-card-text>
-          <a class="pa-2" :href="'//' + location" target="_blank">
+          <a v-if="location" class="pa-2" :href="'//' + location" target="_blank">
             {{ location }}
           </a>
+          <span v-else-if="!isOwner" class="font-italic">
+            Location information not available
+          </span>
+          <span v-else class="font-italic">
+            Add a location link
+          </span>
         </v-card-text>
       </v-list-item>
 

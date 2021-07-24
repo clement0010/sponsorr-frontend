@@ -3,7 +3,7 @@
     <v-card-title class="text-h4">
       Keywords
       <EditEventKeywords
-        v-if="isOwner"
+        v-if="isOwner && status === 'draft'"
         :keywords="keywords"
         @edit-keywords="(payload) => $emit('edit', payload)"
       />
@@ -19,8 +19,9 @@
 </template>
 
 <script lang="ts">
-import { defineComponent } from '@vue/composition-api';
 import EditEventKeywords from '@/components/EventActions/EditEventKeywords.vue';
+
+import { defineComponent } from '@vue/composition-api';
 
 export default defineComponent({
   name: 'EventKeywords',
@@ -44,6 +45,10 @@ export default defineComponent({
     },
     isOwner: {
       type: Boolean,
+      required: true,
+    },
+    status: {
+      type: String,
       required: true,
     },
   },

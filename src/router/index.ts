@@ -27,11 +27,6 @@ const routes: Array<RouteConfig> = [
     beforeEnter: authGuard,
   },
   {
-    path: '/recover-account',
-    name: 'RecoverAccount',
-    component: () => import(/* webpackChunkName: "recoverAccount" */ '@/views/404.vue'),
-  },
-  {
     path: '/profile/:id',
     name: 'Profile',
     component: () => import(/* webpackChunkName: "profile" */ '@/views/Profile.vue'),
@@ -76,6 +71,13 @@ const routes: Array<RouteConfig> = [
     beforeEnter: authGuard,
   },
   {
+    path: '/event-matches',
+    name: 'EventMatches',
+    component: () => import(/* webpackChunkName: "evennt-matches" */ '@/views/EventMatches.vue'),
+    meta: { requiresAuth: true, authorise: [Role.Organiser] },
+    beforeEnter: authGuard,
+  },
+  {
     path: '/event/:id',
     name: 'Event',
     component: () => import(/* webpackChunkName: "event" */ '@/views/Event.vue'),
@@ -91,9 +93,14 @@ const routes: Array<RouteConfig> = [
     beforeEnter: authGuard,
   },
   {
+    path: '/confirmation',
+    name: 'Confirmation',
+    component: () => import(/* webpackChunkName: "confirmation" */ '@/views/Confirmation.vue'),
+  },
+  {
     path: '/playground',
     name: 'Playground',
-    component: () => import(/* webpackChunkName: "playground" */ '@/views/Playground.vue'),
+    component: () => import(/* webpackChunkName: "playground" */ '@/views/Confirmation.vue'),
   },
   {
     path: '*',

@@ -1,65 +1,94 @@
 <template>
   <v-container class="secondary" fluid>
     <v-row justify="center">
-      <v-card class="my-10 pa-5" width="1320" rounded="xl">
+      <v-card class="my-10 pa-5" width="80vw" rounded="lg">
         <EventPicture
           :picture="picture"
           :is-owner="isOwner"
+          :status="status"
           @edit="(payload) => $emit('edit', payload)"
         />
         <EventTitle
           :title="title"
+          :status="status"
           :is-owner="isOwner"
           @edit="(payload) => $emit('edit', payload)"
         />
-        <EventOrganiser :user="name" />
-        <EventDescription
-          :description="description"
+        <EventOrganiser
+          :user="name"
           :is-owner="isOwner"
+          :owner-id="ownerId"
+          :matches="matches"
+          :subscribed="subscribed"
+          :event="event"
           @edit="(payload) => $emit('edit', payload)"
+          @publishEvent="(payload) => $emit('publishEvent', payload)"
         />
-        <EventDetails
-          :venue="venue"
-          :event-size="eventSize"
-          :time-start="timeStart"
-          :time-end="timeEnd"
-          :is-owner="isOwner"
-          @edit="(payload) => $emit('edit', payload)"
-        />
-        <EventKeywords
-          :keywords="keywords"
-          :is-owner="isOwner"
-          @edit="(payload) => $emit('edit', payload)"
-        />
-        <EventDocuments
-          :documents="documents"
-          :is-owner="isOwner"
-          @edit="(payload) => $emit('edit', payload)"
-        />
-        <EventRequests
-          :requests="event.requests"
-          :is-owner="isOwner"
-          @edit="(payload) => $emit('edit', payload)"
-        />
-        <EventMatchesTable v-if="isOwner" :event="event" :event-id="eventId" />
+        <v-tabs v-model="tabs">
+          <v-tab>
+            Details
+          </v-tab>
+          <v-tab v-if="isOwner">
+            Matches
+          </v-tab>
+        </v-tabs>
+        <v-tabs-items v-model="tabs">
+          <v-tab-item :value="0">
+            <EventDescription
+              :description="description"
+              :is-owner="isOwner"
+              :status="status"
+              @edit="(payload) => $emit('edit', payload)"
+            />
+            <EventDetails
+              :venue="venue"
+              :event-size="eventSize"
+              :time-start="timeStart"
+              :time-end="timeEnd"
+              :is-owner="isOwner"
+              :status="status"
+              :budget="budget"
+              @edit="(payload) => $emit('edit', payload)"
+            />
+            <EventKeywords
+              :keywords="keywords"
+              :is-owner="isOwner"
+              :status="status"
+              @edit="(payload) => $emit('edit', payload)"
+            />
+            <EventDocuments
+              :documents="documents"
+              :is-owner="isOwner"
+              :status="status"
+              @edit="(payload) => $emit('edit', payload)"
+            />
+            <EventRequests
+              :requests="event.requests"
+              :is-owner="isOwner"
+              :status="status"
+              @edit="(payload) => $emit('edit', payload)"
+            />
+          </v-tab-item>
+          <v-tab-item v-if="isOwner" :value="1">
+            <EventMatchesTable :event="event" :event-id="eventId" :matches="matches" />
+          </v-tab-item>
+        </v-tabs-items>
+        <v-divider />
         <v-card-text class="text-right">
-          <EventUnpublish
-            v-if="event.pairs < 1 && event.status === 'published' && isOwner"
-            :event="event"
-            @publishEvent="$emit('publishEvent', { status: 'draft', published: false })"
-          />
-          <EventPublish
-            v-if="event.status === 'draft' && isOwner"
-            :event="event"
-            @publishEvent="$emit('publishEvent', { status: 'published', published: true })"
-          />
           <EventDelete
             v-if="event.pairs < 1 && isOwner"
+            :status="status"
             :event-id="eventId"
             :title="event.title"
             @deleteEvent="(payload) => $emit('deleteEvent', payload)"
           />
-          <EventApply v-if="role === 'Sponsor'" :event-id="eventId" />
+          <EventApply
+            v-if="role === 'Sponsor'"
+            :event-id="eventId"
+            :owner-id="ownerId"
+            :disabled="matches.length > 0"
+            @refetch="$emit('refetch')"
+          />
         </v-card-text>
       </v-card>
     </v-row>
@@ -67,10 +96,6 @@
 </template>
 
 <script lang="ts">
-import { computed, defineComponent, toRefs } from '@vue/composition-api';
-import { Role, SponsorEvent } from '@/types';
-import { generateDate } from '@/common/utils';
-
 import EventApply from '@/components/EventActions/EventApply.vue';
 import EventDetails from '@/components/PageComponents/Event/EventDetails.vue';
 import EventDelete from '@/components/EventActions/EventDelete.vue';
@@ -81,9 +106,11 @@ import EventTitle from '@/components/PageComponents/Event/EventTitle.vue';
 import EventMatchesTable from '@/components/PageComponents/Event/EventMatchesTable.vue';
 import EventOrganiser from '@/components/PageComponents/Event/EventOrganiser.vue';
 import EventPicture from '@/components/PageComponents/Event/EventPicture.vue';
-import EventPublish from '@/components/EventActions/EventPublish.vue';
 import EventRequests from '@/components/PageComponents/Event/EventRequests.vue';
-import EventUnpublish from '@/components/EventActions/EventUnpublish.vue';
+
+import { computed, defineComponent, ref, toRefs } from '@vue/composition-api';
+import { Matches, Role, SponsorEvent } from '@/types';
+import { generateDate } from '@/common/utils';
 
 export default defineComponent({
   components: {
@@ -94,8 +121,6 @@ export default defineComponent({
     EventKeywords,
     EventDocuments,
     EventDelete,
-    EventPublish,
-    EventUnpublish,
     EventPicture,
     EventApply,
     EventRequests,
@@ -122,9 +147,15 @@ export default defineComponent({
       type: String,
       default: '',
     },
+    matches: {
+      type: Array as () => Matches,
+      default: () => [],
+    },
   },
   setup(props) {
     const { event } = toRefs(props);
+
+    const tabs = ref(0);
 
     return {
       picture: computed(() => event.value.picture),
@@ -136,8 +167,12 @@ export default defineComponent({
       timeEnd: computed(() => event.value.date.end),
       keywords: computed(() => event.value.keywords),
       documents: computed(() => event.value.documents),
-
+      ownerId: computed(() => event.value.userId),
+      subscribed: computed(() => event.value.subscribed),
+      status: computed(() => event.value.status),
+      budget: computed(() => event.value.budget),
       generateDate,
+      tabs,
     };
   },
 });

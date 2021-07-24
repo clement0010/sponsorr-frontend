@@ -2,7 +2,10 @@
   <div>
     <v-card-title class="text-h4">
       Documents
-      <EditEventDocuments v-if="isOwner" @edit-documents="(payload) => $emit('edit', payload)" />
+      <EditEventDocuments
+        v-if="isOwner && status === 'draft'"
+        @edit-documents="(payload) => $emit('edit', payload)"
+      />
     </v-card-title>
     <v-card-text>
       <span v-if="documents.length === 0">
@@ -12,7 +15,7 @@
         <v-icon>
           mdi-file
         </v-icon>
-        <a :href="document">
+        <a :href="document" target="_blank">
           Link to document
         </a>
       </div>
@@ -21,8 +24,9 @@
 </template>
 
 <script lang="ts">
-import { defineComponent } from '@vue/composition-api';
 import EditEventDocuments from '@/components/EventActions/EditEventDocuments.vue';
+
+import { defineComponent } from '@vue/composition-api';
 
 export default defineComponent({
   name: 'EventDocuments',
@@ -36,6 +40,10 @@ export default defineComponent({
     },
     isOwner: {
       type: Boolean,
+      required: true,
+    },
+    status: {
+      type: String,
       required: true,
     },
   },

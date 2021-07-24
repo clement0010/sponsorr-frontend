@@ -1,26 +1,49 @@
 <template>
-  <v-card flat>
-    <v-card-title v-if="name">
-      {{ name.toUpperCase() }}
-    </v-card-title>
-    <v-card-subtitle>
-      {{ role === 'EventOrganiser' ? 'Event Organiser' : 'Sponsor' }}
-    </v-card-subtitle>
-  </v-card>
+  <v-list-item v-if="mobile">
+    <v-list-item-content>
+      <v-list-item-title>
+        <strong>
+          {{ name.toUpperCase() }}
+        </strong>
+      </v-list-item-title>
+      <v-list-item-subtitle>
+        {{ role }}
+      </v-list-item-subtitle>
+    </v-list-item-content>
+  </v-list-item>
+  <v-list-item v-else>
+    <v-list-item-content>
+      <v-list-item-title>
+        <strong>
+          {{ name.toUpperCase() }}
+        </strong>
+        <v-btn icon class="m-10" @click.stop="$emit('toggleSideBar')">
+          <v-icon>mdi-chevron-left</v-icon>
+        </v-btn>
+      </v-list-item-title>
+      <v-list-item-subtitle>
+        {{ role }}
+      </v-list-item-subtitle>
+    </v-list-item-content>
+  </v-list-item>
 </template>
 
 <script lang="ts">
-import useProfile from '@/composable/profileComposition';
+import { role, userProfile } from '@/composable/store';
 
 import { computed, defineComponent } from '@vue/composition-api';
 
 export default defineComponent({
   name: 'UserStatusCard',
+  props: {
+    mobile: {
+      type: Boolean,
+      default: false,
+    },
+  },
   setup() {
-    const { profile, role } = useProfile();
-
     return {
-      name: computed(() => profile.value?.name),
+      name: computed(() => userProfile.value?.name || ''),
       role,
     };
   },

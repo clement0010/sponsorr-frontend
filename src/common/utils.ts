@@ -1,6 +1,16 @@
 import Fuse from 'fuse.js';
 import dayjs from 'dayjs';
 import customParseFormat from 'dayjs/plugin/customParseFormat';
+import {
+  EventSummary,
+  HelperText,
+  Match,
+  Matches,
+  MatchStatus,
+  MatchSummary,
+  SponsorEvents,
+} from '@/types';
+import { EventAnalytics, MatchGroup } from '@/types/enum';
 
 dayjs.extend(customParseFormat);
 
@@ -79,4 +89,93 @@ export const fuzzySearchArray = <T>(
 ): Fuse.FuseResult<T>[] => {
   const fuse = new Fuse(list, options);
   return fuse.search(inputs);
+};
+
+export const parseMatchStatus = (match: Match): HelperText => {
+  const { sponsorStatus, organiserStatus, status } = match;
+
+  switch (status) {
+    case MatchGroup.Pending:
+      // eslint-disable-next-line no-case-declarations
+      const result = {
+        message: 'Pending',
+        tooltipMessage: '',
+      };
+      if (sponsorStatus === MatchGroup.Pending && organiserStatus === MatchGroup.Pending) {
+        result.tooltipMessage = 'Waiting for organiser and sponsor to respond!';
+      }
+
+      if (sponsorStatus === MatchGroup.Accepted && organiserStatus === MatchGroup.Pending) {
+        result.tooltipMessage = 'Waiting for organiser respond!';
+      }
+
+      if (sponsorStatus === MatchGroup.Pending && organiserStatus === MatchGroup.Accepted) {
+        result.tooltipMessage = 'Waiting for sponsor respond!';
+      }
+
+      return result;
+
+    case MatchGroup.Accepted:
+      return {
+        message: 'Accepted',
+        tooltipMessage: 'All good to go!',
+      };
+
+    case MatchGroup.Rejected:
+      return {
+        message: 'Rejected',
+        tooltipMessage: 'Awww! We hope you find a good match soon!',
+      };
+
+    default:
+      return {
+        message: 'Pending',
+        tooltipMessage: 'Waiting for organiser and sponsor to respond!',
+      };
+  }
+};
+
+export const currencyFormatter = (value: number): string => {
+  const formatter = new Intl.NumberFormat('en-US', {
+    style: 'currency',
+    currency: 'SGD',
+  });
+  return formatter.format(value);
+};
+
+export const getEventAnalyticsData = (events: SponsorEvents, value: EventAnalytics): number => {
+  return events
+    .map((event) => {
+      switch (value) {
+        case EventAnalytics.Click:
+          return event.clicks;
+        case EventAnalytics.Pair:
+          return event.pairs;
+        case EventAnalytics.Match:
+          return event.matches;
+        default:
+          return 0;
+      }
+    })
+    .reduce((accum, curr) => accum + curr);
+};
+
+export const summarizeEvents = (events: SponsorEvents): EventSummary => {
+  return {
+    clicks: getEventAnalyticsData(events, EventAnalytics.Click),
+    pairs: getEventAnalyticsData(events, EventAnalytics.Pair),
+    matches: getEventAnalyticsData(events, EventAnalytics.Match),
+  };
+};
+
+export const getMatchAnalyticData = (matches: Matches, value: MatchStatus): number => {
+  return matches.filter((match) => match.status === value).length;
+};
+
+export const summarizeMatches = (matches: Matches): MatchSummary => {
+  return {
+    accepted: getMatchAnalyticData(matches, MatchGroup.Accepted),
+    rejected: getMatchAnalyticData(matches, MatchGroup.Rejected),
+    pending: getMatchAnalyticData(matches, MatchGroup.Pending),
+  };
 };

@@ -1,20 +1,25 @@
 <template>
-  <v-btn class="success" :small="$route.name !== 'Event'" @click="$emit('publishEvent', event)">
-    Publish
-  </v-btn>
+  <v-tooltip top>
+    <template #activator="{ on }">
+      <v-btn
+        class="success"
+        :small="$route.name !== 'Event'"
+        @click="$emit('publishEvent')"
+        v-on="on"
+      >
+        Publish
+      </v-btn>
+    </template>
+    <span>
+      Publishes the event and disables editing
+    </span>
+  </v-tooltip>
 </template>
 
 <script lang="ts">
-import { SponsorEvent } from '@/types';
 import { defineComponent } from '@vue/composition-api';
 
 export default defineComponent({
   name: 'PublishEventButton',
-  props: {
-    event: {
-      type: Object as () => SponsorEvent,
-      required: true,
-    },
-  },
 });
 </script>

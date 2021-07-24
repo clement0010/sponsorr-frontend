@@ -1,6 +1,6 @@
 <template>
   <v-card>
-    <v-hover :disabled="!isOwner">
+    <v-hover>
       <template #default="{ hover }">
         <v-card class="mx-auto">
           <v-img v-if="picture" :src="picture" height="150" />
@@ -12,8 +12,15 @@
 
           <v-fade-transition>
             <v-overlay v-if="hover" absolute color="#036358">
-              <v-btn icon @click="toggleDialog">
-                <v-icon>mdi-pencil</v-icon>
+              <v-btn v-if="isOwner && status === 'draft'" icon @click="toggleDialog">
+                <v-icon>
+                  mdi-pencil
+                </v-icon>
+              </v-btn>
+              <v-btn icon @click="togglePicture">
+                <v-icon>
+                  mdi-eye
+                </v-icon>
               </v-btn>
             </v-overlay>
           </v-fade-transition>
@@ -26,6 +33,13 @@
       @toggle="toggleDialog"
       @edit-picture="(payload) => $emit('edit', payload)"
     />
+    <v-dialog v-model="open">
+      <v-img v-if="picture" :src="picture" />
+      <v-img
+        v-else
+        src="https://firebasestorage.googleapis.com/v0/b/sponsorr-dev.appspot.com/o/public_assets%2Fimage-placeholder.svg?alt=media&token=076e81e1-858d-4e5f-9937-a7e247baf838"
+      />
+    </v-dialog>
   </v-card>
 </template>
 
@@ -48,17 +62,28 @@ export default defineComponent({
       type: String,
       default: '',
     },
+    status: {
+      type: String,
+      required: true,
+    },
   },
   setup() {
     const dialog = ref(false);
+    const open = ref(false);
 
     const toggleDialog = () => {
       dialog.value = !dialog.value;
     };
 
+    const togglePicture = () => {
+      open.value = !open.value;
+    };
+
     return {
       dialog,
+      open,
       toggleDialog,
+      togglePicture,
     };
   },
 });

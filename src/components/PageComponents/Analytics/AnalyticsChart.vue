@@ -1,69 +1,23 @@
 <template>
-  <v-card :width="500">
-    <BarChart :data="barChartData" :options="options" />
+  <v-card :width="500" class="elevation-5 rounded-lg">
+    <BarChart :data="barChartData" :options="barChartConfig" />
   </v-card>
 </template>
 
 <script lang="ts">
-import useAnalytics from '@/composable/analyticsComposition';
+import useAnalytics, { barChartConfig } from '@/composable/analyticsComposition';
 import { BarChart } from 'vue-chart-3';
-import { computed, defineComponent, ref } from '@vue/composition-api';
+import { defineComponent } from '@vue/composition-api';
 
 export default defineComponent({
   name: 'AnalyticsChart',
   components: { BarChart },
   setup() {
-    const { barData, role } = useAnalytics();
-
-    const barChartData = computed(() =>
-      role.value === 'EventOrganiser'
-        ? {
-            labels: ['Clicks', 'Pairs', 'Matches'],
-            datasets: [
-              {
-                data: barData.value,
-                backgroundColor: ['#77CEFF', '#0079AF', '#123E6B', '#97B0C4', '#A5C8ED'],
-              },
-            ],
-          }
-        : {
-            labels: ['Accepted', 'Pending', 'Rejected'],
-            datasets: [
-              {
-                data: barData.value,
-                backgroundColor: ['#77CEFF', '#0079AF', '#123E6B', '#97B0C4', '#A5C8ED'],
-              },
-            ],
-          },
-    );
-
-    const options = ref({
-      responsive: true,
-      plugins: {
-        legend: {
-          display: false,
-        },
-        title: {
-          display: true,
-          text: role.value === 'EventOrganiser' ? 'Events Summary' : 'Matches Summary',
-          font: {
-            size: 20,
-          },
-        },
-      },
-      scales: {
-        y: {
-          min: 0,
-          ticks: {
-            stepSize: 1,
-          },
-        },
-      },
-    });
+    const { barChartData } = useAnalytics();
 
     return {
       barChartData,
-      options,
+      barChartConfig,
     };
   },
 });

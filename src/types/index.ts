@@ -9,32 +9,7 @@ export interface Contact {
   websiteUrl: string;
 }
 
-export interface User {
-  email: string;
-  name: string;
-  phoneNumber: string;
-  verified: boolean;
-}
-
-export interface Profile extends User {
-  about: string;
-  contact: Contact;
-  keywords: string[];
-  displayPicture: string;
-  role: Role;
-  subscribed: boolean;
-}
-
-export interface EventOrganiser extends Profile {
-  role: Role;
-}
-export interface Sponsor extends Profile {
-  role: Role;
-}
-
-export type EventStatus = 'draft' | 'published' | 'matched';
-
-interface Budget {
+export interface Budget {
   maximum: number;
   minimum: number;
 }
@@ -44,6 +19,38 @@ interface EventDate {
   end: number;
 }
 
+export interface User {
+  email: string;
+  name: string;
+  phoneNumber: string;
+}
+
+export interface Profile extends User {
+  about: string;
+  contact: Contact;
+  keywords: string[];
+  displayPicture: string;
+  role: Role;
+}
+
+export interface EventOrganiser extends Profile {
+  role: Role;
+}
+
+export interface Subscription {
+  budget: Budget;
+  eventSize: number;
+  demographic: string[];
+}
+
+export interface Sponsor extends Profile {
+  role: Role;
+  subscribed: boolean;
+  subscription: Subscription;
+}
+
+export type EventStatus = 'draft' | 'published' | 'matched';
+
 export interface SponsorRequest {
   itemName: string;
   description: string;
@@ -51,7 +58,7 @@ export interface SponsorRequest {
 }
 
 export interface SponsorEvent {
-  budget: Budget;
+  budget: number;
   clicks: number;
   createdAt: number;
   date: EventDate;
@@ -63,7 +70,7 @@ export interface SponsorEvent {
   matches: number;
   pairs: number;
   picture: string;
-  published: boolean;
+  subscribed: boolean;
   status: EventStatus;
   title: string;
   userId: string;
@@ -106,10 +113,11 @@ export type Messages = Message[];
 export interface Match {
   userId: string;
   eventId: string;
+  organiserId: string;
   status: MatchStatus;
   organiserStatus: MatchStatus;
   sponsorStatus: MatchStatus;
-  event: SponsorEvent;
+  event?: SponsorEvent | undefined;
   messages?: Messages;
 }
 
@@ -121,4 +129,21 @@ export interface MatchCategory {
   headers: Header[];
   contents: Match[];
   fallback: string;
+}
+
+export interface HelperText {
+  message: string;
+  tooltipMessage: string;
+}
+
+export interface EventSummary {
+  clicks: number;
+  pairs: number;
+  matches: number;
+}
+
+export interface MatchSummary {
+  accepted: number;
+  pending: number;
+  rejected: number;
 }

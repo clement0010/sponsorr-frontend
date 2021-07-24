@@ -2,12 +2,13 @@ import Vue from 'vue';
 
 import useProfile from '@/composable/profileComposition';
 
-import { authenticated, authLoading, uid, userInfo } from '@/composable/store';
+import { authenticated, authLoading, emailVerified, uid, userInfo } from '@/composable/store';
 import { auth } from '@/common/firebase';
 import { EventOrganiser, Sponsor } from '@/types';
 import { createUserProfileToDb } from '@/common/firestore/profile';
 
 import { ref, computed } from '@vue/composition-api';
+import useSnackbar from './snackbarComposition';
 
 const { fetchUserProfile } = useProfile();
 
@@ -25,6 +26,7 @@ auth.onAuthStateChanged(async (user) => {
     await fetchUserProfile(uid.value);
     console.log('Auth State:', user);
     authenticated.value = true;
+    emailVerified.value = user.emailVerified;
   } catch (err) {
     console.error(err);
   } finally {
@@ -36,6 +38,8 @@ auth.onAuthStateChanged(async (user) => {
 export default function useAuth() {
   const error = ref(false);
 
+  const { success, alert } = useSnackbar();
+
   const signout = async () => {
     auth
       .signOut()
@@ -43,10 +47,12 @@ export default function useAuth() {
         authenticated.value = false;
         uid.value = '';
         userInfo.value = undefined;
+        success('Sign out successfully');
       })
       .catch((err) => {
         console.error(err);
         error.value = true;
+        alert('Error signing out');
       });
   };
 

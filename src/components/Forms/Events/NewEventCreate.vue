@@ -3,10 +3,11 @@
 </template>
 
 <script lang="ts">
+import useEvent from '@/composable/eventComposition';
+
 import { generateUnixTime } from '@/common/utils';
 import { SponsorEvent } from '@/types';
 import { defineComponent, ref } from '@vue/composition-api';
-import useEvent from '@/composable/eventComposition';
 import { uid } from '@/composable/store';
 
 export default defineComponent({
@@ -32,17 +33,13 @@ export default defineComponent({
         documents: data.documents || [],
         keywords: data.keywords,
         venue: data.venue,
-        budget: {
-          maximum: data.budget.maximum,
-          minimum: data.budget.minimum,
-        },
+        budget: data.budget,
         date: {
           start: data.date.start,
           end: data.date.end,
         },
         demographic: data.demographic,
         createdAt: generateUnixTime(),
-        published: true,
         matches: 0,
         clicks: 0,
         pairs: 0,
@@ -51,6 +48,7 @@ export default defineComponent({
         eventSize: data.eventSize,
         userId: uid.value,
         requests: data.requests,
+        subscribed: false,
       };
       console.log(newEvent);
       await createEvent(newEvent);

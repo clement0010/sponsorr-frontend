@@ -1,17 +1,19 @@
 <template>
   <BasePage>
-    <Spinner v-if="loading && !error && !event" />
+    <Spinner v-if="loading && !error && !event && !matches" />
     <EventNotFound v-if="error" />
     <EventLayout
-      v-if="!loading && !error && event"
+      v-if="!loading && !error && event && matches"
       :event="event"
       :is-owner="isOwner"
       :role="role"
       :event-id="eventId"
       :name="name"
+      :matches="matches"
       @deleteEvent="remove"
       @publishEvent="publish"
       @edit="edit"
+      @refetch="refetch"
     />
   </BasePage>
 </template>
@@ -29,6 +31,7 @@ import useVisitProfile from '@/composable/visitProfileComposition';
 
 import { SponsorEvent } from '@/types';
 import { computed, defineComponent, onBeforeMount, onMounted } from '@vue/composition-api';
+import useMatch from '@/composable/matchComposition';
 
 export default defineComponent({
   name: 'Event',
@@ -56,19 +59,28 @@ export default defineComponent({
       loading: profileLoad,
       error: profileError,
     } = useVisitProfile();
+    const {
+      fetchMatchesByEventId,
+      fetchMatchOffer,
+      matches,
+      loading: matchLoad,
+      error: matchError,
+    } = useMatch();
 
     const eventId = root.$route.params.id;
 
     const isOwner = computed(() => event.value?.userId === uid.value);
-    const loading = computed(() => eventLoad.value || profileLoad.value);
-    const error = computed(() => eventError.value || profileError.value);
+    const loading = computed(() => eventLoad.value || profileLoad.value || matchLoad.value);
+    const error = computed(() => eventError.value || profileError.value || matchError.value);
 
     onBeforeMount(async () => {
       await fetchUserEvent(eventId);
-      console.log(event.value?.userId === uid.value);
       if (!isOwner.value) {
         await fetchUserProfile(event.value?.userId || '');
+        await fetchMatchOffer(eventId);
+        return;
       }
+      await fetchMatchesByEventId(eventId, event.value);
     });
 
     const edit = async (payload: Record<string, unknown>) => {
@@ -76,7 +88,7 @@ export default defineComponent({
     };
 
     const publish = async (payload: SponsorEvent) => {
-      await updateEventStatus(eventId, payload.status, payload.published);
+      await updateEventStatus(eventId, payload.status, payload.subscribed);
     };
 
     const remove = async (payload: string) => {
@@ -89,24 +101,19 @@ export default defineComponent({
       }
     };
 
-    if (isOwner.value) {
-      return {
-        event,
-        loading,
-        error,
-        publish,
-        edit,
-        remove,
-        isOwner,
-        role,
-        name: computed(() => profile.value?.name),
-        eventId,
-      };
-    }
+    /**
+     * This is only applicable for sponsor to refetch after applying
+     */
+    const refetch = async () => {
+      await fetchMatchOffer(eventId);
+    };
+
     onMounted(async () => {
-      await editEvent(eventId, {
-        clicks: (event.value?.clicks || 0) + 1,
-      });
+      if (!isOwner.value) {
+        await editEvent(eventId, {
+          clicks: (event.value?.clicks || 0) + 1,
+        });
+      }
     });
 
     return {
@@ -118,8 +125,12 @@ export default defineComponent({
       remove,
       isOwner,
       role,
-      name: computed(() => eventOwnerProfile.value?.name),
+      name: computed(() => {
+        return isOwner.value ? profile.value?.name : eventOwnerProfile.value?.name;
+      }),
+      matches,
       eventId,
+      refetch,
     };
   },
 });

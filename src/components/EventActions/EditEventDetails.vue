@@ -116,6 +116,20 @@
             :rules="[requireInputRule]"
             type="number"
           />
+
+          <v-row>
+            <v-col>
+              <v-text-field
+                v-model.number="input.budget"
+                outlined
+                :min="0"
+                type="number"
+                label="Budget"
+                hint="All currency in Singapore Dollars"
+                :rules="[requireInputRule, nonNegativeIntegerRule, maximumMonetaryValue]"
+              />
+            </v-col>
+          </v-row>
         </v-card-text>
 
         <v-card-text class="text-right">
@@ -131,7 +145,11 @@
 
 <script lang="ts">
 import { computed, defineComponent, ref } from '@vue/composition-api';
-import { requireInputRule } from '@/common/validation';
+import {
+  requireInputRule,
+  nonNegativeIntegerRule,
+  maximumMonetaryValue,
+} from '@/common/validation';
 import { generateDate, generateUnixTime, parseTime } from '@/common/utils';
 
 export default defineComponent({
@@ -161,6 +179,10 @@ export default defineComponent({
       type: Number,
       required: true,
     },
+    budget: {
+      type: Number,
+      required: true,
+    },
   },
   setup(props, { emit }) {
     const dialog = ref(false);
@@ -175,7 +197,8 @@ export default defineComponent({
         input.value.timeStart === props.timeStart &&
         input.value.timeEnd === props.timeEnd &&
         input.value.venue === props.venue &&
-        input.value.eventSize === props.eventSize,
+        input.value.eventSize === props.eventSize &&
+        input.value.budget === props.budget,
     );
     const today = generateDate(undefined, 'YYYY-MM-DD');
     const oneDayEvent = computed(() => input.value.dateStart === input.value.dateEnd);
@@ -214,6 +237,7 @@ export default defineComponent({
           start,
           end,
         },
+        budget: input.value.budget,
       });
     };
 
@@ -224,6 +248,8 @@ export default defineComponent({
 
       // Validation
       requireInputRule,
+      nonNegativeIntegerRule,
+      maximumMonetaryValue,
       duplicate,
       today,
       minTime,

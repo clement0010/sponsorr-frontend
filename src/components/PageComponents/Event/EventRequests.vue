@@ -3,9 +3,12 @@
     <v-card-title class="text-h4">
       Requests
       <v-spacer />
-      <NewRequestCreate v-if="isOwner" @save="(request) => addRequest(request)" />
+      <NewRequestCreate
+        v-if="isOwner && status === 'draft'"
+        @save="(request) => addRequest(request)"
+      />
     </v-card-title>
-    <v-list elevation="2" class="mx-4">
+    <v-list elevation="2" class="mx-4 mb-4">
       <v-list-item v-if="requests.length === 0">
         <v-list-item-title class="font-italic">
           No requests for this event yet.
@@ -20,13 +23,14 @@
           <v-row align="center">
             <v-col>
               <v-list-item-content>
-                <span>
+                <v-list-item-title class="text-wrap">
                   <strong>
                     Item:
                   </strong>
                   {{ request.itemName }}
-                </span>
-                <v-list-item-title>
+                </v-list-item-title>
+
+                <v-list-item-title class="text-wrap">
                   <strong>
                     Description:
                   </strong>
@@ -36,11 +40,11 @@
                   <strong>
                     Value:
                   </strong>
-                  SGD {{ request.valueInSGD }}
+                  {{ currencyFormatter(request.valueInSGD) }}
                 </v-list-item-subtitle>
               </v-list-item-content>
             </v-col>
-            <v-col v-if="isOwner" cols="auto">
+            <v-col v-if="isOwner && status === 'draft'" cols="auto">
               <v-list-item-action>
                 <EditEventRequests
                   :request="request"
@@ -64,6 +68,7 @@
 import EditEventRequests from '@/components/EventActions/EditEventRequests.vue';
 import NewRequestCreate from '@/components/Forms/Requests/NewRequestCreate.vue';
 
+import { currencyFormatter } from '@/common/utils';
 import { SponsorRequest } from '@/types';
 import { defineComponent, toRefs } from '@vue/composition-api';
 
@@ -81,6 +86,10 @@ export default defineComponent({
     requests: {
       type: Array as () => SponsorRequest[],
       default: () => [],
+    },
+    status: {
+      type: String,
+      required: true,
     },
   },
   setup(props, { emit }) {
@@ -117,7 +126,18 @@ export default defineComponent({
       deleteRequest,
       addRequest,
       edit,
+      currencyFormatter,
     };
   },
 });
 </script>
+
+<style scoped>
+.pre-formatted {
+  white-space: pre-line; /* collapse WS, preserve LB */
+}
+
+.v-list-item-title {
+  word-break: normal; /* maybe !important  */
+}
+</style>

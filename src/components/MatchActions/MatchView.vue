@@ -1,7 +1,9 @@
 <template>
   <v-dialog v-model="dialog" width="500">
     <template #activator="{ on, attrs }">
-      <v-btn v-bind="attrs" v-on="on">View Offer</v-btn>
+      <v-btn v-bind="attrs" v-on="on">
+        {{ isOwner ? 'View Offer' : 'View My Offer' }}
+      </v-btn>
     </template>
 
     <v-card>
@@ -35,6 +37,10 @@ export default defineComponent({
     messages: {
       type: Array as () => Messages,
       required: true,
+    },
+    isOwner: {
+      type: Boolean,
+      default: true,
     },
   },
   setup() {

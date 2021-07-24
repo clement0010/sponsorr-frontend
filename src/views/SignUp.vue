@@ -1,7 +1,11 @@
 <template>
   <AuthenticationLayout>
-    <FormSignUpOrganiser v-if="$route.params.role === 'event-organiser'" />
-    <FormSignUpSponsor v-else />
+    <FormSignUpOrganiser
+      v-if="$route.params.role === 'event-organiser'"
+      justify="center"
+      align="center"
+    />
+    <FormSignUpSponsor v-else justify="center" align="center" />
   </AuthenticationLayout>
 </template>
 

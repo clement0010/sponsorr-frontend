@@ -3,7 +3,7 @@
     <v-container class="content">
       <v-row align="center">
         <v-col cols="auto">
-          <v-card-title class="text-h2">
+          <v-card-title class="text-sm-h2 text-h3">
             My Matches
             <MatchesHelp />
           </v-card-title>
@@ -14,6 +14,7 @@
           :match-categories="matchCategories"
           :loading="loading"
           @fetchMatches="(matchCategory) => $emit('fetchMatches', matchCategory)"
+          @refetch="$emit('refetch')"
         />
       </v-row>
     </v-container>

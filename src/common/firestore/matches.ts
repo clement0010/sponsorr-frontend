@@ -50,11 +50,16 @@ export const getAllMatchedEventFromDb = async (
   return matchedEvents;
 };
 
+export const sponsorGetMatchOffer = async (userEventId: string): Promise<Match | undefined> => {
+  const dbMatches = await db.matches.doc(userEventId).get();
+  return dbMatches.data();
+};
+
 export const getMatchesByEventId = async (
-  userEventId: string,
+  eventId: string,
   userEvent: SponsorEvent | undefined,
 ): Promise<Matches> => {
-  const dbMatches = await db.matches.where('eventId', '==', userEventId).get();
+  const dbMatches = await db.matches.where('eventId', '==', eventId).get();
   const matches: Matches = [];
   const filteredMatches = dbMatches?.docs.filter((doc) => doc.exists) || [];
 
@@ -62,7 +67,6 @@ export const getMatchesByEventId = async (
   for (const match of filteredMatches) {
     if (!userEvent) break;
     const normalisedMatch: Match = {
-      event: userEvent,
       ...match.data(),
     };
     const visitProfile = ref<Profile>();
@@ -72,6 +76,29 @@ export const getMatchesByEventId = async (
     matches.push(normalisedMatch);
   }
 
+  return matches;
+};
+
+export const getMatchesByOrganiserId = async (organiserId: string): Promise<Matches> => {
+  const dbMatches = await db.matches.where('organiserId', '==', organiserId).get();
+  const matches: Matches = [];
+  const filteredMatches = dbMatches?.docs.filter((doc) => doc.exists) || [];
+  // eslint-disable-next-line no-restricted-syntax
+  for (const match of filteredMatches) {
+    const sponsorProfile = ref<Profile>();
+    const visitEvent = ref<SponsorEvent>();
+    // eslint-disable-next-line no-await-in-loop
+    sponsorProfile.value = await getUserProfileFromDb(match.data().userId);
+    // eslint-disable-next-line no-await-in-loop
+    visitEvent.value = await getEventFromDb(match.data().eventId);
+    const normalisedMatch: Match = {
+      event: visitEvent.value,
+      ...match.data(),
+    };
+    Object.assign(normalisedMatch, { sponsor: sponsorProfile.value?.name });
+    Object.assign(normalisedMatch, { title: visitEvent.value?.title });
+    matches.push(normalisedMatch);
+  }
   return matches;
 };
 

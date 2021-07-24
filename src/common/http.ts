@@ -1,10 +1,33 @@
 import axios from 'axios';
 
+import { BASE_URL, CONFIRMATION_ENDPOINT } from './config';
+import { WebhookQueryStringParams } from './type';
+
 const client = axios.create({
-  baseURL: process.env.VUE_APP_API_ENDPOINT
-    ? process.env.VUE_APP_API_ENDPOINT
-    : 'http://localhost:3000/todo',
+  baseURL: BASE_URL,
+  headers: {
+    'Content-Type': 'application/json',
+  },
   timeout: 3000,
 });
+
+export const sendConfirmation = async (
+  emailAddress: string,
+  id: string,
+  hash: string,
+): Promise<number> => {
+  const queryStringParams: WebhookQueryStringParams = {
+    emailAddress,
+    id,
+    hash,
+  };
+  try {
+    const response = await client.post(CONFIRMATION_ENDPOINT, JSON.stringify(queryStringParams));
+    return response.status;
+  } catch (error) {
+    console.error(error);
+    throw new Error(error.response.status);
+  }
+};
 
 export default client;

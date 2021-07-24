@@ -22,13 +22,26 @@ export default function useMarketplace() {
   });
 
   const searchEvent = async (input: string, criteria: string): Promise<void> => {
-    if (!input || !criteria) {
+    try {
+      if (!input || !criteria) {
+        filteredEvents.value = events.value;
+        return;
+      }
+
+      if (criteria === 'Budget') {
+        filteredEvents.value = events.value.filter((event) => {
+          return event.budget <= parseFloat(input);
+        });
+        return;
+      }
+      filteredEvents.value = fuzzySearchArray(events.value, input, {
+        keys: [criteria.toLowerCase()],
+        minMatchCharLength: 4,
+      }).map((result) => result.item);
+    } catch (err) {
       filteredEvents.value = events.value;
-      return;
+      throw err;
     }
-    filteredEvents.value = fuzzySearchArray(events.value, input, {
-      keys: [criteria],
-    }).map((result) => result.item);
   };
 
   return {

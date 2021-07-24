@@ -1,7 +1,13 @@
 <template>
   <v-dialog v-model="dialog" max-width="500">
     <template #activator="{ on, attrs }">
-      <v-btn class="error" v-bind="attrs" :small="$route.name !== 'Event'" v-on="on">
+      <v-btn
+        class="error"
+        v-bind="attrs"
+        :small="$route.name !== 'Event'"
+        :disabled="status !== 'draft'"
+        v-on="on"
+      >
         Delete
       </v-btn>
     </template>
@@ -23,7 +29,7 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, ref } from '@vue/composition-api';
+import { defineComponent, ref, toRefs } from '@vue/composition-api';
 
 export default defineComponent({
   name: 'DeleteEventButton',
@@ -36,15 +42,20 @@ export default defineComponent({
       type: String,
       required: true,
     },
+    status: {
+      type: String,
+      required: true,
+    },
   },
   setup(props, { emit }) {
     const dialog = ref(false);
 
-    const { eventId } = props;
+    const { eventId } = toRefs(props);
 
     const deleteEvent = (): void => {
       dialog.value = false;
-      emit('deleteEvent', eventId);
+
+      emit('deleteEvent', eventId.value);
     };
 
     const cancel = () => {

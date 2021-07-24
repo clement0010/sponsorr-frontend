@@ -102,10 +102,12 @@ export default defineComponent({
 
     const edit = async () => {
       dialog.value = false;
+      const locationNoProtocol = input.location.replace(/^https?:\/\//i, '');
+      const urlNoProtocol = input.websiteUrl.replace(/^https?:\/\//i, '');
       await editUserProfile(uid.value, {
         contact: {
-          location: input.location,
-          websiteUrl: input.websiteUrl,
+          location: locationNoProtocol,
+          websiteUrl: urlNoProtocol,
         },
         phoneNumber: input.phoneNumber,
       });

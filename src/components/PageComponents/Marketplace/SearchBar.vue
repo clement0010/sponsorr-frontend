@@ -2,8 +2,11 @@
   <v-autocomplete
     solo
     rounded
-    class="my-3"
+    flat
+    dense
+    outlined
     hide-no-data
+    hide-details
     :search-input.sync="input"
     :loading="loading"
     :items="events"

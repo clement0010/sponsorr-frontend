@@ -3,20 +3,21 @@
     <v-card-title class="text-h4">
       Description
       <EditEventDescription
-        v-if="isOwner"
+        v-if="isOwner && status === 'draft'"
         :description="description"
         @edit-description="(payload) => $emit('edit', payload)"
       />
     </v-card-title>
-    <v-card-text class="text-body-1">
+    <v-card-text class="text-body-1 pre-formatted">
       {{ description }}
     </v-card-text>
   </div>
 </template>
 
 <script lang="ts">
-import { defineComponent } from '@vue/composition-api';
 import EditEventDescription from '@/components/EventActions/EditEventDescription.vue';
+
+import { defineComponent } from '@vue/composition-api';
 
 export default defineComponent({
   name: 'EventDescription',
@@ -38,6 +39,21 @@ export default defineComponent({
       type: Boolean,
       required: true,
     },
+    status: {
+      type: String,
+      required: true,
+    },
   },
 });
 </script>
+
+<style scoped>
+.pre-formatted {
+  white-space: pre-line; /* collapse WS, preserve LB */
+}
+
+.v-card__text,
+.v-card__title {
+  word-break: normal; /* maybe !important  */
+}
+</style>

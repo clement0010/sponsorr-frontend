@@ -8,7 +8,7 @@
         </router-link>
       </v-col>
     </v-row>
-    <v-card class="pa-5">
+    <v-card class="pa-5" width="800">
       <v-card-title> sign up as sponsor </v-card-title>
       <v-form ref="form" v-model="valid">
         <v-text-field
@@ -68,7 +68,6 @@
           @click:append="showConfirmPassword = !showConfirmPassword"
         />
 
-        <v-card-text v-if="error"> There's an issue signing up. </v-card-text>
         <v-row justify="center">
           <v-card-actions>
             <v-btn
@@ -91,25 +90,38 @@
         </v-card-subtitle>
       </v-row>
     </v-card>
+    -->
   </v-container>
 </template>
 
 <script lang="ts">
-import { requireInputRule, validEmailRule, passwordLengthRule } from '@/common/validation';
-import { defineComponent, reactive } from '@vue/composition-api';
-import useAuth from '@/composable/authComposition';
-import { Sponsor } from '@/types';
+import LogoSponsorr from '@/components/BuildingElements/LogoSponsorr.vue';
 import Spinner from '@/components/BuildingElements/Spinner.vue';
+
+import useAuth from '@/composable/authComposition';
+import useSnackBar from '@/composable/snackbarComposition';
+
+import {
+  requireInputRule,
+  validEmailRule,
+  passwordLengthRule,
+  numericsOnlyRule,
+} from '@/common/validation';
+import { Sponsor } from '@/types';
 import { authLoading } from '@/composable/store';
-import LogoSponsorr from '../../BuildingElements/LogoSponsorr.vue';
+import { defineComponent, reactive } from '@vue/composition-api';
 
 export default defineComponent({
   name: 'FormSignUpSponsor',
-  components: { LogoSponsorr, Spinner },
-  setup(_, { root, emit }) {
+  components: {
+    LogoSponsorr,
+    Spinner,
+  },
+  setup(_, { root }) {
     const logoWidth = 250;
 
-    const { error, signup } = useAuth();
+    const { signup } = useAuth();
+    const { success, alert } = useSnackBar();
 
     const configuration = reactive({
       valid: true,
@@ -144,22 +156,26 @@ export default defineComponent({
         name: user.name,
         email: user.email,
         phoneNumber: user.phoneNumber,
-        verified: false,
         subscribed: false,
+        subscription: {
+          budget: {
+            maximum: 0,
+            minimum: 0,
+          },
+          eventSize: 0,
+          demographic: [],
+        },
       };
       try {
         const uid: string = await signup(email, password, userMetadata);
-
-        emit('success', 'Signed up successfully!');
-
         root.$router.push({
           name: 'Profile',
           params: { id: uid },
         });
+        success('Signed up!');
       } catch (err) {
-        emit('alert', 'Signed up failed!');
-
         console.error(err);
+        alert(`Sign up error ${err}`);
       }
     };
 
@@ -174,9 +190,9 @@ export default defineComponent({
       validEmailRule,
       validatePassword,
       passwordLengthRule,
+      numericsOnlyRule,
 
       // Sign up
-      error,
       loading: authLoading,
 
       authenticateUser,

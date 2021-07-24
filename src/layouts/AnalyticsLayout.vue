@@ -2,7 +2,7 @@
   <v-container fluid class="secondary">
     <v-row justify="center">
       <v-card width="1320px" color="transparent" class="my-16" flat>
-        <v-card-title class="text-h2 justify-center">
+        <v-card-title class="text-sm-h2 text-h3 justify-center">
           Analytics
         </v-card-title>
         <v-row justify="center" class="pa-5">

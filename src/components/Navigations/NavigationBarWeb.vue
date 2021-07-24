@@ -1,25 +1,17 @@
 <template>
-  <v-container fluid class="pa-0">
-    <v-app-bar class="primary" flat app hide-on-scroll>
-      <v-container fill-height class="py-0">
-        <v-row align="center" justify="center" class="py-0">
-          <v-col class="py-0" cols="auto">
-            <v-app-bar-nav-icon
-              v-if="authenticated"
-              class="white--text"
-              @click.stop="toggleSideBar"
-            />
-          </v-col>
-          <v-col cols="auto" class="py-0">
-            <v-app-bar-title>
-              <router-link to="/">
-                <LogoSponsorr :width="175" />
-              </router-link>
-            </v-app-bar-title>
-          </v-col>
+  <v-app-bar class="primary" flat app hide-on-scroll clipped-left>
+    <v-container fill-height class="py-0">
+      <v-row align="center" justify="center" class="py-0">
+        <v-col cols="auto" class="py-0">
+          <v-app-bar-title>
+            <router-link to="/">
+              <LogoSponsorr :width="175" />
+            </router-link>
+          </v-app-bar-title>
+        </v-col>
 
-          <v-spacer />
-
+        <v-spacer />
+        <transition name="fade">
           <v-col v-if="!authenticated" cols="auto">
             <router-link :to="{ name: 'Login' }">
               <v-btn class="text-lowercase font-weight-regular white--text" rounded text>
@@ -28,45 +20,34 @@
             </router-link>
             <AuthenticationButton />
           </v-col>
-          <v-col v-else cols="auto">
-            <HelpDialog />
-          </v-col>
-        </v-row>
-      </v-container>
-    </v-app-bar>
-    <NavigationSideBar v-if="!loading && authenticated" :drawer="drawer" />
-  </v-container>
+        </transition>
+        <v-col v-if="authenticated" cols="auto">
+          <UserInitialsAvatar />
+        </v-col>
+      </v-row>
+    </v-container>
+  </v-app-bar>
 </template>
 
 <script lang="ts">
 import AuthenticationButton from '@/components/Authentication/AuthenticationButton.vue';
-import HelpDialog from '@/components/UserAssistance/HelpDialog.vue';
 import LogoSponsorr from '@/components/BuildingElements/LogoSponsorr.vue';
-import NavigationSideBar from '@/components/Navigations/NavigationSideBar.vue';
-import { authenticated, authLoading } from '@/composable/store';
+import UserInitialsAvatar from '@/components/BuildingElements/UserInitialsAvatar.vue';
 
-import { defineComponent, ref } from '@vue/composition-api';
+import { authenticated, authLoading } from '@/composable/store';
+import { defineComponent } from '@vue/composition-api';
 
 export default defineComponent({
   name: 'NavigationBarWeb',
   components: {
     AuthenticationButton,
-    HelpDialog,
     LogoSponsorr,
-    NavigationSideBar,
+    UserInitialsAvatar,
   },
   setup() {
-    const drawer = ref(false);
-
-    const toggleSideBar = () => {
-      drawer.value = !drawer.value;
-    };
-
     return {
       authenticated,
-      drawer,
       loading: authLoading,
-      toggleSideBar,
     };
   },
 });
@@ -79,5 +60,14 @@ export default defineComponent({
 
 .container {
   max-width: 1320px;
+}
+
+.fade-enter-active,
+.fade-leave-active {
+  transition: opacity 1s;
+}
+.fade-enter,
+.fade-leave-to {
+  opacity: 0;
 }
 </style>

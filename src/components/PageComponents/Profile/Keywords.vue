@@ -1,12 +1,18 @@
 <template>
   <v-card color="transparent" flat>
-    <v-card-title class="text-h4 black--text">
+    <v-card-title class="text-sm-h4 black--text">
       Keywords
       <EditKeywords v-if="isOwner" :keywords="keywords" />
     </v-card-title>
     <v-card-text>
       <v-chip-group column>
-        <v-chip v-for="(keyword, index) in keywords" :key="index" disabled>
+        <v-chip
+          v-for="(keyword, index) in keywords"
+          :key="index"
+          color="white"
+          text-color="black"
+          :ripple="false"
+        >
           {{ keyword }}
         </v-chip>
       </v-chip-group>

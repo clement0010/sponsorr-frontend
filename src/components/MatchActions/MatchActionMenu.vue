@@ -16,26 +16,35 @@
         <MatchView :messages="match.messages" />
       </v-list-item>
       <v-list-item v-if="match.organiserStatus === 'pending'">
-        <MatchAccept :match="match" />
+        <MatchAccept :match="match" @accept-match="toggleModal" />
       </v-list-item>
       <v-list-item v-if="match.organiserStatus === 'pending'">
         <MatchReject :match="match" />
       </v-list-item>
     </v-list>
+    <MatchAcceptModal
+      :activate="activateModal"
+      :match-user-id="matchUserId"
+      @toggleModal="toggleModal"
+    />
   </v-menu>
 </template>
 
 <script lang="ts">
 import MatchAccept from '@/components/MatchActions/MatchAccept.vue';
+import MatchAcceptModal from '@/components/MatchActions/MatchAcceptModal.vue';
 import MatchReject from '@/components/MatchActions/MatchReject.vue';
 import MatchView from '@/components/MatchActions/MatchView.vue';
+import useProfile from '@/composable/profileComposition';
+
 import { Match } from '@/types';
-import { defineComponent } from '@vue/composition-api';
+import { computed, defineComponent, ref, toRefs } from '@vue/composition-api';
 
 export default defineComponent({
   name: 'MatchActionMenuEvent',
   components: {
     MatchAccept,
+    MatchAcceptModal,
     MatchReject,
     MatchView,
   },
@@ -44,6 +53,24 @@ export default defineComponent({
       type: Object as () => Match,
       required: true,
     },
+  },
+  setup(props) {
+    const { role } = useProfile();
+    const { match } = toRefs(props);
+
+    const activateModal = ref(false);
+
+    const toggleModal = () => {
+      activateModal.value = !activateModal.value;
+    };
+
+    return {
+      activateModal: computed(() => activateModal.value),
+      toggleModal,
+      matchUserId: computed(() =>
+        role.value === 'Sponsor' ? match.value.organiserId : match.value.userId,
+      ),
+    };
   },
 });
 </script>

@@ -13,6 +13,25 @@
           Loading matches...
         </template>
 
+        <template #[`item.status`]="{ item }">
+          {{ parseMatchStatus(item).message }}
+          <v-tooltip top>
+            <template #activator="{ on, attrs }">
+              <v-btn icon v-bind="attrs" class="zoom" v-on="on">
+                <v-icon v-if="item.status === 'accepted'" color="green" small
+                  >mdi-checkbox-marked-circle-outline</v-icon
+                >
+                <v-icon v-if="item.status === 'pending'" small color="yellow"
+                  >mdi-dots-horizontal-circle-outline</v-icon
+                >
+                <v-icon v-if="item.status === 'rejected'" small color="red"
+                  >mdi-close-circle-outline</v-icon
+                >
+              </v-btn>
+            </template>
+            <span>{{ parseMatchStatus(item).tooltipMessage }}</span>
+          </v-tooltip>
+        </template>
         <template #[`item.actions`]="{ item }">
           <MatchActionMenu :match="item" />
         </template>
@@ -22,11 +41,11 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, onBeforeMount } from '@vue/composition-api';
+import { defineComponent } from '@vue/composition-api';
 
 import MatchActionMenu from '@/components/MatchActions/MatchActionMenu.vue';
-import useMatch from '@/composable/matchComposition';
-import { SponsorEvent } from '@/types';
+import { Matches, SponsorEvent } from '@/types';
+import { parseMatchStatus } from '@/common/utils';
 
 export default defineComponent({
   name: 'EventMatchesTable',
@@ -42,15 +61,20 @@ export default defineComponent({
       type: Object as () => SponsorEvent,
       required: true,
     },
+    matches: {
+      type: Array as () => Matches,
+      required: true,
+    },
+    loading: {
+      type: Boolean,
+      default: false,
+    },
+    error: {
+      type: Boolean,
+      default: false,
+    },
   },
-  setup(props) {
-    const { eventId, event } = props;
-    const { matches, loading, error, fetchMatchesByEventId } = useMatch();
-
-    onBeforeMount(async () => {
-      await fetchMatchesByEventId(eventId, event);
-    });
-
+  setup() {
     const headers = [
       {
         text: 'Sponsor',
@@ -70,10 +94,18 @@ export default defineComponent({
 
     return {
       headers,
-      matches,
-      loading,
-      error,
+      parseMatchStatus,
     };
   },
 });
 </script>
+
+<style scoped>
+.zoom {
+  transition: transform 0.2s; /* Animation */
+}
+
+.zoom:hover {
+  transform: scale(2);
+}
+</style>

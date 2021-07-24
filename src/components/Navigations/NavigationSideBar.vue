@@ -1,11 +1,14 @@
 <template>
-  <v-navigation-drawer :value="drawer" temporary absolute>
-    <UserStatusCard />
-
+  <v-navigation-drawer permanent :mini-variant.sync="mini" app clipped @click="mini = !mini">
+    <UserStatusCard v-if="!mini" @toggleSideBar="mini = !mini" />
+    <v-row v-else justify="center" class="py-2">
+      <v-col cols="auto">
+        <UserInitialsAvatar :disabled="true" @click.stop="mini = !mini" />
+      </v-col>
+    </v-row>
     <v-divider />
-
     <v-list v-if="id" nav>
-      <v-list-item-group v-model="selected" color="primary" mandatory>
+      <v-list-item-group :value="selected" color="primary">
         <router-link :to="{ name: 'Profile', params: { id } }">
           <v-list-item>
             <v-list-item-icon>
@@ -17,6 +20,17 @@
           </v-list-item>
         </router-link>
 
+        <router-link v-if="role === 'Sponsor'" :to="{ name: 'Marketplace' }">
+          <v-list-item>
+            <v-list-item-icon>
+              <v-icon>mdi-shopping</v-icon>
+            </v-list-item-icon>
+            <v-list-item-content>
+              Marketplace
+            </v-list-item-content>
+          </v-list-item>
+        </router-link>
+
         <router-link v-if="role === 'EventOrganiser'" :to="{ name: 'Dashboard' }">
           <v-list-item>
             <v-list-item-icon>
@@ -24,6 +38,17 @@
             </v-list-item-icon>
             <v-list-item-content>
               Dashboard
+            </v-list-item-content>
+          </v-list-item>
+        </router-link>
+
+        <router-link v-if="role === 'EventOrganiser'" :to="{ name: 'EventMatches' }">
+          <v-list-item>
+            <v-list-item-icon>
+              <v-icon>mdi-account-supervisor-circle-outline</v-icon>
+            </v-list-item-icon>
+            <v-list-item-content>
+              Event Matches
             </v-list-item-content>
           </v-list-item>
         </router-link>
@@ -50,17 +75,6 @@
           </v-list-item>
         </router-link>
 
-        <router-link v-if="role === 'Sponsor'" :to="{ name: 'Marketplace' }">
-          <v-list-item>
-            <v-list-item-icon>
-              <v-icon>mdi-shopping</v-icon>
-            </v-list-item-icon>
-            <v-list-item-content>
-              Marketplace
-            </v-list-item-content>
-          </v-list-item>
-        </router-link>
-
         <v-divider />
 
         <v-list>
@@ -74,7 +88,7 @@
               </v-list-item-content>
             </v-list-item>
           </router-link>
-
+          <HelpDialog />
           <v-list-item @click="userSignout">
             <v-list-item-icon>
               <v-icon>mdi-exit-to-app</v-icon>
@@ -90,72 +104,68 @@
 </template>
 
 <script lang="ts">
-import useAuth from '@/composable/authComposition';
-import { ref, defineComponent, onMounted } from '@vue/composition-api';
+import HelpDialog from '@/components/UserAssistance/HelpDialog.vue';
+import UserInitialsAvatar from '@/components/BuildingElements/UserInitialsAvatar.vue';
 import UserStatusCard from '@/components/BuildingElements/UserStatusCard.vue';
+
+import useAuth from '@/composable/authComposition';
 import useProfile from '@/composable/profileComposition';
-import { authenticated, uid } from '@/composable/store';
+
+import { uid } from '@/composable/store';
+import { ref, defineComponent, computed } from '@vue/composition-api';
 
 export default defineComponent({
   name: 'NavigationSideBar',
   components: {
+    HelpDialog,
     UserStatusCard,
-  },
-  props: {
-    drawer: {
-      type: Boolean,
-      default: false,
-    },
+    UserInitialsAvatar,
   },
   setup(_, { root }) {
     const { signout } = useAuth();
     const { clearProfile, role } = useProfile();
 
-    const selected = ref(0);
+    const mini = ref(true);
+    const routeName = computed(() => root.$route.name);
 
-    onMounted(() => {
-      if (!authenticated.value) {
-        return;
-      }
-
+    const selected = computed(() => {
       if (role.value === 'EventOrganiser') {
-        switch (root.$route.name) {
+        switch (routeName.value) {
           case 'Profile':
-            selected.value = 0;
-            break;
+            if (uid.value === root.$route.params.id) {
+              return 0;
+            }
+            return undefined;
           case 'Dashboard':
-            selected.value = 1;
-            break;
+            return 1;
+          case 'EventMatches':
+            return 2;
           case 'Analytics':
-            selected.value = 2;
-            break;
+            return 3;
           default:
-            selected.value = -1;
-            break;
+            return undefined;
         }
       }
       if (role.value === 'Sponsor') {
-        switch (root.$route.name) {
+        switch (routeName.value) {
           case 'Profile':
-            selected.value = 0;
-            break;
-          case 'Matches':
-            selected.value = 1;
-            break;
-          case 'Analytics':
-            selected.value = 2;
-            break;
+            if (uid.value === root.$route.params.id) {
+              return 0;
+            }
+            return undefined;
           case 'Marketplace':
-            selected.value = 3;
-            break;
+            return 1;
+          case 'Matches':
+            return 2;
+          case 'Analytics':
+            return 3;
           case 'Settings':
-            selected.value = 4;
-            break;
+            return 4;
           default:
-            selected.value = -1;
-            break;
+            return undefined;
         }
       }
+      return undefined;
     });
 
     const userSignout = async () => {
@@ -171,6 +181,7 @@ export default defineComponent({
       userSignout,
       role,
       id: uid,
+      mini,
     };
   },
 });

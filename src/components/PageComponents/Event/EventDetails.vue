@@ -3,13 +3,14 @@
     <v-card-title class="text-h4">
       Details
       <EditEventDetails
-        v-if="isOwner"
+        v-if="isOwner && status === 'draft'"
         :date-start="editDateStart"
         :date-end="editDateEnd"
         :time-start="editStart"
         :time-end="editEnd"
         :event-size="eventSize"
         :venue="venue"
+        :budget="budget"
         @edit-event-details="(payload) => $emit('edit', payload)"
       />
     </v-card-title>
@@ -46,13 +47,22 @@
         {{ eventSize }}
       </v-list-item-title>
     </v-list-item>
+    <v-list-item>
+      <v-list-item-title>
+        <strong>
+          Budget:
+        </strong>
+        {{ currencyFormatter(budget) }}
+      </v-list-item-title>
+    </v-list-item>
   </div>
 </template>
 
 <script lang="ts">
-import { computed, defineComponent } from '@vue/composition-api';
-import { generateDate } from '@/common/utils';
 import EditEventDetails from '@/components/EventActions/EditEventDetails.vue';
+
+import { computed, defineComponent } from '@vue/composition-api';
+import { generateDate, currencyFormatter } from '@/common/utils';
 
 export default defineComponent({
   name: 'EventDetails',
@@ -79,6 +89,14 @@ export default defineComponent({
     eventSize: {
       type: Number,
       default: 0,
+    },
+    status: {
+      type: String,
+      required: true,
+    },
+    budget: {
+      type: Number,
+      required: true,
     },
   },
   setup(props) {
@@ -109,6 +127,7 @@ export default defineComponent({
       editDateEnd,
       editStart,
       editEnd,
+      currencyFormatter,
     };
   },
 });

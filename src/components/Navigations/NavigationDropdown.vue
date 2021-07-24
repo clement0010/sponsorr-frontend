@@ -1,6 +1,11 @@
 <template>
   <v-col cols="auto">
-    <v-dialog v-model="dialog" fullscreen transition="slide-x-reverse-transition">
+    <v-dialog
+      v-model="dialog"
+      fullscreen
+      transition="slide-x-reverse-transition"
+      @click="toggleDialog"
+    >
       <template #activator="{ on, attrs }">
         <v-btn icon v-bind="attrs" v-on="on">
           <v-app-bar-nav-icon class="white--text" />
@@ -39,10 +44,10 @@
         </v-list>
 
         <div v-else>
-          <UserStatusCard />
+          <UserStatusCard :mobile="true" />
           <v-divider />
           <v-list nav>
-            <v-list-item-group v-model="selected" color="primary" mandatory>
+            <v-list-item-group :value="selected" color="primary">
               <router-link :to="{ name: 'Profile', params: { id } }">
                 <v-list-item>
                   <v-list-item-icon>
@@ -50,6 +55,17 @@
                   </v-list-item-icon>
                   <v-list-item-content>
                     Profile
+                  </v-list-item-content>
+                </v-list-item>
+              </router-link>
+
+              <router-link v-if="role === 'Sponsor'" :to="{ name: 'Marketplace' }">
+                <v-list-item>
+                  <v-list-item-icon>
+                    <v-icon>mdi-shopping</v-icon>
+                  </v-list-item-icon>
+                  <v-list-item-content>
+                    Marketplace
                   </v-list-item-content>
                 </v-list-item>
               </router-link>
@@ -65,13 +81,13 @@
                 </v-list-item>
               </router-link>
 
-              <router-link :to="{ name: 'Analytics' }">
+              <router-link v-if="role === 'EventOrganiser'" :to="{ name: 'EventMatches' }">
                 <v-list-item>
                   <v-list-item-icon>
-                    <v-icon>mdi-chart-line-variant</v-icon>
+                    <v-icon>mdi-account-supervisor-circle-outline</v-icon>
                   </v-list-item-icon>
                   <v-list-item-content>
-                    Analytics
+                    Event Matches
                   </v-list-item-content>
                 </v-list-item>
               </router-link>
@@ -87,13 +103,13 @@
                 </v-list-item>
               </router-link>
 
-              <router-link v-if="role === 'Sponsor'" :to="{ name: 'Marketplace' }">
+              <router-link :to="{ name: 'Analytics' }">
                 <v-list-item>
                   <v-list-item-icon>
-                    <v-icon>mdi-shopping</v-icon>
+                    <v-icon>mdi-chart-line-variant</v-icon>
                   </v-list-item-icon>
                   <v-list-item-content>
-                    Marketplace
+                    Analytics
                   </v-list-item-content>
                 </v-list-item>
               </router-link>
@@ -111,7 +127,7 @@
                     </v-list-item-content>
                   </v-list-item>
                 </router-link>
-
+                <HelpDialog />
                 <v-list-item @click="userSignout">
                   <v-list-item-icon>
                     <v-icon>mdi-exit-to-app</v-icon>
@@ -120,7 +136,6 @@
                     Sign Out
                   </v-list-item-content>
                 </v-list-item>
-                <HelpDialog :color="'black'" />
               </v-list>
             </v-list-item-group>
           </v-list>
@@ -140,7 +155,7 @@ import useAuth from '@/composable/authComposition';
 import useProfile from '@/composable/profileComposition';
 
 import { authenticated, uid } from '@/composable/store';
-import { defineComponent, onMounted, ref } from '@vue/composition-api';
+import { computed, defineComponent, ref, watch } from '@vue/composition-api';
 
 export default defineComponent({
   name: 'NavigationDropdown',
@@ -154,51 +169,50 @@ export default defineComponent({
     const { signout } = useAuth();
     const { clearProfile, role } = useProfile();
     const dialog = ref(false);
-    const selected = ref(0);
+    const routeName = computed(() => root.$route.name);
 
-    onMounted(() => {
-      if (!authenticated.value) {
-        return;
-      }
+    watch(routeName, () => {
+      dialog.value = false;
+    });
 
+    const selected = computed(() => {
       if (role.value === 'EventOrganiser') {
-        switch (root.$route.name) {
+        switch (routeName.value) {
           case 'Profile':
-            selected.value = 0;
-            break;
+            if (uid.value === root.$route.params.id) {
+              return 0;
+            }
+            return undefined;
           case 'Dashboard':
-            selected.value = 1;
-            break;
+            return 1;
+          case 'EventMatches':
+            return 2;
           case 'Analytics':
-            selected.value = 2;
-            break;
+            return 3;
           default:
-            selected.value = -1;
-            break;
+            return undefined;
         }
       }
       if (role.value === 'Sponsor') {
-        switch (root.$route.name) {
+        switch (routeName.value) {
           case 'Profile':
-            selected.value = 0;
-            break;
-          case 'Matches':
-            selected.value = 1;
-            break;
-          case 'Analytics':
-            selected.value = 2;
-            break;
+            if (uid.value === root.$route.params.id) {
+              return 0;
+            }
+            return undefined;
           case 'Marketplace':
-            selected.value = 3;
-            break;
+            return 1;
+          case 'Matches':
+            return 2;
+          case 'Analytics':
+            return 3;
           case 'Settings':
-            selected.value = 4;
-            break;
+            return 4;
           default:
-            selected.value = -1;
-            break;
+            return undefined;
         }
       }
+      return undefined;
     });
 
     const toggleDialog = () => {

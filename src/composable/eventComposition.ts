@@ -65,16 +65,15 @@ export default function useEvent() {
     }
   };
 
-  const updateEventStatus = async (eventId: string, status: EventStatus, published: boolean) => {
+  const updateEventStatus = async (eventId: string, status: EventStatus, subscribed: boolean) => {
     try {
       if (!event.value) {
         console.log('No event to update');
         return;
       }
       loading.value = true;
-      await updateEventStatusToDb(eventId, status, published);
+      await updateEventStatusToDb(eventId, status, subscribed);
       event.value.status = status;
-      event.value.published = published;
       if (status === 'published') {
         success('Event published');
         return;
@@ -111,10 +110,11 @@ export default function useEvent() {
   const applyEvent = async (
     eventId: string,
     userId: string,
+    organiserId: string,
     messages?: Messages,
   ): Promise<void> => {
     try {
-      await applyEventToDb(eventId, userId, messages);
+      await applyEventToDb(eventId, userId, organiserId, messages);
       success('Application sent!');
     } catch (err) {
       error.value = true;

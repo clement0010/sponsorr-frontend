@@ -5,19 +5,20 @@
       :loading="loading"
       @fetchEvents="fetchMoreEvents"
       @deleteEvent="
-        (payload) => {
-          deleteEvent(payload.eventId, payload.eventStatus);
+        (eventId) => {
+          deleteEvent(eventId);
           $emit('success', 'Event deleted');
         }
       "
       @publishEvent="(payload) => publishEvent(payload, true)"
       @unpublishEvent="(payload) => publishEvent(payload, false)"
+      @refetch="refetch"
     />
   </BasePage>
 </template>
 
 <script lang="ts">
-import { defineComponent } from '@vue/composition-api';
+import { computed, defineComponent } from '@vue/composition-api';
 import useDashboard from '@/composable/dashboardComposition';
 
 import BasePage from '@/layouts/BasePage.vue';
@@ -35,6 +36,7 @@ export default defineComponent({
     const {
       eventCategories,
       fetchEvents,
+      fetchEventsByStatus,
       loading,
       deleteEvent,
       updateEventStatus,
@@ -48,12 +50,19 @@ export default defineComponent({
       await fetchEvents(uid.value, eventCategory);
     };
 
+    const refetch = async () => {
+      await fetchEventsByStatus(uid.value, 'published');
+      await fetchEventsByStatus(uid.value, 'matched');
+      await fetchEventsByStatus(uid.value, 'draft');
+    };
+
     return {
-      eventCategories,
+      eventCategories: computed(() => eventCategories.value),
       fetchMoreEvents,
       loading,
       deleteEvent,
       publishEvent,
+      refetch,
     };
   },
 });

@@ -1,25 +1,48 @@
 <template>
   <v-container fluid class="primary pa-0 pb-15">
-    <NavigationBarWeb v-if="$vuetify.breakpoint.mdAndUp" />
-    <NavigationBarMobile v-else />
+    <transition name="fade"> <VerificationModal v-if="displayCondition" /> </transition>
     <slot />
-    <Footer />
   </v-container>
 </template>
 
 <script lang="ts">
-import { defineComponent } from '@vue/composition-api';
+import VerificationModal from '@/components/Verification/VerificationModal.vue';
+import { authenticated, emailVerified } from '@/composable/store';
 
-import NavigationBarWeb from '@/components/Navigations/NavigationBarWeb.vue';
-import Footer from '@/components/PageComponents/Footer.vue';
-import NavigationBarMobile from '@/components/Navigations/NavigationBarMobile.vue';
+import { computed, defineComponent } from '@vue/composition-api';
 
 export default defineComponent({
   name: 'BasePage',
   components: {
-    NavigationBarWeb,
-    Footer,
-    NavigationBarMobile,
+    VerificationModal,
+  },
+  setup(_, { root }) {
+    const deactivatedRoutes = computed(
+      () =>
+        root.$route.name === 'SignUp' ||
+        root.$route.name === 'Login' ||
+        root.$route.name === 'Confirmation',
+    );
+    const displayCondition = computed(() => {
+      if (deactivatedRoutes.value) return false;
+
+      return authenticated.value && !emailVerified.value;
+    });
+
+    return {
+      displayCondition,
+    };
   },
 });
 </script>
+
+<style scoped>
+.fade-enter-active,
+.fade-leave-active {
+  transition: opacity 1s;
+}
+.fade-enter,
+.fade-leave-to {
+  opacity: 0;
+}
+</style>

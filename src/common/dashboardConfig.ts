@@ -1,35 +1,40 @@
 import { EventCategory } from '@/types';
 import { EventGroup } from '@/types/enum';
 
+const baseHeader = [
+  {
+    text: 'Event Title',
+    value: 'title',
+    sortable: false,
+    align: 'center',
+  },
+  {
+    text: 'Date',
+    value: 'date',
+    sortable: false,
+    align: 'center',
+  },
+  {
+    text: 'Venue',
+    value: 'venue',
+    sortable: false,
+    align: 'center',
+  },
+];
+
 export const publishedCategory: EventCategory = {
   name: EventGroup.Published,
   loaded: false,
   headers: [
+    ...baseHeader,
     {
-      text: 'Event Title',
-      value: 'title',
-    },
-    {
-      text: 'Date',
-      value: 'date',
-    },
-    {
-      text: 'Venue',
-      value: 'venue',
+      text: 'Budget',
+      value: 'budget',
+      align: 'center',
     },
     {
       text: 'Clicks',
       value: 'clicks',
-      align: 'center',
-    },
-    {
-      text: 'Matches',
-      value: 'matches',
-      align: 'center',
-    },
-    {
-      text: 'Pairs',
-      value: 'pairs',
       align: 'center',
     },
     {
@@ -47,18 +52,7 @@ export const draftsCategory: EventCategory = {
   name: EventGroup.Draft,
   loaded: false,
   headers: [
-    {
-      text: 'Event Title',
-      value: 'title',
-    },
-    {
-      text: 'Date',
-      value: 'date',
-    },
-    {
-      text: 'Venue',
-      value: 'venue',
-    },
+    ...baseHeader,
     {
       text: 'Actions',
       value: 'actions',
@@ -74,19 +68,7 @@ export const matchedCategory: EventCategory = {
   name: EventGroup.Matched,
   loaded: false,
   headers: [
-    {
-      text: 'Event Title',
-      value: 'title',
-    },
-    {
-      text: 'Date',
-      value: 'date',
-    },
-    {
-      text: 'Venue',
-      value: 'venue',
-    },
-
+    ...baseHeader,
     {
       text: 'Clicks',
       value: 'clicks',
@@ -95,11 +77,6 @@ export const matchedCategory: EventCategory = {
     {
       text: 'Matches',
       value: 'matches',
-      align: 'center',
-    },
-    {
-      text: 'Pairs',
-      value: 'pairs',
       align: 'center',
     },
     {
