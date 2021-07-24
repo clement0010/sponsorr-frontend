@@ -8,7 +8,7 @@
     >
       <template #body="{ items }">
         <tbody>
-          <tr v-for="item in items" :key="item.title" class="item-row text-center">
+          <tr v-for="(item, index) in items" :key="index" class="item-row text-center">
             <td>
               {{ item.title }}
             </td>
@@ -16,7 +16,9 @@
               {{ item.sponsor }}
             </td>
             <td>
-              {{ `${item.status.charAt(0).toUpperCase()}${item.status.slice(1)}` }}
+              <v-badge dot :color="statusColor(item.status)" left :offset-y="11" :offset-x="-10">
+                {{ `${item.status.charAt(0).toUpperCase()}${item.status.slice(1)}` }}
+              </v-badge>
             </td>
             <td><MatchActionMenu :match="item" /></td>
           </tr>
@@ -40,6 +42,7 @@ import MatchActionMenu from '@/components/MatchActions/MatchActionMenu.vue';
 import useMatch from '@/composable/matchComposition';
 import useAuth from '@/composable/authComposition';
 import { computed, defineComponent, onBeforeMount } from '@vue/composition-api';
+import { MatchStatus } from '@/types';
 
 export default defineComponent({
   name: 'MatchedEventsTable',
@@ -80,10 +83,24 @@ export default defineComponent({
       await fetchMatchesByOrganiserId(uid.value);
     });
 
+    const statusColor = (status: MatchStatus) => {
+      switch (status) {
+        case 'pending':
+          return 'yellow';
+        case 'rejected':
+          return 'red';
+        case 'accepted':
+          return 'green';
+        default:
+          return 'white';
+      }
+    };
+
     return {
       headers,
       matches,
       loading: computed(() => loading.value),
+      statusColor,
     };
   },
 });
