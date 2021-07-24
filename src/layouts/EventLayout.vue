@@ -1,5 +1,5 @@
 <template>
-  <v-container class="secondary" fluid>
+  <v-container class="secondary content" fluid>
     <v-row justify="center">
       <v-card class="my-10 pa-5" width="80vw" rounded="lg">
         <EventPicture
@@ -177,3 +177,9 @@ export default defineComponent({
   },
 });
 </script>
+
+<style scoped>
+.content {
+  min-height: 100vh;
+}
+</style>

@@ -6,7 +6,7 @@
       :loading="loading"
       class="elevation-5 rounded-lg"
     >
-      <template #body="{ items }">
+      <template v-if="$vuetify.breakpoint.mdAndUp" #body="{ items }">
         <tbody>
           <tr v-for="(item, index) in items" :key="index" class="item-row text-center">
             <td>
@@ -26,6 +26,17 @@
             </td>
           </tr>
         </tbody>
+      </template>
+
+      <template #[`item.status`]="{ item }">
+        <span>
+          <v-badge dot :color="statusColor(item.status)" :offset-y="-0.5" left class="mx-2" />
+          {{ `${item.status.charAt(0).toUpperCase()}${item.status.slice(1)}` }}
+        </span>
+      </template>
+
+      <template #[`item.actions`]="{ item }">
+        <MatchActionMenu :match="item" />
       </template>
 
       <template #loading>
