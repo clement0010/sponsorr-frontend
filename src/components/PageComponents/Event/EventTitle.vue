@@ -3,9 +3,8 @@
     <v-card-title class="text-sm-h3 text-h4 text-wrap">
       {{ title }}
       <EditEventTitle
-        v-if="isOwner"
+        v-if="isOwner && status === 'draft'"
         :title="title"
-        :status="status"
         @edit-title="(payload) => $emit('edit', payload)"
       />
     </v-card-title>

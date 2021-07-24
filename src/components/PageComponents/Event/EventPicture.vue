@@ -12,7 +12,7 @@
 
           <v-fade-transition>
             <v-overlay v-if="hover" absolute color="#036358">
-              <v-btn v-if="isOwner" icon :disabled="status !== 'draft'" @click="toggleDialog">
+              <v-btn v-if="isOwner && status === 'draft'" icon @click="toggleDialog">
                 <v-icon>
                   mdi-pencil
                 </v-icon>

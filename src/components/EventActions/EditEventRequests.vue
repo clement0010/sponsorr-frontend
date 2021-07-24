@@ -1,7 +1,7 @@
 <template>
   <v-dialog v-model="dialog" width="500">
     <template #activator="{ on, attrs }">
-      <v-btn icon v-bind="attrs" :disabled="status !== 'draft'" v-on="on">
+      <v-btn icon v-bind="attrs" v-on="on">
         <v-icon>
           mdi-pencil
         </v-icon>
@@ -54,10 +54,6 @@ export default defineComponent({
   props: {
     request: {
       type: Object as () => SponsorRequest,
-      required: true,
-    },
-    status: {
-      type: String,
       required: true,
     },
   },

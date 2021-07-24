@@ -3,9 +3,8 @@
     <v-card-title class="text-h4">
       Keywords
       <EditEventKeywords
-        v-if="isOwner"
+        v-if="isOwner && status === 'draft'"
         :keywords="keywords"
-        :status="status"
         @edit-keywords="(payload) => $emit('edit', payload)"
       />
     </v-card-title>

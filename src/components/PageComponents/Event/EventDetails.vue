@@ -3,14 +3,13 @@
     <v-card-title class="text-h4">
       Details
       <EditEventDetails
-        v-if="isOwner"
+        v-if="isOwner && status === 'draft'"
         :date-start="editDateStart"
         :date-end="editDateEnd"
         :time-start="editStart"
         :time-end="editEnd"
         :event-size="eventSize"
         :venue="venue"
-        :status="status"
         :budget="budget"
         @edit-event-details="(payload) => $emit('edit', payload)"
       />

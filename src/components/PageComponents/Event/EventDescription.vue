@@ -3,9 +3,8 @@
     <v-card-title class="text-h4">
       Description
       <EditEventDescription
-        v-if="isOwner"
+        v-if="isOwner && status === 'draft'"
         :description="description"
-        :status="status"
         @edit-description="(payload) => $emit('edit', payload)"
       />
     </v-card-title>
