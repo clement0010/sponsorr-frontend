@@ -12,6 +12,7 @@ import { sendConfirmation } from '@/common';
 import BasePage from '@/layouts/BasePage.vue';
 import Spinner from '@/components/BuildingElements/Spinner.vue';
 import ConfirmationLayout from '@/layouts/ConfirmationLayout.vue';
+import { emailVerified } from '@/composable/store';
 
 export default defineComponent({
   name: 'Confirmation',
@@ -63,6 +64,7 @@ export default defineComponent({
         if (statusCode !== 200) {
           throw new Error('Verfication failed');
         }
+        emailVerified.value = true;
       } catch (err) {
         console.error(err);
         error.value = true;

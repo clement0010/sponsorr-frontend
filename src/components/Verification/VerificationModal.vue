@@ -1,5 +1,5 @@
 <template>
-  <v-overlay :value="displayCondition">
+  <v-overlay>
     <v-card class="white pa-1" max-width="500">
       <v-card-title class="black--text">
         Email Verification Needed
@@ -21,25 +21,16 @@
 </template>
 
 <script lang="ts">
-import { computed, defineComponent } from '@vue/composition-api';
+import { defineComponent } from '@vue/composition-api';
 import useAuth from '@/composable/authComposition';
 import useProfile from '@/composable/profileComposition';
-import { emailVerified } from '@/composable/store';
 
 export default defineComponent({
   name: 'VerificationModal',
+
   setup(_, { root }) {
     const { signout } = useAuth();
     const { clearProfile } = useProfile();
-
-    const deactivatedRoutes = computed(
-      () => root.$route.name === 'SignUp' || root.$route.name === 'Login',
-    );
-    const displayCondition = computed(() => {
-      if (deactivatedRoutes.value) return false;
-
-      return !emailVerified.value;
-    });
 
     const userSignout = async () => {
       await signout();
@@ -50,7 +41,6 @@ export default defineComponent({
     };
 
     return {
-      displayCondition,
       userSignout,
     };
   },

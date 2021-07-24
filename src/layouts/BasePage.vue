@@ -1,24 +1,36 @@
 <template>
   <v-container fluid class="primary pa-0 pb-15">
-    <transition name="fade"> <VerificationModal v-if="authenticated" /> </transition>
+    <transition name="fade"> <VerificationModal v-if="displayCondition" /> </transition>
     <slot />
   </v-container>
 </template>
 
 <script lang="ts">
 import VerificationModal from '@/components/Verification/VerificationModal.vue';
-import { authenticated } from '@/composable/store';
+import { emailVerified } from '@/composable/store';
 
-import { defineComponent } from '@vue/composition-api';
+import { computed, defineComponent } from '@vue/composition-api';
 
 export default defineComponent({
   name: 'BasePage',
   components: {
     VerificationModal,
   },
-  setup() {
+  setup(_, { root }) {
+    const deactivatedRoutes = computed(
+      () =>
+        root.$route.name === 'SignUp' ||
+        root.$route.name === 'Login' ||
+        root.$route.name === 'Confirmation',
+    );
+    const displayCondition = computed(() => {
+      if (deactivatedRoutes.value) return false;
+
+      return !emailVerified.value;
+    });
+
     return {
-      authenticated,
+      displayCondition,
     };
   },
 });
