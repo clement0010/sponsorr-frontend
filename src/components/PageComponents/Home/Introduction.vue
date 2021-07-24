@@ -13,11 +13,21 @@
           focus on planning the next big thing on your event itenerary.
         </v-card-subtitle>
         <v-spacer />
-        <v-card-subtitle v-scroll-animation>
-          <v-btn text class="accent1 white--text mr-4" @click="$vuetify.goTo('#organiser')">
+        <v-card-subtitle v-scroll-animation class="justify-center">
+          <v-btn
+            text
+            class="accent1 white--text mr-4 my-1"
+            :class="{ mobile: $vuetify.breakpoint.smAndDown }"
+            @click="$vuetify.goTo('#organiser')"
+          >
             For Event Organisers
           </v-btn>
-          <v-btn text class="accent2 white--text" @click="$vuetify.goTo('#sponsor')">
+          <v-btn
+            text
+            class="accent2 white--text my-1"
+            :class="{ mobile: $vuetify.breakpoint.smAndDown }"
+            @click="$vuetify.goTo('#sponsor')"
+          >
             For Sponsors
           </v-btn>
         </v-card-subtitle>
@@ -57,5 +67,9 @@ export default defineComponent({
 .v-card__text,
 .v-card__title {
   word-break: normal; /* maybe !important  */
+}
+
+.mobile {
+  width: 100%;
 }
 </style>
