@@ -1,5 +1,5 @@
 <template>
-  <v-navigation-drawer permanent :mini-variant.sync="mini" app clipped @click="mini = !mini">
+  <v-navigation-drawer permanent :mini-variant.sync="mini" app @click="mini = !mini">
     <UserStatusCard v-if="!mini" @toggleSideBar="mini = !mini" />
     <v-row v-else justify="center" class="py-2">
       <v-col cols="auto">

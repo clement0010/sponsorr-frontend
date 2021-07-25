@@ -49,7 +49,7 @@
           :loading-text="'Loading your events...'"
           :search="search"
         >
-          <template #body="{ items }">
+          <template v-if="$vuetify.breakpoint.mdAndUp" #body="{ items }">
             <tbody is="transition-group" name="list">
               <tr v-for="item in items" :key="item.title" class="item-row text-center">
                 <td>{{ item.title }}</td>
@@ -75,6 +75,26 @@
                 </td>
               </tr>
             </tbody>
+          </template>
+
+          <template v-if="$vuetify.breakpoint.smAndDown" #[`item.actions`]="{ item }">
+            <EventActionMenu
+              :event-category="eventCategory"
+              :event="item"
+              @unpublishEvent="(payload) => $emit('unpublishEvent', payload)"
+              @publishEvent="(payload) => $emit('publishEvent', payload)"
+              @deleteEvent="(payload) => $emit('deleteEvent', payload)"
+            />
+          </template>
+
+          <template v-if="$vuetify.breakpoint.smAndDown" #[`item.date`]="{ item }">
+            {{
+              generateDateRangeFromUnixTimeRange([item.date.start, item.date.end], 'DD MMM YYYY')
+            }}
+          </template>
+
+          <template v-if="$vuetify.breakpoint.smAndDown" #[`item.budget`]="{ item }">
+            {{ currencyFormatter(item.budget) }}
           </template>
 
           <template #no-data>

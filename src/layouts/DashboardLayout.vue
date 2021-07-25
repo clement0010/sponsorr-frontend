@@ -59,6 +59,6 @@ export default defineComponent({
 <style scoped>
 .content {
   max-width: 1320px;
-  min-height: 87vh;
+  min-height: 100vh;
 }
 </style>

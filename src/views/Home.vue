@@ -14,6 +14,7 @@
         <CallToAction />
       </template>
     </HomeLayout>
+    <ScrollTopButton />
   </BasePage>
 </template>
 
@@ -24,6 +25,7 @@ import CallToAction from '@/components/PageComponents/Home/CallToAction.vue';
 import HomeLayout from '@/layouts/HomeLayout.vue';
 import HowItWorks from '@/components/PageComponents/Home/HowItWorks.vue';
 import Introduction from '@/components/PageComponents/Home/Introduction.vue';
+import ScrollTopButton from '@/components/BuildingElements/ScrollTopButton.vue';
 
 import { defineComponent } from '@vue/composition-api';
 
@@ -36,6 +38,7 @@ export default defineComponent({
     HomeLayout,
     Introduction,
     HowItWorks,
+    ScrollTopButton,
   },
 });
 </script>

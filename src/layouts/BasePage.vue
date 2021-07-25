@@ -1,14 +1,16 @@
 <template>
   <v-container fluid class="primary pa-0 pb-15">
-    <transition name="fade"> <VerificationModal v-if="displayCondition" /> </transition>
+    <transition name="fade">
+      <VerificationModal v-if="displayCondition" />
+    </transition>
     <slot />
   </v-container>
 </template>
 
 <script lang="ts">
 import VerificationModal from '@/components/Verification/VerificationModal.vue';
-import { authenticated, emailVerified } from '@/composable/store';
 
+import { authenticated, emailVerified } from '@/composable/store';
 import { computed, defineComponent } from '@vue/composition-api';
 
 export default defineComponent({

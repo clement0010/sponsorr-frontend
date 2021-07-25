@@ -10,6 +10,7 @@
       @search="search"
       @search-criteria="searchCriteria"
     />
+    <ScrollTopButton />
   </BasePage>
 </template>
 
@@ -19,6 +20,7 @@ import { Sponsor, SponsorEventDbItems } from '@/types';
 import useMarketplace from '@/composable/marketplaceComposition';
 import BasePage from '@/layouts/BasePage.vue';
 import MarketplaceLayout from '@/layouts/MarketplaceLayout.vue';
+import ScrollTopButton from '@/components/BuildingElements/ScrollTopButton.vue';
 import Spinner from '@/components/BuildingElements/Spinner.vue';
 import useSnackbar from '@/composable/snackbarComposition';
 
@@ -28,6 +30,7 @@ export default defineComponent({
     BasePage,
     MarketplaceLayout,
     Spinner,
+    ScrollTopButton,
   },
   setup() {
     const {
