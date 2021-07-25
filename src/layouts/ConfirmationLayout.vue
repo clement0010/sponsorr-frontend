@@ -5,18 +5,19 @@
         Welcome to Sponsorr!
       </v-card-title>
       <v-card-title v-if="!error" class="white--text text-h5 fix">
-        Your email has been verified. You will be redirected to Profile Page in {{ timeout }}
+        Uh No! Something went wrong! You will be redirected to Home Page in {{ timeout }}
         {{ timeout > 1 ? 'seconds' : 'second' }}!
         <v-icon color="white" class="mx-2">
           mdi-check-decagram
         </v-icon>
       </v-card-title>
       <v-card-title v-else class="white--text text-h5 fix">
-        Your email has been verified. You will be redirected to Profile Page in {{ timeout }}
-        {{ timeout > 1 ? 'seconds' : 'second' }}!
+        Your email has been verified.
         <v-icon color="white" class="mx-2">
           mdi-check-decagram
         </v-icon>
+        You will be redirected to Profile Page in {{ timeout }}
+        {{ timeout > 1 ? 'seconds' : 'second' }}!
       </v-card-title>
     </template>
     <template #right-content>
