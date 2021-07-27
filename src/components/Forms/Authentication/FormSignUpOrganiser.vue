@@ -89,7 +89,7 @@
           <span><router-link to="/login">login</router-link></span>
           <br />
           <span>Trying Sponsorr! out but want to keep your inbox clean? </span>
-          <span>use <a href="http://temp-mail.org" target="_blank">temp-mail.org</a>! </span>
+          <span>Use <a href="http://temp-mail.org" target="_blank">temp-mail.org</a>! </span>
         </v-card-subtitle>
       </v-row>
     </v-card>
