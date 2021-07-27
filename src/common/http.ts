@@ -8,7 +8,7 @@ const client = axios.create({
   headers: {
     'Content-Type': 'application/json',
   },
-  timeout: 3000,
+  timeout: 5000,
 });
 
 export const sendConfirmation = async (

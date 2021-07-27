@@ -157,7 +157,7 @@ export const getEventAnalyticsData = (events: SponsorEvents, value: EventAnalyti
           return 0;
       }
     })
-    .reduce((accum, curr) => accum + curr);
+    .reduce((accum, curr) => accum + curr, 0);
 };
 
 export const summarizeEvents = (events: SponsorEvents): EventSummary => {
