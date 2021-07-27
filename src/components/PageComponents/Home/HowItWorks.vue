@@ -83,7 +83,11 @@
       </v-card>
     </template>
     <template #right-content>
-      <v-img contain width="500" src="@/assets/team-goals-animate.svg" />
+      <v-img
+        contain
+        width="500"
+        src="https://firebasestorage.googleapis.com/v0/b/sponsorr-dev.appspot.com/o/public_assets%2Fimage-howitworks.svg?alt=media&token=b8873f9d-7b5d-4c3e-b1a8-e066557331d3"
+      />
     </template>
   </HomeFrameLayout>
 </template>
