@@ -4,7 +4,7 @@
       <v-card-title class="white--text text-lg-h2 text-h3 fix font-weight-bold">
         Welcome to Sponsorr!
       </v-card-title>
-      <v-card-title v-if="!error" class="white--text text-h5 fix">
+      <v-card-title v-if="error" class="white--text text-h5 fix">
         Uh No! Something went wrong! You will be redirected to Home Page in {{ timeout }}
         {{ timeout > 1 ? 'seconds' : 'second' }}!
       </v-card-title>
@@ -17,7 +17,7 @@
         {{ timeout > 1 ? 'seconds' : 'second' }}!
       </v-card-title>
     </template>
-    <template v-if="!error" #right-content>
+    <template v-if="error" #right-content>
       <v-img
         src="https://firebasestorage.googleapis.com/v0/b/sponsorr-dev.appspot.com/o/public_assets%2Fimage-verify-failed.svg?alt=media&token=a5119a4b-8ca9-413f-9c7c-0bd0f932adaa"
         contain
