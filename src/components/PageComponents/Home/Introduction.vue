@@ -34,7 +34,11 @@
       </v-card>
     </template>
     <template #right-content>
-      <v-img contain width="500" src="@/assets/international-youth-day-animate.svg" />
+      <v-img
+        contain
+        width="500"
+        src="https://firebasestorage.googleapis.com/v0/b/sponsorr-dev.appspot.com/o/public_assets%2Fimage-introduction.svg?alt=media&token=ae782caf-36c5-4636-876f-d3abf6d9c0e0"
+      />
     </template>
   </HomeFrameLayout>
 </template>

@@ -1,7 +1,11 @@
 <template>
   <HomeFrameLayout id="sponsor">
     <template #left-content>
-      <v-img contain width="500" src="@/assets/business-plan-animate.svg" />
+      <v-img
+        contain
+        width="500"
+        src="https://firebasestorage.googleapis.com/v0/b/sponsorr-dev.appspot.com/o/public_assets%2Fimage-benefits.svg?alt=media&token=6aeca796-9e27-4ffb-94c0-8e2ef2d3ef27"
+      />
     </template>
     <template #right-content>
       <v-card color="transparent" elevation="0">

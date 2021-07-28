@@ -15,7 +15,11 @@
       </v-card>
     </template>
     <template #right-content>
-      <v-img contain width="500" src="@/assets/telework-animate.svg" />
+      <v-img
+        contain
+        width="500"
+        src="https://firebasestorage.googleapis.com/v0/b/sponsorr-dev.appspot.com/o/public_assets%2Fimage-calltoaction.svg?alt=media&token=c802370e-f9e0-4a68-be7a-3e7b536e5223"
+      />
     </template>
   </HomeFrameLayout>
 </template>

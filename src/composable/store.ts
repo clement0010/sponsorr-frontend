@@ -14,7 +14,7 @@ export const authLoading = ref(true);
 export const authenticated = ref(false);
 
 export const uid = ref('');
-export const emailVerified = ref();
+export const emailVerified = ref(true);
 export const userInfo = ref<FirebaseUser>();
 
 // Snackbar
