@@ -5,7 +5,7 @@
         <v-col cols="auto" order="first">
           NUS Orbital 2021
         </v-col>
-        <v-spacer />
+        <v-spacer v-if="$vuetify.breakpoint.lgAndUp" />
         <v-col cols="auto" order="second"> &copy; {{ new Date().getFullYear() }} Sponsorr! </v-col>
         <v-spacer v-if="$vuetify.breakpoint.lgAndUp" />
         <v-col v-if="$route.name === 'Home'" cols="auto" order="third">
@@ -14,9 +14,10 @@
             Storyset
           </a>
         </v-col>
-        <v-spacer v-if="$route.name === 'Home'" />
-        <v-col cols="auto">
-          <v-btn class="mx-4" icon>
+        <v-spacer v-if="$route.name === 'Home' && $vuetify.breakpoint.lgAndUp" />
+        <v-col cols="auto" order="fourth">
+          Bugs? File an issue:
+          <v-btn icon href="https://github.com/clement0010/sponsorr-frontend" target="_blank">
             <v-icon size="30px" color="black">
               mdi-github
             </v-icon>
