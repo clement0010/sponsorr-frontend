@@ -12,6 +12,7 @@ node_modules
 *.xml
 *.conf
 .env
+*.DS_Store
 
 # Files to exclude
 package-lock.json
@@ -27,3 +28,4 @@ storage.rules
 tests/**/**
 favicon.ico
 src/common/type.ts
+cypress/screenshots/All Integration Specs/my-image.png
