@@ -18,6 +18,7 @@
           hint="Required"
           label="email address"
           :rules="[requireInputRule, validEmailRule]"
+          data-cy="login-email-input"
         />
 
         <v-text-field
@@ -30,6 +31,7 @@
           :type="showPassword ? 'text' : 'password'"
           :append-icon="showPassword ? 'mdi-eye' : 'mdi-eye-off'"
           :rules="[requireInputRule]"
+          data-cy="login-password-input"
           @click:append="showPassword = !showPassword"
         />
 
@@ -41,6 +43,7 @@
               type="submit"
               text
               :disabled="!valid"
+              data-cy="login-button"
               @click="authenticateUser"
             >
               Login

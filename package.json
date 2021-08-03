@@ -13,7 +13,7 @@
     "check:style:lint": "lint(){ eslint --ext .js,.ts --max-warnings 0 ${1:-'.'}; }; lint",
     "fix:style:format": "prettier --write './**/*'",
     "fix:style:lint": "fixLint(){ eslint --ext .js,.ts --max-warnings 0 --fix ${1:-'.'}; }; fixLint",
-    "e2e": "cypress open"
+    "e2e": "cypress open --config-file cypress.env.json"
   },
   "dependencies": {
     "@types/chartjs": "^0.0.31",

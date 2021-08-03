@@ -11,10 +11,16 @@
         </v-col>
 
         <v-spacer />
+
         <transition name="fade">
           <v-col v-if="!authenticated" cols="auto">
             <router-link :to="{ name: 'Login' }">
-              <v-btn class="text-lowercase font-weight-regular white--text" rounded text>
+              <v-btn
+                class="text-lowercase font-weight-regular white--text"
+                rounded
+                text
+                data-cy="login-navigate-button"
+              >
                 Login
               </v-btn>
             </router-link>
