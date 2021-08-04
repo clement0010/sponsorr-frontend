@@ -3,7 +3,7 @@
     <Spinner v-if="loading" />
     <v-row justify="center">
       <v-col cols="auto">
-        <router-link to="/">
+        <router-link to="/" data-cy="navigate-home">
           <LogoSponsorr class="ma-10" justify="center" :width="logoWidth" />
         </router-link>
       </v-col>
@@ -17,6 +17,7 @@
           required
           hint="Required"
           label="name of organisation"
+          data-cy="sign-up-name"
           :rules="[requireInputRule]"
         />
 
@@ -26,6 +27,7 @@
           required
           hint="Required"
           label="email address"
+          data-cy="sign-up-email"
           :rules="[requireInputRule, validEmailRule]"
         />
 
@@ -39,6 +41,7 @@
           autocomplete
           :only-countries="['SG']"
           :mode="'international'"
+          data-cy="sign-up-phone"
           :valid-characters-only="true"
           :rules="[requireInputRule, numericsOnlyRule]"
         />
@@ -50,6 +53,7 @@
           required
           hint="Required"
           label="password"
+          data-cy="sign-up-password"
           :type="showPassword ? 'text' : 'password'"
           :append-icon="showPassword ? 'mdi-eye' : 'mdi-eye-off'"
           :rules="[requireInputRule, passwordLengthRule]"
@@ -62,6 +66,7 @@
           required
           hint="Required"
           label="re-type password"
+          data-cy="sign-up-confirm-password"
           :type="showConfirmPassword ? 'text' : 'password'"
           :append-icon="showConfirmPassword ? 'mdi-eye' : 'mdi-eye-off'"
           :rules="[requireInputRule, validatePassword]"
@@ -76,6 +81,7 @@
               type="submit"
               text
               :disabled="!valid"
+              data-cy="sign-up-button"
               @click="authenticateUser"
             >
               Create Account

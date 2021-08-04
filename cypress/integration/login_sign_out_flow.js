@@ -25,12 +25,52 @@ describe('Login-Sign Out Flow', () => {
     });
   });
 
+  it('fails when sign up with an existing email address as organiser', () => {
+    cy.get('[data-cy=sign-up-navigate-button]')
+      .first()
+      .click();
+    cy.get('[data-cy=sign-up-organiser]').click();
+    cy.url().should('include', '/event-organiser/signup');
+    cy.get('[data-cy=sign-up-name]').type('DUMMY');
+    cy.get('[data-cy=sign-up-email]').type(Cypress.env('user1').email);
+    cy.get('[data-cy=sign-up-phone]').type('12345678');
+    cy.get('[data-cy=sign-up-password]').type(Cypress.env('user1').password);
+    cy.get('[data-cy=sign-up-confirm-password]').type(Cypress.env('user1').password);
+    cy.get('[data-cy=sign-up-button]').click();
+    cy.contains(
+      'Sign up failed! Error: The email address is already in use by another account.',
+    ).should('exist');
+    cy.url().should('include', '/event-organiser/signup');
+    cy.get('[data-cy=navigate-home]').click();
+    cy.url().should('include', Cypress.env('host'));
+  });
+
+  it('fails when sign up with an existing email address as sponsor', () => {
+    cy.get('[data-cy=sign-up-navigate-button]')
+      .first()
+      .click();
+    cy.get('[data-cy=sign-up-sponsor]').click();
+    cy.url().should('include', '/sponsor/signup');
+    cy.get('[data-cy=sign-up-name]').type('DUMMY');
+    cy.get('[data-cy=sign-up-email]').type(Cypress.env('user1').email);
+    cy.get('[data-cy=sign-up-phone]').type('12345678');
+    cy.get('[data-cy=sign-up-password]').type(Cypress.env('user1').password);
+    cy.get('[data-cy=sign-up-confirm-password]').type(Cypress.env('user1').password);
+    cy.get('[data-cy=sign-up-button]').click();
+    cy.contains(
+      'Sign up failed! Error: The email address is already in use by another account.',
+    ).should('exist');
+    cy.url().should('include', '/sponsor/signup');
+    cy.get('[data-cy=navigate-home]').click();
+    cy.url().should('include', Cypress.env('host'));
+  });
+
   it('navigates to login page', () => {
     cy.get('[data-cy=login-navigate-button]').click();
     cy.url().should('include', '/login');
   });
 
-  it('login with an invalid account', () => {
+  it('fails when login with an invalid account', () => {
     cy.get('[data-cy=login-email-input]').type('invalidaccount@email.com');
     cy.get('[data-cy=login-password-input]').type('wrongPassword');
     cy.get('[data-cy=login-button]').click();
