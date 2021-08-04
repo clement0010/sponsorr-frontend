@@ -5,8 +5,9 @@
     {
       "host": "http://localhost:8080",
       "user1": {
-      "email": // any registered email ,
-      "password": // the corresponding password"
+        "email": // any registered email ,
+        "password": // the corresponding password
+      }
     }
 3. Start the development server.
 4. Proceed to run the tests.
