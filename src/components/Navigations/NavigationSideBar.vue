@@ -20,7 +20,11 @@
           </v-list-item>
         </router-link>
 
-        <router-link v-if="role === 'Sponsor'" :to="{ name: 'Marketplace' }">
+        <router-link
+          v-if="role === 'Sponsor'"
+          :to="{ name: 'Marketplace' }"
+          data-cy="navigate-marketplace"
+        >
           <v-list-item>
             <v-list-item-icon>
               <v-icon>mdi-shopping</v-icon>

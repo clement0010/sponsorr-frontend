@@ -13,7 +13,7 @@
 4. Proceed to run the tests.
 */
 
-describe('Login-Sign Out Flow', () => {
+describe('Authentication', () => {
   before(() => {
     cy.visit(Cypress.env('host'));
     // Ignore the null error
@@ -84,7 +84,27 @@ describe('Login-Sign Out Flow', () => {
     cy.get('[data-cy=login-button]').click();
     cy.url().should('match', /(?:profile\/)(?:.*)/);
   });
+});
 
+describe('Marketplace', () => {
+  it('navigates to marketplace', () => {
+    cy.get('[data-cy=navigate-marketplace]').click();
+    cy.url().should('include', '/marketplace');
+  });
+
+  it('queries an event', () => {
+    cy.get('[data-cy=search-input]').type('Rust');
+  });
+
+  it('visits an event', () => {
+    cy.get('[data-cy=event-view-button]')
+      .first()
+      .click();
+    cy.url().should('match', /(?:event\/)(?:.*)/);
+  });
+});
+
+describe('Sign out', () => {
   it('signs out to the home page', () => {
     cy.get('[data-cy=logout-button]').click();
     cy.url().should('include', Cypress.env('host'));

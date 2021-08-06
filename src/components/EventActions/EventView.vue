@@ -1,5 +1,5 @@
 <template>
-  <router-link :to="{ name: 'Event', params: { id: eventId } }">
+  <router-link :to="{ name: 'Event', params: { id: eventId } }" data-cy="event-view-button">
     <v-btn :small="small" :text="text" :class="classes">
       View
     </v-btn>
