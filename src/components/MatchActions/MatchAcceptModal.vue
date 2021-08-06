@@ -1,6 +1,6 @@
 <template>
   <v-dialog :value="activate" width="500">
-    <v-card class="text-center">
+    <v-card class="text-center" data-cy="modal-accept-match">
       <v-card-title class="justify-center">
         Match Accepted!
       </v-card-title>
@@ -8,10 +8,13 @@
         Connect with your match 👇
       </v-card-text>
       <v-card-actions class="justify-center">
-        <v-btn text rounded color="error" @click="close">
+        <v-btn text rounded color="error" data-cy="modal-accept-match-close-button" @click="close">
           Close
         </v-btn>
-        <router-link :to="{ name: 'Profile', params: { id: matchUserId } }">
+        <router-link
+          :to="{ name: 'Profile', params: { id: matchUserId } }"
+          data-cy="modal-accept-match-visit-button"
+        >
           <v-btn text rounded>
             View Your Match
           </v-btn>

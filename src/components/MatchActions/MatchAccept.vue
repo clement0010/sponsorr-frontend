@@ -1,6 +1,6 @@
 <template>
   <div>
-    <v-btn class="success" @click="accept">
+    <v-btn class="success" data-cy="match-accept-button" @click="accept">
       Accept
     </v-btn>
   </div>

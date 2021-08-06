@@ -17,8 +17,7 @@ describe('Authentication', () => {
   before(() => {
     cy.visit(Cypress.env('host'));
     // Ignore the null error
-    // eslint-disable-next-line @typescript-eslint/no-unused-vars
-    cy.on('uncaught:exception', (err, runnable) => {
+    cy.on('uncaught:exception', (err) => {
       if (err.message.includes(`Cannot read property 'classList' of null`)) {
         return false;
       }
@@ -90,8 +89,7 @@ describe('Auth guard login', () => {
   it('does not allow routing to login', () => {
     cy.visit(`${Cypress.env('host')}login`);
     // Ignore the null error
-    // eslint-disable-next-line @typescript-eslint/no-unused-vars
-    cy.on('uncaught:exception', (err, runnable) => {
+    cy.on('uncaught:exception', (err) => {
       if (err.message.includes(`Cannot read property 'classList' of null`)) {
         return false;
       }
@@ -102,8 +100,7 @@ describe('Auth guard login', () => {
   it('does not allow routing to sign up', () => {
     cy.visit(`${Cypress.env('host')}event-organiser/signup`);
     // Ignore the null error
-    // eslint-disable-next-line @typescript-eslint/no-unused-vars
-    cy.on('uncaught:exception', (err, runnable) => {
+    cy.on('uncaught:exception', (err) => {
       if (err.message.includes(`Cannot read property 'classList' of null`)) {
         return false;
       }
@@ -111,8 +108,7 @@ describe('Auth guard login', () => {
     cy.url().should('include', '/profile');
     cy.visit(`${Cypress.env('host')}sponsor/signup`);
     // Ignore the null error
-    // eslint-disable-next-line @typescript-eslint/no-unused-vars
-    cy.on('uncaught:exception', (err, runnable) => {
+    cy.on('uncaught:exception', (err) => {
       if (err.message.includes(`Cannot read property 'classList' of null`)) {
         return false;
       }
@@ -125,8 +121,7 @@ describe('Role guard', () => {
   it('does not allow routing to dashboard', () => {
     cy.visit(`${Cypress.env('host')}dashboard`);
     // Ignore the null error
-    // eslint-disable-next-line @typescript-eslint/no-unused-vars
-    cy.on('uncaught:exception', (err, runnable) => {
+    cy.on('uncaught:exception', (err) => {
       if (err.message.includes(`Cannot read property 'classList' of null`)) {
         return false;
       }
@@ -137,8 +132,7 @@ describe('Role guard', () => {
   it('does not allow routing to new event', () => {
     cy.visit(`${Cypress.env('host')}new-event`);
     // Ignore the null error
-    // eslint-disable-next-line @typescript-eslint/no-unused-vars
-    cy.on('uncaught:exception', (err, runnable) => {
+    cy.on('uncaught:exception', (err) => {
       if (err.message.includes(`Cannot read property 'classList' of null`)) {
         return false;
       }
@@ -149,8 +143,7 @@ describe('Role guard', () => {
   it('does not allow routing to event matches', () => {
     cy.visit(`${Cypress.env('host')}event-matches`);
     // Ignore the null error
-    // eslint-disable-next-line @typescript-eslint/no-unused-vars
-    cy.on('uncaught:exception', (err, runnable) => {
+    cy.on('uncaught:exception', (err) => {
       if (err.message.includes(`Cannot read property 'classList' of null`)) {
         return false;
       }
@@ -161,8 +154,7 @@ describe('Role guard', () => {
   it('allows routing to marketplace', () => {
     cy.visit(`${Cypress.env('host')}marketplace`);
     // Ignore the null error
-    // eslint-disable-next-line @typescript-eslint/no-unused-vars
-    cy.on('uncaught:exception', (err, runnable) => {
+    cy.on('uncaught:exception', (err) => {
       if (err.message.includes(`Cannot read property 'classList' of null`)) {
         return false;
       }
@@ -173,8 +165,7 @@ describe('Role guard', () => {
   it('allows routing to matches', () => {
     cy.visit(`${Cypress.env('host')}matches`);
     // Ignore the null error
-    // eslint-disable-next-line @typescript-eslint/no-unused-vars
-    cy.on('uncaught:exception', (err, runnable) => {
+    cy.on('uncaught:exception', (err) => {
       if (err.message.includes(`Cannot read property 'classList' of null`)) {
         return false;
       }
@@ -185,8 +176,7 @@ describe('Role guard', () => {
   it('allows routing to settings', () => {
     cy.visit(`${Cypress.env('host')}settings`);
     // Ignore the null error
-    // eslint-disable-next-line @typescript-eslint/no-unused-vars
-    cy.on('uncaught:exception', (err, runnable) => {
+    cy.on('uncaught:exception', (err) => {
       if (err.message.includes(`Cannot read property 'classList' of null`)) {
         return false;
       }
@@ -213,6 +203,39 @@ describe('Marketplace', () => {
   });
 });
 
+describe('Event matches', () => {
+  it('navigates to my matches', () => {
+    cy.get('[data-cy=navigate-my-matches]').click();
+    cy.url().should('eq', `${Cypress.env('host')}matches`);
+  });
+
+  it('can accept a match', () => {
+    cy.get('[data-cy=match-action-menu-activator]')
+      .first()
+      .click();
+    cy.get('[data-cy=match-accept-button]').click();
+  });
+
+  it('shows a modal', () => {
+    cy.get('[data-cy=modal-accept-match]').should('be.visible');
+    // cy.get('[data-cy=modal-accept-match-close-button]').click();
+  });
+
+  it('can view a match', () => {
+    cy.get('[data-cy=modal-accept-match-visit-button]').click();
+    cy.url().should('include', '/profile');
+    cy.get('[data-cy=navigate-my-matches]').click();
+    cy.url().should('eq', `${Cypress.env('host')}matches`);
+  });
+
+  it('can reject a match', () => {
+    cy.get('[data-cy=match-action-menu-activator]')
+      .first()
+      .click();
+    cy.get('[data-cy=match-reject-button]').click();
+  });
+});
+
 describe('Sign out', () => {
   it('signs out to the home page', () => {
     cy.get('[data-cy=logout-button]').click();
@@ -224,8 +247,7 @@ describe('Auth guard sign out', () => {
   it('does not allow routing to dashboard', () => {
     cy.visit(`${Cypress.env('host')}dashboard`);
     // Ignore the null error
-    // eslint-disable-next-line @typescript-eslint/no-unused-vars
-    cy.on('uncaught:exception', (err, runnable) => {
+    cy.on('uncaught:exception', (err) => {
       if (err.message.includes(`Cannot read property 'classList' of null`)) {
         return false;
       }
@@ -236,8 +258,7 @@ describe('Auth guard sign out', () => {
   it('does not allow routing to new event', () => {
     cy.visit(`${Cypress.env('host')}new-event`);
     // Ignore the null error
-    // eslint-disable-next-line @typescript-eslint/no-unused-vars
-    cy.on('uncaught:exception', (err, runnable) => {
+    cy.on('uncaught:exception', (err) => {
       if (err.message.includes(`Cannot read property 'classList' of null`)) {
         return false;
       }
@@ -248,8 +269,7 @@ describe('Auth guard sign out', () => {
   it('does not allow routing to event matches', () => {
     cy.visit(`${Cypress.env('host')}event-matches`);
     // Ignore the null error
-    // eslint-disable-next-line @typescript-eslint/no-unused-vars
-    cy.on('uncaught:exception', (err, runnable) => {
+    cy.on('uncaught:exception', (err) => {
       if (err.message.includes(`Cannot read property 'classList' of null`)) {
         return false;
       }
@@ -260,8 +280,7 @@ describe('Auth guard sign out', () => {
   it('deos not allow routing to marketplace', () => {
     cy.visit(`${Cypress.env('host')}marketplace`);
     // Ignore the null error
-    // eslint-disable-next-line @typescript-eslint/no-unused-vars
-    cy.on('uncaught:exception', (err, runnable) => {
+    cy.on('uncaught:exception', (err) => {
       if (err.message.includes(`Cannot read property 'classList' of null`)) {
         return false;
       }
@@ -272,8 +291,7 @@ describe('Auth guard sign out', () => {
   it('does not allow routing to matches', () => {
     cy.visit(`${Cypress.env('host')}matches`);
     // Ignore the null error
-    // eslint-disable-next-line @typescript-eslint/no-unused-vars
-    cy.on('uncaught:exception', (err, runnable) => {
+    cy.on('uncaught:exception', (err) => {
       if (err.message.includes(`Cannot read property 'classList' of null`)) {
         return false;
       }
@@ -284,8 +302,7 @@ describe('Auth guard sign out', () => {
   it('does not allow routing to settings', () => {
     cy.visit(`${Cypress.env('host')}settings`);
     // Ignore the null error
-    // eslint-disable-next-line @typescript-eslint/no-unused-vars
-    cy.on('uncaught:exception', (err, runnable) => {
+    cy.on('uncaught:exception', (err) => {
       if (err.message.includes(`Cannot read property 'classList' of null`)) {
         return false;
       }
@@ -296,8 +313,7 @@ describe('Auth guard sign out', () => {
   it('does not allow routing to events', () => {
     cy.visit(`${Cypress.env('host')}event/example`);
     // Ignore the null error
-    // eslint-disable-next-line @typescript-eslint/no-unused-vars
-    cy.on('uncaught:exception', (err, runnable) => {
+    cy.on('uncaught:exception', (err) => {
       if (err.message.includes(`Cannot read property 'classList' of null`)) {
         return false;
       }
@@ -308,8 +324,7 @@ describe('Auth guard sign out', () => {
   it('does not allow routing to analytics', () => {
     cy.visit(`${Cypress.env('host')}analytics`);
     // Ignore the null error
-    // eslint-disable-next-line @typescript-eslint/no-unused-vars
-    cy.on('uncaught:exception', (err, runnable) => {
+    cy.on('uncaught:exception', (err) => {
       if (err.message.includes(`Cannot read property 'classList' of null`)) {
         return false;
       }
@@ -320,8 +335,7 @@ describe('Auth guard sign out', () => {
   it('does not allow routing to profile', () => {
     cy.visit(`${Cypress.env('host')}profile/sponsor1`);
     // Ignore the null error
-    // eslint-disable-next-line @typescript-eslint/no-unused-vars
-    cy.on('uncaught:exception', (err, runnable) => {
+    cy.on('uncaught:exception', (err) => {
       if (err.message.includes(`Cannot read property 'classList' of null`)) {
         return false;
       }
