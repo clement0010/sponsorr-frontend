@@ -3,7 +3,7 @@
 1. Create a cypress.env.json file at the root of the project folder.    
 2. Structure the json in this format:
     {
-      "host": "http://localhost:8080",
+      "host": "http://localhost:8080/",
       "user1": {
         "email": // any registered email ,
         "password": // the corresponding password
@@ -83,6 +83,80 @@ describe('Authentication', () => {
     cy.get('[data-cy=login-password-input]').type(Cypress.env('user1').password);
     cy.get('[data-cy=login-button]').click();
     cy.url().should('match', /(?:profile\/)(?:.*)/);
+  });
+});
+
+describe('Role guard', () => {
+  it('does not allow routing to dashboard', () => {
+    cy.visit(`${Cypress.env('host')}dashboard`);
+    // Ignore the null error
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
+    cy.on('uncaught:exception', (err, runnable) => {
+      if (err.message.includes(`Cannot read property 'classList' of null`)) {
+        return false;
+      }
+    });
+    cy.url().should('eq', Cypress.env('host'));
+  });
+
+  it('does not allow routing to new event', () => {
+    cy.visit(`${Cypress.env('host')}new-event`);
+    // Ignore the null error
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
+    cy.on('uncaught:exception', (err, runnable) => {
+      if (err.message.includes(`Cannot read property 'classList' of null`)) {
+        return false;
+      }
+    });
+    cy.url().should('eq', Cypress.env('host'));
+  });
+
+  it('does not allow routing to event matches', () => {
+    cy.visit(`${Cypress.env('host')}event-matches`);
+    // Ignore the null error
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
+    cy.on('uncaught:exception', (err, runnable) => {
+      if (err.message.includes(`Cannot read property 'classList' of null`)) {
+        return false;
+      }
+    });
+    cy.url().should('eq', Cypress.env('host'));
+  });
+
+  it('allows routing to marketplace', () => {
+    cy.visit(`${Cypress.env('host')}marketplace`);
+    // Ignore the null error
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
+    cy.on('uncaught:exception', (err, runnable) => {
+      if (err.message.includes(`Cannot read property 'classList' of null`)) {
+        return false;
+      }
+    });
+    cy.url().should('eq', `${Cypress.env('host')}marketplace`);
+  });
+
+  it('allows routing to matches', () => {
+    cy.visit(`${Cypress.env('host')}matches`);
+    // Ignore the null error
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
+    cy.on('uncaught:exception', (err, runnable) => {
+      if (err.message.includes(`Cannot read property 'classList' of null`)) {
+        return false;
+      }
+    });
+    cy.url().should('eq', `${Cypress.env('host')}matches`);
+  });
+
+  it('allows routing to settings', () => {
+    cy.visit(`${Cypress.env('host')}settings`);
+    // Ignore the null error
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
+    cy.on('uncaught:exception', (err, runnable) => {
+      if (err.message.includes(`Cannot read property 'classList' of null`)) {
+        return false;
+      }
+    });
+    cy.url().should('eq', `${Cypress.env('host')}settings`);
   });
 });
 
