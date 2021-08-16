@@ -74,7 +74,7 @@ const routes: Array<RouteConfig> = [
     path: '/event-matches',
     name: 'EventMatches',
     component: () => import(/* webpackChunkName: "evennt-matches" */ '@/views/EventMatches.vue'),
-    meta: { requiresAuth: true, authorise: [Role.Organiser] },
+    meta: { requiresAuth: true, authorize: [Role.Organiser] },
     beforeEnter: authGuard,
   },
   {

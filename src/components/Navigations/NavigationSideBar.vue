@@ -20,7 +20,11 @@
           </v-list-item>
         </router-link>
 
-        <router-link v-if="role === 'Sponsor'" :to="{ name: 'Marketplace' }">
+        <router-link
+          v-if="role === 'Sponsor'"
+          :to="{ name: 'Marketplace' }"
+          data-cy="navigate-marketplace"
+        >
           <v-list-item>
             <v-list-item-icon>
               <v-icon>mdi-shopping</v-icon>
@@ -53,7 +57,11 @@
           </v-list-item>
         </router-link>
 
-        <router-link v-if="role === 'Sponsor'" :to="{ name: 'Matches' }">
+        <router-link
+          v-if="role === 'Sponsor'"
+          :to="{ name: 'Matches' }"
+          data-cy="navigate-my-matches"
+        >
           <v-list-item>
             <v-list-item-icon>
               <v-icon>mdi-account-supervisor-circle-outline</v-icon>
@@ -89,7 +97,7 @@
             </v-list-item>
           </router-link>
           <HelpDialog />
-          <v-list-item @click="userSignout">
+          <v-list-item data-cy="logout-button" @click="userSignout">
             <v-list-item-icon>
               <v-icon>mdi-exit-to-app</v-icon>
             </v-list-item-icon>

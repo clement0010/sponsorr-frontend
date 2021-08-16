@@ -8,6 +8,7 @@
         v-bind="attrs"
         :ripple="false"
         :color="color"
+        data-cy="sign-up-navigate-button"
         v-on="on"
       >
         sign up
@@ -19,7 +20,10 @@
         sign up as
       </v-card-title>
       <v-card-actions class="justify-center">
-        <router-link :to="{ name: 'SignUp', params: { role: 'event-organiser' } }">
+        <router-link
+          :to="{ name: 'SignUp', params: { role: 'event-organiser' } }"
+          data-cy="sign-up-organiser"
+        >
           <v-btn class="accent1">
             <span class="white--text">Event Organiser</span>
           </v-btn>
@@ -27,7 +31,10 @@
 
         <v-divider vertical class="mx-3" />
 
-        <router-link :to="{ name: 'SignUp', params: { role: 'sponsor' } }">
+        <router-link
+          :to="{ name: 'SignUp', params: { role: 'sponsor' } }"
+          data-cy="sign-up-sponsor"
+        >
           <v-btn class="accent2">
             <span class="white--text">Sponsor</span>
           </v-btn>

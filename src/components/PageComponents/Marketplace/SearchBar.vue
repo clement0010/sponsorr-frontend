@@ -12,6 +12,7 @@
     :items="events"
     :filter="filter"
     placeholder="Search for events"
+    data-cy="search-input"
     @keypress.enter="$emit('search', input)"
   >
     <template #label>
