@@ -1,8 +1,31 @@
-# **Sponsorr! - frontend**
+# **Sponsorr! - frontend** ([NUS CP2106 Orbital](https://orbital.comp.nus.edu.sg/) 2021 Cohort)
 
 ## Description
 
-Sponsorr! is a machine learning powered platform that matches event organisers with sponsors.
+Sponsorr! is a machine-learning powered platform that matches event organisers with sponsors. 
+It aims to streamline the process of sourcing for sponsorships, so event organisers can focus on planning a better 
+event, and sponsors can find wider avenues to promote their brand, service, or product to a focused target audience.
+The platfrom enables event organisers and partners to come together for event partnership and sponsorship. With a 
+few clicks, you can pitch your event or sponsorship proposals on the marketplace, and let our matching algorithm pair 
+it with credible and reputable users, tailored to your specifications. The agreement signing experience can be 
+expedited, leading to a streamlined agreement process.
+
+## Development Journey
+
+Take a look at how this project has evolved, from ideation to deployment:
+- [Project Pitch](https://www.youtube.com/watch?v=SfNs5uEmZWA)
+    - [Proposal](https://docs.google.com/document/d/1mbA4ZHtav04lupBUXg4RgyoPpDLDZz0KTOKKjeSH_9Y/edit?usp=sharing)
+    - [Pitch Deck](https://docs.google.com/presentation/d/150ZKsGdQkDnQZBnfJGwSMTkpkqoAbQtl20hql-c7JcI/edit?usp=sharing)
+    - [Poster](https://drive.google.com/file/d/1vV17jFlLaF7RA1v_sc-l41ZA-ulAqoqg/view?usp=sharing)
+- [Milestone 1](https://youtu.be/H92cef2NKTM)
+    - [Poster](https://drive.google.com/file/d/1vV17jFlLaF7RA1v_sc-l41ZA-ulAqoqg/view?usp=sharing)
+    - [Milestone Write-Up](https://docs.google.com/document/d/1JqZ7Cm6PT4Ue3Pp8MInbX7ZBfVo4QG0MUFLlWEe0BMY/edit?usp=sharing)
+- [Milestone 2](https://youtu.be/oykdRGuRCWc)
+    - [Poster](https://drive.google.com/file/d/1K6ScFJ7BJZGxIZxjk68ucgtjjUfKgRlz/view?usp=sharing)
+    - [Milestone Write-Up](https://docs.google.com/document/d/131qKWSzBtd6k6FKx0j7ba00xOObokmXpWZoDdxMejds/edit?usp=sharing)
+- [Milestone 3](https://youtu.be/ZP39scTpQZU)
+    - [Poster](https://drive.google.com/file/d/1OqoW7TIMExZxmI2FvSwKM03c2cxeWEFm/view?usp=sharing)
+    - [Milestone Write-Up](https://docs.google.com/document/d/1_B_ycWxfpLzwsx6AfZ8hdVLBZSDEgd_bBzLRNggkgmg/edit?usp=sharing)
 
 # Project setup
 
