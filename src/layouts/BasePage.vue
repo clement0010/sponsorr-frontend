@@ -26,9 +26,11 @@ export default defineComponent({
         root.$route.name === 'Confirmation',
     );
     const displayCondition = computed(() => {
-      if (deactivatedRoutes.value) return false;
-
-      return authenticated.value && !emailVerified.value;
+      // if (deactivatedRoutes.value) {
+      //   return false;
+      // }
+      // return authenticated.value && emailVerified.value;
+      return false;
     });
 
     return {
