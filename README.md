@@ -1,5 +1,7 @@
 # **Sponsorr! - frontend** ([NUS CP2106 Orbital](https://orbital.comp.nus.edu.sg/) 2021 Cohort)
 
+<img src="docs/2672.png" alt="final project poster" width="1000"/>
+
 ## Description
 
 Sponsorr! is a machine-learning powered platform that matches event organisers with sponsors. 
