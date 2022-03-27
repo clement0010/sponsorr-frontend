@@ -15,11 +15,13 @@ expedited, leading to a streamlined agreement process.
 ## Development Journey
 
 ### Summary
-* Read our final project documentation including motivation, ideation process, system design, and learning outcomes [here](https://github.com/clement0010/sponsorr-frontend/blob/master/docs/Project%20Documentation.pdf).
-* Check out our final product demo video [here](https://youtu.be/RFZNq46aWIo).
-* Check out our product backend code [here](https://github.com/clement0010/sponsorr-backend).
+
+- Read our final project documentation including motivation, ideation process, system design, and learning outcomes [here](https://github.com/clement0010/sponsorr-frontend/blob/master/docs/Project%20Documentation.pdf).
+- Check out our final product demo video [here](https://youtu.be/RFZNq46aWIo).
+- Check out our product backend code [here](https://github.com/clement0010/sponsorr-backend).
 
 ### Breakdown
+
 Feel free to take a look at how this project has evolved, from ideation to deployment:
 
 - [Project Pitch](https://www.youtube.com/watch?v=SfNs5uEmZWA)
