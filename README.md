@@ -1,4 +1,4 @@
-# **Sponsorr! - frontend** ([NUS CP2106 Orbital](https://orbital.comp.nus.edu.sg/) 2021 Cohort)
+# **Sponsorr!** ([NUS CP2106 Orbital](https://orbital.comp.nus.edu.sg/) 2021 Cohort)
 
 <img src="docs/2672.png" alt="final project poster" width="1000"/>
 
@@ -14,7 +14,13 @@ expedited, leading to a streamlined agreement process.
 
 ## Development Journey
 
-Take a look at how this project has evolved, from ideation to deployment:
+### Summary
+* Read our final project documentation including motivation, ideation process, system design, and learning outcomes [here](https://github.com/clement0010/sponsorr-frontend/blob/master/public/Project%20Documentation.pdf).
+* Check out our final product demo video [here](https://youtu.be/RFZNq46aWIo).
+* Check out our product backend code [here](https://github.com/clement0010/sponsorr-backend).
+
+### Breakdown
+Feel free to take a look at how this project has evolved, from ideation to deployment:
 
 - [Project Pitch](https://www.youtube.com/watch?v=SfNs5uEmZWA)
   - [Proposal](https://docs.google.com/document/d/1mbA4ZHtav04lupBUXg4RgyoPpDLDZz0KTOKKjeSH_9Y/edit?usp=sharing)
