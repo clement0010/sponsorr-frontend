@@ -42,7 +42,7 @@ export default defineComponent({
 
       if (!authenticated.value) return false;
 
-      return emailVerified.value && root.$route.name !== 'Confirmation';
+      return root.$route.name !== 'Confirmation';
     });
 
     return {
